@@ -6,7 +6,7 @@ from flask_login import LoginManager
 
 #from app.mod_auth.models import User
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='views')
 
 app.config.from_object('config')
 
