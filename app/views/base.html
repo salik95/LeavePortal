@@ -5,15 +5,28 @@
   <title>HMP Leaves - {% block title %}{% endblock %}</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.scss.css') }}" type="text/css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
-  
 </head>
 <body>
 
-  {% block body %} {% endblock %}
+  {% if 'dashboard' in request.url_rule.rule %}
+  <header>
+    <div class="logo">
+      <p>HMP Leeeeeeves</p>
+    </div>
+    <div class="tools">
+      <div>
+        <i class="material-icons">notifications</i>
+      </div>
+    </div>
+  </header>  
+  {% endif %}
+  
+  {% block body %}
+  {% endblock %}
 
 </body>
 </html>
