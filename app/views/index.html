@@ -1,5 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
 {% if current_user.is_authenticated %}
   Hi {{ current_user.name }}!
 {% endif %}
 
-HI MR. XYZ
+
+
+<p class="chicks">
+  <span class="chucks">HI MR. XYZ</span>
+</p>
+
+{% endblock %}
