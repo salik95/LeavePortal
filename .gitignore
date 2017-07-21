@@ -3,3 +3,5 @@ __pycache__/
 app/__init__.pyc
 migrations
 app.db
+
+app/static/css
