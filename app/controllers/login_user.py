@@ -60,14 +60,12 @@ def dashboard():
 
     dict_dashboard = []
 
-    dict_dashboard.append({'Day' : current_date.strftime("%A"), 'Date' : current_date.strftime("%d"),
-        'Month' : current_date.strftime("%B"), 'remaining_leaves' : employee.leaves_remaining,
+    dict_dashboard.append({'Date' : current_date,'remaining_leaves' : employee.leaves_remaining,
         'availed_leaves' : employee.leaves_availed})
     for item in history:
-        dict_dashboard.append({'id' : item.id, 'from_date' : item.from_date.strftime("%d"),
-            'from_month' : item.from_date.strftime("%b"), 'to_date' : item.to_date.strftime("%d"),
-            'to_month' : item.to_date.strftime("%b"), 'leave_type' : item.leave_type, 'purpose' : item.purpose,
-            'pay' : item.pay, 'hr_remark' : item.hr_remark, 'manager_remark' : item.manager_remark,
+        dict_dashboard.append({'id' : item.id, 'from_date' : item.from_date, 'to_date' : item.to_date, 
+            'leave_type' : item.leave_type, 'purpose' : item.purpose, 'pay' : item.pay,
+            'hr_remark' : item.hr_remark, 'manager_remark' : item.manager_remark,
             'hr_approval' : item.hr_approval, 'manager_approval' : item.manager_approval})
 
     return render_template("manager/dashboard.html", dict_dashboard = dict_dashboard)
