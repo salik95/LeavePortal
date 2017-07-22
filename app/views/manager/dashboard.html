@@ -10,9 +10,9 @@
         <div class="col s4">
           <div class="card little white darken-1">
             <div class="card-content little black-text">
-              <span class="text-center grey-text text-darken-2"><p>Wednesday</p></span>
-              <span class="text-center"><h2>19</h2></span>
-              <span class="text-center grey-text text-darken-1"><p>March</p></span>
+              <span class="text-center grey-text text-darken-2"><p>{{dict_dashboard[0].Day}}</p></span>
+              <span class="text-center"><h2>{{dict_dashboard[0].Date}}</h2></span>
+              <span class="text-center grey-text text-darken-1"><p>{{dict_dashboard[0].Month}}</p></span>
             </div>
           </div>
         </div>
@@ -21,7 +21,7 @@
           <div class="card little white darken-1">
             <div class="card-content little black-text">
               <span class="text-center grey-text text-darken-2"><p>Remaining leaves</p></span>
-              <span class="text-center"><h1>19</h1></span>
+              <span class="text-center"><h1>{{dict_dashboard[0].remaining_leaves}}</h1></span>
             </div>
           </div>
         </div>
@@ -29,10 +29,10 @@
           <div class="card little white darken-1">
             <div class="card-content little black-text">
               <span class="text-center grey-text text-darken-2"><p>Leaves availed</p></span>
-              <span class="text-center"><h1>20</h1></span>
+              <span class="text-center"><h1>{{dict_dashboard[0].availed_leaves}}</h1></span>
             </div>
           </div>
-        </div>						    			
+        </div>                      
       </div>
     </div>
 
@@ -54,27 +54,31 @@
               <p>Leaves History</p>
               <div class="entry">
                 <table>
+                {% for item in dict_dashboard %}
+                {% if loop.index > 1 %}
                   <tr>
                     <td>
                       <div class="ellipse">
                         <div class="initial center-align">
-                          <span class="small"><p>May</p></span>
-                          <span class="big"><p><strong>18</strong></p></span>
+                          <span class="small"><p>{{item.from_month}}</p></span>
+                          <span class="big"><p><strong>{{item.from_date}}</strong></p></span>
                         </div>
                         <br>
                         <div class="end center-align">
-                          <span class="big"><p><strong>20</strong></p></span>
-                          <span class="small"><p>May</p></span>
+                          <span class="big"><p><strong>{{item.to_date}}</strong></p></span>
+                          <span class="small"><p>{{item.to_month}}</p></span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="pad-left">
-                        <p><strong>Medical</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus repellendus libero quibusda</p>
+                        <p><strong>{{item.leave_type}}</strong></p>
+                        <p>{{item.purpose}}</p>
                       </div>
                     </td>
                   </tr>
+                  {% endif %}
+                  {% endfor %}
                 </table>
               </div>
 
