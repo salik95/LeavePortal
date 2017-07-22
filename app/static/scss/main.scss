@@ -1,7 +1,7 @@
 
 
 /** Globals **/
-$primary-color: #2c3e50;
+$primary-color: #1a237e !important;
 
 
 /** Components / Overrides **/
@@ -32,13 +32,20 @@ $primary-color: #2c3e50;
 .pad-left {padding-left:20px;}
 
 
+.brand-logo img {height: 80%; width: auto}
 
 /** Custom **/
 
-header {position: relative; padding: 0 30px; height: 50px; color: #fff; background-color: $primary-color;
-  .logo {float: left;}
+header {position: relative;  padding: 0 30px; height: 65px; color: #fff; background-color: $primary-color;
+  
+  a {color: #fff}
+
+  .logo {float: left; height: 100%; display: flex; align-items: center;
+    img {max-height: 70%; height: 100%;}
+  }
   .tools { float: right; height: 100%; display: flex; align-items: center; 
-    > * {cursor: pointer;}
+    > * {cursor: pointer; padding: 0 20px}
+    a i {vertical-align: middle}
   }
 }
 
