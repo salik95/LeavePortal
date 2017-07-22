@@ -14,6 +14,42 @@ body {
 			height: 200px;
 			
 	}
+
+	.ellipse{
+		 border-radius: 50px;
+    	 background: #2CA455;
+    	 width: 37px;
+    	 color: white;
+
+    	 .initial{
+    	 	padding-top: 8px;
+
+    	 	.big{
+    	 		font-size: 25px
+    	 	}
+
+    	 	.small{
+    	 		font-size: 10px;
+    	 	}
+    	 }
+
+    	 .end{
+    	 	padding-bottom: 8px;
+    		
+    	 	.big{
+    	 		font-size: 25px
+    	 	}
+
+    	 	.small{
+    	 		font-size: 10px;
+    	 	}
+    	 }
+
+	}
+
+	.pad-left{
+		padding-left:20px;
+	}
 }
 
 $primary-color: #2c3e50;

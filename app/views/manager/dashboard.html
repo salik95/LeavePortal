@@ -3,13 +3,16 @@
 {% block body %}
 
   <main>
+  	<!-- divider to seperate it from requests -->
+    <div class="divider"></div>
+    	  	
     <div class="container">
     	<!-- first row cards -->
     	<div class="row">
-    		<div class="col s10 offset-s1">
+    		<div class="col s12">
     			<!-- first card -->
 	    		<div class="col s4">
-	    			<div class="card little white darken-1">
+	    			<div class="card hoverable little white darken-1">
 			            <div class="card-content little black-text">
 <!-- Day -->
 			              <span class="text-center grey-text text-darken-2"><p>Wednesday</p></span>
@@ -23,7 +26,7 @@
 	 			
 	 			<!-- second card -->
 	     		<div class="col s4">
-	    			<div class="card little white darken-1">
+	    			<div class="card hoverable little white darken-1">
 			            <div class="card-content little black-text">
 			            	<!-- remaining leaves -->
 			              <span class="text-center grey-text text-darken-2"><p>Remaining leaves</p></span>
@@ -34,7 +37,7 @@
 	    		</div>
 	 <!-- third card -->
 	     		<div class="col s4">
-	    			<div class="card little white darken-1">
+	    			<div class="card hoverable little white darken-1">
 			            <div class="card-content little black-text">
 			             <!-- availed leaves -->
 			              <span class="text-center grey-text text-darken-2"><p>Leaves availed</p></span>
@@ -48,10 +51,10 @@
 
     	<!-- Second row -->
     	<div class="row">
-    		<div class="col s10 offset-s1">
+    		<div class="col s12 m12 l12">
     			<!-- first card -->
     			<div class="col s8">
-    				<div class="card white darken-1">
+    				<div class="card hoverable white darken-1">
 			            <div class="card-content black-text">
 			              <p>Calender</p>
 			              <h1>OK</h1>
@@ -61,10 +64,49 @@
 
     			<!-- Second card -->
     			<div class="col s4">
-    				<div class="card white darken-1">
+    				<div class="card hoverable white darken-1">
 			            <div class="card-content black-text">
+			              
 			              <p>Leaves History</p>
-			              <h1>OK</h1>
+			              	<div class="entry">
+			              		<!-- table to show history -->
+			              		<table>
+			              			<!-- first row -->
+			              			<tr>
+			              				<!-- 1st column -->
+			              				<td>
+			              					<!-- that color background div -->
+			              					<div class="ellipse">
+			              						<!-- start date -->
+				              					<div class="initial center-align">
+					              					<span class="small"><p>May</p></span>
+					              					<span class="big"><p><strong>18</strong></p></span>
+				              					</div>
+				              					<!-- end of start date -->
+												<br>	
+												<!-- start of end date -->
+				              					<div class="end center-align">
+					              					<span class="big"><p><strong>20</strong></p></span>
+					              					<span class="small"><p>May</p></span>
+				              					</div>
+				              					<!-- end of end date -->
+			              					</div>
+			              					
+			              				</td>
+			              				<!-- end of first column -->
+			              				<!-- start of 2nd column -->
+			              				<td>
+			              					<div class="pad-left">
+				              					<p><strong>Medical</strong></p>
+				              					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus repellendus libero quibusda</p>
+			              					</div>
+			              				</td>
+			              				<!-- end of second column -->
+			              			</tr>
+			              			<!-- end of first row -->
+			              		</table>
+			              		<!-- end of table -->
+			              	</div>
 			            </div>
 			        </div>
     			</div>
