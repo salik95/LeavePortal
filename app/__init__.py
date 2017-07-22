@@ -4,6 +4,9 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager 
 
+# Import Sass
+from sassutils.wsgi import SassMiddleware
+
 #from app.mod_auth.models import User
 
 app = Flask(__name__, template_folder='views')
@@ -31,3 +34,9 @@ def not_found(error):
 
 from app.controllers.login_user import * 
 
+
+#### VIEW ####
+
+app.wsgi_app = SassMiddleware(app.wsgi_app, {
+  'app': ('static/scss', 'static/css', '/static/css')
+})

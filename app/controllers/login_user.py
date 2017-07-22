@@ -45,6 +45,13 @@ def signup():
         return redirect(url_for('signin'))
     return render_template("login/signin.html", form=form)
 
+
+# temporary
+@app.route('/dashboard/', methods=['GET', 'POST'])
+def dashboard():
+    # user role checks here
+    return render_template("manager/dashboard.html")
+
 @app.route('/')
 #@login_required
 def index():

@@ -1,0 +1,54 @@
+
+
+/** Globals **/
+$primary-color: #1a237e !important;
+
+
+/** Components / Overrides **/
+
+.wrap {padding: 0 5%;}
+
+.text-center {text-align: center;}
+
+.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
+  .card-content {border-left: solid 5px #FFE172;}
+}
+
+.little {height: 200px;}
+
+.ellipse {border-radius: 50px; background: #2CA455; width: 37px; color: white;
+
+  .initial {padding-top: 8px;
+    .big {font-size: 25px;}
+    .small {font-size: 10px;}
+  }
+
+  .end {padding-bottom: 8px;
+    .big {font-size: 25px}
+    .small {font-size: 10px}
+  }
+}
+
+.pad-left {padding-left:20px;}
+
+
+.brand-logo img {height: 80%; width: auto}
+
+/** Custom **/
+
+header {position: relative;  padding: 0 30px; height: 65px; color: #fff; background-color: $primary-color;
+  
+  a {color: #fff}
+
+  .logo {float: left; height: 100%; display: flex; align-items: center;
+    img {max-height: 70%; height: 100%;}
+  }
+  .tools { float: right; height: 100%; display: flex; align-items: center; 
+    > * {cursor: pointer; padding: 0 20px}
+    a i {vertical-align: middle}
+  }
+}
+
+main {padding: 50px 0;
+  &#dashboard {background-color: #f9f9f9}
+}

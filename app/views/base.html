@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HMP Leaves - {% block title %}{% endblock %}</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/main.scss.css') }}" type="text/css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+</head>
+<body>
+
+  {% if 'dashboard' in request.url_rule.rule %}
+  <header>
+    <a href="/dashboard" class="logo">
+      <img src="{{url_for('static', filename='img/logo.png') }}" alt="">
+    </a>
+    <div class="tools right">
+      <a class="waves-effect waves-light btn">Apply for Leave<i class="material-icons right">create</i></a>
+      <a href="#"><i class="material-icons">notifications</i></a>
+    </div>
+  </header>  
+
+<!--   <nav>
+    <div class="nav-wrapper indigo darken-4">
+      <a href="#" class="brand-logo"><img src="{{url_for('static', filename='img/logo.png') }}" alt=""></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a class="waves-effect waves-light btn">Apply for Leave<i class="material-icons right">create</i></a></li>
+        <li><a href="#"><i class="material-icons">notifications</i></a></li>
+      </ul>
+    </div>
+  </nav> -->
+  {% endif %}
+  
+  {% block body %}
+  {% endblock %}
+
+</body>
+</html>
