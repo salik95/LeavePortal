@@ -10,6 +10,7 @@ from flask_login import login_required ,login_user, current_user
 from app import login_manager
 import datetime
 
+
 @login_manager.user_loader
 def user_loader(email):
     return User.query.filter_by(email = email).first()
@@ -30,30 +31,25 @@ def signin():
             db.session.commit()
             login_user(user, remember=True)
             print('current_user',current_user)
-            return redirect(url_for('index'))
+            return redirect(url_for('dashboard'))
         flash('Wrong email or password', 'error-message')
     return render_template("login/signin.html", form=form)
 
 
-# temporary
-@app.route('/dashboard/', methods=['GET', 'POST'])
-def dashboard():
-
-    # user identification checks here i.e. finding out id of user login.
-    # user = User.query.get(id)
-    # employee = Employee.query.filter(Employee.user_id == user.id)
-    
-    # template already has user, no need to pass from controller
-
-    employee = Employees.query.get(1)
-    history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id)
-    store = {'history': history}
-    return render_template("dashboard/main.html", data = store)
-
 @app.route('/')
 #@login_required
 def index():
-    return render_template('index.html')
+    return redirect(url_for('signin'))
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('signin'))
+
+
+
 
 
 @app.context_processor
