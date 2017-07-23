@@ -16,8 +16,9 @@ $primary-color: #1a237e !important;
 
 .wrap {padding: 0 5%;}
 .center {text-align: center;}
+.clr{ clear: both;}
 
-.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
+.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); box-sizing: border-box;
   &.tagged {border-left: solid 5px #FFE172;}
   .card-content .card-title {font-size: 16px; text-align: center; margin-bottom: 20px;}
 }
@@ -50,9 +51,7 @@ main {padding: 50px 0;
 }
 
 .card.fixed { display: flex; flex-flow: column; height: 200px; justify-content: center }
-
-
-
+  
 .card.leaves {
   height: 200px;
   .entry {padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
@@ -80,6 +79,26 @@ main {padding: 50px 0;
 
 }
 
+.pad-down{
+  padding-bottom: 15px;
+}
+
 .scroll{
   overflow-y: auto;
+}
+
+.notification{
+  .card.request{
+    margin: 0 1%;
+    width: 23%;
+    float: left;
+  }
+
+  .card-content{
+    .name{ font-size:20px;}
+  }
+
+  .card.tagged{
+    border-color: $primary-color;
+  }
 }
