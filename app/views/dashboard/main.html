@@ -10,9 +10,9 @@
         <div class="col s4">
           <div class="card little white darken-1">
             <div class="card-content little black-text">
-              <span class="text-center grey-text text-darken-2"><p>{{dict_dashboard[0].Date.strftime("%A")}}</p></span>
-              <span class="text-center"><h2>{{dict_dashboard[0].Date.strftime("%d")}}</h2></span>
-              <span class="text-center grey-text text-darken-1"><p>{{dict_dashboard[0].Date.strftime("%B")}}</p></span>
+<span class="text-center grey-text text-darken-2"><p>{{now.strftime("%A")}}</p></span>
+              <span class="text-center"><h2>{{now.strftime("%d")}}</h2></span>
+              <span class="text-center grey-text text-darken-1"><p>{{now.strftime("%B")}}</p></span>
             </div>
           </div>
         </div>
@@ -20,8 +20,8 @@
         <div class="col s4">
           <div class="card little white darken-1">
             <div class="card-content little black-text">
-              <span class="text-center grey-text text-darken-2"><p>Remaining leaves</p></span>
-              <span class="text-center"><h1>{{dict_dashboard[0].remaining_leaves}}</h1></span>
+              <span class="text-center grey-text text-darken-3"><p>Remaining leaves</p></span>
+              <span class="text-center"><h1>{{user.leaves_remaining}}</h1></span>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <div class="card little white darken-1">
             <div class="card-content little black-text">
               <span class="text-center grey-text text-darken-2"><p>Leaves availed</p></span>
-              <span class="text-center"><h1>{{dict_dashboard[0].availed_leaves}}</h1></span>
+              <span class="text-center"><h1>{{user.leaves_availed}}</h1></span>
             </div>
           </div>
         </div>                      
@@ -54,7 +54,7 @@
               <p>Leaves History</p>
               <div class="entry">
                 <table>
-                {% for item in dict_dashboard %}
+                {% for item in data.history %}
                 {% if loop.index > 1 %}
                   <tr>
                     <td>

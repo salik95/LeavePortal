@@ -50,25 +50,17 @@ def signup():
 # temporary
 @app.route('/dashboard/', methods=['GET', 'POST'])
 def dashboard():
-    # user role checks here
+
     # user identification checks here i.e. finding out id of user login.
     # user = User.query.get(id)
     # employee = Employee.query.filter(Employee.user_id == user.id)
+    
+    # template already has user, no need to pass from controller
+
     employee = Employees.query.get(1)
     history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id)
-    current_date = datetime.datetime.now()
-
-    dict_dashboard = []
-
-    dict_dashboard.append({'Date' : current_date,'remaining_leaves' : employee.leaves_remaining,
-        'availed_leaves' : employee.leaves_availed})
-    for item in history:
-        dict_dashboard.append({'id' : item.id, 'from_date' : item.from_date, 'to_date' : item.to_date, 
-            'leave_type' : item.leave_type, 'purpose' : item.purpose, 'pay' : item.pay,
-            'hr_remark' : item.hr_remark, 'manager_remark' : item.manager_remark,
-            'hr_approval' : item.hr_approval, 'manager_approval' : item.manager_approval})
-
-    return render_template("manager/dashboard.html", dict_dashboard = dict_dashboard)
+    store = {'history': history}
+    return render_template("dashboard/main.html", data = store)
 
 @app.route('/')
 #@login_required
@@ -76,3 +68,13 @@ def index():
     return render_template('index.html')
 
 
+@app.context_processor
+def inject_user():
+  # @todo join current user and employee
+  employee = Employees.query.get(1)
+  return {'user': employee}
+
+@app.context_processor
+def inject_date():
+  print(datetime.datetime.utcnow())
+  return {'now': datetime.datetime.utcnow()}
