@@ -46,22 +46,6 @@ def signup():
         return redirect(url_for('signin'))
     return render_template("login/signin.html", form=form)
 
-
-# temporary
-@app.route('/dashboard/', methods=['GET', 'POST'])
-def dashboard():
-
-    # user identification checks here i.e. finding out id of user login.
-    # user = User.query.get(id)
-    # employee = Employee.query.filter(Employee.user_id == user.id)
-    
-    # template already has user, no need to pass from controller
-
-    employee = Employees.query.get(1)
-    history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id)
-    store = {'history': history}
-    return render_template("dashboard/main.html", data = store)
-
 @app.route('/')
 #@login_required
 def index():
