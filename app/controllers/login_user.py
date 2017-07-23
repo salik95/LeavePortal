@@ -12,8 +12,8 @@ import datetime
 
 
 @login_manager.user_loader
-def user_loader(email):
-    return User.query.filter_by(email = email).first()
+def user_loader(id):
+    return User.query.get(id)
 
 
 
@@ -24,22 +24,24 @@ def signin():
     # Verify the sign in form
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        print('1')
         if user and user.password== form.password.data:
             user.authenticated = True
             db.session.add(user)
             db.session.commit()
             login_user(user, remember=True)
-            print('current_user',current_user)
             return redirect(url_for('dashboard'))
         flash('Wrong email or password', 'error-message')
     return render_template("login/signin.html", form=form)
 
 
 @app.route('/')
-#@login_required
+
 def index():
-    return redirect(url_for('signin'))
+    if  current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('signin'))
+
 
 
 @app.route("/logout")
