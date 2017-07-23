@@ -6,7 +6,7 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import db , app
 from app.forms.forms import LoginForm
 from app.models import *
-from flask_login import login_required ,login_user
+from flask_login import login_required ,login_user, current_user
 from app import login_manager
 import datetime
 
@@ -23,27 +23,15 @@ def signin():
     # Verify the sign in form
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and check_password_hash(user.password, form.password.data):
+        print('1')
+        if user and user.password== form.password.data:
             user.authenticated = True
             db.session.add(user)
             db.session.commit()
             login_user(user, remember=True)
-            flash('Welcome %s' % user.name)
+            print('current_user',current_user)
             return redirect(url_for('index'))
         flash('Wrong email or password', 'error-message')
-    return render_template("login/signin.html", form=form)
-
-
-@app.route('/signup/', methods=['GET', 'POST'])
-def signup():
-    form = LoginForm(request.form)
-    if form.validate_on_submit():
-        user = User(name = form.name.data  , email = form.email.data, 
-            password= generate_password_hash(form.password.data))
-        db.session.add(user)
-        db.session.commit()
-        db.session.flush()
-        return redirect(url_for('signin'))
     return render_template("login/signin.html", form=form)
 
 
@@ -78,3 +66,19 @@ def inject_user():
 def inject_date():
   print(datetime.datetime.utcnow())
   return {'now': datetime.datetime.utcnow()}
+
+
+
+'''@app.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        user = User(name = form.name.data  , email = form.email.data, 
+            password= generate_password_hash(form.password.data))
+        db.session.add(user)
+        db.session.commit()
+        db.session.flush()
+        return redirect(url_for('signin'))
+    return render_template("login/signin.html", form=form)
+
+'''
