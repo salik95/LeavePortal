@@ -7,16 +7,15 @@ html {font-family: 'Montserrat';}
 // @import 'materialize';
 
 /** Globals **/
-$primary-color: #303F9F !important;
+$primary-color: #303F9F;
 
 
 /** Components / Overrides **/
 
-.collection-item{
+.collection-item {
   overflow: auto;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
-  
 }
 
 .wrap {padding: 0 5%;}
