@@ -44,6 +44,10 @@ header {position: relative;  padding: 0 30px; height: 65px; color: #fff; backgro
   }
 }
 
+.card.leaves::-webkit-scrollbar {
+  width: 1em;
+}
+
 .font-small{font-size: 12px;}
 
 main {padding: 50px 0;
@@ -54,13 +58,37 @@ main {padding: 50px 0;
 
 .card.leaves {
 
-  .entry {padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
+  height: 200px;
+  
+  .entry { padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
     .duration {padding: 10px 2px; margin-right: 20px; border-radius: 50px; background: #2CA455; color: #fff; text-align: center; 
       .date {font-size: 22px; line-height: 20px; font-weight: 500;}
       .month {font-size: 12px;}
     }
+    .details {
+      word-break: break-word;
+    }
   }
 
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: #F5F5F5;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #000000;
+    border: 2px solid #555555;
+  }
+
+}
+
+.scroll{
+  overflow-y: auto;
 }
 
 main#login { padding: 0; height: 100vh; background-image: url(http://www.habib.com/wp-content/uploads/2013/08/habib_teaser_assetmngmt.jpg); background-size: cover;
