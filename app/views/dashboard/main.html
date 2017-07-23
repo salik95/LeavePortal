@@ -6,77 +6,63 @@
 
 <main id="dashboard">
 
-  <div class="container">
-
-    <div class="row">
-      <div class="col s12">
-        <div class="col s4">
-          <div class="card fixed tagged center">
-            <div class="card-content">
-              <p>{{now.strftime("%A")}}</p>
-              <h2>{{now.strftime("%d")}}</h2>
-              <p>{{now.strftime("%B")}}</p>
-            </div>
-          </div>
+  <div class="row">
+    <div class="col s12 m4 l4">
+      <div class="card fixed tagged center">
+        <div class="card-content">
+          <p>{{now.strftime("%A")}}</p>
+          <h2>{{now.strftime("%d")}}</h2>
+          <p>{{now.strftime("%B")}}</p>
         </div>
-
-        <div class="col s4">
-          <div class="card fixed tagged center">
-            <div class="card-content">
-              <p>Remaining Leaves</p>
-              <h1>{{user.leaves_remaining}}</h1>
-            </div>
-          </div>
-        </div>
-        <div class="col s4">
-          <div class="card fixed tagged center">
-            <div class="card-content">
-              <p>Leaves Availed</p>
-              <h1>{{user.leaves_availed}}</h1>
-            </div>
-          </div>
-        </div>                      
       </div>
     </div>
 
-    <div class="row">
-      <div class="col s12 m12 l12">
-        <div class="col s12 m8 l8">
-          <div class="card tagged center">
-            <div class="card-content">
-              <p class="card-title">Calender</p>
-            </div>
-          </div>
+    <div class="col s12 m4 l4">
+      <div class="card fixed tagged center">
+        <div class="card-content">
+          <p>Remaining Leaves</p>
+          <h1>{{user.leaves_remaining}}</h1>
         </div>
+      </div>
+    </div>
+    <div class="col s12 m4 l4">
+      <div class="card fixed tagged center">
+        <div class="card-content">
+          <p>Leaves Availed</p>
+          <h1>{{user.leaves_availed}}</h1>
+        </div>
+      </div>                     
+    </div>
+  </div>
 
-        <div class="col s12 m12 l4">
-          <div class="card leaves tagged scroll">
-            <div class="card-content">
+  <div class="row">
+    <div class="col s12 m12 l12">
 
+      <div class="col s12 m12 l12">
+        <div class="card leaves tagged">
+
+          <div class="card-content">
             <p class="card-title">Leaves History</p>
+
+            <div class="items scrollable">
               {% for item in data.history %}
-              {% if loop.index > 0 %}
-              <div class="entry">
+
+              <div class="item">
                 <div class="duration">
-                  <div class="">
-                    <p class="month">{{item.from_date.strftime("%b")}}</p>
-                    <p class="date">{{item.from_date.strftime("%d")}}</p>
-                  </div>
+                  <p class="month">{{item.from_date.strftime("%b")}}</p>
+                  <p class="date">{{item.from_date.strftime("%d")}}</p>
                   <br>
-                  <div class="">
-                    <p class="date">{{item.to_date.strftime("%d")}}</p>
-                    <p class="month">{{item.to_date.strftime("%b")}}</p>
-                  </div>
+                  <p class="date">{{item.to_date.strftime("%d")}}</p>
+                  <p class="month">{{item.to_date.strftime("%b")}}</p>
+
                 </div>
                 <div class="details">
                   <p><strong>{{item.leave_type}}</strong></p>
                   <p>{{item.purpose}}</p>
                 </div>
-              </tr>
+              </div>
+              {% endfor %}
             </div>
-            {% endif %}
-            {% endfor %}
-
           </div>
         </div>
       </div>
@@ -84,52 +70,40 @@
     </div>
   </div>
 
-<!--   <div class="section">
-    <h5>Leave Requests</h5>
-    <br>
-    <div class="row">
-      <div class="col s12">
-        <ul class="collection">
-          <li class="collection-item">
-            <div class="primary-content">
-              <p> <span class="font-small">Medical</span><br>
-                <strong>Mustafa Ahmed Siddiqui</strong>
-              </p>  
-            </div>
-            <div class="secondary-content">
-              <a class="waves-effect waves-light btn"><i class="material-icons right">view_agenda</i>view</a>
-            </div>
-          </li>
-
-          <li class="collection-item">
-            <div class="primary-content">
-              <p> <span class="font-small">Medical</span><br>
-                <strong>Mustafa Ahmed Siddiqui</strong>
-              </p>  
-            </div>
-            <div class="secondary-content">
-              <a class="waves-effect waves-light btn"><i class="material-icons right">view_agenda</i>view</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>  
-  </div> -->
+  <br>
+  <br><br>
 
   <div class="notification">
-    <h5 class="center pad-down">Leave Request</h5>
-    <div class="card request fixed tagged center">
-      <div class="card-content">
-        <p>General</p>
-        <p class="name">Mustafa Ahmed Siddiqui</p>
-        <p>10/02/17 - 13/03/17</p>
+    <h5 class="center">Leave Requests</h5>
+    <br>
+
+    <div class="content row">
+      {% for i in range(5) %}
+      <div class="col s12 m6 l3">
+        <div class="card fixed tagged center">
+          <div class="card-content">
+            <p>General</p>
+            <p class="name">Mustafa Ahmed Siddiqui</p>
+            <p>10/02/17 - 13/03/17</p>
+          </div>
+        </div>  
       </div>
+      {% endfor %}
     </div>
 
     <div class="clr"> </div>
   </div>
 
-</div>
 </main>
+
+<div id="addleave" class="lightbox">
+  <div class="content">
+    <h5 class="center upper">Apply for Leave</h5>
+    <br>
+    <div class="divider"></div>
+    <br>
+    {% include 'dashboard/form-leave.html' %}
+  </div>
+</div>
 
 {% endblock %}
