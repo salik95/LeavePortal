@@ -59,7 +59,9 @@ main {padding: 50px 0;
       .date {font-size: 22px; line-height: 20px; font-weight: 500;}
       .month {font-size: 12px;}
     }
-    word-break: keep-all;
+    .details {
+      word-break: break-word;
+    }
   }
 
   &::-webkit-scrollbar{
