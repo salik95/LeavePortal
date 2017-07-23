@@ -6,7 +6,7 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import db , app
 from app.forms.forms import LoginForm
 from app.models import *
-from flask_login import login_required ,login_user, current_user
+from flask_login import login_required ,login_user, current_user ,logout_user
 from app import login_manager
 import datetime
 
@@ -17,30 +17,22 @@ def user_loader(id):
 
 
 
-@app.route('/signin/', methods=['GET', 'POST'])
-def signin():
-    # If sign in form is submitted
-    form = LoginForm(request.form)
-    # Verify the sign in form
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and user.password== form.password.data:
-            user.authenticated = True
-            db.session.add(user)
-            db.session.commit()
-            login_user(user, remember=True)
-            return redirect(url_for('dashboard'))
-        flash('Wrong email or password', 'error-message')
-    return render_template("login/signin.html", form=form)
-
-
-@app.route('/')
-
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if  current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('signin'))
+        form = LoginForm(request.form)
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user and user.password== form.password.data:
+                user.authenticated = True
+                db.session.add(user)
+                db.session.commit()
+                login_user(user, remember=True)
+                return redirect(url_for('dashboard'))
+            flash('Wrong email or password', 'error-message')
+        return render_template("login/signin.html", form=form)
 
 
 
@@ -48,10 +40,7 @@ def index():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('signin'))
-
-
-
+    return redirect(url_for('index'))
 
 
 @app.context_processor
