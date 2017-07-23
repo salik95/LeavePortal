@@ -13,7 +13,7 @@ class User(db.Model):
 
     def get_id(self):
         """Return the email address to satisfy Flask-Login's requirements."""
-        return self.email
+        return self.id
 
     def is_authenticated(self):
         """Return True if the user is authenticated."""
@@ -28,9 +28,10 @@ class User(db.Model):
         self.password = password  
 
     def __repr__(self):
-        return '<User Email: %r>' % (self.email)
+        return '%d' % (self.id)
 
 class Employees(db.Model):
+
 
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
@@ -59,8 +60,8 @@ class Balance_sheet(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     emp_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
-    from_date = db.Column(db.DateTime(), nullable = False)
-    to_date = db.Column(db.DateTime(), nullable = False)
+    from_date = db.Column(db.Date(), nullable = False)
+    to_date = db.Column(db.Date(), nullable = False)
     leave_type = db.Column(db.Enum('General','Medical'), nullable = False)
     purpose = db.Column(db.String(200), nullable = False)
     pay = db.Column(db.Enum('Payed','Unpayed'), nullable = False)
@@ -68,6 +69,8 @@ class Balance_sheet(db.Model):
     manager_remark = db.Column(db.String(128), nullable = True)
     hr_approval = db.Column(db.Integer, nullable = False)
     manager_approval = db.Column(db.Integer, nullable = False)
+    hr_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
+    manager_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
 
     def __init__(self, emp_id, from_date, to_date, leave_type, purpose, pay, hr_remark, manager_remark,
         hr_approval, manager_approval):
