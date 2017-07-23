@@ -9,10 +9,10 @@ from sqlalchemy import and_
 def dashboard():
 
 	# user identification checks here i.e. finding out id of user login.
-     # user = User.query.get(id)
-     # employee = Employee.query.filter(Employee.user_id == user.id)
+    # user = User.query.get(id)
+    # employee = Employee.query.filter(Employee.user_id == user.id)
      
-     # template already has user, no need to pass from controller
+    # template already has user, no need to pass from controller
     
     employee = Employees.query.get(current_user.get_id())
     history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id)
