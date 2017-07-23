@@ -6,6 +6,7 @@ from flask_login import login_required , current_user
 
 
 @app.route('/dashboard/', methods=['GET', 'POST'])
+
 @login_required
 def dashboard():
 
