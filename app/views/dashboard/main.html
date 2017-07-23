@@ -5,31 +5,32 @@
 <main id="dashboard">
 
   <div class="container">
+
     <div class="row">
       <div class="col s12">
         <div class="col s4">
-          <div class="card little white darken-1">
-            <div class="card-content little black-text">
-<span class="text-center grey-text text-darken-2"><p>{{now.strftime("%A")}}</p></span>
-              <span class="text-center"><h2>{{now.strftime("%d")}}</h2></span>
-              <span class="text-center grey-text text-darken-1"><p>{{now.strftime("%B")}}</p></span>
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>{{now.strftime("%A")}}</p>
+              <h2>{{now.strftime("%d")}}</h2>
+              <p>{{now.strftime("%B")}}</p>
             </div>
           </div>
         </div>
 
         <div class="col s4">
-          <div class="card little white darken-1">
-            <div class="card-content little black-text">
-              <span class="text-center grey-text text-darken-3"><p>Remaining leaves</p></span>
-              <span class="text-center"><h1>{{user.leaves_remaining}}</h1></span>
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>Remaining Leaves</p>
+              <h1>{{user.leaves_remaining}}</h1>
             </div>
           </div>
         </div>
         <div class="col s4">
-          <div class="card little white darken-1">
-            <div class="card-content little black-text">
-              <span class="text-center grey-text text-darken-2"><p>Leaves availed</p></span>
-              <span class="text-center"><h1>{{user.leaves_availed}}</h1></span>
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>Leaves Availed</p>
+              <h1>{{user.leaves_availed}}</h1>
             </div>
           </div>
         </div>                      
@@ -39,56 +40,48 @@
     <div class="row">
       <div class="col s12 m12 l12">
         <div class="col s12 m8 l8">
-          <div class="card white darken-1">
-            <div class="card-content black-text">
-              <p>Calender</p>
-              <h1>OK</h1>
+          <div class="card tagged center">
+            <div class="card-content">
+              <p class="card-title">Calender</p>
             </div>
           </div>
         </div>
 
-        <div class="col s8 m4 l4">
-          <div class="card medium white darken-1">
-            <div class="card-content black-text">
+        <div class="col s12 m12 l4">
+          <div class="card leaves tagged">
+            <div class="card-content">
 
-              <p>Leaves History</p>
+            <p class="card-title">Leaves History</p>
+              {% for item in data.history %}
+              {% if loop.index > 1 %}
               <div class="entry">
-                <table>
-                {% for item in data.history %}
-                {% if loop.index > 1 %}
-                  <tr>
-                    <td>
-                      <div class="ellipse">
-                        <div class="initial center-align">
-                          <span class="small"><p>{{item.from_date.strftime("%b")}}</p></span>
-                          <span class="big"><p><strong>{{item.from_date.strftime("%d")}}</strong></p></span>
-                        </div>
-                        <br>
-                        <div class="end center-align">
-                          <span class="big"><p><strong>{{item.to_date.strftime("%d")}}</strong></p></span>
-                          <span class="small"><p>{{item.to_date.strftime("%b")}}</p></span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="pad-left">
-                        <p><strong>{{item.leave_type}}</strong></p>
-                        <p>{{item.purpose}}</p>
-                      </div>
-                    </td>
-                  </tr>
-                  {% endif %}
-                  {% endfor %}
-                </table>
-              </div>
-
+                <div class="duration">
+                  <div class="">
+                    <p class="month">{{item.from_date.strftime("%b")}}</p>
+                    <p class="date">{{item.from_date.strftime("%d")}}</p>
+                  </div>
+                  <br>
+                  <div class="">
+                    <p class="date">{{item.to_date.strftime("%d")}}</p>
+                    <p class="month">{{item.to_date.strftime("%b")}}</p>
+                  </div>
+                </div>
+                <div class="details">
+                  <p><strong>{{item.leave_type}}</strong></p>
+                  <p>{{item.purpose}}</p>
+                </div>
+              </tr>
             </div>
+            {% endif %}
+            {% endfor %}
+
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
+</div>
 </main>
 
 {% endblock %}
