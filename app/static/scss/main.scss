@@ -12,6 +12,13 @@ $primary-color: #303F9F !important;
 
 /** Components / Overrides **/
 
+.collection-item{
+  overflow: auto;
+  .primary-content{float: left;}
+  .secondary-content a{top: 20px;}
+  
+}
+
 .wrap {padding: 0 5%;}
 .center {text-align: center;}
 
@@ -36,6 +43,8 @@ header {position: relative;  padding: 0 30px; height: 65px; color: #fff; backgro
     a i {vertical-align: middle}
   }
 }
+
+.font-small{font-size: 12px;}
 
 main {padding: 50px 0;
   &#dashboard {background-color: #f9f9f9}
