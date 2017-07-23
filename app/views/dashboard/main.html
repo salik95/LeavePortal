@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<main id="dashboard">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="col s4">
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>{{now.strftime("%A")}}</p>
+              <h2>{{now.strftime("%d")}}</h2>
+              <p>{{now.strftime("%B")}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s4">
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>Remaining Leaves</p>
+              <h1>{{user.leaves_remaining}}</h1>
+            </div>
+          </div>
+        </div>
+        <div class="col s4">
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>Leaves Availed</p>
+              <h1>{{user.leaves_availed}}</h1>
+            </div>
+          </div>
+        </div>                      
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <div class="col s12 m8 l8">
+          <div class="card tagged center">
+            <div class="card-content">
+              <p class="card-title">Calender</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m12 l4">
+          <div class="card leaves tagged">
+            <div class="card-content">
+
+            <p class="card-title">Leaves History</p>
+              {% for item in data.history %}
+              {% if loop.index > 0 %}
+              <div class="entry">
+                <div class="duration">
+                  <div class="">
+                    <p class="month">{{item.from_date.strftime("%b")}}</p>
+                    <p class="date">{{item.from_date.strftime("%d")}}</p>
+                  </div>
+                  <br>
+                  <div class="">
+                    <p class="date">{{item.to_date.strftime("%d")}}</p>
+                    <p class="month">{{item.to_date.strftime("%b")}}</p>
+                  </div>
+                </div>
+                <div class="details">
+                  <p><strong>{{item.leave_type}}</strong></p>
+                  <p>{{item.purpose}}</p>
+                </div>
+              </tr>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <h5>Leave Requests</h5>
+    <br>
+    <div class="row">
+      <div class="col s12">
+        <ul class="collection">
+          <li class="collection-item">
+            <div class="primary-content">
+              <p> <span class="font-small">Medical</span><br>
+                <strong>Mustafa Ahmed Siddiqui</strong> <br>
+                Director  <br>
+              </p>  
+            </div>
+            <div class="secondary-content">
+              <a class="waves-effect waves-light btn"><i class="material-icons right">view_agenda</i>view</a>
+            </div>
+          </li>
+
+          <li class="collection-item">
+            <div class="primary-content">
+              <p> <span class="font-small">Medical</span><br>
+                <strong>Mustafa Ahmed Siddiqui</strong> <br>
+                Director  <br>
+              </p>  
+            </div>
+            <div class="secondary-content">
+              <a class="waves-effect waves-light btn"><i class="material-icons right">view_agenda</i>view</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>  
+  </div>
+
+</div>
+</main>
+
+{% endblock %}
