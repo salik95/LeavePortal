@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
 html {font-family: 'Montserrat';}
 
+// @import "components/color";
+// $primary-color: color("blue", "lighten-2") !default;
+// $secondary-color: color("yellow", "base") !default;
+// @import 'materialize';
+
 /** Globals **/
-$primary-color: #1a237e !important;
+$primary-color: #303F9F !important;
 
 
 /** Components / Overrides **/
@@ -38,8 +43,6 @@ main {padding: 50px 0;
 
 .card.fixed { display: flex; flex-flow: column; height: 200px; justify-content: center }
 
-
-
 .card.leaves {
 
   .entry {padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
@@ -49,5 +52,11 @@ main {padding: 50px 0;
     }
   }
 
+}
 
+main#login { padding: 0; height: 100vh; background-image: url(http://www.habib.com/wp-content/uploads/2013/08/habib_teaser_assetmngmt.jpg); background-size: cover;
+  .login {width: 40%; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box; 
+    display: flex; align-items: center; justify-content: center; flex-flow: column;
+    background-color: rgba(255,255,255,0.9);
+  }
 }
