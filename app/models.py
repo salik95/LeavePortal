@@ -37,13 +37,16 @@ class Employees(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     first_name = db.Column(db.String(45), nullable = False)
     last_name = db.Column(db.String(45), nullable = True)
-    reporting_manager = db.Column(db.Integer, nullable = True)
+    reporting_manager = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = True)
     designation = db.Column(db.String(45), nullable = False)
     department = db.Column(db.String(45), nullable = False)
     total_leaves_allowed = db.Column(db.Integer, nullable = False)
     leaves_availed = db.Column(db.Integer, nullable = False)
     leaves_remaining = db.Column(db.Integer, nullable = False)
 
+    balance_sheet = db.relationship('Balance_sheet', backref='employee', lazy='joined')
+    managees = db.relationship('Employees', backref=db.backref('manager', remote_side='Employees.id'), lazy='dynamic', foreign_keys=[reporting_manager])
+    
     def __init__(self, user_id, first_name, last_name, reporting_manager, designation, department,
         total_leaves_allowed, leaves_availed, leaves_remaining):
         self.user_id = user_id
