@@ -75,13 +75,13 @@
     <br>
 
     <div class="content row">
-      {% for i in range(5) %}
+      {% for request in data.pending_requests %}
       <div class="col s12 m6 l3">
         <div class="card fixed tagged center">
           <div class="card-content">
-            <p>General</p>
-            <p class="name">Mustafa Ahmed Siddiqui</p>
-            <p>10/02/17 - 13/03/17</p>
+            <p>{{request[1].leave_type}}</p>
+            <p class="name">{{request[0].first_name + " " + request[0].last_name}}</p>
+            <p>{{request[1].from_date.strftime("%d %b '%y")}} - {{request[1].to_date.strftime("%d %b '%y")}}</p>
           </div>
         </div>  
       </div>
