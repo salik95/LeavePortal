@@ -2,13 +2,13 @@ lightbox = {
   show: function(lb) {
     $('body').css('overflow','hidden')
     lb.addClass('active')
-    lb.show(400)
+    lb.fadeIn(400)
   },
 
   hide: function(lb) {
     $('body').css('overflow','inherit')
     lb.removeClass('active')
-    lb.hide(400)
+    lb.fadeOut(400)
   }
 }
 

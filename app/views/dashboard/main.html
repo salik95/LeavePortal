@@ -36,37 +36,34 @@
   </div>
 
   <div class="row">
+
     <div class="col s12 m12 l12">
+      <div class="card leaves tagged">
 
-      <div class="col s12 m12 l12">
-        <div class="card leaves tagged">
+        <div class="card-content">
+          <p class="card-title">Leaves History</p>
 
-          <div class="card-content">
-            <p class="card-title">Leaves History</p>
+          <div class="items scrollable">
+            {% for item in data.history %}
 
-            <div class="items scrollable">
-              {% for item in data.history %}
+            <div class="item">
+              <div class="duration">
+                <p class="month">{{item.from_date.strftime("%b")}}</p>
+                <p class="date">{{item.from_date.strftime("%d")}}</p>
+                <br>
+                <p class="date">{{item.to_date.strftime("%d")}}</p>
+                <p class="month">{{item.to_date.strftime("%b")}}</p>
 
-              <div class="item">
-                <div class="duration">
-                  <p class="month">{{item.from_date.strftime("%b")}}</p>
-                  <p class="date">{{item.from_date.strftime("%d")}}</p>
-                  <br>
-                  <p class="date">{{item.to_date.strftime("%d")}}</p>
-                  <p class="month">{{item.to_date.strftime("%b")}}</p>
-
-                </div>
-                <div class="details">
-                  <p><strong>{{item.leave_type}}</strong></p>
-                  <p>{{item.purpose}}</p>
-                </div>
               </div>
-              {% endfor %}
+              <div class="details">
+                <p><strong>{{item.leave_type}}</strong></p>
+                <p>{{item.purpose}}</p>
+              </div>
             </div>
+            {% endfor %}
           </div>
         </div>
       </div>
-
     </div>
   </div>
 

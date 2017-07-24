@@ -92,7 +92,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding-left: 0; padding-right: 0}
 
   .items {padding: 0 20px; height: 160px;}
-  .item { padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
+  .item { position: relative; top: 1px; padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center;
     .duration {padding: 10px 2px; margin-right: 20px; border-radius: 50px; background: #2CA455; color: #fff; text-align: center; 
       .date {font-size: 22px; line-height: 20px; font-weight: 500;}
       .month {font-size: 12px;}
