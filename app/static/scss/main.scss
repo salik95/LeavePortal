@@ -1,23 +1,58 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
 html {font-family: 'Montserrat';}
 
+// @import "components/color";
+// $primary-color: color("blue", "lighten-2") !default;
+// $secondary-color: color("yellow", "base") !default;
+// @import 'materialize';
+
 /** Globals **/
-$primary-color: #1a237e !important;
+$primary-color: #303F9F;
 
 
-/** Components / Overrides **/
+/** Custom Globals **/
 
 .wrap {padding: 0 5%;}
 .center {text-align: center;}
+.clr{ clear: both;}
+.upper {text-transform: uppercase;}
 
-.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
-  &.tagged {border-left: solid 5px #FFE172;}
+.scrollable {
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {width:3px; background-color:#F5F5F5;}
+  &::-webkit-scrollbar-track {box-shadow:inset 0 0 6px rgba(0,0,0,0.3); background-color:#F5F5F5;}
+  &::-webkit-scrollbar-thumb {background-color:#000; border:2px solid #555;}
+}
+
+.lightbox { display: none; 
+  position: fixed; top: 0; overflow-y: scroll; height: 100%; width: 100%; z-index: 2000; background-color: rgba(255,255,255,0.9);
+  .content {margin: 0 auto; max-width: 1000px; width: 70%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
+}
+
+
+/** Material Overrides **/
+
+.collection-item {
+  overflow: auto;
+  .primary-content{float: left;}
+  .secondary-content a{top: 20px;}
+}
+
+.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); box-sizing: border-box;
+  &.tagged {border-top: solid 5px #FFE172;}
+  &.fixed { display: flex; flex-flow: column; height: 200px; justify-content: center }
+
   .card-content .card-title {font-size: 16px; text-align: center; margin-bottom: 20px;}
 }
 
 .brand-logo img {height: 80%; width: auto}
 
-/** Custom **/
+
+
+/** Custom Views / Components **/
 
 header {position: relative;  padding: 0 30px; height: 65px; color: #fff; background-color: $primary-color;
 
@@ -30,24 +65,52 @@ header {position: relative;  padding: 0 30px; height: 65px; color: #fff; backgro
     > * {cursor: pointer; padding: 0 20px}
     a i {vertical-align: middle}
   }
+
+  .btn { background-color: lighten($primary-color, 25);
+    &:hover {background-color: lighten($primary-color, 20)}
+  }
 }
 
-main {padding: 50px 0;
-  &#dashboard {background-color: #f9f9f9}
+main {padding: 80px 8%;}
+
+main#dashboard {background-color: #f9f9f9}
+
+main#login { padding: 0; height: 100vh; background-image: url(../img/background.jpg); background-size: cover;
+
+  .login { width: 40%; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box; 
+
+    display: flex; align-items: center; justify-content: center; flex-flow: column;
+    background-color: rgba(255,255,255,0.9);
+  }
 }
 
-.card.fixed { display: flex; flex-flow: column; height: 200px; justify-content: center }
 
-
+// Leaves Card
 
 .card.leaves {
 
-  .entry {padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
+  .card-content {padding-left: 0; padding-right: 0}
+
+  .items {padding: 0 20px; height: 160px;}
+  .item { padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
     .duration {padding: 10px 2px; margin-right: 20px; border-radius: 50px; background: #2CA455; color: #fff; text-align: center; 
       .date {font-size: 22px; line-height: 20px; font-weight: 500;}
       .month {font-size: 12px;}
     }
+    .details {
+      word-break: break-word;
+    }
   }
 
+}
 
+// Notification
+
+.notification {
+  .card {
+    &.tagged {border-color: $primary-color;}
+    .card-content {
+      .name {font-size: 20px; margin: 20px 0}
+    }
+  }
 }
