@@ -10,7 +10,7 @@
 
     <div class="row">
       <div class="col s12">
-        <div class="col s4">
+        <!-- <div class="col s3">
           <div class="card fixed tagged center">
             <div class="card-content">
               <p>{{now.strftime("%A")}}</p>
@@ -18,24 +18,44 @@
               <p>{{now.strftime("%B")}}</p>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="col s4">
+        <div class="col s3">
           <div class="card fixed tagged center">
             <div class="card-content">
-              <p>Remaining Leaves</p>
+              <p>General Leaves Remaining</p>
+              <h1>{{user.leaves_availed}}</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s3">
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>General Leaves Availed</p>
               <h1>{{user.leaves_remaining}}</h1>
             </div>
           </div>
         </div>
-        <div class="col s4">
+
+        <div class="col s3">
           <div class="card fixed tagged center">
             <div class="card-content">
-              <p>Leaves Availed</p>
+              <p>Medical Leaves Remaining</p>
               <h1>{{user.leaves_availed}}</h1>
             </div>
           </div>
-        </div>                      
+        </div>
+
+        <div class="col s3">
+          <div class="card fixed tagged center">
+            <div class="card-content">
+              <p>Medical Leaves Availed</p>
+              <h1>{{user.leaves_availed}}</h1>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -84,7 +104,7 @@
     </div>
   </div>
 
-<!--   <div class="section">
+  <div class="section">
     <h5>Leave Requests</h5>
     <br>
     <div class="row">
@@ -114,9 +134,9 @@
         </ul>
       </div>
     </div>  
-  </div> -->
+  </div>
 
-  <div class="notification">
+  <!-- <div class="notification">
     <h5 class="center pad-down">Leave Request</h5>
     <div class="card request fixed tagged center">
       <div class="card-content">
@@ -127,7 +147,7 @@
     </div>
 
     <div class="clr"> </div>
-  </div>
+  </div> -->
 
 </div>
 </main>
