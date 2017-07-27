@@ -40,8 +40,6 @@ class Employees(db.Model):
 	reporting_manager = db.Column(db.Integer, nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
 	department = db.Column(db.String(45), nullable = False)
-	total_general_leaves = db.Column(db.Integer, nullable = False)
-	total_medical_leaves = db.Column(db.Integer, nullable = False)
 	general_leaves_remaining = db.Column(db.Integer, nullable = False)
 	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
 	general_leaves_availed = db.Column(db.Integer, nullable = False)
@@ -49,16 +47,14 @@ class Employees(db.Model):
 	date_of_joining = db.Column(db.Date(), nullable = False)
 
 	def __init__(self, user_id, first_name, last_name, reporting_manager, designation, department,
-		total_general_leaves, total_medical_leaves, general_leaves_remaining, medical_leaves_remaining,
-		general_leaves_availed, medical_leaves_availed, date_of_joining, status):
+		general_leaves_remaining, medical_leaves_remaining, general_leaves_availed, medical_leaves_availed,
+		date_of_joining):
 		self.user_id = user_id
 		self.first_name = first_name
 		self.last_name = last_name
 		self.reporting_manager = reporting_manager
 		self.designation = designation
 		self.department = department
-		self.total_general_leaves = total_general_leaves
-		self.total_medical_leaves = total_medical_leaves
 		self.general_leaves_remaining = general_leaves_remaining
 		self.medical_leaves_remaining = medical_leaves_remaining
 		self.general_leaves_availed = general_leaves_availed
@@ -79,7 +75,7 @@ class Balance_sheet(db.Model):
 	manager_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
 
 	def __init__(self, emp_id, from_date, to_date, leave_type, purpose, pay, hr_remark, manager_remark,
-		hr_approval, manager_approval):
+		manager_approval):
 		self.emp_id = emp_id
 		self.from_date
 		self.to_date
@@ -108,3 +104,12 @@ class Left_employees(db.Model):
 		self.last_name = last_name
 		self.designation = designation
 		self.department = department
+
+class Settings(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	key = db.Column(db.String(45), nullable = False)
+	value = db.Column(db.String(45), nullable = False)
+
+	def __init__(self, key, value):
+		self.key = key
+		self.value = value
