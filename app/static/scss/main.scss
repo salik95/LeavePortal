@@ -111,15 +111,16 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .collapsible-body{
     .first-row{
       p{ width: 19%; padding-left: 0.5%; padding-right: 0.5%; display: inline-block; text-align: center; min-width: 120px;}
-    }  
+    }
+    overflow: hidden;  
   }
   
 
   #pay{ width: 200px;}
 
   .remarks{ 
-    width: 47%; text-align: justify; margin-right:3%;
-    a{margin-bottom: 20px;}
+    width: 47%; text-align: left; margin-right:3%;
+    a{margin-bottom: 20px; width: 35%; margin-right: 7%; margin-left: 7%; display: inline-block; min-width: 100px;}
   }
 }
 
