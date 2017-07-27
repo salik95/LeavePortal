@@ -47,7 +47,6 @@ class Employees(db.Model):
 	general_leaves_availed = db.Column(db.Integer, nullable = False)
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
-	status = db.Column(db.Enum('Current', 'Left'), nullable = False)
 
 	def __init__(self, user_id, first_name, last_name, reporting_manager, designation, department,
 		total_general_leaves, total_medical_leaves, general_leaves_remaining, medical_leaves_remaining,
@@ -65,7 +64,6 @@ class Employees(db.Model):
 		self.general_leaves_availed = general_leaves_availed
 		self.medical_leaves_availed = medical_leaves_availed
 		self.date_of_joining = date_of_joining
-		self.status = status
 
 class Balance_sheet(db.Model):
 
@@ -91,3 +89,22 @@ class Balance_sheet(db.Model):
 		self.hr_remark
 		self.manager_remark
 		self.manager_approval
+
+class Left_employees(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	emp_id = db.Column(db.Integer, nullable = False)
+	date_of_joining = db.Column(db.Date(), nullable = False)
+	date_of_leaving = db.Column(db.Date(), nullable = False)
+	first_name = db.Column(db.String(45), nullable = False)
+	last_name = db.Column(db.String(45), nullable = True)
+	designation = db.Column(db.String(45), nullable = False)
+	department = db.Column(db.String(45), nullable = False)
+
+	def __init__(self, emp_id, date_of_joining, date_of_leaving, first_name, last_name, designation, department):
+		self.emp_id = emp_id
+		self.date_of_joining = date_of_joining
+		self.date_of_leaving = date_of_leaving
+		self.first_name = first_name
+		self.last_name = last_name
+		self.designation = designation
+		self.department = department
