@@ -92,7 +92,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding-left: 0; padding-right: 0}
 
   .items {padding: 0 20px; height: 160px;}
-  .item { padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center; justify-content: space-between;
+  .item { position: relative; top: 1px; padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center;
     .duration {padding: 10px 2px; margin-right: 20px; border-radius: 50px; background: #2CA455; color: #fff; text-align: center; 
       .date {font-size: 22px; line-height: 20px; font-weight: 500;}
       .month {font-size: 12px;}
@@ -107,10 +107,20 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 // Notification
 
 .notification {
-  .card {
-    &.tagged {border-color: $primary-color;}
-    .card-content {
-      .name {font-size: 20px; margin: 20px 0}
+  
+  .collapsible-body{
+    .first-row{
+      p{ width: 19%; padding-left: 0.5%; padding-right: 0.5%; display: inline-block; text-align: center; min-width: 120px;}
     }
+    overflow: hidden;  
+  }
+  
+
+  #pay{ width: 200px;}
+
+  .remarks{ 
+    width: 47%; text-align: left; margin-right:3%;
+    a{margin-bottom: 20px; width: 35%; margin-right: 7%; margin-left: 7%; display: inline-block; min-width: 100px;}
   }
 }
+
