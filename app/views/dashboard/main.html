@@ -6,174 +6,185 @@
 
 <main id="dashboard">
 
-
-  <div class="row">
-  
-    <div class="col s3">
-      <div class="card fixed tagged center">
-        <div class="card-content">
-          <p>General Leaves Remaining</p>
-          <h1>{{user.leaves_availed}}</h1>
-        </div>
-      </div>
-    </div>
-
-    <div class="col s3">
-      <div class="card fixed tagged center">
-        <div class="card-content">
-          <p>General Leaves Availed</p>
-          <h1>{{user.leaves_remaining}}</h1>
-        </div>
-      </div>
-    </div>
-
-    <div class="col s3">
-      <div class="card fixed tagged center">
-        <div class="card-content">
-          <p>Medical Leaves Remaining</p>
-          <h1>{{user.leaves_availed}}</h1>
-        </div>
-      </div>
-    </div>
-
-    <div class="col s3">
-      <div class="card fixed tagged center">
-        <div class="card-content">
-          <p>Medical Leaves Availed</p>
-          <h1>{{user.leaves_availed}}</h1>
-        </div>
-      </div>
-    </div>
+  <div class="workspace-select">
+    <ul class="tabs">
+      <li class="tab"><a href="#wspersonal">Personal</a></li>
+      <li class="tab"><a href="#wsmanagement">Management</a></li>
+      <li class="tab"><a href="#wsadmin">HR Admin</a></li>
+    </ul>
   </div>
+  
+  <div id="wspersonal">
 
-  <div class="row">
+    <div class="row">
 
-    <div class="col s12 m12 l12">
-      <div class="card leaves tagged">
-
-        <div class="card-content">
-          <p class="card-title">Leaves History</p>
-
-          <div class="items scrollable">
-            {% for item in data.history %}
-
-            <div class="item">
-              <div class="duration">
-                <p class="month">{{item.from_date.strftime("%b")}}</p>
-                <p class="date">{{item.from_date.strftime("%d")}}</p>
-                <br>
-                <p class="date">{{item.to_date.strftime("%d")}}</p>
-                <p class="month">{{item.to_date.strftime("%b")}}</p>
-
+      <div class="col s6">
+        <div class="card fixed tagged center">
+          <p class="card-title">General Leaves</p>
+          <div class="card-content">
+            <div class="row">
+              <div class="col s6">
+                <p>Availed</p>
+                <h1>{{user.general_leaves_availed}}</h1>
               </div>
-              <div class="details">
-                <p><strong>{{item.leave_type}}</strong></p>
-                <p>{{item.purpose}}</p>
+              <div class="col s6">
+                <p>Remaining</p>
+                <h1>{{user.general_leaves_remaining}}</h1>
               </div>
             </div>
-            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col s6">
+        <div class="card fixed tagged center">
+          <p class="card-title">Medical Leaves</p>
+          <div class="card-content">
+            <div class="row">
+              <div class="col s6">
+                <p>Availed</p>
+                <h1>{{user.medical_leaves_availed}}</h1>
+              </div>
+              <div class="col s6">
+                <p>Remaining</p>
+                <h1>{{user.medical_leaves_remaining}}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col s12 m12 l12">
+        <div class="card leaves tagged">
+          <p class="card-title">Leaves History</p>
+          <div class="card-content">
+
+            <div class="items scrollable">
+              {% for item in data.history %}
+
+              <div class="item">
+                <div class="duration">
+                  <p class="month">{{item.from_date.strftime("%b")}}</p>
+                  <p class="date">{{item.from_date.strftime("%d")}}</p>
+                  <br>
+                  <p class="date">{{item.to_date.strftime("%d")}}</p>
+                  <p class="month">{{item.to_date.strftime("%b")}}</p>
+                </div>
+                <div class="details">
+                  <p class="type">{{item.leave_type}}</p>
+                  <p>{{item.purpose}}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="notification">
-    <h5>Leave Requests</h5>
-    <br>
-    <div class="row">
-      <div class="col s12">
-        
-        <ul class="collapsible" data-collapsible="accordion">
-          <li class="collection-item">
-            <div class="collapsible-header">
-              <p><strong>Mustafa Ahmed Siddiqui</strong> <br>
-                <span class="font-small">General Director</span>
-              </p>  
-            </div>
-            <div class="collapsible-body">
-              <div class="first-row">
-                <p>id : 1234</p>
-                <p>emp-id : 1234</p>
-                <p>from : 10/12/12</p>
-                <p>to : 13/12/12</p>
-                <p>Type : Medical</p>
+  <div id="wsmanagement">
+    <div class="notification">
+      <h5>Leave Requests</h5>
+      <br>
+      <div class="row">
+        <div class="col s12">
+
+          <ul class="collapsible" data-collapsible="accordion">
+            <li class="collection-item">
+              <div class="collapsible-header">
+                <p><strong>Mustafa Ahmed Siddiqui</strong> <br>
+                  <span class="font-small">General Director</span>
+                </p>  
               </div>
+              <div class="collapsible-body">
+                <div class="first-row">
+                  <p>id : 1234</p>
+                  <p>emp-id : 1234</p>
+                  <p>from : 10/12/12</p>
+                  <p>to : 13/12/12</p>
+                  <p>Type : Medical</p>
+                </div>
 
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error libero nisi eos illo nulla, repellendus voluptas velit eaque cum nobis expedita omnis alias possimus. Veniam similique recusandae minus aspernatur ut!</p>
-              
-              <div>
-                <label for="pay">Pay(Rs)</label>
-                <input type="number" id="pay">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error libero nisi eos illo nulla, repellendus voluptas velit eaque cum nobis expedita omnis alias possimus. Veniam similique recusandae minus aspernatur ut!</p>
+
+                <div>
+                  <label for="pay">Pay(Rs)</label>
+                  <input type="number" id="pay">
+                </div>
+
+                <div class="remarks left">
+                  <p>HR remarks</p>
+                  <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                  <a class="waves-effect waves-light btn">approve</a>
+                  <a class="waves-effect waves-light btn">decline</a>
+                </div>
+
+                <div class="remarks left">
+                  <p>Manager remarks</p>
+                  <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+
+                  <a class="waves-effect waves-light btn">approve</a>
+                  <a class="waves-effect waves-light btn">decline</a>
+                </div>
+
+
+
               </div>
+            </li>
 
-              <div class="remarks left">
-                <p>HR remarks</p>
-                <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                <a class="waves-effect waves-light btn">approve</a>
-                <a class="waves-effect waves-light btn">decline</a>
+            <li class="collection-item">
+              <div class="collapsible-header">
+                <p><strong>Mustafa Ahmed Siddiqui</strong> <br>
+                  <span class="font-small">General Director</span>
+                </p>  
               </div>
+              <div class="collapsible-body">
+                <div class="first-row">
+                  <p>id : 1234</p>
+                  <p>emp-id : 1234</p>
+                  <p>from : 10/12/12</p>
+                  <p>to : 13/12/12</p>
+                  <p>Type : Medical</p>
+                </div>
 
-              <div class="remarks left">
-                <p>Manager remarks</p>
-                <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error libero nisi eos illo nulla, repellendus voluptas velit eaque cum nobis expedita omnis alias possimus. Veniam similique recusandae minus aspernatur ut!</p>
 
-                <a class="waves-effect waves-light btn">approve</a>
-                <a class="waves-effect waves-light btn">decline</a>
+                <div>
+                  <label for="pay">Pay(Rs)</label>
+                  <input type="number" id="pay">
+                </div>
+
+                <div class="remarks left">
+                  <p>HR remarks</p>
+                  <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                  <a class="waves-effect waves-light btn">approve</a>
+                  <a class="waves-effect waves-light btn">decline</a>
+                </div>
+
+                <div class="remarks left">
+                  <p>Manager remarks</p>
+                  <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+
+                  <a class="waves-effect waves-light btn">approve</a>
+                  <a class="waves-effect waves-light btn">decline</a>
+                </div>
+
+
+
               </div>
+            </li>
 
 
-
-            </div>
-          </li>
-
-          <li class="collection-item">
-            <div class="collapsible-header">
-              <p><strong>Mustafa Ahmed Siddiqui</strong> <br>
-                <span class="font-small">General Director</span>
-              </p>  
-            </div>
-            <div class="collapsible-body">
-              <div class="first-row">
-                <p>id : 1234</p>
-                <p>emp-id : 1234</p>
-                <p>from : 10/12/12</p>
-                <p>to : 13/12/12</p>
-                <p>Type : Medical</p>
-              </div>
-
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error libero nisi eos illo nulla, repellendus voluptas velit eaque cum nobis expedita omnis alias possimus. Veniam similique recusandae minus aspernatur ut!</p>
-              
-              <div>
-                <label for="pay">Pay(Rs)</label>
-                <input type="number" id="pay">
-              </div>
-
-              <div class="remarks left">
-                <p>HR remarks</p>
-                <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                <a class="waves-effect waves-light btn">approve</a>
-                <a class="waves-effect waves-light btn">decline</a>
-              </div>
-
-              <div class="remarks left">
-                <p>Manager remarks</p>
-                <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-
-                <a class="waves-effect waves-light btn">approve</a>
-                <a class="waves-effect waves-light btn">decline</a>
-              </div>
-
-
-
-            </div>
-          </li>
-          
-
-        </ul>
-      </div>
-    </div>  
+          </ul>
+        </div>
+      </div>  
+    </div>
   </div>
+
 
 </main>
 
