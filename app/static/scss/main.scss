@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
-
+@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600');
 
 // @import "components/color";
 // $primary-color: color("blue", "lighten-2") !default;
@@ -8,7 +7,8 @@
 
 /** Globals **/
 $primary-color: #303F9F;
-html {font-family: 'Montserrat'; color: darken($primary-color, 25)}
+$light-gray: #f8f8f8;
+html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
 
 /** Custom Globals **/
@@ -17,6 +17,7 @@ html {font-family: 'Montserrat'; color: darken($primary-color, 25)}
 .center {text-align: center;}
 .clr{ clear: both;}
 .upper {text-transform: uppercase;}
+.bold {font-weight: 600}
 
 .scrollable {
 
@@ -46,7 +47,7 @@ html {font-family: 'Montserrat'; color: darken($primary-color, 25)}
   &.tagged {border-top: solid 3px #3f51b5;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 30px 0; box-sizing: content-box; margin: 0; font-size: 16px; text-align: center; text-transform: uppercase; color: $primary-color; font-weight: 500; box-shadow: 0 1px 5px rgba(0,0,0,0.1)}
+  .card-title { padding: 30px 0; box-sizing: content-box; margin: 0; font-size: 16px; text-align: center; text-transform: uppercase; color: $primary-color; font-weight: 600; box-shadow: 0 1px 5px rgba(0,0,0,0.1)}
 }
 
 .brand-logo img {height: 80%; width: auto}
@@ -59,7 +60,7 @@ header {position: relative;  padding: 0 30px; height: 50px; color: #fff; backgro
 
   a {color: #fff}
 
-  .logo {float: left; height: 100%; display: flex; align-items: center; font-weight: 500; font-size: 28px; text-transform: uppercase;
+  .logo {float: left; height: 100%; display: flex; align-items: center; font-weight: 600; font-size: 28px; text-transform: uppercase;
     img {max-height: 70%; height: 100%;}
   }
   .tools { float: right; height: 100%; display: flex; align-items: center; 
@@ -95,14 +96,15 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding-left: 0; padding-right: 0}
 
   .items {padding: 0 20px; height: 330px;}
-  .item { position: relative; top: 1px; padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center;
-    .duration {padding: 10px 2px; margin-right: 20px; border-radius: 50px; background: #009688; color: #fff; text-align: center; 
-      .date {font-size: 20px; line-height: 20px; font-weight: 500;}
+  .item { position: relative; margin: 10px 0; padding: 20px; background-color: $light-gray; display: flex; align-items: center;
+
+    .duration {padding: 10px 3px; margin-right: 20px; border-radius: 50px; background: #009688; color: #fff; text-align: center; 
+      .date {font-size: 18px; line-height: 20px; font-weight: 600;}
       .month {font-size: 14px;}
     }
     .details {
       word-break: break-word;
-      .type {font-weight: 500; font-size: 16px;}
+      .type {font-size: 18px;}
     }
   }
 
@@ -111,12 +113,17 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 // Notification
 
 .notification {
+
+  .collapsible-header {
+    p {margin: 0; padding: 0}
+    .name {font-size: 18px;}
+  }
   
-  .collapsible-body{
-    .first-row{
-      p{ width: 19%; padding-left: 0.5%; padding-right: 0.5%; display: inline-block; text-align: center; min-width: 120px;}
+  .collapsible-body { background-color: $light-gray; overflow: hidden;
+    .first-row { text-align: center;
+      p { padding: 20px; display: inline-block; min-width: 120px;}
     }
-    overflow: hidden;  
+    
   }
   
 
@@ -131,7 +138,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 
 .workspace-select {text-align: center; margin-bottom: 40px;}
 .workspace-select ul {
-  text-align: center; width: auto; border-radius: 30px; background-color: $primary-color; display: inline-block; height: 30px; padding: 3px; font-weight: 500;
+  text-align: center; width: auto; border-radius: 30px; background-color: $primary-color; display: inline-block; height: 30px; padding: 3px; font-weight: 600;
   .tab {height: 100%; line-height: normal;}
   .tab a { color: #fff; padding: 0 24px; line-height: 24px; transition: all 0.5s ease;
     &:link, &:hover {color: #fff;}
