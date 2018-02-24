@@ -25,7 +25,7 @@ class User(db.Model):
 
 	def __init__(self, email, password):
 		self.email = email
-		self.password = password  
+		self.password = password
 
 	def __repr__(self):
 		return '%d' % (self.id)
@@ -37,7 +37,8 @@ class Employees(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 	first_name = db.Column(db.String(45), nullable = False)
 	last_name = db.Column(db.String(45), nullable = True)
-	reporting_manager = db.Column(db.Integer, nullable = True)
+	reporting_manager_name = db.Column(db.String(128), nullable = True)
+	reporting_manager_email = db.Column(db.String(128), nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
 	department = db.Column(db.String(45), nullable = False)
 	general_leaves_remaining = db.Column(db.Integer, nullable = False)
@@ -46,13 +47,14 @@ class Employees(db.Model):
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
 
-	def __init__(self, user_id, first_name, last_name, reporting_manager, designation, department,
-		general_leaves_remaining, medical_leaves_remaining, general_leaves_availed, medical_leaves_availed,
-		date_of_joining):
+	def __init__(self, user_id, first_name, last_name, reporting_manager_name, reporting_manager_email, 
+		designation, department, general_leaves_remaining, medical_leaves_remaining, general_leaves_availed, 
+		medical_leaves_availed, date_of_joining):
 		self.user_id = user_id
 		self.first_name = first_name
 		self.last_name = last_name
-		self.reporting_manager = reporting_manager
+		self.reporting_manager_name = reporting_manager_name
+		self.reporting_manager_email = reporting_manager_email
 		self.designation = designation
 		self.department = department
 		self.general_leaves_remaining = general_leaves_remaining
@@ -77,33 +79,14 @@ class Balance_sheet(db.Model):
 	def __init__(self, emp_id, from_date, to_date, leave_type, purpose, pay, hr_remark, manager_remark,
 		manager_approval):
 		self.emp_id = emp_id
-		self.from_date
-		self.to_date
-		self.leave_type
-		self.purpose
-		self.pay
-		self.hr_remark
-		self.manager_remark
-		self.manager_approval
-
-class Left_employees(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	emp_id = db.Column(db.Integer, nullable = False)
-	date_of_joining = db.Column(db.Date(), nullable = False)
-	date_of_leaving = db.Column(db.Date(), nullable = False)
-	first_name = db.Column(db.String(45), nullable = False)
-	last_name = db.Column(db.String(45), nullable = True)
-	designation = db.Column(db.String(45), nullable = False)
-	department = db.Column(db.String(45), nullable = False)
-
-	def __init__(self, emp_id, date_of_joining, date_of_leaving, first_name, last_name, designation, department):
-		self.emp_id = emp_id
-		self.date_of_joining = date_of_joining
-		self.date_of_leaving = date_of_leaving
-		self.first_name = first_name
-		self.last_name = last_name
-		self.designation = designation
-		self.department = department
+		self.from_date = from_date
+		self.to_date = to_date
+		self.leave_type = leave_type
+		self.purpose = purpose
+		self.pay = pay
+		self.hr_remark = hr_remark
+		self.manager_remark = manager_remark
+		self.manager_approval = manager_approval
 
 class Settings(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
