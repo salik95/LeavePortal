@@ -11,8 +11,6 @@ from wtforms.validators import Required, Email, EqualTo
 # Define the login form (WTForms)
 
 class LoginForm(Form):
-    name 	= TextField('Name', [
-                Required(message='Name is required?')])
     email    = TextField('Email Address', [Email(),
                 Required(message='Forgot your email address?')])
     password = PasswordField('Password', [

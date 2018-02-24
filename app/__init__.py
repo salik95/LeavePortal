@@ -32,7 +32,8 @@ def user_loader(user_id):
 def not_found(error):
     return render_template('404.html'), 404
 
-from app.controllers.login_user import * 
+from app.controllers.login_user import *
+from app.controllers.dashboard import *
 
 
 #### VIEW ####
