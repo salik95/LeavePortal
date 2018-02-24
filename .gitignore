@@ -2,5 +2,5 @@ venv
 __pycache__/
 app/__init__.pyc
 app.db
-
+migrations
 app/static/css
