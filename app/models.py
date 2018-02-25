@@ -27,9 +27,6 @@ class User(db.Model):
 		self.email = email
 		self.password = password
 
-	def __repr__(self):
-		return '%d' % (self.id)
-
 class Employees(db.Model):
 
 	id = db.Column(db.Integer, primary_key = True)
