@@ -37,8 +37,7 @@ class Employees(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 	first_name = db.Column(db.String(45), nullable = False)
 	last_name = db.Column(db.String(45), nullable = True)
-	reporting_manager_name = db.Column(db.String(128), nullable = True)
-	reporting_manager_email = db.Column(db.String(128), nullable = True)
+	reporting_manager_id = db.Column(db.Integer, nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
 	department = db.Column(db.String(45), nullable = False)
 	general_leaves_remaining = db.Column(db.Integer, nullable = False)
@@ -47,14 +46,13 @@ class Employees(db.Model):
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
 
-	def __init__(self, user_id, first_name, last_name, reporting_manager_name, reporting_manager_email, 
-		designation, department, general_leaves_remaining, medical_leaves_remaining, general_leaves_availed, 
-		medical_leaves_availed, date_of_joining):
+	def __init__(self, user_id, first_name, last_name, reporting_manager_id, designation, department,
+		general_leaves_remaining, medical_leaves_remaining, general_leaves_availed, medical_leaves_availed, 
+		date_of_joining):
 		self.user_id = user_id
 		self.first_name = first_name
 		self.last_name = last_name
-		self.reporting_manager_name = reporting_manager_name
-		self.reporting_manager_email = reporting_manager_email
+		self.reporting_manager_id = reporting_manager_id
 		self.designation = designation
 		self.department = department
 		self.general_leaves_remaining = general_leaves_remaining
