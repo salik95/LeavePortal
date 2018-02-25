@@ -46,7 +46,7 @@ class Employees(db.Model):
 	date_of_joining = db.Column(db.Date(), nullable = False)
 
 	balance_sheet = db.relationship('Balance_sheet', backref='employee', lazy='joined')
-  managees = db.relationship('Employees', backref=db.backref('manager', remote_side='Employees.id'), lazy='dynamic', foreign_keys=[reporting_manager_id])
+	manager = db.relationship('Employees', backref=db.backref('subordinates', lazy='dynamic'), remote_side=[id], lazy='joined', foreign_keys=[reporting_manager_id])
 
 	def __init__(self, user_id, first_name, last_name, reporting_manager_id, designation, department,
 		general_leaves_remaining, medical_leaves_remaining, general_leaves_availed, medical_leaves_availed, 
