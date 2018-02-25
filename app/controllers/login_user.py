@@ -6,7 +6,7 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import db , app
 from app.forms.forms import LoginForm
 from app.models import *
-from flask_login import login_required ,login_user, current_user ,logout_user
+from flask_login import login_required, login_user, current_user, logout_user
 from app import login_manager
 import datetime
 
@@ -25,7 +25,7 @@ def index():
         form = LoginForm(request.form)
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
-            if user and user.password== form.password.data:
+            if user and user.password == form.password.data:
                 user.authenticated = True
                 db.session.add(user)
                 db.session.commit()
@@ -45,9 +45,12 @@ def logout():
 
 @app.context_processor
 def inject_user():
-  # @todo join current user and employee
-  employee = Employees.query.get(1)
-  return {'user': employee}
+  id = current_user.get_id()
+  if id is not None:
+    employee = Employees.query.get(id)
+    return {'user': employee}
+  else:
+    return {}
 
 @app.context_processor
 def inject_date():
