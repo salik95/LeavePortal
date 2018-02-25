@@ -32,12 +32,11 @@ class User(db.Model):
 
 class Employees(db.Model):
 
-
 	id = db.Column(db.Integer, primary_key = True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 	first_name = db.Column(db.String(45), nullable = False)
 	last_name = db.Column(db.String(45), nullable = True)
-	reporting_manager_id = db.Column(db.Integer, nullable = True)
+	reporting_manager_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
 	department = db.Column(db.String(45), nullable = False)
 	general_leaves_remaining = db.Column(db.Integer, nullable = False)

@@ -11,7 +11,7 @@ def dashboard():
 		employee = Employees.query.get(current_user.get_id())
 		history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id)
 		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(and_(Employees.reporting_manager == employee.id, Balance_sheet.manager_approval == None))
+			.filter(and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))
 
 		store = {'history' : history, 'pending_requests' : pending_requests}
 		return render_template("dashboard/main.html", data = store)
