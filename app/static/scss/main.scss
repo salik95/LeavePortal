@@ -10,6 +10,8 @@ $primary-color: #303F9F;
 $light-gray: #f8f8f8;
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
+.btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
+.btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
 
 /** Custom Globals **/
 
@@ -64,7 +66,7 @@ header {position: relative;  padding: 0 30px; height: 50px; color: #fff; backgro
     img {max-height: 70%; height: 100%;}
   }
   .tools { float: right; height: 100%; display: flex; align-items: center; 
-    > * {cursor: pointer;}
+    > * {cursor: pointer; margin: 0 10px;}
     a i {vertical-align: middle; font-size: 30px;}
   }
 
