@@ -45,6 +45,7 @@ class Employees(db.Model):
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
 
+	user = db.relationship('User', uselist=False, backref=db.backref('employee', uselist=False), lazy='joined', foreign_keys=[user_id])
 	balance_sheet = db.relationship('Balance_sheet', backref='employee', lazy='joined')
 	manager = db.relationship('Employees', backref=db.backref('subordinates', lazy='dynamic'), remote_side=[id], lazy='joined', foreign_keys=[reporting_manager_id])
 
