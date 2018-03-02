@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Montserrat:400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Montserrat:300,400,500,600');
 
 // @import "components/color";
 // $primary-color: color("blue", "lighten-2") !default;
@@ -91,7 +91,8 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 }
 
 .card.counter {
-  h1 {font-family: Arial; font-weight: normal}
+  h1 {font-family: Montserrat; font-weight: 300}
+  .row p {font-size: 18px}
 }
 
 // Leaves Card
