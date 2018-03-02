@@ -8,6 +8,7 @@
 /** Globals **/
 $primary-color: #303F9F;
 $light-gray: #f8f8f8;
+$crd-title-color: #E6E6E6;
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
 .btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
@@ -45,11 +46,10 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .secondary-content a{top: 20px;}
 }
 
-.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); box-sizing: border-box; border-radius: 5px; overflow: hidden;
-  &.tagged {border-top: solid 3px #3f51b5;}
+.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); box-sizing: border-box; overflow: hidden;
   &.fixed { height: 250px;}
 
-  .card-title { padding: 30px 0; box-sizing: content-box; margin: 0; font-size: 16px; text-align: center; text-transform: uppercase; color: $primary-color; font-weight: 600; box-shadow: 0 1px 5px rgba(0,0,0,0.1)}
+  .card-title { padding: 30px 20px; box-sizing: content-box; margin: 0; font-size: 16px; text-align: left; text-transform: uppercase; color: $primary-color; background-color:$crd-title-color; font-weight: 600; box-shadow: 0 1px 5px rgba(0,0,0,0.1)}
 }
 
 .brand-logo img {height: 80%; width: auto}
@@ -100,9 +100,8 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .items {padding: 0 20px; height: 330px;}
   .item { position: relative; margin: 10px 0; padding: 20px; background-color: $light-gray; display: flex; align-items: center;
 
-    .duration {padding: 10px 3px; margin-right: 20px; border-radius: 50px; background: #009688; color: #fff; text-align: center; 
+    .duration {padding: 0px 3px; margin-right: 20px; background: #009688; color: #fff;  
       .date {font-size: 18px; line-height: 20px; font-weight: 600;}
-      .month {font-size: 14px;}
     }
     .details {
       word-break: break-word;
