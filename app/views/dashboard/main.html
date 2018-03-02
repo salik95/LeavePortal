@@ -67,15 +67,13 @@
 
               <div class="item">
                 <div class="duration">
-                  <p class="month">{{item.from_date.strftime("%b")}}</p>
-                  <p class="date">{{item.from_date.strftime("%d")}}</p>
-                  <br>
-                  <p class="date">{{item.to_date.strftime("%d")}}</p>
-                  <p class="month">{{item.to_date.strftime("%b")}}</p>
+                  <p class="type">{{item.leave_type}}</p>
                 </div>
                 <div class="details">
-                  <p class="type">{{item.leave_type}}</p>
-                  <p>{{item.purpose}}</p>
+                  <p>date</p>
+                </div>
+                <div class="status">
+                  <p>status</p>
                 </div>
               </div>
               {% endfor %}

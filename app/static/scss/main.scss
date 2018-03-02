@@ -98,14 +98,16 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding-left: 0; padding-right: 0}
 
   .items {padding: 0 20px; height: 330px;}
-  .item { position: relative; margin: 10px 0; padding: 20px; background-color: $light-gray; display: flex; align-items: center;
+  .item { position: relative; margin: 1px 0px; padding: 0px 20px 0px 0px; background-color: $light-gray; display: flex; align-items: center; overflow:hidden; flex-direction:row; justify-content:space-between;
 
-    .duration {padding: 0px 3px; margin-right: 20px; background: #009688; color: #fff;  
-      .date {font-size: 18px; line-height: 20px; font-weight: 600;}
+    .duration {padding: 0px 1px; margin-right: 20px; background: #009688; color: #fff; height:100%; position:absolute;  
+      .date {font-size: 18px; font-weight: 600;}
     }
     .details {
-      word-break: break-word;
+      padding:10px 0px 10px 70px;
       .type {font-size: 18px;}
+    }
+    .status{ 
     }
   }
 
