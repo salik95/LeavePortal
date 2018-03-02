@@ -8,6 +8,7 @@
 /** Globals **/
 $primary-color: #30336b;
 $light-gray: #f8f8f8;
+
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
 .btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
@@ -35,7 +36,6 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   position: fixed; top: 0; overflow-y: scroll; height: 100%; width: 100%; z-index: 2000; background-color: rgba(255,255,255,0.9);
   .content {margin: 0 auto; max-width: 1000px; width: 70%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
 }
-
 
 /** Material Overrides **/
 
@@ -101,15 +101,16 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding-left: 0; padding-right: 0}
 
   .items {padding: 0 20px; height: 330px;}
-  .item { position: relative; margin: 10px 0; padding: 20px; background-color: $light-gray; display: flex; align-items: center;
+  .item { position: relative; margin: 1px 0px; padding: 0px 20px 0px 0px; background-color: $light-gray; display: flex; align-items: center; overflow:hidden; flex-direction:row; justify-content:space-between;
 
-    .duration {padding: 10px 3px; margin-right: 20px; border-radius: 50px; background: #009688; color: #fff; text-align: center; 
-      .date {font-size: 18px; line-height: 20px; font-weight: 600;}
-      .month {font-size: 14px;}
+    .duration {padding: 0px 1px; margin-right: 20px; background: #009688; color: #fff; height:100%; position:absolute;  
+      .date {font-size: 18px; font-weight: 600;}
     }
     .details {
-      word-break: break-word;
+      padding:10px 0px 10px 70px;
       .type {font-size: 18px;}
+    }
+    .status{ 
     }
   }
 
