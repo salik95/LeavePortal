@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Montserrat:400,500,600');
 
 // @import "components/color";
 // $primary-color: color("blue", "lighten-2") !default;
@@ -6,7 +6,7 @@
 // @import 'materialize';
 
 /** Globals **/
-$primary-color: #303F9F;
+$primary-color: #30336b;
 $light-gray: #f8f8f8;
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
@@ -45,11 +45,11 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .secondary-content a{top: 20px;}
 }
 
-.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); box-sizing: border-box; border-radius: 5px; overflow: hidden;
-  &.tagged {border-top: solid 3px #3f51b5;}
+.card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+  &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 30px 0; box-sizing: content-box; margin: 0; font-size: 16px; text-align: center; text-transform: uppercase; color: $primary-color; font-weight: 600; box-shadow: 0 1px 5px rgba(0,0,0,0.1)}
+  .card-title { padding: 15px 0; background-color: darken($light-gray, 3); box-sizing: content-box; margin: 0; font-size: 18px; text-align: center; color: $primary-color; font: 400 20px Montserrat; /**box-shadow: 0 1px 5px rgba(0,0,0,0.1)**/}
 }
 
 .brand-logo img {height: 80%; width: auto}
@@ -90,6 +90,9 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   }
 }
 
+.card.counter {
+  h1 {font-family: Arial; font-weight: normal}
+}
 
 // Leaves Card
 
