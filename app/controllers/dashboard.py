@@ -12,9 +12,7 @@ def dashboard():
 		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))
 
-		print(employee.first_name)
-
-		store = {'history' : employee.balance_sheet, 'pending_requests' : pending_requests}
+		store = {'history' : employee.balance_sheet, 'pending_requests' : pending_requests, 'user': employee}
 		return render_template("dashboard/main.html", data = store)
 
 	if request.method == 'POST':
