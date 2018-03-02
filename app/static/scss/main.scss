@@ -100,27 +100,44 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .items {padding: 0 20px; height: 330px;}
   .item { position: relative; margin: 1px 0px; padding: 0px 20px 0px 0px; background-color: $light-gray; display: flex; align-items: center; overflow:hidden; flex-direction:row; justify-content:space-between;
 
-    .duration {padding: 0px 1px; margin-right: 20px; background: #009688; color: #fff; height:100%; position:absolute;  
+    .duration1 {padding: 0px 1px; margin-right: 20px; background: #009688; color: #fff; height:100%; position:absolute;  
       .date {font-size: 18px; font-weight: 600;}
     }
-    .details {
+    .details1 {
       padding:10px 0px 10px 70px;
       .type {font-size: 18px;}
     }
-    .status{ 
+    .status1{ 
     }
   }
 
 }
 
+//history
+  .history{
+    .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center;
+      .type{
+        padding: 0px 1px; margin-right: 20px; width:50px; background: #009688; color: #fff; height:inherit; position:absolute;
+
+        p{text-align: center;}
+      }
+
+      .duration{
+        margin:0px 70px;
+      }
+
+      .status{
+        margin: 0px 15px;
+      }
+
+    }  
+  }
+
 // Notification
 
 .notification {
 
-  .collapsible-header {
-    p {margin: 0; padding: 0}
-    .name {font-size: 18px;}
-  }
+
   
   .collapsible-body { background-color: $light-gray; overflow: hidden;
     .first-row { text-align: center;

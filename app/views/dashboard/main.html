@@ -56,9 +56,8 @@
     </div>
 
     <div class="row">
-
       <div class="col s12 m12 l12">
-        <div class="card leaves tagged">
+        <!-- <div class="card leaves tagged">
           <p class="card-title">Leaves History</p>
           <div class="card-content">
 
@@ -80,9 +79,49 @@
             </div>
           </div>
         </div>
+      </div> -->
+        <div class="history">
+          <ul class="collapsible" data-collapsible="accordion">
+                      {% for item in data.pending_requests %}
+            
+            <li class="collection-item">
+              <div class="collapsible-header">
+                <div class="type">
+                  <p>M</p>
+                </div>
+                <div class="duration">
+                  12-12-18 to 15-12-18
+                </div>
+                <div class="status">
+                  <p>approved</p>
+                </div>
+              </div>
+              <div class="collapsible-body">
+                <div class="first-row">
+                  <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
+                  <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
+                  <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                </div>
+
+                <p class="center">{{item[1].purpose}}</p>
+
+                <div class="row">
+                  <div class="col l6">
+                    <p class="bold">HR Remarks</p>
+                    <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                  </div>
+                  <div class="col l6">
+                    <p class="bold">Manager Remarks</p>
+                    <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+        </ul>
+        </div>
       </div>
     </div>
-  </div>
 
   <div id="wsmanagement">
     <div class="notification">
