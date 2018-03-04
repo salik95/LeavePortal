@@ -55,12 +55,12 @@
     </div>
 
     <div class="row">
-      <div class="col s12 m12 l12">
+      <div class="col s6 m6 l6">
         <div class="card leaves">
           <p class="card-title">Leaves History</p>
           <div class="card-content">
             
-            <div class="history">
+            <div class="request">
               <ul class="collapsible" data-collapsible="accordion">
                           {% for item in data.pending_requests %}
                 
@@ -104,11 +104,81 @@
           </div>
         </div>
       </div>
-        
-      </div>
+
+      <div class="col s6 m6 l6">
+        <div class="card leaves">
+          <p class="card-title">Leaves Requests</p>
+          <div class="card-content">
+            
+            <div class="request">
+              <ul class="collapsible" data-collapsible="accordion">
+                          {% for item in data.pending_requests %}
+                
+                <li class="collection-item">
+                  <div class="collapsible-header">
+                    <div class="type medical">
+                      <p>M</p>
+                    </div>
+                    <div class="duration">
+                      12-12-18 to 15-12-18
+                    </div>
+                    <!-- <div class="status approved">
+                      <p>approved</p>
+                    </div> -->
+                  </div>
+                  <div class="collapsible-body">
+                    <div class="col s12 first-row">
+                      <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
+                      <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
+                      <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                      <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                    </div>
+
+                    <div class="row">
+                      <div class="col s12">
+                        <!-- <p class="bold">HR Remarks</p> -->
+                        <div class="input-field col s12">
+                          <textarea id="hr-text" class="materialize-textarea"></textarea>
+                          <label for="hr-text">HR Remarks</label>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col s8 offset-s2 center">
+                          <a class="waves-effect waves-light btn">Approve</a>
+                          <a class="waves-effect waves-light btn red darken-3">Decline</a>  
+                        </div> 
+                      </div>
+
+                      <div class="col s12">
+                        <!-- <p class="bold">HR Remarks</p> -->
+                        <div class="input-field col s12">
+                          <textarea id="mg-text" class="materialize-textarea"></textarea>
+                          <label for="mg-text">Manager Remarks</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col s8 offset-s2 center">
+                          <a class="waves-effect waves-light btn">Approve</a>
+                          <a class="waves-effect waves-light btn red darken-3">Decline</a>  
+                        </div> 
+                      </div>
+
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <!-- < div history end> -->
+          </div>
+        </div>
+      </div> 
+    </div>
     </div>
 
-  <div id="wsmanagement">
+ <!-- <div id="wsmanagement"> 
     <div class="notification">
       <h5 class="center">Leave Requests</h5>
       <br>
@@ -161,7 +231,7 @@
         </div>
       </div>  
     </div>
-  </div>
+  </div> -->
 
 
 </main>
