@@ -77,13 +77,13 @@
                     </div>
                   </div>
                   <div class="collapsible-body">
-                    <div class="first-row">
+                    <div class="col s12 first-row">
                       <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
                       <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
                       <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                      <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                      <br>
                     </div>
-
-                    <p class="center">{{item[1].purpose}}</p>
 
                     <div class="row">
                       <div class="col l6">
@@ -132,6 +132,7 @@
                       <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
                       <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
                       <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                      <br>
                     </div>
 
                     <div class="row">
@@ -141,6 +142,8 @@
                           <textarea id="hr-text" class="materialize-textarea"></textarea>
                           <label for="hr-text">HR Remarks</label>
                         </div>
+                        <!--  -->
+                        
                       </div>
                       
                       <div class="row">
@@ -148,6 +151,16 @@
                           <a class="waves-effect waves-light btn">Approve</a>
                           <a class="waves-effect waves-light btn red darken-3">Decline</a>  
                         </div> 
+                      </div>
+
+                      <div class="col s12">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                          <br>
+                      </div>
+
+                      <div class="chip green">
+                        <span class="white-text">Approved</span>
                       </div>
 
                       <div class="col s12">
@@ -163,6 +176,16 @@
                           <a class="waves-effect waves-light btn">Approve</a>
                           <a class="waves-effect waves-light btn red darken-3">Decline</a>  
                         </div> 
+                      </div>
+
+                      <div class="col s12">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                          <br>
+                      </div>
+
+                      <div class="chip red darken-3">
+                        <span class="white-text">Declined</span>
                       </div>
 
                     </div>
