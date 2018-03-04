@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
-html {font-family: 'Montserrat';}
+@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Montserrat:300,400,500,600');
 
 // @import "components/color";
 // $primary-color: color("blue", "lighten-2") !default;
@@ -7,8 +6,13 @@ html {font-family: 'Montserrat';}
 // @import 'materialize';
 
 /** Globals **/
-$primary-color: #303F9F;
+$primary-color: #30336b;
+$light-gray: #f8f8f8;
 
+html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
+
+.btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
+.btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
 
 /** Custom Globals **/
 
@@ -16,6 +20,7 @@ $primary-color: #303F9F;
 .center {text-align: center;}
 .clr{ clear: both;}
 .upper {text-transform: uppercase;}
+.bold {font-weight: 600}
 
 .scrollable {
 
@@ -39,13 +44,18 @@ $primary-color: #303F9F;
   overflow: auto;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
+  .approved{color: #6DC6EB;}
+  .denied{color: #D56468;}
+  .pending{color: #22B573;}
+  .medical{ background-color: #22B573;}
+  .general{ background-color:#0071BC;}
 }
 
-.card { box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); box-sizing: border-box;
-  &.tagged {border-top: solid 5px #FFE172;}
-  &.fixed { display: flex; flex-flow: column; height: 200px; justify-content: center }
+.card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+  &.tagged {border-top: solid 3px $primary-color;}
+  &.fixed { height: 250px;}
 
-  .card-content .card-title {font-size: 16px; text-align: center; margin-bottom: 20px;}
+  .card-title { padding: 15px 0; background-color: darken($light-gray, 3); box-sizing: content-box; margin: 0; font-size: 18px; text-align: center; color: $primary-color; font: 400 20px Montserrat; /**box-shadow: 0 1px 5px rgba(0,0,0,0.1)**/}
 }
 
 .brand-logo img {height: 80%; width: auto}
@@ -54,26 +64,28 @@ $primary-color: #303F9F;
 
 /** Custom Views / Components **/
 
-header {position: relative;  padding: 0 30px; height: 65px; color: #fff; background-color: $primary-color;
+header {position: relative;  padding: 0 30px; height: 50px; color: #fff; background-color: darken($primary-color, 10);
 
   a {color: #fff}
 
-  .logo {float: left; height: 100%; display: flex; align-items: center;
+  .logo {float: left; height: 100%; display: flex; align-items: center; font-weight: 600; font-size: 28px; text-transform: uppercase;
     img {max-height: 70%; height: 100%;}
   }
   .tools { float: right; height: 100%; display: flex; align-items: center; 
-    > * {cursor: pointer; padding: 0 20px}
-    a i {vertical-align: middle}
+    > * {cursor: pointer; margin: 0 10px;}
+    a i {vertical-align: middle; font-size: 30px;}
   }
 
-  .btn { background-color: lighten($primary-color, 25);
-    &:hover {background-color: lighten($primary-color, 20)}
+  #account-nav {position: absolute;}
+
+  .btn { background-color: lighten(#6DC6EB, 0); /** color for button**/
+    &:hover {background-color: lighten(#26718e, 15)} /** color for hover**/
   }
 }
 
 main {padding: 80px 8%;}
 
-main#dashboard {background-color: #f9f9f9}
+main#dashboard {background-color: #e8eaf6}
 
 main#login { padding: 0; height: 100vh; background-image: url(../img/background.jpg); background-size: cover;
 
@@ -84,35 +96,52 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   }
 }
 
+.card.counter {
+  h1 {font-family: Montserrat; font-weight: 300}
+  .row p {font-size: 18px}
+}
 
 // Leaves Card
 
 .card.leaves {
 
   .card-content {padding-left: 0; padding-right: 0}
-
-  .items {padding: 0 20px; height: 160px;}
-  .item { position: relative; top: 1px; padding: 20px 0; box-shadow: 0 -1px 0 #efefef; display: flex; align-items: center;
-    .duration {padding: 10px 2px; margin-right: 20px; border-radius: 50px; background: #2CA455; color: #fff; text-align: center; 
-      .date {font-size: 22px; line-height: 20px; font-weight: 500;}
-      .month {font-size: 12px;}
-    }
-    .details {
-      word-break: break-word;
-    }
-  }
-
 }
+
+//history
+  .history{
+    li{ height: auto;}
+    .collapsible{
+      .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
+        .type{
+          padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
+
+          p{text-align: center; padding: 16px 0px;}
+        }
+
+        .duration{
+          margin:0px 70px;
+        }
+
+        .status{
+          margin: 0px 15px; font-weight: bold;
+          
+        }
+      } 
+    } 
+  }
 
 // Notification
 
 .notification {
+
+
   
-  .collapsible-body{
-    .first-row{
-      p{ width: 19%; padding-left: 0.5%; padding-right: 0.5%; display: inline-block; text-align: center; min-width: 120px;}
+  .collapsible-body { background-color: $light-gray; overflow: hidden;
+    .first-row { text-align: center;
+      p { padding: 20px; display: inline-block; min-width: 120px;}
     }
-    overflow: hidden;  
+    
   }
   
 
@@ -124,3 +153,14 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   }
 }
 
+
+.workspace-select {text-align: center; margin-bottom: 40px;}
+.workspace-select ul {
+  text-align: center; width: auto; border-radius: 30px; background-color: $primary-color; display: inline-block; height: 30px; padding: 3px; font-weight: 600;
+  .tab {height: 100%; line-height: normal;}
+  .tab a { color: #fff; padding: 0 24px; line-height: 24px; transition: all 0.5s ease;
+    &:link, &:hover {color: #fff;}
+    &.active {background-color: #fff; border-radius: 30px; color: $primary-color!important;}
+  }
+  .indicator {display: none}
+}

@@ -20,9 +20,11 @@ $('.datepicker').pickadate({
     clear: 'Clear',
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
-  });
+  })
 
-$('select').material_select();
+$('select').material_select()
+
+$('.tabs').tabs()
 
 $('a.trigger').click(function(e) {
   e.preventDefault()
