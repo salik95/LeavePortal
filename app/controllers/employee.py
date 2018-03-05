@@ -48,7 +48,29 @@ def employee():
 		db.session.flush()
 		return jsonify(employee_created)
 
-def employee_sqlalchemy_to_list(alchemyObject,):
+@app.route('/employee/search/', methods=['GET'])
+def employee_search():
+	arg_keyword = request.args.get("keyword")
+	arg_thin = request.args.get("thin")
+
+	if arg_keyword is not None and arg_keyword != "":
+		arg_keyword = arg_keyword + "%"
+		employee_data = Employees.query.filter(or_(Employees.first_name.contains(arg_keyword),
+			Employees.last_name.contains(arg_keyword)))
+		filtered_employee = employee_sqlalchemy_to_list(employee_data)
+	else:
+		filtered_employee = employee_sqlalchemy_to_list(Employees.query.all())
+
+	if arg_thin is not None:
+		temp_list = []
+		for emp_dict in filtered_employee:
+			temp_list.append({"id" : emp_dict['id'], "name" : emp_dict['first_name']+" "+emp_dict['last_name'],
+				"designation" : emp_dict['designation']})
+		filtered_employee = temp_list
+
+	return jsonify(filtered_employee)
+
+def employee_sqlalchemy_to_list(alchemyObject):
 	col_names = Employees.__mapper__.columns.keys()
 	employee_all = []
 	for value in alchemyObject:
