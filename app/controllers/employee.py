@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+from flask import request, jsonify
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 
@@ -18,8 +18,13 @@ def employee():
 		db.session.flush()
 		db.session.refresh(new_user)
 
+		employee_created = {"emai":data_employee['email'], "password":"chicken123","role":data_employee['role'],
+			"id":new_user.id, "name":data_employee['first_name'] + " " + data_employee['last_name'],
+			"department":data_employee['department'], "designation":data_employee['designation']}
+
 		del data_employee['email']
 		del data_employee['role']
+
 
 		data_employee['general_leaves_availed'] = '0'
 		data_employee['medical_leaves_availed'] = '0'
@@ -37,4 +42,4 @@ def employee():
 		db.session.add(new_employee)
 		db.session.commit()
 		db.session.flush()
-		return "success"
+		return jsonify(employee_created)
