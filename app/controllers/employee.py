@@ -7,7 +7,15 @@ from app.controllers.settings import settings_to_dict
 @app.route('/employee', methods=['GET', 'POST'])
 def employee():
 	if request.method == 'GET':
-		return "in progress"
+		employees = Employees.query.all()
+		col_names = Employees.__mapper__.columns.keys()
+		employee_all = []
+		for value in employees:
+			temp_dict = {}
+			for item in col_names:
+				temp_dict[item] = getattr(value, item)
+			employee_all.append(temp_dict)
+		return jsonify(employee_all)
 
 
 	if request.method == 'POST':
@@ -19,12 +27,14 @@ def employee():
 		db.session.flush()
 		db.session.refresh(new_user)
 
+		#Refactor this thing
+		data_employee['role'] = "Employee"
+
 		employee_created = {"emai":data_employee['email'], "password":"chicken123","role":data_employee['role'],
 			"id":new_user.id, "name":data_employee['first_name'] + " " + data_employee['last_name'],
 			"department":data_employee['department'], "designation":data_employee['designation']}
 
 		del data_employee['email']
-		del data_employee['role']
 
 
 		data_employee['general_leaves_availed'] = '0'
