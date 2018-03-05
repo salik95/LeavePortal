@@ -34,7 +34,8 @@ def not_found(error):
 
 from app.controllers.login_user import *
 from app.controllers.dashboard import *
-
+from app.controllers.settings import *
+from app.controllers.employee import *
 
 #### VIEW ####
 
