@@ -24,6 +24,7 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 .clr{ clear: both;}
 .upper {text-transform: uppercase;}
 .bold {font-weight: 600}
+.border-top{border-top:1px solid #DDDDDD;}
 
 .scrollable {
 
@@ -124,6 +125,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 .request{
   li{ height: auto;}
   .collapsible{
+    .view-all{ margin: auto;}
     .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
       .type{
         padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
