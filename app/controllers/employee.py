@@ -9,6 +9,7 @@ def employee():
 	if request.method == 'GET':
 		return "in progress"
 
+
 	if request.method == 'POST':
 
 		data_employee = request.get_json(force=True)
