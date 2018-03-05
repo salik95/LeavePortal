@@ -3,19 +3,12 @@ from app import db , app
 from flask import request, jsonify
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
+from sqlalchemy import and_, or_
 
 @app.route('/employee', methods=['GET', 'POST'])
 def employee():
 	if request.method == 'GET':
-		employees = Employees.query.all()
-		col_names = Employees.__mapper__.columns.keys()
-		employee_all = []
-		for value in employees:
-			temp_dict = {}
-			for item in col_names:
-				temp_dict[item] = getattr(value, item)
-			employee_all.append(temp_dict)
-		return jsonify(employee_all)
+		return jsonify(employee_sqlalchemy_to_list(Employees.query.all()))
 
 
 	if request.method == 'POST':
@@ -54,3 +47,13 @@ def employee():
 		db.session.commit()
 		db.session.flush()
 		return jsonify(employee_created)
+
+def employee_sqlalchemy_to_list(alchemyObject,):
+	col_names = Employees.__mapper__.columns.keys()
+	employee_all = []
+	for value in alchemyObject:
+		temp_dict = {}
+		for item in col_names:
+			temp_dict[item] = getattr(value, item)
+		employee_all.append(temp_dict)
+	return employee_all
