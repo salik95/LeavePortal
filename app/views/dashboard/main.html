@@ -6,92 +6,188 @@
 
 <main id="dashboard">
 
-  <div class="workspace-select">
-    <ul class="tabs">
-      <li class="tab"><a href="#wspersonal">Personal</a></li>
-      <li class="tab"><a href="#wsmanagement">Management</a></li>
-    </ul>
+  <div class="management">
+    <p class="title">HR Management</p>
+    <a href="#addemployee" class="btn slim outline trigger">
+      <i class="material-icons left">add</i>
+      <span>New Employee</span>
+    </a>
   </div>
-  
-  <div id="wspersonal">
-    <div class="row">
-      <div class="col s6">
-        <div class="card fixed center counter">
-          <p class="card-title">General Leaves</p>
-          <div class="card-content">
-            <div class="row">
-              <div class="col s6">
-                <p>Availed</p>
-                <h1>{{data.leaves_details.general_leaves_availed}}</h1>
-              </div>
-              <div class="col s6">
-                <p>Remaining</p>
-                <h1>{{data.leaves_details.general_leaves_remaining}}</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="col s6">
-        <div class="card fixed center counter">
-          <p class="card-title">Medical Leaves</p>
-          <div class="card-content">
-            <div class="row">
-              <div class="col s12 m6 l6">
-                <p>Availed</p>
-                <h1>{{data.leaves_details.medical_leaves_availed}}</h1>
-              </div>
-              <div class="col s12 m6 l6">
-                <p>Remaining</p>
-                <h1>{{data.leaves_details.medical_leaves_remaining}}</h1>
-              </div>
+  <div class="clr"></div>
+
+  <div class="row">
+    <div class="col s6">
+      <div class="card fixed center counter">
+        <p class="card-title">General Leaves</p>
+        <div class="card-content">
+          <div class="row">
+            <div class="col s6">
+              <p>Availed</p>
+              <h1>{{data.leaves_details.general_leaves_availed}}</h1>
+            </div>
+            <div class="col s6">
+              <p>Remaining</p>
+              <h1>{{data.leaves_details.general_leaves_remaining}}</h1>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col s12 m12 l12">
-        <div class="card leaves">
-          <p class="card-title">Leaves History</p>
-          <div class="card-content">
-            
-            <div class="history">
-              <ul class="collapsible" data-collapsible="accordion">
-                          {% for item in data.pending_requests %}
-                
-                <li class="collection-item">
-                  <div class="collapsible-header">
-                    <div class="type medical">
-                      <p>M</p>
+    <div class="col s6">
+      <div class="card fixed center counter">
+        <p class="card-title">Medical Leaves</p>
+        <div class="card-content">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <p>Availed</p>
+              <h1>{{data.leaves_details.medical_leaves_availed}}</h1>
+            </div>
+            <div class="col s12 m6 l6">
+              <p>Remaining</p>
+              <h1>{{data.leaves_details.medical_leaves_remaining}}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s6 m6 l6">
+      <div class="card leaves">
+        <p class="card-title">Leaves History</p>
+        <div class="card-content">
+
+          <div class="request">
+            <ul class="collapsible" data-collapsible="accordion">
+              {% for item in data.pending_requests %}
+
+              <li class="collection-item">
+                <div class="collapsible-header">
+                  <div class="type medical">
+                    <p>M</p>
+                  </div>
+                  <div class="duration">
+                    12-12-18 to 15-12-18
+                  </div>
+                  <div class="status approved">
+                    <p>approved</p>
+                  </div>
+                </div>
+                <div class="collapsible-body">
+                  <div class="col s12 first-row">
+                    <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
+                    <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
+                    <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                    <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                    <br>
+                  </div>
+
+                  <div class="row">
+                    <div class="col l6">
+                      <p class="bold">HR Remarks</p>
+                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
                     </div>
-                    <div class="duration">
-                      12-12-18 to 15-12-18
-                    </div>
-                    <div class="status approved">
-                      <p>approved</p>
+                    <div class="col l6">
+                      <p class="bold">Manager Remarks</p>
+                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
                     </div>
                   </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- < div history end> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col s6 m6 l6">
+      <div class="card leaves">
+        <p class="card-title">Leaves Requests</p>
+        <div class="card-content">
+
+          <div class="request">
+            <ul class="collapsible" data-collapsible="accordion">
+              {% for item in data.pending_requests %}
+
+              <li class="collection-item">
+                <div class="collapsible-header">
+                  <div class="type medical">
+                    <p>M</p>
+                  </div>
+                  <div class="duration">
+                    12-12-18 to 15-12-18
+                  </div>
+                    <!-- <div class="status approved">
+                      <p>approved</p>
+                    </div> -->
+                  </div>
                   <div class="collapsible-body">
-                    <div class="first-row">
+                    <div class="col s12 first-row">
                       <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
                       <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
                       <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                      <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                      <br>
                     </div>
 
-                    <p class="center">{{item[1].purpose}}</p>
-
                     <div class="row">
-                      <div class="col l6">
+                      <div class="col s12">
+                        <!-- <p class="bold">HR Remarks</p> -->
+                        <div class="input-field col s12">
+                          <textarea id="hr-text" class="materialize-textarea"></textarea>
+                          <label for="hr-text">HR Remarks</label>
+                        </div>
+                        <!--  -->
+                        
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col s8 offset-s2 center">
+                          <a class="waves-effect waves-light btn">Approve</a>
+                          <a class="waves-effect waves-light btn red darken-3">Decline</a>  
+                        </div> 
+                      </div>
+
+                      <div class="col s12">
                         <p class="bold">HR Remarks</p>
-                        <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                        <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                        <br>
                       </div>
-                      <div class="col l6">
-                        <p class="bold">Manager Remarks</p>
-                        <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+
+                      <div class="chip green">
+                        <span class="white-text">Approved</span>
                       </div>
+
+                      <div class="col s12">
+                        <!-- <p class="bold">HR Remarks</p> -->
+                        <div class="input-field col s12">
+                          <textarea id="mg-text" class="materialize-textarea"></textarea>
+                          <label for="mg-text">Manager Remarks</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col s8 offset-s2 center">
+                          <a class="waves-effect waves-light btn">Approve</a>
+                          <a class="waves-effect waves-light btn red darken-3">Decline</a>  
+                        </div> 
+                      </div>
+
+                      <div class="col s12">
+                        <p class="bold">HR Remarks</p>
+                        <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                        <br>
+                      </div>
+
+                      <div class="chip red darken-3">
+                        <span class="white-text">Declined</span>
+                      </div>
+
                     </div>
                   </div>
                 </li>
@@ -101,66 +197,9 @@
             <!-- < div history end> -->
           </div>
         </div>
-      </div>
-        
-      </div>
-    </div>
-
-  <div id="wsmanagement">
-    <div class="notification">
-      <h5 class="center">Leave Requests</h5>
-      <br>
-      <div class="row">
-        <div class="col s12">
-
-          <ul class="" data-collapsible="accordion">
-
-            {% for item in data.pending_requests %}
-            
-            <li class="collection-item">
-              <div class="collapsible-header">
-                <p>
-                  <span class="name">{{item[0].first_name}} {{item[0].last_name}}</span><br>
-                  General Manager
-                </p>
-              </div>
-              <div class="collapsible-body">
-                <div class="first-row">
-                  <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
-                  <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
-                  <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
-                </div>
-
-                <p class="center">{{item[1].purpose}}</p>
-
-                <div>
-                  <label for="pay">Pay (Rs)</label>
-                  <input type="number" id="pay">
-                </div>
-
-                <div class="row">
-                  <div class="col l6">
-                    <p class="bold">HR Remarks</p>
-                    <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                    <a class="waves-effect waves-light btn">approve</a>
-                    <a class="waves-effect waves-light btn">decline</a>
-                  </div>
-                  <div class="col l6">
-                    <p class="bold">Manager Remarks</p>
-                    <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                    <a class="waves-effect waves-light btn">approve</a>
-                    <a class="waves-effect waves-light btn">decline</a>
-                  </div>
-                </div>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>  
+      </div> 
     </div>
   </div>
-
 
 </main>
 
@@ -171,6 +210,16 @@
     <div class="divider"></div>
     <br>
     {% include 'dashboard/form-leave.html' %}
+  </div>
+</div>
+
+<div id="addemployee" class="lightbox">
+  <div class="content">
+    <h5 class="center upper">Add new Employee</h5>
+    <br>
+    <div class="divider"></div>
+    <br>
+    {% include 'dashboard/form-employee.html' %}
   </div>
 </div>
 

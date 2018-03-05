@@ -12,12 +12,15 @@ $light-gray: #f8f8f8;
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
 .btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
+.btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
 .btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
+.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.2); background-color: transparent!important; color: rgba(0,0,0,0.2)}
 
 /** Custom Globals **/
 
 .wrap {padding: 0 5%;}
 .center {text-align: center;}
+.right {text-align: right}
 .clr{ clear: both;}
 .upper {text-transform: uppercase;}
 .bold {font-weight: 600}
@@ -87,6 +90,15 @@ main {padding: 80px 8%;}
 
 main#dashboard {background-color: #e8eaf6}
 
+/** Managemenet Toolbox **/
+
+.management {position: relative; float: right; top: -50px; padding: 0 20px; margin-right: 10px; box-shadow: 2px 0 0 0 rgba(0,0,0,0.1);
+
+  .title {margin-top: 0; color: rgba(0,0,0,0.4); font-weight: 600; text-transform: uppercase; text-align: right; font-size: 13px}
+  .btn {padding: 0 5px}
+  .btn i.left {margin-right: 5px; font-weight: 600;}
+}
+
 main#login { padding: 0; height: 100vh; background-image: url(../img/background.jpg); background-size: cover;
 
   .login { width: 40%; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box; 
@@ -109,34 +121,34 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 }
 
 //history
-  .history{
-    li{ height: auto;}
-    .collapsible{
-      .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
-        .type{
-          padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
+.request{
+  li{ height: auto;}
+  .collapsible{
+    .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
+      .type{
+        padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
 
-          p{text-align: center; padding: 16px 0px;}
-        }
+        p{text-align: center; padding: 16px 0px;}
+      }
 
-        .duration{
-          margin:0px 70px;
-        }
+      .duration{
+        margin:0px 70px;
+      }
 
-        .status{
-          margin: 0px 15px; font-weight: bold;
-          
-        }
-      } 
+      .status{
+        margin: 0px 15px; font-weight: bold;
+
+      }
     } 
-  }
+  } 
+}
 
 // Notification
 
 .notification {
 
 
-  
+
   .collapsible-body { background-color: $light-gray; overflow: hidden;
     .first-row { text-align: center;
       p { padding: 20px; display: inline-block; min-width: 120px;}
