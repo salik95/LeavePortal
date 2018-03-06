@@ -16,6 +16,7 @@ def employee():
 		data_employee = request.get_json(force=True)
 
 		#Refactor this thing
+		#=============================
 		data_employee['role'] = "Employee"
 
 		new_user = User(data_employee['email'], "hoh123", data_employee['role'])
@@ -84,6 +85,8 @@ def employee():
 		
 		return jsonify(new_employee)
 
+	#Refactor this delete request
+	#========================================
 	if request.method == 'DELETE':
 		employee_credential = request.get_json(force=True)
 		if 'id' in employee_credential and 'email' in employee_credential and 'password' in employee_credential:
@@ -94,6 +97,8 @@ def employee():
 					for leave in Balance_sheet.query.filter(Balance_sheet.emp_id == employee_credential['id']):
 						db.session.delete(leave)
 					db.session.commit()
+					del_emp_data = {"Name":emp_data.first_name+" "+emp_data.last_name, "email":emp_user_data.email,
+						"Joining Date":emp_data.date_of_joining}
 					db.session.delete(emp_data)
 					db.session.delete(emp_user_data)
 
@@ -102,10 +107,10 @@ def employee():
 			else:
 				return error_response_handler("Forbidden: Not allowed to delete", 403)
 
-			exists = db.session.query(db.exists().where(Employees.id == id)).scalar()
+			exists = db.session.query(db.exists().where(Employees.id == employee_credential['id'])).scalar()
 			db.session.commit()
 			if exists == False:
-				return 'Success'
+				return jsonify(del_emp_data)
 			else:
 				return error_response_handler("User Not Deleted", 503)
 		else:
