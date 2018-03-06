@@ -4,26 +4,27 @@ from flask import request, jsonify
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
+from app.controllers.utilfunc import *
 
-@app.route('/employee', methods=['GET', 'POST'])
+@app.route('/employee', methods=['GET', 'POST', 'PUT'])
 def employee():
 	if request.method == 'GET':
 		return jsonify(employee_sqlalchemy_to_list(Employees.query.all()))
-
 
 	if request.method == 'POST':
 
 		data_employee = request.get_json(force=True)
 
-		new_user = User(data_employee['email'], "chicken123", data_employee['role'])
+		#Refactor this thing
+		data_employee['role'] = "Employee"
+
+		new_user = User(data_employee['email'], "hoh123", data_employee['role'])
 		db.session.add(new_user)
 		db.session.flush()
 		db.session.refresh(new_user)
 
-		#Refactor this thing
-		data_employee['role'] = "Employee"
 
-		employee_created = {"emai":data_employee['email'], "password":"chicken123","role":data_employee['role'],
+		employee_created = {"email":data_employee['email'], "password":"chicken123","role":data_employee['role'],
 			"id":new_user.id, "name":data_employee['first_name'] + " " + data_employee['last_name'],
 			"department":data_employee['department'], "designation":data_employee['designation']}
 
@@ -47,6 +48,42 @@ def employee():
 		db.session.commit()
 		db.session.flush()
 		return jsonify(employee_created)
+
+	if request.method == 'PUT':
+
+		update_employee = request.get_json(force=True)
+		if 'id' not in update_employee:
+			return error_response_handler("Bad Request: No User ID found", 400)
+
+		employee_data = Employees.query.get(update_employee['id'])
+
+		if 'password' in update_employee:
+			if current_user.employee.id == update_employee['id']:
+				user_data = User.query.get(employee_data.user_id)
+				setattr(user_data, 'password', update_employee['password'])
+			else:
+				return error_response_handler("Not Allowed: User Not allowed to change password", 404)
+
+		if 'email' in update_employee:
+			if current_user.employee.id == update_employee['id']:
+				user_data = User.query.get(employee_data.user_id)
+				setattr(user_data, 'email', update_employee['email'])
+			else:
+				return error_response_handler("Not Allowed: User Not allowed to change email", 404)
+
+		key = list(update_employee.keys())
+		for item in key:
+			setattr(employee_data, item, update_employee[item])
+		db.session.commit()
+		db.session.flush()
+		db.session.refresh(employee_data)
+
+		new_employee = {}
+		for item in Employees.__mapper__.columns.keys():
+			new_employee[item] = getattr(employee_data, item)
+		
+		return jsonify(new_employee)
+
 
 @app.route('/employee/search/', methods=['GET'])
 def employee_search():
