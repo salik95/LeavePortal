@@ -138,6 +138,17 @@ def employee_search():
 
 	return jsonify(filtered_employee)
 
+@app.route('/employee/<user_id>', methods=['GET'])
+def current_employee(user_id):
+	employee = Employees.query.get(user_id)
+	if int(current_user.employee.id) != int(user_id):
+		return error_response_handler("Forbidden: Not allowed", 403)
+	emp_data = {}
+	for item in Employees.__mapper__.columns.keys():
+		emp_data[item] = getattr(employee, item)
+	emp_data['email'] = current_user.email
+	return jsonify(emp_data)
+
 def employee_sqlalchemy_to_list(alchemyObject):
 	col_names = Employees.__mapper__.columns.keys()
 	employee_all = []
