@@ -12,6 +12,25 @@ lightbox = {
   }
 }
 
+var getDate = function(d) {
+  date = new Date(d)
+  fixed_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+  return fixed_date
+}
+
+$(document).ready(function() {
+  var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+      }
+    }
+  })  
+})
+
+
 
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -42,7 +61,7 @@ $('.lightbox').click(function(e) {
   lightbox.hide($(this))
 })
 
-$('.newleave form').submit(function(e) {
+$('#addemployee form').submit(function(e) {
   e.preventDefault()
 
   data = $(this).serializeArray()
@@ -52,17 +71,20 @@ $('.newleave form').submit(function(e) {
     json_data[this.name] = this.value
   })
 
+  json_data["date_of_joining"] = getDate(json_data["date_of_joining"])
+
   console.log(json_data)
 
   // @todo CSRF
 
   $.ajax({
-    url: '/dashboard',
+    url: '/employee',
     method: 'POST',
-    data: json_data,
+    contentType: 'application/json',
+    data: JSON.stringify(json_data),
     dataType: 'json',
-    success: function() {
-      console.log('Request Sent')
+    success: function(data) {
+      console.log(data)
     }
   })
 

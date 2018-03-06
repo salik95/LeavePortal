@@ -9,7 +9,17 @@
 $primary-color: #30336b;
 $light-gray: #f8f8f8;
 
+$green: #20bf6b;
+$red: #fc5c65;
+
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
+
+.notice {margin: 20px 0; padding: 10px 20px; border-radius: 5px; background-color: $light-gray; color: #fff;
+  &.success {background-color: $green}
+  &.failure {background-color: $red}
+}
+.notice > * {margin: 0 20px; font-size: 11px}
+.notice > a.button > a.label {font-size: 14px}
 
 .btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
 .btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
