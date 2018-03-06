@@ -6,7 +6,7 @@ from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
 
-@app.route('/employee', methods=['GET', 'POST', 'PUT'])
+@app.route('/employee', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def employee():
 	if request.method == 'GET':
 		return jsonify(employee_sqlalchemy_to_list(Employees.query.all()))
@@ -84,6 +84,32 @@ def employee():
 		
 		return jsonify(new_employee)
 
+	if request.method == 'DELETE':
+		employee_credential = request.get_json(force=True)
+		if 'id' in employee_credential and 'email' in employee_credential and 'password' in employee_credential:
+			if current_user.employee.user.role == "HR Manager":
+				emp_data = Employees.query.get(employee_credential['id'])
+				emp_user_data = User.query.get(emp_data.user_id)
+				if emp_user_data.email == employee_credential['email'] and emp_user_data.password == employee_credential['password']:
+					for leave in Balance_sheet.query.filter(Balance_sheet.emp_id == employee_credential['id']):
+						db.session.delete(leave)
+					db.session.commit()
+					db.session.delete(emp_data)
+					db.session.delete(emp_user_data)
+
+				else:
+					return error_response_handler("Forbidden: Not allowed to delete", 403)
+			else:
+				return error_response_handler("Forbidden: Not allowed to delete", 403)
+
+			exists = db.session.query(db.exists().where(Employees.id == id)).scalar()
+			db.session.commit()
+			if exists == False:
+				return 'Success'
+			else:
+				return error_response_handler("User Not Deleted", 503)
+		else:
+			return error_response_handler("User Credentials not provided", 404)
 
 @app.route('/employee/search/', methods=['GET'])
 def employee_search():
