@@ -7,6 +7,7 @@ from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
 
 @app.route('/employee', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@login_required
 def employee():
 	if request.method == 'GET':
 		return jsonify(employee_sqlalchemy_to_list(Employees.query.all()))
@@ -117,6 +118,7 @@ def employee():
 			return error_response_handler("User Credentials not provided", 404)
 
 @app.route('/employee/search/', methods=['GET'])
+@login_required
 def employee_search():
 	arg_keyword = request.args.get("keyword")
 	arg_thin = request.args.get("thin")
