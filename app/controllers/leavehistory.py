@@ -5,4 +5,4 @@ from app import app
 @app.route('/mytemp', methods=['GET'])
 def mytemp():
 	if request.method == 'GET':
-		return render_template("dashboard/leavehistory.html")
+		return render_template("leavehistory.html")
