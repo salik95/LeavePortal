@@ -145,6 +145,8 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding: 0 0;}
 }
 
+.collapsible-body {background-color: #fafafa}
+
 //history
 .clear{ clear: both;}
 .request{
@@ -170,6 +172,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
       }
 
       .collapsible-body {
+
         .check{display: inline;}
       }
     } 
