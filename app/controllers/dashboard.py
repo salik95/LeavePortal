@@ -21,3 +21,4 @@ def dashboard():
 		store = {'history' : employee.balance_sheet, 'pending_requests' : pending_requests, 'user' : employee,
 			'leaves_details' : leaves_details}
 		return render_template("dashboard/main.html", data = store)
+			
