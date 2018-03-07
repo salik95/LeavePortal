@@ -5,9 +5,9 @@ from flask_login import login_required, current_user
 from sqlalchemy import and_
 from app.controllers.settings import settings_to_dict
 
-@app.route('/dashboard/', methods=['GET', 'POST'])
+@app.route('/dashboard_employee/', methods=['GET', 'POST'])
 @login_required
-def dashboard():
+def dashboard_employee():
 	if request.method == 'GET':
 		employee = current_user.employee
 		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
@@ -21,4 +21,3 @@ def dashboard():
 		store = {'history' : employee.balance_sheet, 'pending_requests' : pending_requests, 'user' : employee,
 			'leaves_details' : leaves_details}
 		return render_template("dashboard/main.html", data = store)
-			
