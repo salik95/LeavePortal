@@ -3,7 +3,7 @@ from app import db , app
 from flask import request, jsonify
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
-from sqlalchemy import asc
+from sqlalchemy import asc, and_
 
 @app.route('/leave_form', methods=['POST'])
 def leave_form():
@@ -34,12 +34,71 @@ def leave_all_super():
 	if current_user.role == 'HR Manager' or current_user.role == 'General Manager':
 		leave = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
 		key = Balance_sheet.__mapper__.columns.keys()
-		my_list = []
+
+		leave_list = []
 		for leave_item in leave:
-			my_dict = {}
+			temp_dict = {}
 			for item in key:
-				my_dict[item] = getattr(leave_item, item)
-			my_list.append(my_dict)
-		return jsonify(my_list)
+				temp_dict[item] = getattr(leave_item, item)
+			leave_list.append(temp_dict)
+		return jsonify(leave_list)
 	else:
 		return error_response_handler("Unauthorized access", 401)
+
+@app.route('/leave_all', methods=['GET'])
+def leave_all():
+	leave = Balance_sheet.query.filter(Balance_sheet.emp_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
+	key = Balance_sheet.__mapper__.columns.keys()
+	leave_list = []
+	for leave_item in leave:
+		temp_dict = {}
+		for item in key:
+			temp_dict[item] = getattr(leave_item, item)
+		leave_list.append(temp_dict)
+	return jsonify(leave_list)
+
+@app.route('/request_all', methods=['GET'])
+def request_all():
+	
+	key = Balance_sheet.__mapper__.columns.keys()
+	pending_request_list = []
+	request_history_list = []
+	
+	if current_user.role == "HR Manager":
+		pending_requests = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
+		request_history = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
+		
+		if pending_requests is not None:
+			for leave_item in pending_requests:
+				temp_dict = {}
+				for item in key:
+					temp_dict[item] = getattr(leave_item, item)
+				pending_request_list.append(temp_dict)
+		if request_history is not None:
+			for leave_item in request_history:
+				temp_dict = {}
+				for item in key:
+					temp_dict[item] = getattr(leave_item, item)
+				request_history_list.append(temp_dict)
+	else:
+		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
+		request_history = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
+
+		if pending_requests is not None:
+			for leave_item in pending_requests:
+				temp_dict = {}
+				for item in key:
+					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
+				pending_request_list.append(temp_dict)
+
+		if request_history is not None:
+			for leave_item in request_history:
+				temp_dict = {}
+				for item in key:
+					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
+				request_history_list.append(temp_dict)
+
+	request = [pending_request_list, request_history_list]
+	return jsonify(request)
