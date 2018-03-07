@@ -20,7 +20,7 @@
     <div class="col s6">
       <div class="card fixed center counter">
         <p class="card-title">General Leaves</p>
-        <div class="card-content">
+        <div class="card-content clear">
           <div class="row">
             <div class="col s6">
               <p>Availed</p>
@@ -39,11 +39,11 @@
         <p class="card-title">Medical Leaves</p>
         <div class="card-content">
           <div class="row">
-            <div class="col s12 m6 l6">
+            <div class="col s12 m8 l6">
               <p>Availed</p>
               <h1>{{data.leaves_details.medical_leaves_availed}}</h1>
             </div>
-            <div class="col s12 m6 l6">
+            <div class="col s12 m8 l6">
               <p>Remaining</p>
               <h1>{{data.leaves_details.medical_leaves_remaining}}</h1>
             </div>
@@ -77,22 +77,40 @@
                 </div>
                 <div class="collapsible-body">
                   <div class="col s12 first-row">
-                    <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
                     <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
                     <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                    <br>
                     <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
                     <br>
                   </div>
 
                   <div class="row">
-                    <div class="col l6">
+                    {% if hr_remark != hr_remark.empty and manager_remarks != manager_remarks.empty %}
+                    <!-- show both -->
+                    <div class="col s12 l6">
                       <p class="bold">HR Remarks</p>
-                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                      <p class="message">{{ hr_remarks }}</p>
                     </div>
-                    <div class="col l6">
+                    <div class="col s12 l6">
+                      <p class="bold">Manager Remarks</p>
+                      <p class="message">{{ manager_remarks }}</p>
+                    </div>
+                    {% elif hr_remarks is none %}
+                    <!-- show manager Remarks -->
+                    <div class="col s12 l6">
                       <p class="bold">Manager Remarks</p>
                       <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
                     </div>
+                    {% elif manager_remarks is none %}
+                    <!-- show hr remarks -->
+                    <div class="col s12 l6">
+                      <p class="bold">HR Remarks</p>
+                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                    </div>
+                    {% else %}
+                    <!-- show nothing -->
+                    {% endif %}
+                    
                   </div>
                 </div>
               </li>
@@ -134,9 +152,9 @@
                   </div>
                   <div class="collapsible-body">
                     <div class="col s12 first-row">
-                      <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
                       <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
                       <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                      <br>
                       <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
                       <br>
                     </div>
