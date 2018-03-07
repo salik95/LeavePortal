@@ -1,0 +1,9 @@
+image: python:3.5.1
+clone:
+  depth: 50
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEADx
