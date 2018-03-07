@@ -17,19 +17,20 @@
     </a>
     <div class="tools right">
      <!-- Dropdown Trigger -->
+     <a href="#addleave" class="waves-effect waves-light btn round trigger">Apply for Leave</a>
      <a href=""><i class="material-icons">account_circle</i></a>
-    <!-- <a href="/logout"><i class="material-icons">cancel</i></a> -->
-  </div>
-</header>  
+     <!-- <a href="/logout"><i class="material-icons">cancel</i></a> -->
+   </div>
+ </header>  
 
-{% endif %}
+ {% endif %}
 
-{% block body %}
-{% endblock %}
+ {% block body %}
+ {% endblock %}
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
-<script src="{{url_for('static', filename='js/main.js') }}"></script>
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+ <script src="{{url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
