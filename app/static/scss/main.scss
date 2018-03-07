@@ -75,8 +75,6 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
 .brand-logo img {height: 80%; width: auto}
 
-
-
 /** Custom Views / Components **/
 
 header {position: relative;  padding: 0 30px; height: 50px; color: #fff; background-color: darken($primary-color, 10);
@@ -89,6 +87,9 @@ header {position: relative;  padding: 0 30px; height: 50px; color: #fff; backgro
   .tools { float: right; height: 100%; display: flex; align-items: center; 
     > * {cursor: pointer; margin: 0 10px;}
     a i {vertical-align: middle; font-size: 30px;}
+    a.logout {opacity: 0.3; transition: all 0.5s ease;
+      &:hover {opacity: 0.8}
+    }
   }
 
   #account-nav {position: absolute;}
