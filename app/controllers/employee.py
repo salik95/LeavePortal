@@ -26,7 +26,7 @@ def employee():
 		db.session.refresh(new_user)
 
 
-		employee_created = {"email":data_employee['email'], "password":"chicken123","role":data_employee['role'],
+		employee_created = {"email":data_employee['email'],"role":data_employee['role'],
 			"id":new_user.id, "name":data_employee['first_name'] + " " + data_employee['last_name'],
 			"department":data_employee['department'], "designation":data_employee['designation']}
 
