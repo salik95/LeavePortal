@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import and_
 from app.controllers.settings import settings_to_dict
 
-@app.route('/dashboard_employee/', methods=['GET', 'POST'])
+@app.route('/dashboard/', methods=['GET', 'POST'])
 @login_required
 def dashboard():
 	if request.method == 'GET':
