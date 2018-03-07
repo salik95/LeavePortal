@@ -12,6 +12,23 @@ lightbox = {
   }
 }
 
+var getDate = function(d) {
+  date = new Date(d)
+  fixed_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+  return fixed_date
+}
+
+$(document).ready(function() {
+  var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+      }
+    }
+  })  
+})
 
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -19,7 +36,8 @@ $('.datepicker').pickadate({
     today: 'Today',
     clear: 'Clear',
     close: 'Ok',
-    closeOnSelect: false // Close upon selecting a date,
+    closeOnSelect: false, // Close upon selecting a date,
+    format: 'yyyy-mm-dd'
   })
 
 $('select').material_select()
@@ -42,28 +60,42 @@ $('.lightbox').click(function(e) {
   lightbox.hide($(this))
 })
 
-$('.newleave form').submit(function(e) {
+$('form[data-resource]').submit(function(e) {
   e.preventDefault()
+  $self = $(this)
+  $notice = $self.find('.notice')
 
-  data = $(this).serializeArray()
-  json_data = {}
+  var resource = $self.attr('data-resource')
+  var raw_data = $(this).serializeArray()
+  var data = {}
 
-  $.each(data, function() {
-    json_data[this.name] = this.value
+  $.each(raw_data, function() {
+    data[this.name] = this.value
   })
 
-  console.log(json_data)
+  // Prepare request data
+  switch(resource) {
+    case 'employee':
+      break
+    case 'leave':
+      break
+  }
+  
+  console.log(data)
 
-  // @todo CSRF
+  actions.post(resource, data, function(status, response) {
+    if(status=='success') {
+      console.log(response)
+      $notice.removeClass('failure')
+      $notice.addClass('success')
+      if(resource == 'employee')
+        $notice.text('Employee is successfully added and notified via email')
+      else if (resource == 'leave')
+        $notice.text('Application is successful and pending for approval.')
+    }
 
-  $.ajax({
-    url: '/dashboard',
-    method: 'POST',
-    data: json_data,
-    dataType: 'json',
-    success: function() {
-      console.log('Request Sent')
+    else {
+      console.log('no bueno')
     }
   })
-
 })

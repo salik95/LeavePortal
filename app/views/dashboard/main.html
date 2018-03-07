@@ -13,10 +13,10 @@
       <span>New Employee</span>
     </a>
   </div>
+
   <div class="clr"></div>
 
   <div class="row">
-
     <div class="col s6">
       <div class="card fixed center counter">
         <p class="card-title">General Leaves</p>
@@ -34,6 +34,7 @@
         </div>
       </div>
     </div>
+
     <div class="col s6">
       <div class="card fixed center counter">
         <p class="card-title">Medical Leaves</p>
@@ -61,7 +62,7 @@
 
           <div class="request">
             <ul class="collapsible" data-collapsible="accordion">
-              {% for item in data.pending_requests %}
+              {% for item in data.history %}
 
               <li class="collection-item border-top">
                 <div class="collapsible-header">
@@ -77,6 +78,7 @@
                 </div>
                 <div class="collapsible-body">
                   <div class="col s12 first-row">
+
                     <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
                     <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
                     <br>
