@@ -7,7 +7,7 @@ from app.controllers.settings import settings_to_dict
 
 @app.route('/dashboard_employee/', methods=['GET', 'POST'])
 @login_required
-def dashboard_employee():
+def dashboard():
 	if request.method == 'GET':
 		employee = current_user.employee
 		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
