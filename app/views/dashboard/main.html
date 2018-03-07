@@ -77,7 +77,7 @@
                   </div>
 
                   <div class="duration">
-                    12-12-18 to 15-12-18
+                    {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}
                   </div>
                   <div class="status approved">
                     <p>approved</p>
@@ -86,7 +86,7 @@
                 <div class="collapsible-body">
                   <div class="col s12 first-row">
 
-                    <p><span class="bold">Dates</span>&emsp; {{item.from_date}} to {{item.to_date}}</p>
+                    <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
                     <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
                     <br>
                     <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
@@ -163,7 +163,7 @@
                   </div>
                   
                   <div class="duration">
-                    12-12-18 to 15-12-18
+                    {{item[1].employee.first_name}} {{item[1].employee.last_name}}
                   </div>
                     <!-- <div class="status approved">
                       <p>approved</p>
@@ -174,12 +174,14 @@
                     <form action="#">
                       <div class="col s12 first-row">
                         <p><span class="bold">Name</span>&emsp; {{item[1].employee.first_name}} {{item[1].employee.last_name}}</p>
+                        {{ data.role }}
                         <p><span class="bold">Designation</span>&emsp; {{item[1].employee.designation}}</p>
-                        <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}}  -  {{item[1].to_date}}</p>
+                        <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
                         <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
                         <br>
                         <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
                         <br>
+                        {{ data.role }}
                       </div>
 
                       <div class="row">
