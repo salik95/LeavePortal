@@ -62,8 +62,8 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .approved{color: #6DC6EB;}
   .denied{color: #D56468;}
   .pending{color: #22B573;}
-  .medical{ background-color: #22B573;}
-  .general{ background-color:#0071BC;}
+  .Medical{ background-color: #22B573;}
+  .General{ background-color:#0071BC;}
 }
 
 .card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
@@ -166,7 +166,10 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 
       .status{
         margin: 0px 15px; font-weight: bold;
+      }
 
+      .collapsible-body {
+        .check{display: inline;}
       }
     } 
   } 
