@@ -14,9 +14,10 @@ $red: #fc5c65;
 
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
-.notice {margin: 20px 0; padding: 10px 20px; border-radius: 5px; background-color: $light-gray; color: #fff;
-  &.success {background-color: $green}
-  &.failure {background-color: $red}
+.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center;
+  p {margin: 0}
+  &.success {box-shadow: 0 0 0 2px $green; color: $green; opacity: 1}
+  &.failure {box-shadow: 0 0 0 2px $red; color: $green; opacity: 1}
 }
 .notice > * {margin: 0 20px; font-size: 11px}
 .notice > a.button > a.label {font-size: 14px}

@@ -61,31 +61,38 @@ $('.lightbox').click(function(e) {
   lightbox.hide($(this))
 })
 
-$('#addemployee form').submit(function(e) {
+$('form[data-resource]').submit(function(e) {
   e.preventDefault()
+  $self = $(this)
+  $notice = $self.find('.notice')
 
-  data = $(this).serializeArray()
-  json_data = {}
+  var resource = $self.attr('data-resource')
+  var raw_data = $(this).serializeArray()
+  var data = {}
 
-  $.each(data, function() {
-    json_data[this.name] = this.value
+  $.each(raw_data, function() {
+    data[this.name] = this.value
   })
 
-  json_data["date_of_joining"] = getDate(json_data["date_of_joining"])
+  // Prepare request data
+  switch(resource) {
+    case 'employee':
+      data["date_of_joining"] = getDate(data["date_of_joining"])
+      break
+  }
+  
+  console.log(data)
 
-  console.log(json_data)
+  actions.post(resource, data, function(status, response) {
+    if(status=='success') {
+      console.log(response)
+      $notice.removeClass('failure')
+      $notice.addClass('success')
+      $notice.text('Employee is successfully added and emailed.')
+    }
 
-  // @todo CSRF
-
-  $.ajax({
-    url: '/employee',
-    method: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(json_data),
-    dataType: 'json',
-    success: function(data) {
-      console.log(data)
+    else {
+      console.log('no bueno')
     }
   })
-
 })

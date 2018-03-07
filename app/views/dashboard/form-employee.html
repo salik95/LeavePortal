@@ -1,5 +1,8 @@
 <div class="newemployee">
-  <form>
+
+  <form data-resource="employee">
+
+    <div class="notice">.</div>
 
     <div class="row">
       <div class="input-field col l6">
@@ -22,32 +25,32 @@
         <select type="text" name="department">
           <option value="HR">HR</option>
         </select>
-        </div>
       </div>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="input-field col l6">
-        <label for="">Date of Joining</label>
-        <input type="text" class="datepicker" name="date_of_joining">
-      </div>
-      <div class="input-field col l6">
-        <select type="text" name="reporting_manager_id">
-          <option value="5">Janjua</option>
-        </select>
-        <label for="">Reporting Manager</label>
-      </div>
+  <div class="row">
+    <div class="input-field col l6">
+      <label for="">Date of Joining</label>
+      <input type="text" class="datepicker" name="date_of_joining">
     </div>
-
-    <div class="row">
-      <div class="input-field col l6">
-        <label for="">Email Address</label>
-        <input type="email" name="email">
-      </div>
+    <div class="input-field col l6">
+      <select type="text" name="reporting_manager_id">
+        <option value="5">Janjua</option>
+      </select>
+      <label for="">Reporting Manager</label>
     </div>
+  </div>
 
-    <center>
-      <button type="submit" class="btn center">ADD</button>
-    </center>
-  </form>
+  <div class="row">
+    <div class="input-field col l6">
+      <label for="">Email Address</label>
+      <input type="email" name="email">
+    </div>
+  </div>
+
+  <center>
+    <button type="submit" class="btn center">ADD</button>
+  </center>
+</form>
 </div>
