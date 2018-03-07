@@ -28,6 +28,9 @@ $(document).ready(function() {
       }
     }
   })  
+
+  $('.modal').modal();
+  $('#modal1').modal('open')
 })
 
 $('.datepicker').pickadate({
@@ -91,7 +94,7 @@ $('form[data-resource]').submit(function(e) {
       if(resource == 'employee')
         $notice.text('Employee is successfully added and notified via email')
       else if (resource == 'leave')
-        $notice.text('Application is successful and pending for approval.')
+        $notice.text('Application is sent successfully and pending for approval.')
     }
 
     else {
