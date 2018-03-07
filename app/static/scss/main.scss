@@ -100,7 +100,7 @@ main#dashboard {background-color: #e8eaf6}
   .btn i.left {margin-right: 5px; font-weight: 600;}
 }
 
-.download { position: relative; float: right; top: -35px; padding: 0 10px; margin-right: 10px;
+.download { position: relative; float: right; top: -35px; padding: 0 10px; margin-right: 10px; height:auto;
 
 }
 
@@ -119,14 +119,15 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 }
 
 // Leaves Card
+.intial{overflow: hidden; height: 54px;}
 
-.card.leaves { height: auto; overflow: hidden;
+.card.leaves {
 
   .card-content {padding: 0 0;}
 }
 
 //history
-.clear{ clear: right;}
+.clear{ clear: both;}
 .request{
   ul{ margin: 0 0;
     li{ height: auto;}
