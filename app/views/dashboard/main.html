@@ -79,37 +79,40 @@
                 <div class="collapsible-body">
                   <div class="col s12 first-row">
 
-                    <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
-                    <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                    <p><span class="bold">Dates</span>&emsp; {{item.from_date}} to {{item.to_date}}</p>
+                    <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
                     <br>
-                    <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                    <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
                     <br>
                   </div>
 
                   <div class="row">
-                    {% if hr_remark != hr_remark.empty and manager_remarks != manager_remarks.empty %}
-                    <!-- show both -->
-                    <div class="col s12 l6">
-                      <p class="bold">HR Remarks</p>
-                      <p class="message">{{ hr_remarks }}</p>
-                    </div>
-                    <div class="col s12 l6">
-                      <p class="bold">Manager Remarks</p>
-                      <p class="message">{{ manager_remarks }}</p>
-                    </div>
-                    {% elif hr_remarks is none %}
+                    
+                    {% if item.hr_remark %}
                     <!-- show manager Remarks -->
-                    <div class="col s12 l6">
-                      <p class="bold">Manager Remarks</p>
-                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                    </div>
-                    {% elif manager_remarks is none %}
-                    <!-- show hr remarks -->
-                    <div class="col s12 l6">
-                      <p class="bold">HR Remarks</p>
-                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                    </div>
+                      {% if item.manager_remark %}
+                        <div class="col s12 l6">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">{{ item.hr_remark }}</p>
+                        </div>
+                        <div class="col s12 l6">
+                          <p class="bold">Manager Remarks</p>
+                          <p class="message">{{ item.manager_remark }}</p>
+                        </div>
+                      {% else %}
+                        <div class="col s12 l6">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">{{ item.hr_remark }}</p>
+                        </div>
+                      {% endif %}
                     {% else %}
+                      {% if item.manager_remark %}
+                        <div class="col s12 l6">
+                          <p class="bold">Manager Remarks</p>
+                          <p class="message">{{ item.manager_remark }}</p>
+                        </div>
+                      {% else %}
+                      {% endif %}
                     <!-- show nothing -->
                     {% endif %}
                     
