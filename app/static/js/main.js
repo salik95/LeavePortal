@@ -30,15 +30,14 @@ $(document).ready(function() {
   })  
 })
 
-
-
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
     today: 'Today',
     clear: 'Clear',
     close: 'Ok',
-    closeOnSelect: false // Close upon selecting a date,
+    closeOnSelect: false, // Close upon selecting a date,
+    format: 'yyyy-mm-dd'
   })
 
 $('select').material_select()
@@ -77,7 +76,8 @@ $('form[data-resource]').submit(function(e) {
   // Prepare request data
   switch(resource) {
     case 'employee':
-      data["date_of_joining"] = getDate(data["date_of_joining"])
+      break
+    case 'leave':
       break
   }
   
@@ -88,7 +88,10 @@ $('form[data-resource]').submit(function(e) {
       console.log(response)
       $notice.removeClass('failure')
       $notice.addClass('success')
-      $notice.text('Employee is successfully added and emailed.')
+      if(resource == 'employee')
+        $notice.text('Employee is successfully added and notified via email')
+      else if (resource == 'leave')
+        $notice.text('Application is successful and pending for approval.')
     }
 
     else {
