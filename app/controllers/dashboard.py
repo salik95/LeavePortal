@@ -19,6 +19,5 @@ def dashboard():
 		'medical_leaves_remaining' : int(settings_to_dict()['medical_leaves_limit']) - employee.medical_leaves_availed}
 		
 		store = {'history' : employee.balance_sheet, 'pending_requests' : pending_requests, 'user' : employee,
-			'leaves_details' : leaves_details}
+			'leaves_details' : leaves_details, 'role':current_user.role}
 		return render_template("dashboard/main.html", data = store)
-			
