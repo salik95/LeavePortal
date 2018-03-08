@@ -30,7 +30,16 @@ $(document).ready(function() {
   })  
 
   $('.modal').modal();
-  $('#modal1').modal('open')
+  // $('#modal1').modal('open')
+
+  $('a.account, .account-widget').on('mouseout', function() {
+    $('.account-widget').removeClass('active')
+  })
+
+  $('a.account-widget').on('mouseover', function() {
+    $('.account-widget').addClass('active')
+  })
+
 })
 
 $('.datepicker').pickadate({
