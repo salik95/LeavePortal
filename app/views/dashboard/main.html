@@ -152,7 +152,6 @@
 
               <li class="collection-item">
                 <div class="collapsible-header">
-                  
                   <div class="type {{ item[1].leave_type }}">
                     {% if item[1].leave_type == "Medical" %}
                     <p>M</p>
@@ -163,88 +162,92 @@
                   </div>
                   
                   <div class="duration">
-                    {{item[1].employee.first_name}} {{item[1].employee.last_name}}
+                    <span>{{item[1].employee.first_name}} {{item[1].employee.last_name}}</span>
+                    -
+                    <span>{{item[1].employee.designation|capitalize }}</span>
                   </div>
-                    <!-- <div class="status approved">
-                      <p>approved</p>
-                    </div> -->
+                  
+                  <div class="status denied">
+                      <p>pending</p>
                   </div>
-                  <div class="collapsible-body">
-                    
-                    <form action="#">
-                      <div class="col s12 first-row">
-                        <p><span class="bold">Name</span>&emsp; {{item[1].employee.first_name}} {{item[1].employee.last_name}}</p>
-                        {{ data.role }}
-                        <p><span class="bold">Designation</span>&emsp; {{item[1].employee.designation}}</p>
-                        <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
-                        <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
-                        <br>
-                        <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
-                        <br>
+                
+                </div>
+                
+                {% if data.role == "hr" %}
+                <div class="collapsible-body">
+                  <form action="#">
+                    <div class="col s12 first-row">
+                      <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+                      <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                      <br>
+                    </div>
+
+                    <div class="row">
+                      <div class="col s12">
+                        <!-- <p class="bold">HR Remarks</p> -->
+                        <div class="input-field col s12">
+                          <textarea id="hr-text" class="materialize-textarea"></textarea>
+                          <label for="hr-text">HR Remarks</label>
+                        </div>
+                      </div>   
+                        <!--  -->
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="#">
+                          <p class="col s6 offset-s1  ">
+                            <input name="group1" type="radio" id="approval1" />
+                            <label for="approval1">Approve</label>
+                          </p>
+
+                          <p class="col s5">
+                            <input name="group1" type="radio" id="denial1" />
+                            <label for="denial1">Decline</label>
+                          </p>  
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Submit" class="waves-effect waves-light btn">            
+                  </form>
+                </div>
+
+                {% elif data.role == "manager" %}
+                <div class="collapsible-body">
+                  <form action="#">
+                    <div class="col s12 first-row">
+                      <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+                      <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                      <br>
+                    </div>
+                    <div class="row">
+                      <div class="col s12">
+                        <!-- <p class="bold">HR Remarks</p> -->
+                        <div class="input-field col s12">
+                          <textarea id="mg-text" class="materialize-textarea"></textarea>
+                          <label for="mg-text">Manager Remarks</label>
+                        </div>
                       </div>
+                    </div>
 
-                      {% if data.role == "hr" %}
-                        <div class="row">
-                          <div class="col s12">
-                            <!-- <p class="bold">HR Remarks</p> -->
-                            <div class="input-field col s12">
-                              <textarea id="hr-text" class="materialize-textarea"></textarea>
-                              <label for="hr-text">HR Remarks</label>
-                            </div>
-                          </div>   
-                            <!--  -->
-                            
-                        </div>
-
-                        <div class="row">
-                            <div class="#">
-                              <p class="col s6 offset-s1  ">
-                                <input name="group1" type="radio" id="approval1" />
-                                <label for="approval1">Approve</label>
-                              </p>
-
-                              <p class="col s5">
-                                <input name="group1" type="radio" id="denial1" />
-                                <label for="denial1">Decline</label>
-                              </p>  
-                            </div>
-                        </div>
-
-                        <input type="submit" value="Submit" class="waves-effect waves-light btn">            
-                        </form>
-                      {% elif data.role == "manager" %}
-
-                        <div class="row">
-                          <div class="col s12">
-                            <!-- <p class="bold">HR Remarks</p> -->
-                            <div class="input-field col s12">
-                              <textarea id="mg-text" class="materialize-textarea"></textarea>
-                              <label for="mg-text">Manager Remarks</label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          
-                            <p class="col s6 offset-s1">
-                              <input name="group2" type="radio" class="col s6" id="approval2" />
-                              <label for="approval2">Approve</label>
-                            </p>
-
-                            <p class="col s5">
-                              <input name="group2" type="radio" class="col s6" id="denial2" />
-                              <label for="denial2">Decline</label>
-                            </p>
-
-                            <input type="submit" value="Submit" class="waves-effect waves-light btn">            
-                            </form>  
-                          
-                        </div>
+                    <div class="row">
                       
-                      {% else %}
-                        <input type="submit" value="Submit" class="waves-effect waves-light btn" style="visibility: hidden">            
-                        </form>
-                      {% endif %}
+                        <p class="col s6 offset-s1">
+                          <input name="group2" type="radio" class="col s6" id="approval2" />
+                          <label for="approval2">Approve</label>
+                        </p>
+
+                        <p class="col s5">
+                          <input name="group2" type="radio" class="col s6" id="denial2" />
+                          <label for="denial2">Decline</label>
+                        </p>            
+                    </div>
+                    <input type="submit" value="Submit" class="waves-effect waves-light btn">
+                  </form>    
+                </div>
+                {% else %}
+                
+                {% endif %}
 
                       
 
@@ -276,7 +279,7 @@
                     <!-- <input type="submit" value="Submit" class="waves-effect waves-light btn">            
                     </form> -->
 
-                  </div>
+                  <!-- </div> -->
                 </li>
                 {% endfor %}
               <li class="collection-item border-top">
