@@ -102,3 +102,26 @@ def request_all():
 
 	request = [pending_request_list, request_history_list]
 	return jsonify(request)
+
+@app.route('/respond_request', methods=['PUT'])
+def respond_request():
+	response = request.get_json(force=True)
+	if current_user.role == "HR Manager":
+		if 'id' not in response or 'hr_remark' not in response or 'hr_approval' not in response:
+			return error_response_handler("Incomplete Data", 400)
+		leave = Balance_sheet.query.get(response['id'])
+	else:
+		if 'id' not in response or 'manager_remark' not in response or 'manager_approval' not in response:
+			return error_response_handler("Incomplete Data", 400)
+		leave = Balance_sheet.query.get(response['id'])
+		employee_manager = Employees.query.get(leave.emp_id)
+		if current_user.employee.id != employee_manager.reporting_manager_id:
+			return error_response_handler("Unauthorized request", 401)
+
+	key = list(response.keys())
+	for item in key:
+		setattr(leave, item, response[item])
+	db.session.commit()
+	db.session.flush()
+	del response['id']
+	return jsonify(response)
