@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  {% if 'dashboard' in request.url_rule.rule %}
+  {% if 'dashboard' in request.url_rule.rule or 'mytemp' in request.url_rule.rule  %}
   <header>
     <a href="/dashboard" class="logo">
       <!-- <img src="{{url_for('static', filename='img/logo.png') }}" alt=""> -->
@@ -19,9 +19,9 @@
      <!-- Dropdown Trigger -->
      <a href="#addleave" class="waves-effect waves-light btn round trigger">Apply for Leave</a>
      <a href=""><i class="material-icons">account_circle</i></a>
-     <!-- <a href="/logout"><i class="material-icons">cancel</i></a> -->
+     <a class="logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
    </div>
- </header>  
+ </header>
 
  {% endif %}
 
@@ -31,6 +31,7 @@
 
  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+ <script src="{{url_for('static', filename='js/actions.js') }}"></script>
  <script src="{{url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

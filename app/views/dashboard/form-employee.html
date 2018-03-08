@@ -1,45 +1,55 @@
 <div class="newemployee">
-  <form action="POST">
+
+  <form data-resource="employee">
+
+    <div class="notice">.</div>
 
     <div class="row">
       <div class="input-field col l6">
         <label for="">First Name</label>
-        <input type="text" class="first_name">
+        <input type="text" name="first_name">
       </div>
       <div class="input-field col l6">
         <label for="">Last Name</label>
-        <input type="text" class="last_name">
+        <input type="text" name="last_name">
       </div>
     </div>
 
     <div class="row">
       <div class="input-field col l6">
         <label for="">Designation</label>
-        <input type="text" class="designation">
+        <input type="text" name="designation">
       </div>
       <div class="input-field col l6">
-        <label for="">Department</label>
         <select type="text" name="department">
+          <option value="HR">HR</option>
         </select>
-        </div>
+        <label for="">Department</label>
       </div>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="input-field col l6">
-        <label for="">Date of Joining</label>
-        <input type="text" class="datepicker" name="date_of_joining">
-      </div>
-      <div class="input-field col l6">
-        <select type="text" name="reporting_manager_id">
-          <option value="5">Janjua</option>
-        </select>
-        <label for="">Reporting Manager</label>
-      </div>
+  <div class="row">
+    <div class="input-field col l6">
+      <label for="">Date of Joining</label>
+      <input type="text" class="datepicker" name="date_of_joining">
     </div>
-
-    <div class="row">
-
+    <div class="input-field col l6">
+      <select type="text" name="reporting_manager_id" disabled>
+      </select>
+      <label for="">Reporting Manager</label>
     </div>
-  </form>
+  </div>
+
+  <div class="row">
+    <div class="input-field col l6">
+      <label for="">Email Address</label>
+      <input type="email" name="email">
+    </div>
+  </div>
+
+  <center>
+    <button type="submit" class="btn center">ADD</button>
+  </center>
+</form>
 </div>

@@ -9,7 +9,18 @@
 $primary-color: #30336b;
 $light-gray: #f8f8f8;
 
+$green: #20bf6b;
+$red: #fc5c65;
+
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
+
+.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center;
+  p {margin: 0}
+  &.success {box-shadow: 0 0 0 2px $green; color: $green; opacity: 1}
+  &.failure {box-shadow: 0 0 0 2px $red; color: $green; opacity: 1}
+}
+.notice > * {margin: 0 20px; font-size: 11px}
+.notice > a.button > a.label {font-size: 14px}
 
 .btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
 .btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
@@ -24,6 +35,7 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 .clr{ clear: both;}
 .upper {text-transform: uppercase;}
 .bold {font-weight: 600}
+.border-top{border-top:1px solid #DDDDDD;}
 
 .scrollable {
 
@@ -50,8 +62,8 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .approved{color: #6DC6EB;}
   .denied{color: #D56468;}
   .pending{color: #22B573;}
-  .medical{ background-color: #22B573;}
-  .general{ background-color:#0071BC;}
+  .Medical{ background-color: #22B573;}
+  .General{ background-color:#0071BC;}
 }
 
 .card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
@@ -62,8 +74,6 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 }
 
 .brand-logo img {height: 80%; width: auto}
-
-
 
 /** Custom Views / Components **/
 
@@ -77,6 +87,9 @@ header {position: relative;  padding: 0 30px; height: 50px; color: #fff; backgro
   .tools { float: right; height: 100%; display: flex; align-items: center; 
     > * {cursor: pointer; margin: 0 10px;}
     a i {vertical-align: middle; font-size: 30px;}
+    a.logout {opacity: 0.3; transition: all 0.5s ease;
+      &:hover {opacity: 0.8}
+    }
   }
 
   #account-nav {position: absolute;}
@@ -99,6 +112,19 @@ main#dashboard {background-color: #e8eaf6}
   .btn i.left {margin-right: 5px; font-weight: 600;}
 }
 
+@media (max-width: 404px){
+     .middle{ padding-left: 50%; }
+     .download{ margin: auto;}
+}
+
+.major{display: flex; flex-direcrion: row; flex-wrap: wrap; align-item: center; justify-content: space-between;
+  .middle{ align-self: flex-start; padding-left: 20px;
+    
+  }
+  .download { padding: 0 10px; margin-right: 10px; flex-shrink: 2; flex-basis: auto; align-self: flex-end;}
+}
+#nopad{ margin:0 0;}
+
 main#login { padding: 0; height: 100vh; background-image: url(../img/background.jpg); background-size: cover;
 
   .login { width: 40%; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box; 
@@ -114,16 +140,22 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 }
 
 // Leaves Card
-
 .card.leaves {
 
-  .card-content {padding-left: 0; padding-right: 0}
+  .card-content {padding: 0 0;}
 }
 
+.collapsible-body {background-color: #fafafa}
+
 //history
+.clear{ clear: both;}
 .request{
-  li{ height: auto;}
+  ul{ margin: 0 0;
+    li{ height: auto;}
+  }
+  
   .collapsible{
+    .view-all{ margin: auto;}
     .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
       .type{
         padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
@@ -132,12 +164,15 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
       }
 
       .duration{
-        margin:0px 70px;
+        margin-left:70px;
       }
 
       .status{
         margin: 0px 15px; font-weight: bold;
+      }
 
+      .collapsible-body {
+      
       }
     } 
   } 
