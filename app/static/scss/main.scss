@@ -79,7 +79,7 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
 /** Custom Views / Components **/
 
-header {position: relative;  padding: 0 30px; height: 50px; color: #fff; background-color: darken($primary-color, 10);
+header {position: relative;  padding: 0 100px; height: 50px; color: #fff; background-color: darken($primary-color, 10);
 
   a {color: #fff}
 
@@ -106,6 +106,8 @@ header {position: relative;  padding: 0 30px; height: 50px; color: #fff; backgro
   background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left; opacity: 0; transition: all 0.5s ease;
   
   &:hover, &.active {opacity: 1}
+
+  .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
 
   ul {margin: 0;
     li {padding: 5px 0}
