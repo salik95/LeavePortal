@@ -10,8 +10,13 @@ from app.controllers.settings import settings_to_dict
 def dashboard():
 	if request.method == 'GET':
 		employee = current_user.employee
-		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))
+		requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Employees.reporting_manager_id == employee.id))
+		if requests is None:
+			manager = False
+		else:
+			manager = True
+			pending_requests = requests.filter(Balance_sheet.manager_approval == None)
+
 
 		leaves_details = {'general_leaves_availed' : employee.general_leaves_availed, 
 		'general_leaves_remaining' : int(settings_to_dict()['general_leaves_limit']) - employee.general_leaves_availed,
@@ -19,5 +24,5 @@ def dashboard():
 		'medical_leaves_remaining' : int(settings_to_dict()['medical_leaves_limit']) - employee.medical_leaves_availed}
 		
 		store = {'history' : employee.balance_sheet, 'pending_requests' : pending_requests, 'user' : employee,
-			'leaves_details' : leaves_details, 'role':current_user.role}
+			'leaves_details' : leaves_details, 'role':current_user.role, 'manager':manager}
 		return render_template("dashboard/main.html", data = store)
