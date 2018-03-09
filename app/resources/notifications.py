@@ -6,6 +6,8 @@ import codecs
 import json
 import time
 
+from flask_login import login_required, current_user
+from app import db , app
 
 
 
@@ -28,15 +30,16 @@ def send_email(senders_email,recievers_email, senders_email_password, subject, h
     server.sendmail( senders_email, recievers_email ,msg.as_string())
     server.quit()
 
-def notify(recievers_email):
+def notify(recievers_id):
 
-	try:
-		text = "Request Pending"
-		f = codecs.open("app/index.html", 'r')
-		template = Template(f.read())
-		html = template.render()
-		subject = 'Alert - New plant intern added'
-		send_email('arsalanjaved2010@outlook.com',recievers_email , 'arsalanA1', 'Check portal', html , text)
-		print('Success sending notifications')
-	except:
-		print('Faliure sending notifications')
+    try:
+        print (current_user.employee.reporting_manager_id)
+        text = "Request Pending"
+        f = codecs.open("app/index.html", 'r')
+        template = Template(f.read())
+        html = template.render()
+        subject = 'Alert - New plant intern added'
+        send_email('arsalanjaved2010@outlook.com',recievers_email , 'arsalanA1', 'Check portal', html , text)
+        print('Success sending notifications')
+    except:
+    	print('Faliure sending notifications')
