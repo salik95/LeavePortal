@@ -65,7 +65,7 @@ class Balance_sheet(db.Model):
 	hr_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
 	manager_remark = db.Column(db.String(128), nullable = True)
 	manager_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
-
+	time_stamp = db.Column(db.Date(), nullable = False)
 
 class Settings(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
