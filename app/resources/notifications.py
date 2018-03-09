@@ -5,13 +5,15 @@ from jinja2 import Template
 import codecs
 import json
 import time
+from flask import request, jsonify
+from app.models import *
 
 from flask_login import login_required, current_user
 from app import db , app
 
 
 
-def send_email(senders_email,recievers_email, senders_email_password, subject, html, email_text):
+def send_email(senders_email, senders_email_password, recievers_email, subject, html, email_text):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = senders_email
@@ -32,14 +34,35 @@ def send_email(senders_email,recievers_email, senders_email_password, subject, h
 
 def notify(recievers_id):
 
-    try:
-        print (current_user.employee.reporting_manager_id)
-        text = "Request Pending"
-        f = codecs.open("app/index.html", 'r')
+    #try:
+        reporting_manager =  current_user.employee.reporting_manager_id
+        #print (reporting_manager)
+        manager_user_id = Employees.query.get(int(reporting_manager)).user_id
+        #employee_id = .user_id
+        reporting_manager_email = User.query.get(manager_user_id).email
+
+        text = "request pending"
+        f = codecs.open("app/views/email_templates/leave_request.html", 'r')
         template = Template(f.read())
         html = template.render()
-        subject = 'Alert - New plant intern added'
-        send_email('arsalanjaved2010@outlook.com',recievers_email , 'arsalanA1', 'Check portal', html , text)
-        print('Success sending notifications')
-    except:
-    	print('Faliure sending notifications')
+        subject = 'request pending'
+
+        send_email(data_dict['senders_email'], data_dict['senders_email_password'], reporting_manager_email, subject, html , text)
+        print('Success sending notify_new')
+        
+    #except:
+    	#print('Faliure sending notifications')
+
+
+
+def notify_new(intern_data):
+  try:
+    text = "Intern added"
+    f = codecs.open("app/templates/notifications_email_template/plant-intern-add.html", 'r')
+    template = Template(f.read())
+    html = template.render(**intern_data)
+    subject = 'Alert - New plant intern added'
+    send_email(data_dict['senders_email'],data_dict['recievers_email'] , data_dict['senders_email_password'], subject, html , text)
+    print('Success sending notify_new')
+  except:
+    print('Faliure sending notify_new')

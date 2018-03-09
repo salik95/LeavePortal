@@ -28,7 +28,7 @@ def leave_form():
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
 	
-	#notify(leave_data['emp_id'])
+	notify(leave_data['emp_id'])
 
 	return jsonify(leave_dict)
 
