@@ -34,24 +34,6 @@ def leave_form():
 
 
 
-#Revisit this fucntionality
-#=======================================================
-@app.route('/leave_all/super', methods=['GET'])
-def leave_all_super():
-	if current_user.role == 'HR Manager' or current_user.role == 'General Manager':
-		leave = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
-		key = Balance_sheet.__mapper__.columns.keys()
-
-		leave_list = []
-		for leave_item in leave:
-			temp_dict = {}
-			for item in key:
-				temp_dict[item] = getattr(leave_item, item)
-			leave_list.append(temp_dict)
-		return jsonify(leave_list)
-	else:
-		return error_response_handler("Unauthorized access", 401)
-
 @app.route('/leave_all', methods=['GET'])
 def leave_all():
 	leave = Balance_sheet.query.filter(Balance_sheet.emp_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))

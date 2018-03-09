@@ -20,7 +20,7 @@
     <div class="col s6">
       <div class="card fixed center counter">
         <p class="card-title">General Leaves</p>
-        <div class="card-content">
+        <div class="card-content clear">
           <div class="row">
             <div class="col s6">
               <p>Availed</p>
@@ -40,11 +40,11 @@
         <p class="card-title">Medical Leaves</p>
         <div class="card-content">
           <div class="row">
-            <div class="col s12 m6 l6">
+            <div class="col s12 m8 l6">
               <p>Availed</p>
               <h1>{{data.leaves_details.medical_leaves_availed}}</h1>
             </div>
-            <div class="col s12 m6 l6">
+            <div class="col s12 m8 l6">
               <p>Remaining</p>
               <h1>{{data.leaves_details.medical_leaves_remaining}}</h1>
             </div>
@@ -62,15 +62,22 @@
 
           <div class="request">
             <ul class="collapsible" data-collapsible="accordion">
-              {% for item in data.pending_requests %}
+              {% for item in data.history %}
 
-              <li class="collection-item">
+              <li class="collection-item border-top">
                 <div class="collapsible-header">
-                  <div class="type medical">
+                  
+                  <div class="type {{ item.leave_type }}">
+                    {% if item.leave_type == "Medical" %}
                     <p>M</p>
+                    {% else %}
+                    <p>G</p>
+                    {% endif %}
+                    }
                   </div>
+
                   <div class="duration">
-                    12-12-18 to 15-12-18
+                    {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}
                   </div>
                   <div class="status approved">
                     <p>approved</p>
@@ -78,26 +85,55 @@
                 </div>
                 <div class="collapsible-body">
                   <div class="col s12 first-row">
-                    <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
-                    <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
-                    <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
-                    <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+
+                    <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
+                    <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
+                    <br>
+                    <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
                     <br>
                   </div>
 
                   <div class="row">
-                    <div class="col l6">
-                      <p class="bold">HR Remarks</p>
-                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                    </div>
-                    <div class="col l6">
-                      <p class="bold">Manager Remarks</p>
-                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                    </div>
+                    
+                    {% if item.hr_remark %}
+                    <!-- show manager Remarks -->
+                      {% if item.manager_remark %}
+                        <div class="col s12 l6">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">{{ item.hr_remark }}</p>
+                        </div>
+                        <div class="col s12 l6">
+                          <p class="bold">Manager Remarks</p>
+                          <p class="message">{{ item.manager_remark }}</p>
+                        </div>
+                      {% else %}
+                        <div class="col s12 l6">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">{{ item.hr_remark }}</p>
+                        </div>
+                      {% endif %}
+                    {% else %}
+                      {% if item.manager_remark %}
+                        <div class="col s12 l6">
+                          <p class="bold">Manager Remarks</p>
+                          <p class="message">{{ item.manager_remark }}</p>
+                        </div>
+                      {% else %}
+                      {% endif %}
+                    <!-- show nothing -->
+                    {% endif %}
+                    
                   </div>
                 </div>
               </li>
               {% endfor %}
+              
+              <li class="collection-item border-top">
+                <div class="collapsible-header">
+                  <a href="#" class="view-all">View All</a>
+                </div>
+              </li>
+
             </ul>
           </div>
           <!-- < div history end> -->
@@ -116,82 +152,138 @@
 
               <li class="collection-item">
                 <div class="collapsible-header">
-                  <div class="type medical">
+                  
+                  <div class="type {{ item[1].leave_type }}">
+                    {% if item[1].leave_type == "Medical" %}
                     <p>M</p>
+                    {% else %}
+                    <p>G</p>
+                    {% endif %}
+                    
                   </div>
+                  
                   <div class="duration">
-                    12-12-18 to 15-12-18
+                    {{item[1].employee.first_name}} {{item[1].employee.last_name}}
                   </div>
                     <!-- <div class="status approved">
                       <p>approved</p>
                     </div> -->
                   </div>
                   <div class="collapsible-body">
-                    <div class="col s12 first-row">
-                      <p><span class="bold">EMP-ID</span>&emsp; {{item[0].id}}</p>
-                      <p><span class="bold">Dates</span>&emsp; {{item[1].from_date}} to {{item[1].to_date}}</p>
-                      <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
-                      <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
-                      <br>
-                    </div>
-
-                    <div class="row">
-                      <div class="col s12">
-                        <!-- <p class="bold">HR Remarks</p> -->
-                        <div class="input-field col s12">
-                          <textarea id="hr-text" class="materialize-textarea"></textarea>
-                          <label for="hr-text">HR Remarks</label>
-                        </div>
-                        <!--  -->
-                        
+                    
+                    <form action="#">
+                      <div class="col s12 first-row">
+                        <p><span class="bold">Name</span>&emsp; {{item[1].employee.first_name}} {{item[1].employee.last_name}}</p>
+                        {{ data.role }}
+                        <p><span class="bold">Designation</span>&emsp; {{item[1].employee.designation}}</p>
+                        <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+                        <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                        <br>
+                        <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                        <br>
                       </div>
+
+                      {% if data.role == "hr" %}
+                        <div class="row">
+                          <div class="col s12">
+                            <!-- <p class="bold">HR Remarks</p> -->
+                            <div class="input-field col s12">
+                              <textarea id="hr-text" class="materialize-textarea"></textarea>
+                              <label for="hr-text">HR Remarks</label>
+                            </div>
+                          </div>   
+                            <!--  -->
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="#">
+                              <p class="col s6 offset-s1  ">
+                                <input name="group1" type="radio" id="approval1" />
+                                <label for="approval1">Approve</label>
+                              </p>
+
+                              <p class="col s5">
+                                <input name="group1" type="radio" id="denial1" />
+                                <label for="denial1">Decline</label>
+                              </p>  
+                            </div>
+                        </div>
+
+                        <input type="submit" value="Submit" class="waves-effect waves-light btn">            
+                        </form>
+                      {% elif data.role == "manager" %}
+
+                        <div class="row">
+                          <div class="col s12">
+                            <!-- <p class="bold">HR Remarks</p> -->
+                            <div class="input-field col s12">
+                              <textarea id="mg-text" class="materialize-textarea"></textarea>
+                              <label for="mg-text">Manager Remarks</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          
+                            <p class="col s6 offset-s1">
+                              <input name="group2" type="radio" class="col s6" id="approval2" />
+                              <label for="approval2">Approve</label>
+                            </p>
+
+                            <p class="col s5">
+                              <input name="group2" type="radio" class="col s6" id="denial2" />
+                              <label for="denial2">Decline</label>
+                            </p>
+
+                            <input type="submit" value="Submit" class="waves-effect waves-light btn">            
+                            </form>  
+                          
+                        </div>
                       
-                      <div class="row">
-                        <div class="col s8 offset-s2 center">
-                          <a class="waves-effect waves-light btn">Approve</a>
-                          <a class="waves-effect waves-light btn red darken-3">Decline</a>  
-                        </div> 
-                      </div>
+                      {% else %}
+                        <input type="submit" value="Submit" class="waves-effect waves-light btn" style="visibility: hidden">            
+                        </form>
+                      {% endif %}
 
-                      <div class="col s12">
-                        <p class="bold">HR Remarks</p>
-                        <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                        <br>
-                      </div>
+                      
 
-                      <div class="chip green">
-                        <span class="white-text">Approved</span>
-                      </div>
-
-                      <div class="col s12">
-                        <!-- <p class="bold">HR Remarks</p> -->
-                        <div class="input-field col s12">
-                          <textarea id="mg-text" class="materialize-textarea"></textarea>
-                          <label for="mg-text">Manager Remarks</label>
+                        <!-- <div class="col s12">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                          <br>
                         </div>
-                      </div>
 
-                      <div class="row">
-                        <div class="col s8 offset-s2 center">
-                          <a class="waves-effect waves-light btn">Approve</a>
-                          <a class="waves-effect waves-light btn red darken-3">Decline</a>  
-                        </div> 
-                      </div>
+                        <div class="chip green">
+                          <span class="white-text">Approved</span>
+                        </div> -->
 
-                      <div class="col s12">
-                        <p class="bold">HR Remarks</p>
-                        <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-                        <br>
-                      </div>
+                        <!-- <div class="col s12">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda    temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earumaliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
+                          <br>
+                        </div>
 
-                      <div class="chip red darken-3">
-                        <span class="white-text">Declined</span>
-                      </div>
+                        <div class="chip red darken-3">
+                          <span class="white-text">Declined</span>
+                        </div> -->
+                        
+                        <!-- <div class="row center">
+                          <div class="col s8 offset-s2 center">
+                            <input type="submit" value="Submit" class="waves-effect waves-light btn">
+                          </div> 
+                        </div> -->
+                    <!-- <input type="submit" value="Submit" class="waves-effect waves-light btn">            
+                    </form> -->
 
-                    </div>
                   </div>
                 </li>
                 {% endfor %}
+              <li class="collection-item border-top">
+                <div class="collapsible-header">
+                  <a href="#" class="view-all">View All</a>
+                </div>
+              </li>
               </ul>
             </div>
             <!-- < div history end> -->
@@ -222,5 +314,15 @@
     {% include 'dashboard/form-employee.html' %}
   </div>
 </div>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4 class="center">Release Notice</h4>
+      <p class="center">This is an early UI test release. Most features are partly functional and still under development.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">CLOSE</a>
+    </div>
+  </div>
 
 {% endblock %}
