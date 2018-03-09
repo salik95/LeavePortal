@@ -105,7 +105,7 @@
                   <div class="status pending">
                     <p>Manager Pending</p>
                   </div>
-                  {% elifitem.hr_approval==None and item.manager_approval==None%}
+                  {% elif item.hr_approval==None and item.manager_approval==None%}
                   <div class="status pending">
                     <p>Pending</p>
                   </div>
