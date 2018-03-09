@@ -32,12 +32,15 @@ $(document).ready(function() {
   $('.modal').modal();
   // $('#modal1').modal('open')
 
-  $('a.account, .account-widget').on('mouseout', function() {
-    $('.account-widget').removeClass('active')
+  $('.account > i').on('mouseover', function(event) {
+    console.log(event)
+    $('.account').addClass('active')
   })
 
-  $('a.account-widget').on('mouseover', function() {
-    $('.account-widget').addClass('active')
+  $('.account').on('mouseleave', function(event) {
+    console.log(event)
+    if($('.account').hasClass('active'))
+      $('.account').removeClass('active')
   })
 
 })
@@ -88,9 +91,9 @@ $('form[data-resource]').submit(function(e) {
   // Prepare request data
   switch(resource) {
     case 'employee':
-      break
+    break
     case 'leave':
-      break
+    break
   }
   
   console.log(data)

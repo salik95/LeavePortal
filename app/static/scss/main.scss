@@ -87,34 +87,38 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
     img {max-height: 70%; height: 100%;}
   }
   .tools { float: right; height: 100%; position: relative; display: flex; align-items: center; 
-    > * {cursor: pointer; margin: 0 10px;}
-    a i {vertical-align: middle; font-size: 30px;}
-  
-    a.account:hover ~ .account-widget {opacity: 1}
+    > * {cursor: pointer; margin: 0 10px; position: relative}
+    i {vertical-align: middle; font-size: 30px;}
 
     a.logout {opacity: 0.3; transition: all 0.5s ease;
       &:hover {opacity: 0.8}
     }
   }
 
+  .account {
+    &.active .widget {opacity: 1}
+    
+    .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 180px; z-index: 2;
+       opacity: 0; transition: all 0.5s ease;
+
+      .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
+
+      
+
+      .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
+
+      ul {margin: 0;
+        li {padding: 5px 0}
+        li:hover {opacity: 0.9}
+      }
+      i {font-size: 18px!important;}
+      a {color: $primary-color}
+    }
+  }
+
   .btn { background-color: lighten(#6DC6EB, 0); /** color for button**/
     &:hover {background-color: lighten(#26718e, 15)} /** color for hover**/
   }
-}
-
-.account-widget { position: absolute; padding: 15px; right: 0; top: 120%; z-index: 2;
-  background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left; opacity: 0; transition: all 0.5s ease;
-  
-  &:hover, &.active {opacity: 1}
-
-  .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
-
-  ul {margin: 0;
-    li {padding: 5px 0}
-    li:hover {opacity: 0.9}
-  }
-  i {font-size: 18px!important;}
-  a {color: $primary-color}
 }
 
 main {padding: 80px 8%;}
