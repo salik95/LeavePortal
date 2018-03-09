@@ -75,3 +75,12 @@ class Settings(db.Model):
 	def __init__(self, key, value):
 		self.key = key
 		self.value = value
+
+class Configuration(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	key = db.Column(db.String(45), nullable = False)
+	value = db.Column(db.String(45), nullable = False)
+
+	def __init__(self, key, value):
+		self.key = key
+		self.value = value
