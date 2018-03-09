@@ -10,9 +10,10 @@ from app.controllers.settings import settings_to_dict
 def dashboard():
 	if request.method == 'GET':
 		employee = current_user.employee
-		requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Employees.reporting_manager_id == employee.id))
-		if requests is None:
+		requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == employee.id)
+		if requests.first() is None:
 			manager = False
+			pending_requests = ""
 		else:
 			manager = True
 			pending_requests = requests.filter(Balance_sheet.manager_approval == None)
