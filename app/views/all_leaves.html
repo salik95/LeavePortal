@@ -37,7 +37,7 @@
 	          <div class="request">
 	            <ul class="collapsible" data-collapsible="accordion">
 	              
-				{% for item in data.history %}
+				{% for item in data %}
 	              <li class="collection-item border-top">
 	                <div class="collapsible-header">
 	                  <div class="type {{ item.leave_type }}">
@@ -48,47 +48,43 @@
 	                    {% endif %}
 	                    }
 	                  </div>
-		            
-		            <div class="duration">
-	                    <p class="contract">{{item.from_date.strftime('%b %d, %Y')}}-{{item.to_date.strftime('%b %d, %Y')}}</p>
-	                  </div>
+	                  
+	                <div class="duration">
+                    <p class="contract">{{item.from_date.strftime('%b %d, %Y')}}-{{item.to_date.strftime('%b %d, %Y')}}</p>
+                  </div>
 
-	                  {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
-	                  <div class="status approved">
-	                    <p>approved</p>
-	                  </div>
-	                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
-	                  <div class="status denied">
-	                    <p>HR napproved</p>
-	                  </div>  
-	                  {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
-	                  <div class="status denied">
-	                    <p>Manager Unapproved</p>
-	                  </div>
-	                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
-	                  <div class="status denied">
-	                    <p>Unapproved</p>
-	                  </div>
-	                  {% elif item.hr_approval== None and item.manager_approval != None %}
-	                  <div class="status pending">
-	                    <p>HR Pending</p>
-	                  </div>
-	                  {% elif item.hr_approval != None and item.manager_approval==None %}
-	                  <div class="status pending">
-	                    <p>Manager Pending</p>
-	                  </div>
-	                  {% elif item.hr_approval==None and item.manager_approval==None%}
-	                  <div class="status pending">
-	                    <p>Pending</p>
-	                  </div>
-	                  {% endif %}
+                  {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
+                  <div class="status approved">
+                    <p>approved</p>
+                  </div>
+                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
+                  <div class="status denied">
+                    <p>HR napproved</p>
+                  </div>  
+                  {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
+                  <div class="status denied">
+                    <p>Manager Unapproved</p>
+                  </div>
+                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
+                  <div class="status denied">
+                    <p>Unapproved</p>
+                  </div>
+                  {% elif item.hr_approval== None and item.manager_approval != None %}
+                  <div class="status pending">
+                    <p>HR Pending</p>
+                  </div>
+                  {% elif item.hr_approval != None and item.manager_approval==None %}
+                  <div class="status pending">
+                    <p>Manager Pending</p>
+                  </div>
+                  {% elif item.hr_approval==None and item.manager_approval==None%}
+                  <div class="status pending">
+                    <p>Pending</p>
+                  </div>
+                  {% endif %}
 
-	                </div>
+                </div>
 
-	                  <div class="status approved">
-	                    <p>approved</p>
-	                  </div>
-	                </div>
 	                <div class="collapsible-body">
 	                  <div class="col s12 first-row">
 	                   <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>

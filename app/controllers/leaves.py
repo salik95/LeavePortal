@@ -38,6 +38,9 @@ def leave_all():
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
 
+	return render_template("leavehistory.html", data = leave_list)
+
+
 	return render_template("all_leaves.html", data = leave_list)
 
 @app.route('/all_requests', methods=['GET'])
