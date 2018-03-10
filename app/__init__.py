@@ -38,7 +38,7 @@ from app.controllers.settings import *
 from app.controllers.employee import *
 from app.controllers.leavehistory import *
 from app.controllers.leaves import *
-
+from app.controllers.scheduler import *
 #### VIEW ####
 
 app.wsgi_app = SassMiddleware(app.wsgi_app, {

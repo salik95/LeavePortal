@@ -11,6 +11,7 @@ from app.models import *
 from flask_login import login_required, current_user
 from app import db , app
 
+import logging 
 
 
 def send_email(senders_email, senders_email_password, recievers_email, subject, html, email_text):
@@ -34,12 +35,13 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
 
 def notify(recievers_id):
 
-    #try:
+    try:
         reporting_manager =  current_user.employee.reporting_manager_id
-        #print (reporting_manager)
         manager_user_id = Employees.query.get(int(reporting_manager)).user_id
-        #employee_id = .user_id
         reporting_manager_email = User.query.get(manager_user_id).email
+
+        email = Configuration.query.filter_by(key='email_address').first().value
+        password = Configuration.query.filter_by(key='password').first().value
 
         text = "request pending"
         f = codecs.open("app/views/email_templates/leave_request.html", 'r')
@@ -47,22 +49,10 @@ def notify(recievers_id):
         html = template.render()
         subject = 'request pending'
 
-        send_email(data_dict['senders_email'], data_dict['senders_email_password'], reporting_manager_email, subject, html , text)
+        send_email(email , password , reporting_manager_email, subject, html , text)
+        
         print('Success sending notify_new')
         
-    #except:
-    	#print('Faliure sending notifications')
+    except:
+        logging.exception('Faliure sending notifications')
 
-
-
-def notify_new(intern_data):
-  try:
-    text = "Intern added"
-    f = codecs.open("app/templates/notifications_email_template/plant-intern-add.html", 'r')
-    template = Template(f.read())
-    html = template.render(**intern_data)
-    subject = 'Alert - New plant intern added'
-    send_email(data_dict['senders_email'],data_dict['recievers_email'] , data_dict['senders_email_password'], subject, html , text)
-    print('Success sending notify_new')
-  except:
-    print('Faliure sending notify_new')
