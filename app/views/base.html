@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1" charset="UTF-8">
   <title>HMP Leaves - {% block title %}{% endblock %}</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  {% if 'dashboard' in request.url_rule.rule or 'mytemp' in request.url_rule.rule  %}
+  {% if 'dashboard' in request.url_rule.rule or 'leave_all' in request.url_rule.rule  %}
   <header>
     <a href="/dashboard" class="logo">
       <!-- <img src="{{url_for('static', filename='img/logo.png') }}" alt=""> -->
