@@ -9,7 +9,6 @@
 </head>
 <body>
 
-  {% if 'dashboard' in request.url_rule.rule or 'leave_all' in request.url_rule.rule  %}
   <header>
     <a href="/dashboard" class="logo">
       <!-- <img src="{{url_for('static', filename='img/logo.png') }}" alt=""> -->
@@ -22,8 +21,6 @@
      <a class="logout" href="/logout"><i class="material-icons">exit_to_app</i></a>
    </div>
  </header>
-
- {% endif %}
 
  {% block body %}
  {% endblock %}
