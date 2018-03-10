@@ -27,9 +27,16 @@ def leave_form():
 	
 	return jsonify(leave_dict)
 
-@app.route('/all_leaves', methods=['GET'])
+@app.route('/all_leaves/', methods=['GET'])
 def leave_all():
-	leave = Balance_sheet.query.filter(Balance_sheet.emp_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
+	arg_id = request.args.get("id")
+	if arg_id is not None and arg_id != "":
+		if current_user.role != "HR Manager" or current_user.role != "General Manager":
+			return error_response_handler("Unauthorized request", 401)
+		emp_id = arg_id
+	else:
+		emp_id = current_user.employee.id
+	leave = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date))
 	key = Balance_sheet.__mapper__.columns.keys()
 	leave_list = []
 	for leave_item in leave:
@@ -37,6 +44,9 @@ def leave_all():
 		for item in key:
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
+
+
+	return render_template("leavehistory.html", data = leave_list)
 
 	return render_template("all_leaves.html", data = leave_list)
 
