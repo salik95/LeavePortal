@@ -42,9 +42,14 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 .center {text-align: center;}
 .right {text-align: right}
 .clr{ clear: both;}
+
 .upper {text-transform: uppercase;}
 .bold {font-weight: 600}
-.border-top{border-top:1px solid #DDDDDD;}
+.border-top {border-top:1px solid #DDDDDD;}
+.small {font-size: 12px}
+.light {color: #999!important}
+
+strong {font-weight: 600}
 
 .scrollable {
 
