@@ -64,8 +64,8 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .approved{color: #6DC6EB;}
   .denied{color: #D56468;}
   .pending{color: #22B573;}
-  .Medical{ background-color: #22B573;}
-  .General{ background-color:#0071BC;}
+  .Medical{ background-color: #5FAD56;} 
+  .General{ background-color: #1B264F;}
 }
 
 .card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
@@ -99,26 +99,24 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
     &.active .widget {opacity: 1}
     
     .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 180px; z-index: 2;
-       opacity: 0; transition: all 0.5s ease;
+     opacity: 0; transition: all 0.5s ease;
 
-      .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
+     .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
 
-      
+     .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
 
-      .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
-
-      ul {margin: 0;
-        li {padding: 5px 0}
-        li:hover {opacity: 0.9}
-      }
-      i {font-size: 18px!important;}
-      a {color: $primary-color}
+     ul {margin: 0;
+      li {padding: 5px 0}
+      li:hover {opacity: 0.9}
     }
+    i {font-size: 18px!important;}
+    a {color: $primary-color}
   }
+}
 
-  .btn { background-color: lighten(#6DC6EB, 0); /** color for button**/
-    &:hover {background-color: lighten(#26718e, 15)} /** color for hover**/
-  }
+.btn { background-color: lighten(#6DC6EB, 0); /** color for button**/
+  &:hover {background-color: lighten(#26718e, 15)} /** color for hover**/
+}
 }
 
 main {padding: 80px 8%;}
@@ -137,6 +135,7 @@ main#dashboard {background-color: #e8eaf6}
 @media (max-width: 404px){
  .middle{ padding-left: 50%; }
  .download{ margin: auto;}
+ .contract{font-size: 11px;}
 }
 
 .major{display: flex; flex-direcrion: row; flex-wrap: wrap; align-item: center; justify-content: space-between;
@@ -195,7 +194,6 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 
       .collapsible-body {
 
-        .check{display: inline;}
       }
     } 
   } 

@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_
@@ -27,24 +27,6 @@ def leave_form():
 	
 	return jsonify(leave_dict)
 
-#Revisit this fucntionality
-#=======================================================
-@app.route('/leave_all/super', methods=['GET'])
-def leave_all_super():
-	if current_user.role == 'HR Manager' or current_user.role == 'General Manager':
-		leave = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
-		key = Balance_sheet.__mapper__.columns.keys()
-
-		leave_list = []
-		for leave_item in leave:
-			temp_dict = {}
-			for item in key:
-				temp_dict[item] = getattr(leave_item, item)
-			leave_list.append(temp_dict)
-		return jsonify(leave_list)
-	else:
-		return error_response_handler("Unauthorized access", 401)
-
 @app.route('/leave_all', methods=['GET'])
 def leave_all():
 	leave = Balance_sheet.query.filter(Balance_sheet.emp_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
@@ -55,7 +37,7 @@ def leave_all():
 		for item in key:
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
-	return jsonify(leave_list)
+	return render_template("leavehistory.html", data = leave_list)
 
 @app.route('/request_all', methods=['GET'])
 def request_all():
@@ -102,3 +84,26 @@ def request_all():
 
 	request = [pending_request_list, request_history_list]
 	return jsonify(request)
+
+@app.route('/respond_request', methods=['PUT'])
+def respond_request():
+	response = request.get_json(force=True)
+	if current_user.role == "HR Manager":
+		if 'id' not in response or 'hr_remark' not in response or 'hr_approval' not in response:
+			return error_response_handler("Incomplete Data", 400)
+		leave = Balance_sheet.query.get(response['id'])
+	else:
+		if 'id' not in response or 'manager_remark' not in response or 'manager_approval' not in response:
+			return error_response_handler("Incomplete Data", 400)
+		leave = Balance_sheet.query.get(response['id'])
+		employee_manager = Employees.query.get(leave.emp_id)
+		if current_user.employee.id != employee_manager.reporting_manager_id:
+			return error_response_handler("Unauthorized request", 401)
+
+	key = list(response.keys())
+	for item in key:
+		setattr(leave, item, response[item])
+	db.session.commit()
+	db.session.flush()
+	del response['id']
+	return jsonify(response)

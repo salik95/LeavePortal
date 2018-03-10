@@ -37,74 +37,95 @@
 	          <div class="request">
 	            <ul class="collapsible" data-collapsible="accordion">
 	              
-
+				{% for item in data %}
 	              <li class="collection-item border-top">
 	                <div class="collapsible-header">
-	                  <div class="type medical">
+	                  <div class="type {{ item.leave_type }}">
+	                    {% if item.leave_type == "Medical" %}
 	                    <p>M</p>
+	                    {% else %}
+	                    <p>G</p>
+	                    {% endif %}
+	                    }
 	                  </div>
-	                  <div class="duration">
-	                    12-12-18 to 15-12-18
-	                  </div>
-	                  <div class="status approved">
-	                    <p>approved</p>
-	                  </div>
-	                </div>
+	                  
+	                <div class="duration">
+                    <p class="contract">{{item.from_date.strftime('%b %d, %Y')}}-{{item.to_date.strftime('%b %d, %Y')}}</p>
+                  </div>
+
+                  {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
+                  <div class="status approved">
+                    <p>approved</p>
+                  </div>
+                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
+                  <div class="status denied">
+                    <p>HR napproved</p>
+                  </div>  
+                  {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
+                  <div class="status denied">
+                    <p>Manager Unapproved</p>
+                  </div>
+                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
+                  <div class="status denied">
+                    <p>Unapproved</p>
+                  </div>
+                  {% elif item.hr_approval== None and item.manager_approval != None %}
+                  <div class="status pending">
+                    <p>HR Pending</p>
+                  </div>
+                  {% elif item.hr_approval != None and item.manager_approval==None %}
+                  <div class="status pending">
+                    <p>Manager Pending</p>
+                  </div>
+                  {% elif item.hr_approval==None and item.manager_approval==None%}
+                  <div class="status pending">
+                    <p>Pending</p>
+                  </div>
+                  {% endif %}
+
+                </div>
+	                
 	                <div class="collapsible-body">
 	                  <div class="col s12 first-row">
-	                    <p><span class="bold">Dates</span>&emsp; 12-12-12 to 12-12-12</p>
-	                    <p><span class="bold">Type</span>&emsp; General</p>
+	                   <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
+	                    <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
 	                    <br>
-	                    <p><span class="bold">Purpose</span>&emsp; Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis totam cupiditate harum! Quae saepe eveniet laborum, hic, cupiditate qui accusamus incidunt deserunt quod earum perferendis! Vero dolor odit autem ducimus?</p>
+	                    <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
 	                    <br>
 	                  </div>
 
 	                  <div class="row">
-	                    <div class="col l6">
-	                      <p class="bold">HR Remarks</p>
-	                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-	                    </div>
-	                    <div class="col l6">
-	                      <p class="bold">Manager Remarks</p>
-	                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-	                    </div>
+	                    {% if item.hr_remark %}
+                    <!-- show manager Remarks -->
+                      {% if item.manager_remark %}
+                        <div class="col s12 l6">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">{{ item.hr_remark }}</p>
+                        </div>
+                        <div class="col s12 l6">
+                          <p class="bold">Manager Remarks</p>
+                          <p class="message">{{ item.manager_remark }}</p>
+                        </div>
+                      {% else %}
+                        <div class="col s12 l6">
+                          <p class="bold">HR Remarks</p>
+                          <p class="message">{{ item.hr_remark }}</p>
+                        </div>
+                      {% endif %}
+                    {% else %}
+                      {% if item.manager_remark %}
+                        <div class="col s12 l6">
+                          <p class="bold">Manager Remarks</p>
+                          <p class="message">{{ item.manager_remark }}</p>
+                        </div>
+                      {% else %}
+                      {% endif %}
+                    <!-- show nothing -->
+                    {% endif %}
 	                  </div>
 	                </div>
 	              </li>
-
-	              <li class="collection-item border-top">
-	                <div class="collapsible-header">
-	                  <div class="type medical">
-	                    <p>M</p>
-	                  </div>
-	                  <div class="duration">
-	                    12-12-18 to 15-12-18
-	                  </div>
-	                  <div class="status approved">
-	                    <p>approved</p>
-	                  </div>
-	                </div>
-	                <div class="collapsible-body">
-	                  <div class="col s12 first-row">
-	                    <p><span class="bold">EMP-ID</span>&emsp; 09409</p>
-	                    <p><span class="bold">Dates</span>&emsp; 12-12-12 to 12-12-12</p>
-	                    <p><span class="bold">Type</span>&emsp; General</p>
-	                    <p><span class="bold">Purpose</span>&emsp; Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis totam cupiditate harum! Quae saepe eveniet laborum, hic, cupiditate qui accusamus incidunt deserunt quod earum perferendis! Vero dolor odit autem ducimus?</p>
-	                    <br>
-	                  </div>
-
-	                  <div class="row">
-	                    <div class="col l6">
-	                      <p class="bold">HR Remarks</p>
-	                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-	                    </div>
-	                    <div class="col l6">
-	                      <p class="bold">Manager Remarks</p>
-	                      <p class="message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae veniam assumenda temporibus corporis, consequuntur officiis molestias, pariatur ad dolorum debitis aperiam earum aliquam molestiae laboriosam reiciendis quos. Fugiat, tempora, quia.</p>
-	                    </div>
-	                  </div>
-	                </div>
-	              </li>
+				{% endfor %}
 
 	            </ul>
 	          </div>
