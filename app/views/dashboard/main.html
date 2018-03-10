@@ -7,8 +7,14 @@
 <main id="dashboard">
 
   <div class="management">
-    <p class="title">HR Management</p>
-    <a href="#addemployee" class="btn slim outline trigger">
+    <p class="title">Management</p>
+    <div class="clr"></div>
+    <a href="#addemployee" class="btn slim underline light trigger">
+      <i class="material-icons left">change_history</i>
+      <span>Balance Sheet</span>
+    </a>
+
+    <a href="#addemployee" class="btn slim underline light trigger">
       <i class="material-icons left">add</i>
       <span>New Employee</span>
     </a>
@@ -68,7 +74,7 @@
 
               <li class="collection-item border-top">
                 <div class="collapsible-header">
-                  
+
                   <div class="type {{ item.leave_type }}">
                     {% if item.leave_type == "Medical" %}
                     <p>M</p>
@@ -124,7 +130,7 @@
                 </div>
 
                 <div class="row">
-                  
+
                   {% if item.hr_remark %}
                   <!-- show manager Remarks -->
                   {% if item.manager_remark %}
@@ -183,7 +189,7 @@
 
             <li class="collection-item">
               <div class="collapsible-header">
-                
+
                 <div class="type {{ item[1].leave_type }}">
                   {% if item[1].leave_type == "Medical" %}
                   <p>M</p>
@@ -202,8 +208,8 @@
                 </div>
               </div>
               <div class="collapsible-body">
-                
-                
+
+
 
                 {% if data.role == "hr" and data.manager==true%}
                 <form action="#">
@@ -321,7 +327,7 @@
 
             <li class="collection-item border-top">
               <div class="collapsible-header">
-                
+
                 <div class="type {{ item.leave_type }}">
                   {% if item.leave_type == "Medical" %}
                   <p>M</p>
@@ -350,7 +356,7 @@
               </div>
 
               <div class="row">
-                
+
                 {% if item.hr_remark %}
                 <!-- show manager Remarks -->
                 {% if item.manager_remark %}
