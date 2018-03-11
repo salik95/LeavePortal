@@ -110,12 +110,12 @@ $('form[data-resource]').submit(function(e) {
         $notice.text('Employee is successfully added and notified via email')
       else if (resource == 'leave')
         $notice.text('Application is sent successfully and pending for approval.')
-      else if (resource == 'leave' && method="PUT")
-        
-    }
+      else if (resource == 'leave' && method == "PUT") {
 
-    else {
-      console.log('no bueno')
+      }
+      else {
+        console.log('no bueno')
+      }
     }
   })
 })
