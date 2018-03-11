@@ -36,7 +36,7 @@ def employee():
 		data_employee['general_leaves_availed'] = '0'
 		data_employee['medical_leaves_availed'] = '0'
 		
-		data_employee['general_leaves_remaining'] = int(settings_to_dict()['general_leaves_limit'])
+		data_employee['general_leaves_remaining'] = int(settings_to_dict()['probation_leaves_limit'])
 		data_employee['medical_leaves_remaining'] = int(settings_to_dict()['medical_leaves_limit'])
 		
 		data_employee['user_id'] = new_user.id

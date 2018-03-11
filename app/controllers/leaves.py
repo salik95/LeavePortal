@@ -15,6 +15,9 @@ def leave_form():
 	
 	leave_data['emp_id'] = current_user.employee.id
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
+
+	if (leave_data['to_date']-leave_data['from_date']).days > current_user.employee.general_leaves_remaining:
+		return error_response_handler("Leave request exceeds available leaves request", 400)
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
 	for item in key:
@@ -133,6 +136,8 @@ def respond_request():
 def update_employee_leaves_after_approval(days, emp_id, leave_type):
 	employee = Employees.query.get(emp_id)
 	if leave_type == "Medical":
+		employee.medical_leaves_availed = employee.medical_leaves_availed+days
 		employee.medical_leaves_remaining = employee.medical_leaves_remaining-days
 	else:
+		employee.general_leaves_availed = employee.general_leaves_availed+days
 		employee.general_leaves_remaining = employee.general_leaves_remaining-days
