@@ -9,6 +9,7 @@
 </head>
 <body>
 
+  {% if current_user.is_authenticated %}
   <header>
     <a href="/dashboard" class="logo">
       <!-- <img src="{{url_for('static', filename='img/logo.png') }}" alt=""> -->
@@ -30,6 +31,7 @@
       </span>
     </div>
   </header>
+  {% endif %}
 
  {% block body %}
  {% endblock %}
