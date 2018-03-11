@@ -1,7 +1,5 @@
-
-
-
 <div class="card leaves">
+
   <div class="major card-title">
     
     <div class="middle">
@@ -19,7 +17,7 @@
     <div class="request">
       <ul class="collapsible" data-collapsible="accordion">
         {% for item in data.history %}
-        <li class="collection-item border-top">
+        <li class="collection-item">
           <div class="collapsible-header">
 
             <div class="type {{ item.leave_type }}">
@@ -32,7 +30,7 @@
           </div>
 
           <div class="duration">
-            <p class="contract">{{ item.from_date.strftime('%b %d, %Y')}}-{{ item.to_date.strftime('%b %d, %Y') }}</p>
+            <p class="contract">{{ item.from_date.strftime('%b %d, %Y')}} - {{ item.to_date.strftime('%b %d, %Y') }}</p>
           </div>
 
           {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
@@ -68,12 +66,7 @@
 
         <div class="collapsible-body">
           <div class="col s12 first-row">
-
-            <p><span class="bold">Dates</span>&emsp; {{ item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y') }}</p>
-            <p><span class="bold">Type</span>&emsp; {{ item.leave_type}}</p>
-            <br>
             <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
-            <br>
           </div>
 
           <div class="row">
@@ -113,7 +106,7 @@
 
       <li class="collection-item border-top">
         <div class="collapsible-header">
-          <a href="/all_leaves" class="view-all">view all</a>
+          <a href="/all_leaves" class="view-all">View All</a>
         </div>
       </li>
 
