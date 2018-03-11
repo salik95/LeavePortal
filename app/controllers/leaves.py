@@ -55,64 +55,25 @@ def leave_all():
 
 @app.route('/all_requests', methods=['GET'])
 def request_all():
-	
 	key = Balance_sheet.__mapper__.columns.keys()
-	request_history_list = []
 	
 	if current_user.role == "HR Manager":
-		pending_request_hr_list = []
-		pending_request_hr_manager_list = []
-
-		pending_requests_hr = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
-		pending_requests_hr_manager = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
-		request_history = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
+		pending = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
+		responded = Balance_sheet.query.filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date))
 		
-		if pending_requests_hr is not None:
-			for leave_item in pending_requests_hr:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item, item)
-				pending_request_hr_list.append(temp_dict)
+		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key),
+		'responded' : get_dict_of_sqlalchemy_object(responded, key)}
 
-		if pending_requests_hr_manager is not None:
-			for leave_item in pending_requests_hr_manager:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
-				pending_request_hr_manager_list.append(temp_dict)
-
-		if request_history is not None:
-			for leave_item in request_history:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item, item)
-				request_history_list.append(temp_dict)
-				
-		request = [pending_request_hr_list, pending_request_hr_manager_list, request_history_list]
 	else:
-		pending_request_list = []
-		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
-		request_history = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
+		
+		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key, 'Balance_sheet'),
+		'responded' : get_dict_of_sqlalchemy_object(responded, key, 'Balance_sheet')}
 
-		if pending_requests is not None:
-			for leave_item in pending_requests:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
-				pending_request_list.append(temp_dict)
-
-		if request_history is not None:
-			for leave_item in request_history:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
-				request_history_list.append(temp_dict)
-		request = [pending_request_list, request_history_list]
-
-	return render_template("all_requests.html", data = request)
+	return render_template("all_requests.html", data = requests)
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
@@ -158,3 +119,16 @@ def update_employee_leaves_after_approval(days, emp_id, leave_type):
 	else:
 		employee.general_leaves_availed = employee.general_leaves_availed+days
 		employee.general_leaves_remaining = employee.general_leaves_remaining-days
+
+def get_dict_of_sqlalchemy_object(alchemy_object, key, value=None):
+	alchemy_list = []
+	if alchemy_object is not None:
+		for leave_item in alchemy_object:
+			temp_dict = {}
+			for item in key:
+				if value!=None:
+					temp_dict[item] = getattr(getattr(leave_item, value), item)
+				else:
+					temp_dict[item] = getattr(leave_item, item)
+			alchemy_list.append(temp_dict)
+	return alchemy_list
