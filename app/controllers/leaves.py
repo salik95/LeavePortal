@@ -57,26 +57,41 @@ def leave_all():
 def request_all():
 	
 	key = Balance_sheet.__mapper__.columns.keys()
-	pending_request_list = []
 	request_history_list = []
 	
 	if current_user.role == "HR Manager":
-		pending_requests = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
+		pending_request_hr_list = []
+		pending_request_hr_manager_list = []
+
+		pending_requests_hr = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
+		pending_requests_hr_manager = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
 		request_history = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
 		
-		if pending_requests is not None:
-			for leave_item in pending_requests:
+		if pending_requests_hr is not None:
+			for leave_item in pending_requests_hr:
 				temp_dict = {}
 				for item in key:
 					temp_dict[item] = getattr(leave_item, item)
-				pending_request_list.append(temp_dict)
+				pending_request_hr_list.append(temp_dict)
+
+		if pending_requests_hr_manager is not None:
+			for leave_item in pending_requests_hr_manager:
+				temp_dict = {}
+				for item in key:
+					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
+				pending_request_hr_manager_list.append(temp_dict)
+
 		if request_history is not None:
 			for leave_item in request_history:
 				temp_dict = {}
 				for item in key:
 					temp_dict[item] = getattr(leave_item, item)
 				request_history_list.append(temp_dict)
+				
+		request = [pending_request_hr_list, pending_request_hr_manager_list, request_history_list]
 	else:
+		pending_request_list = []
 		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
 		request_history = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
@@ -95,8 +110,8 @@ def request_all():
 				for item in key:
 					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
 				request_history_list.append(temp_dict)
+		request = [pending_request_list, request_history_list]
 
-	request = [pending_request_list, request_history_list]
 	return render_template("all_requests.html", data = request)
 
 @app.route('/respond_request', methods=['PUT'])
