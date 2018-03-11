@@ -26,10 +26,10 @@ def dashboard():
 				store.update({'pending_requests' : pending_requests})
 			store.update({'manager' : manager})
 
-		leaves_details = {'general_leaves_availed' : employee.general_leaves_availed, 
-		'general_leaves_remaining' : int(settings_to_dict()['general_leaves_limit']) - employee.general_leaves_availed,
-		'medical_leaves_availed' : employee.medical_leaves_availed, 
-		'medical_leaves_remaining' : int(settings_to_dict()['medical_leaves_limit']) - employee.medical_leaves_availed}
+		leaves_details = {'general_leaves_availed' : int(settings_to_dict()['general_leaves_limit']) - employee.general_leaves_remaining, 
+		'general_leaves_remaining' : employee.general_leaves_remaining,
+		'medical_leaves_availed' : int(settings_to_dict()['medical_leaves_limit']) - employee.medical_leaves_remaining, 
+		'medical_leaves_remaining' : employee.medical_leaves_remaining}
 		
 		store.update({'history' : employee.balance_sheet, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role})
 
