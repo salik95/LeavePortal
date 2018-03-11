@@ -9,7 +9,8 @@
 </head>
 <body>
 
-  {% if 'dashboard' in request.url_rule.rule or 'leave_all' in request.url_rule.rule  %}
+
+  {% if current_user.is_authenticated %}
   <header>
     <a href="/dashboard" class="logo">
       <!-- <img src="{{url_for('static', filename='img/logo.png') }}" alt=""> -->
@@ -31,6 +32,7 @@
       </span>
     </div>
   </header>
+  {% endif %}
 
   {% endif %}
 

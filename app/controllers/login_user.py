@@ -15,8 +15,6 @@ import datetime
 def user_loader(id):
     return User.query.get(id)
 
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if  current_user.is_authenticated:
