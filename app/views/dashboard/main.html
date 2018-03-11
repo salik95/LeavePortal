@@ -6,19 +6,31 @@
 
 <main id="dashboard">
 
+  {% if data.role != "Employee" %}
   <div class="management">
+
     <p class="title">Management</p>
     <div class="clr"></div>
+
     <a href="#addemployee" class="btn slim underline light trigger">
       <i class="material-icons left">change_history</i>
       <span>Balance Sheet</span>
     </a>
 
+    {% if data.role == "HR Manager" %}
     <a href="#addemployee" class="btn slim underline light trigger">
       <i class="material-icons left">add</i>
       <span>New Employee</span>
     </a>
+
+    <a href="#addemployee" class="btn slim underline light trigger">
+      <i class="material-icons left">arrow_drop_up</i>
+      <span>Bulk Import</span>
+    </a>
+    {% endif %}
+
   </div>
+  {% endif %}
 
   <div class="clr"></div>
 
