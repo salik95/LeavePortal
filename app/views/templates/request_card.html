@@ -32,10 +32,11 @@
           </div>
           <div class="collapsible-body">  
             <form action="#">
+
               <div class="col s12 first-row">
-                <p></p>
+                <p class="center light">{{item[0].designation + ', ' + item[0].department}}</p>
+                <br>
                 <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
-                <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
                 <br>
                 <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
                 <br>
@@ -45,27 +46,28 @@
                 <div class="col s12">
                   <div class="input-field col s12">
                     <textarea id="hr-text" class="materialize-textarea"></textarea>
-                    <label for="hr-text">Remarks</label>
+                    <label for="hr-text">Your Remarks</label>
                   </div>
                 </div>
               </div>
 
               <div class="row">
-                <div class="#">
-                  <p class="col s6 offset-s1  ">
-                    <input name="group1" type="radio" id="approval1" />
-                    <label for="approval1">Approve</label>
-                  </p>
-
-                  <p class="col s5">
-                    <input name="group1" type="radio" id="denial1" />
-                    <label for="denial1">Decline</label>
-                  </p>  
-                </div>
+                <p class="col s6 offset-s1  ">
+                  <input name="approval" type="radio" id="approve" />
+                  <label for="approve">Approve</label>
+                </p>
+                <p class="col s5">
+                  <input name="approval" type="radio" id="decline" />
+                  <label for="decline">Decline</label>
+                </p>
               </div>
+
+              <p class="small center"><strong>Note:</strong> This action is irreversible</p>
+              <br>
+
               <div class="center">
-                <input type="submit" value="Submit" class="waves-effect waves-light btn center">
-              </div>  
+                <input type="submit" value="Confirm" class="waves-effect waves-light btn round center">
+              </div> 
             </form>
           </div>
         </li>

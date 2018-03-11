@@ -70,7 +70,9 @@ strong {font-weight: 600}
 
 .collapsible { border: 0; box-shadow: none;
 
-  .view-all{ margin: auto;}
+  > li {box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
+
+  .view-all {margin: auto;}
 
   .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
 
@@ -88,8 +90,6 @@ strong {font-weight: 600}
   }
 
   .collapsible-body {background-color: #fafafa}
-
-  .collection-item {box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
 } 
 
 
