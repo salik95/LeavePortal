@@ -15,6 +15,9 @@ def leave_form():
 	
 	leave_data['emp_id'] = current_user.employee.id
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
+
+	if (leave_data['to_date']-leave_data['from_date']).days > current_user.employee.general_leaves_remaining:
+		return error_response_handler("Leave request exceeds available leaves request", 400)
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
 	for item in key:
