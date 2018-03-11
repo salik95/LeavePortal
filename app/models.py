@@ -40,7 +40,10 @@ class Employees(db.Model):
 	department = db.Column(db.String(45), nullable = False)
 	general_leaves_remaining = db.Column(db.Integer, nullable = False)
 	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
+	general_leaves_availed = db.Column(db.Integer, nullable = False)
+	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
+	probation = db.Column(db.Integer, nullable = False)
 
 	user = db.relationship('User', uselist=False, backref=db.backref('employee', uselist=False), 
 		lazy='joined', foreign_keys=[user_id])

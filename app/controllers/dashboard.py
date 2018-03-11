@@ -3,7 +3,6 @@ from app import db , app
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import and_, or_
-from app.controllers.settings import settings_to_dict
 
 @app.route('/dashboard/', methods=['GET'])
 def dashboard():
@@ -29,9 +28,9 @@ def dashboard():
 				store.update({'pending_requests' : pending_requests})
 			store.update({'manager' : manager})
 
-		leaves_details = {'general_leaves_availed' : int(settings_to_dict()['general_leaves_limit']) - employee.general_leaves_remaining, 
+		leaves_details = {'general_leaves_availed' : employee.general_leaves_availed, 
 		'general_leaves_remaining' : employee.general_leaves_remaining,
-		'medical_leaves_availed' : int(settings_to_dict()['medical_leaves_limit']) - employee.medical_leaves_remaining, 
+		'medical_leaves_availed' : employee.medical_leaves_availed, 
 		'medical_leaves_remaining' : employee.medical_leaves_remaining}
 		
 		store.update({'history' : employee.balance_sheet, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role})
