@@ -1,114 +1,114 @@
 
 
 
-      <div class="card leaves">
-        <p class="card-title">Leaves History</p>
-        <div class="card-content">
+<div class="card leaves">
+  <p class="card-title">Leaves History</p>
+  <div class="card-content">
 
-          <div class="request">
-            <ul class="collapsible" data-collapsible="accordion">
-              {% for item in data.history %}
-              <li class="collection-item border-top">
-                <div class="collapsible-header">
-                  
-                  <div class="type {{ item.leave_type }}">
-                    {% if item.leave_type == "Medical" %}
-                    <p>M</p>
-                    {% else %}
-                    <p>G</p>
-                    {% endif %}
-                    }
-                  </div>
+    <div class="request">
+      <ul class="collapsible" data-collapsible="accordion">
+        {% for item in data.history %}
+        <li class="collection-item border-top">
+          <div class="collapsible-header">
 
-                  <div class="duration">
-                    <p class="contract">{{ item.from_date.strftime('%b %d, %Y')}}-{{ item.to_date.strftime('%b %d, %Y') }}</p>
-                  </div>
-
-                  {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
-                  <div class="status approved">
-                    <p>approved</p>
-                  </div>
-                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
-                  <div class="status denied">
-                    <p>HR Unapproved</p>
-                  </div>  
-                  {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
-                  <div class="status denied">
-                    <p>Manager Unapproved</p>
-                  </div>
-                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
-                  <div class="status denied">
-                    <p>Unapproved</p>
-                  </div>
-                  {% elif item.hr_approval== None and item.manager_approval != None %}
-                  <div class="status pending">
-                    <p>HR Pending</p>
-                  </div>
-                  {% elif item.hr_approval != None and item.manager_approval==None %}
-                  <div class="status pending">
-                    <p>Manager Pending</p>
-                  </div>
-                  {% elif item.hr_approval==None and item.manager_approval==None%}
-                  <div class="status pending">
-                    <p>Pending</p>
-                  </div>
-                  {% endif %}
-                </div>
-                
-                <div class="collapsible-body">
-                  <div class="col s12 first-row">
-
-                    <p><span class="bold">Dates</span>&emsp; {{ item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y') }}</p>
-                    <p><span class="bold">Type</span>&emsp; {{ item.leave_type}}</p>
-                    <br>
-                    <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
-                    <br>
-                  </div>
-
-                  <div class="row">
-                    
-                    {% if item.hr_remark %}
-                    <!-- show manager Remarks -->
-                      {% if item.manager_remark %}
-                        <div class="col s12 l6">
-                          <p class="bold">HR Remarks</p>
-                          <p class="message">{{ item.hr_remark }}</p>
-                        </div>
-                        <div class="col s12 l6">
-                          <p class="bold">Manager Remarks</p>
-                          <p class="message">{{ item.manager_remark }}</p>
-                        </div>
-                      {% else %}
-                        <div class="col s12 l6">
-                          <p class="bold">HR Remarks</p>
-                          <p class="message">{{ item.hr_remark }}</p>
-                        </div>
-                      {% endif %}
-                    {% else %}
-                      {% if item.manager_remark %}
-                        <div class="col s12 l6">
-                          <p class="bold">Manager Remarks</p>
-                          <p class="message">{{ item.manager_remark }}</p>
-                        </div>
-                      {% else %}
-                      {% endif %}
-                    <!-- show nothing -->
-                    {% endif %}
-                    
-                  </div>
-                </div>
-              </li>
-              {% endfor %}
-
-              <li class="collection-item border-top">
-                <div class="collapsible-header">
-                  <a href="../../all_leaves.html" class="view-all">View All</a>
-                </div>
-              </li>
-
-            </ul>
+            <div class="type {{ item.leave_type }}">
+              {% if item.leave_type == "Medical" %}
+              <p>M</p>
+              {% else %}
+              <p>G</p>
+              {% endif %}
+            }
           </div>
-          <!-- < div history end> -->
+
+          <div class="duration">
+            <p class="contract">{{ item.from_date.strftime('%b %d, %Y')}}-{{ item.to_date.strftime('%b %d, %Y') }}</p>
+          </div>
+
+          {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
+          <div class="status approved">
+            <p>approved</p>
+          </div>
+          {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
+          <div class="status denied">
+            <p>HR Unapproved</p>
+          </div>  
+          {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
+          <div class="status denied">
+            <p>Manager Unapproved</p>
+          </div>
+          {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
+          <div class="status denied">
+            <p>Unapproved</p>
+          </div>
+          {% elif item.hr_approval== None and item.manager_approval != None %}
+          <div class="status pending">
+            <p>HR Pending</p>
+          </div>
+          {% elif item.hr_approval != None and item.manager_approval==None %}
+          <div class="status pending">
+            <p>Manager Pending</p>
+          </div>
+          {% elif item.hr_approval==None and item.manager_approval==None%}
+          <div class="status pending">
+            <p>Pending</p>
+          </div>
+          {% endif %}
         </div>
-      </div>
+
+        <div class="collapsible-body">
+          <div class="col s12 first-row">
+
+            <p><span class="bold">Dates</span>&emsp; {{ item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y') }}</p>
+            <p><span class="bold">Type</span>&emsp; {{ item.leave_type}}</p>
+            <br>
+            <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
+            <br>
+          </div>
+
+          <div class="row">
+
+            {% if item.hr_remark %}
+            <!-- show manager Remarks -->
+            {% if item.manager_remark %}
+            <div class="col s12 l6">
+              <p class="bold">HR Remarks</p>
+              <p class="message">{{ item.hr_remark }}</p>
+            </div>
+            <div class="col s12 l6">
+              <p class="bold">Manager Remarks</p>
+              <p class="message">{{ item.manager_remark }}</p>
+            </div>
+            {% else %}
+            <div class="col s12 l6">
+              <p class="bold">HR Remarks</p>
+              <p class="message">{{ item.hr_remark }}</p>
+            </div>
+            {% endif %}
+            {% else %}
+            {% if item.manager_remark %}
+            <div class="col s12 l6">
+              <p class="bold">Manager Remarks</p>
+              <p class="message">{{ item.manager_remark }}</p>
+            </div>
+            {% else %}
+            {% endif %}
+            <!-- show nothing -->
+            {% endif %}
+
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+
+      <li class="collection-item border-top">
+        <div class="collapsible-header">
+          <a href="/all_leaves" class="view-all">view all</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+  <!-- < div history end> -->
+</div>
+</div>
 
