@@ -33,25 +33,31 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
     server.sendmail( senders_email, recievers_email ,msg.as_string())
     server.quit()
 
-def notify(recievers_id):
+def notify(recievers_id = None, hr_email = None) :
 
     try:
-        reporting_manager =  current_user.employee.reporting_manager_id
-        manager_user_id = Employees.query.get(int(reporting_manager)).user_id
-        reporting_manager_email = User.query.get(manager_user_id).email
-
-        email = Configuration.query.filter_by(key='email_address').first().value
-        password = Configuration.query.filter_by(key='password').first().value
-
         text = "request pending"
         f = codecs.open("app/views/email_templates/leave_request.html", 'r')
         template = Template(f.read())
         html = template.render()
         subject = 'request pending'
 
-        send_email(email , password , reporting_manager_email, subject, html , text)
+        email = Configuration.query.filter_by(key='email_address').first().value
+        password = Configuration.query.filter_by(key='password').first().value
         
-        print('Success sending notify_new')
+        if recievers_id!= None:
+            reporting_manager =  Employees.query.get(int(recievers_id)).reporting_manager_id
+            manager_user_id = Employees.query.get(int(reporting_manager)).user_id
+            reporting_manager_email = User.query.get(manager_user_id).email
+            send_email(email , password , reporting_manager_email, subject, html , text)
+            print('Success sending ' , reporting_manager_email )
+
+        elif hr_email!= None:
+            send_email(email , password , hr_email , subject, html , text)
+            print('Success sending ' , hr_email )
+
+
+        
         
     except:
         logging.exception('Faliure sending notifications')

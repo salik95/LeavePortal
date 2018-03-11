@@ -37,8 +37,7 @@ from app.controllers.dashboard import *
 from app.controllers.settings import *
 from app.controllers.employee import *
 from app.controllers.leaves import *
-from app.controllers.scheduler import *
-#### VIEW ####
+from app.bin.cronjob import *
 
 app.wsgi_app = SassMiddleware(app.wsgi_app, {
   'app': ('static/scss', 'static/css', '/static/css')
