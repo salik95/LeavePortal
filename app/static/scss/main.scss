@@ -32,8 +32,8 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
 }
 
-.btn.light {opacity: 0.5;
-  &:hover {opacity: 0.6}
+.btn.light {opacity: 0.3;
+  &:hover {opacity: 0.4}
 }
 
 /** Custom Globals **/
@@ -186,9 +186,9 @@ main#dashboard {background-color: #e8eaf6}
 }
 #nopad{ margin:0 0;}
 
-main#login { padding: 0; height: 100vh; background-image: url(../img/background.jpg); background-size: cover;
+main#login { padding: 0; height: 100vh; background-image: url(../img/background-1.jpg); background-size: cover;
 
-  .login { width: 40%; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box; 
+  .login { min-width: 100px; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box;
 
     display: flex; align-items: center; justify-content: center; flex-flow: column;
     background-color: rgba(255,255,255,0.9);
