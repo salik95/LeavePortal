@@ -178,11 +178,11 @@ main#dashboard {background-color: #e8eaf6}
  .contract{font-size: 11px;}
 }
 
-.major{display: flex; flex-direcrion: row; flex-wrap: wrap; align-item: center; justify-content: space-between;
-  .middle{ align-self: flex-start; padding-left: 20px;
+.major{display: flex; flex-direcrion: row; flex-wrap: wrap; align-item: center; justify-content: flex-start; position: relative;
+  .middle{ flex: 0 1 auto; position: absolute; left: 50%; transform: translateX(-49%); 
 
   }
-  .download { padding: 0 10px; margin-right: 10px; flex-shrink: 2; flex-basis: auto; align-self: flex-end;}
+  .download { flex: 0 1 auto; margin-left: auto; margin-right: 20px;}
 }
 #nopad{ margin:0 0;}
 
