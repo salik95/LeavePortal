@@ -72,7 +72,7 @@
     </div>
   </div>
 
-{% if data.role == "HR Manager" %}
+  {% if data.role == "HR Manager" or data.manager %}
 
   <div class="row">
     <div class="col s12 m6 l6">
@@ -86,28 +86,14 @@
     </div>
   </div>
 
-{% elif data.manager %}
+  {% else %}
   <div class="row">
-    <div class="col s12 m6 l6">
-      <!-- History tab -->
-      {% include 'templates/history_card.html' %}  
-    </div>
-
-    <div class="col s12 m6 l6">
-      <!-- Request tab -->
-      {% include 'templates/request_card.html' %}  
+    <div class="col s12 m12 l12">
+      {% include 'templates/history_card.html' %}      
     </div>
   </div>
-{% else %}
-<div class="row">
-  <div class="col s12 m12 l12">
-    {% include 'templates/history_card.html' %}      
-  </div>
-</div>
 
-{% endif %}
-
-
+  {% endif %}
 
 </main>
 
