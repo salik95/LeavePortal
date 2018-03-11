@@ -92,7 +92,7 @@ def request_all():
 				request_history_list.append(temp_dict)
 
 	request = [pending_request_list, request_history_list]
-	return jsonify(request)
+	return render_template("all_requests.html", data = request)
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
