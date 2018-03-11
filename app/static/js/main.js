@@ -30,7 +30,19 @@ $(document).ready(function() {
   })  
 
   $('.modal').modal();
-  $('#modal1').modal('open')
+  // $('#modal1').modal('open')
+
+  $('.account > i').on('mouseover', function(event) {
+    console.log(event)
+    $('.account').addClass('active')
+  })
+
+  $('.account').on('mouseleave', function(event) {
+    console.log(event)
+    if($('.account').hasClass('active'))
+      $('.account').removeClass('active')
+  })
+
 })
 
 $('.datepicker').pickadate({
@@ -79,9 +91,9 @@ $('form[data-resource]').submit(function(e) {
   // Prepare request data
   switch(resource) {
     case 'employee':
-      break
+    break
     case 'leave':
-      break
+    break
   }
   
   console.log(data)

@@ -7,8 +7,14 @@
 <main id="dashboard">
 
   <div class="management">
-    <p class="title">HR Management</p>
-    <a href="#addemployee" class="btn slim outline trigger">
+    <p class="title">Management</p>
+    <div class="clr"></div>
+    <a href="#addemployee" class="btn slim underline light trigger">
+      <i class="material-icons left">change_history</i>
+      <span>Balance Sheet</span>
+    </a>
+
+    <a href="#addemployee" class="btn slim underline light trigger">
       <i class="material-icons left">add</i>
       <span>New Employee</span>
     </a>
@@ -54,12 +60,13 @@
     </div>
   </div>
 
-{% if data.manager %}
+  {% if data.manager %}
   <div class="row">
     <div class="col s12 m6 l6">
       <div class="card leaves">
         <p class="card-title">Leaves History</p>
         <div class="card-content">
+
 
           <div class="request">
             <ul class="collapsible" data-collapsible="accordion">
@@ -67,338 +74,338 @@
 
               <li class="collection-item border-top">
                 <div class="collapsible-header">
-                  
+
                   <div class="type {{ item.leave_type }}">
                     {% if item.leave_type == "Medical" %}
                     <p>M</p>
                     {% else %}
                     <p>G</p>
                     {% endif %}
-                    }
-                  </div>
+                  }
+                </div>
 
-                  <div class="duration">
-                    <p class="contract">{{item.from_date.strftime('%b %d, %Y')}}-{{item.to_date.strftime('%b %d, %Y')}}</p>
-                  </div>
+                <div class="duration">
+                  <p class="contract">{{item.from_date.strftime('%b %d, %Y')}}-{{item.to_date.strftime('%b %d, %Y')}}</p>
+                </div>
 
-                  {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
-                  <div class="status approved">
-                    <p>approved</p>
+                {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
+                <div class="status approved">
+                  <p>approved</p>
+                </div>
+                {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
+                <div class="status denied">
+                  <p>HR napproved</p>
+                </div>  
+                {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
+                <div class="status denied">
+                  <p>Manager Unapproved</p>
+                </div>
+                {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
+                <div class="status denied">
+                  <p>Unapproved</p>
+                </div>
+                {% elif item.hr_approval== None and item.manager_approval != None %}
+                <div class="status pending">
+                  <p>HR Pending</p>
+                </div>
+                {% elif item.hr_approval != None and item.manager_approval==None %}
+                <div class="status pending">
+                  <p>Manager Pending</p>
+                </div>
+                {% elif item.hr_approval==None and item.manager_approval==None%}
+                <div class="status pending">
+                  <p>Pending</p>
+                </div>
+                {% endif %}
+
+              </div>
+              <div class="collapsible-body">
+                <div class="col s12 first-row">
+
+                  <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
+                  <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
+                  <br>
+                  <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
+                  <br>
+                </div>
+
+                <div class="row">
+
+                  {% if item.hr_remark %}
+                  <!-- show manager Remarks -->
+                  {% if item.manager_remark %}
+                  <div class="col s12 l6">
+                    <p class="bold">HR Remarks</p>
+                    <p class="message">{{ item.hr_remark }}</p>
                   </div>
-                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
-                  <div class="status denied">
-                    <p>HR napproved</p>
-                  </div>  
-                  {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
-                  <div class="status denied">
-                    <p>Manager Unapproved</p>
+                  <div class="col s12 l6">
+                    <p class="bold">Manager Remarks</p>
+                    <p class="message">{{ item.manager_remark }}</p>
                   </div>
-                  {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
-                  <div class="status denied">
-                    <p>Unapproved</p>
-                  </div>
-                  {% elif item.hr_approval== None and item.manager_approval != None %}
-                  <div class="status pending">
-                    <p>HR Pending</p>
-                  </div>
-                  {% elif item.hr_approval != None and item.manager_approval==None %}
-                  <div class="status pending">
-                    <p>Manager Pending</p>
-                  </div>
-                  {% elif item.hr_approval==None and item.manager_approval==None%}
-                  <div class="status pending">
-                    <p>Pending</p>
+                  {% else %}
+                  <div class="col s12 l6">
+                    <p class="bold">HR Remarks</p>
+                    <p class="message">{{ item.hr_remark }}</p>
                   </div>
                   {% endif %}
-
-                </div>
-                <div class="collapsible-body">
-                  <div class="col s12 first-row">
-
-                    <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
-                    <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
-                    <br>
-                    <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
-                    <br>
+                  {% else %}
+                  {% if item.manager_remark %}
+                  <div class="col s12 l6">
+                    <p class="bold">Manager Remarks</p>
+                    <p class="message">{{ item.manager_remark }}</p>
                   </div>
-
-                  <div class="row">
-                    
-                    {% if item.hr_remark %}
-                    <!-- show manager Remarks -->
-                      {% if item.manager_remark %}
-                        <div class="col s12 l6">
-                          <p class="bold">HR Remarks</p>
-                          <p class="message">{{ item.hr_remark }}</p>
-                        </div>
-                        <div class="col s12 l6">
-                          <p class="bold">Manager Remarks</p>
-                          <p class="message">{{ item.manager_remark }}</p>
-                        </div>
-                      {% else %}
-                        <div class="col s12 l6">
-                          <p class="bold">HR Remarks</p>
-                          <p class="message">{{ item.hr_remark }}</p>
-                        </div>
-                      {% endif %}
-                    {% else %}
-                      {% if item.manager_remark %}
-                        <div class="col s12 l6">
-                          <p class="bold">Manager Remarks</p>
-                          <p class="message">{{ item.manager_remark }}</p>
-                        </div>
-                      {% else %}
-                      {% endif %}
-                    <!-- show nothing -->
-                    {% endif %}
-                    
-                  </div>
-                </div>
-              </li>
-              {% endfor %}
-              
-              <li class="collection-item border-top">
-                <div class="collapsible-header">
-                  <a href="#" class="view-all">View All</a>
-                </div>
-              </li>
-
-            </ul>
-          </div>
-          <!-- < div history end> -->
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col s12 m6 l6">
-      <div class="card leaves">
-        <p class="card-title">Leaves Requests</p>
-        <div class="card-content">
-
-          <div class="request">
-            <ul class="collapsible" data-collapsible="accordion">
-              {% for item in data.pending_requests %}
-
-              <li class="collection-item">
-                <div class="collapsible-header">
+                  {% else %}
+                  {% endif %}
+                  <!-- show nothing -->
+                  {% endif %}
                   
-                  <div class="type {{ item[1].leave_type }}">
-                    {% if item[1].leave_type == "Medical" %}
-                    <p>M</p>
-                    {% else %}
-                    <p>G</p>
-                    {% endif %}
-                    
-                  </div>
-                  
-                  <div class="duration">
-                    {{item[1].employee.first_name}} {{item[1].employee.last_name}} - {{item[1].employee.designation}}
-                  </div>
-                    
-                    <div class="status pending">
-                      <p>pending</p>
-                    </div>
                 </div>
-                  <div class="collapsible-body">
-                    
-                    
-
-                      {% if data.role == "hr" and data.manager==true%}
-                      <form action="#">
-                        <div class="col s12 first-row">
-                          <p></p>
-                          <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
-                          <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
-                          <br>
-                          <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
-                          <br>
-                        </div>
-
-                        <div class="row">
-                          <div class="col s12">
-                            <!-- <p class="bold">HR Remarks</p> -->
-                            <div class="input-field col s12">
-                              <textarea id="hr-text" class="materialize-textarea"></textarea>
-                              <label for="hr-text">HR Remarks</label>
-                            </div>
-                          </div>   
-                            <!--  -->
-                            
-                        </div>
-
-                        <div class="row">
-                            <div class="#">
-                              <p class="col s6 offset-s1  ">
-                                <input name="group1" type="radio" id="approval1" />
-                                <label for="approval1">Approve</label>
-                              </p>
-
-                              <p class="col s5">
-                                <input name="group1" type="radio" id="denial1" />
-                                <label for="denial1">Decline</label>
-                              </p>  
-                            </div>
-                        </div>
-
-                        <div class="center">
-                          <input type="submit" value="Submit" class="waves-effect waves-light btn center">
-                        </div>
-                        
-                      </form>
-                      {% elif data.manager %}
-
-                      <form action="#">
-                      <div class="col s12 first-row">
-                        <p></p>
-                        <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
-                        <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
-                        <br>
-                        <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
-                        <br>
-                      </div>
-
-                        <div class="row">
-                          <div class="col s12">
-                            <!-- <p class="bold">HR Remarks</p> -->
-                            <div class="input-field col s12">
-                              <textarea id="mg-text" class="materialize-textarea"></textarea>
-                              <label for="mg-text">Manager Remarks</label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <p class="col s6 offset-s1">
-                            <input name="group2" type="radio" class="col s6" id="approval2" />
-                            <label for="approval2">Approve</label>
-                          </p>
-
-                          <p class="col s5">
-                            <input name="group2" type="radio" class="col s6" id="denial2" />
-                            <label for="denial2">Decline</label>
-                          </p>
-
-                            
-                        </div>
-                      <div class="center">
-                        <input type="submit" value="Submit" class="waves-effect waves-light btn">              
-                      </div>
-                      
-                      </form>
-                      {% else %}
-                      
-                        
-                      {% endif %}
-
-                  </div>
-              </li>
+              </div>
+            </li>
             {% endfor %}
-              <li class="collection-item border-top">
-                <div class="collapsible-header">
-                  <a href="#" class="view-all">View All</a>
-                </div>
-              </li>
-            </ul>
-            </div>
-            <!-- < div history end> -->
-          </div>
+            
+            <li class="collection-item border-top">
+              <div class="collapsible-header">
+                <a href="#" class="view-all">View All</a>
+              </div>
+            </li>
+
+          </ul>
         </div>
-      </div> 
+        <!-- < div history end> -->
+      </div>
     </div>
   </div>
-{% else %}
-  <div class="row">
-    <div class="col s12 m12 l12">
-      <div class="card leaves">
-        <p class="card-title">Leaves History</p>
-        <div class="card-content">
 
-          <div class="request">
-            <ul class="collapsible" data-collapsible="accordion">
-              {% for item in data.history %}
 
-              <li class="collection-item border-top">
-                <div class="collapsible-header">
+  <div class="col s12 m6 l6">
+    <div class="card leaves">
+      <p class="card-title">Leaves Requests</p>
+      <div class="card-content">
+
+        <div class="request">
+          <ul class="collapsible" data-collapsible="accordion">
+            {% for item in data.pending_requests %}
+
+            <li class="collection-item">
+              <div class="collapsible-header">
+
+                <div class="type {{ item[1].leave_type }}">
+                  {% if item[1].leave_type == "Medical" %}
+                  <p>M</p>
+                  {% else %}
+                  <p>G</p>
+                  {% endif %}
                   
-                  <div class="type {{ item.leave_type }}">
-                    {% if item.leave_type == "Medical" %}
-                    <p>M</p>
-                    {% else %}
-                    <p>G</p>
-                    {% endif %}
-                    }
-                  </div>
-
-                  <div class="duration">
-                    <p class="flow-text">{{item.from_date.strftime('%b %d, %Y')}}</p>-
-                    <p class="flow-text"> {{item.to_date.strftime('%b %d, %Y')}}</p>
-                  </div>
-                  <div class="status approved">
-                    <p>approved</p>
-                  </div>
                 </div>
-                <div class="collapsible-body">
-                  <div class="col s12 first-row">
+                
+                <div class="duration">
+                  {{item[1].employee.first_name}} {{item[1].employee.last_name}} - {{item[1].employee.designation}}
+                </div>
+                
+                <div class="status pending">
+                  <p>pending</p>
+                </div>
+              </div>
+              <div class="collapsible-body">
 
-                    <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
-                    <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
+
+
+                {% if data.role == "hr" and data.manager==true%}
+                <form action="#">
+                  <div class="col s12 first-row">
+                    <p></p>
+                    <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+                    <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
                     <br>
-                    <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
+                    <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
                     <br>
                   </div>
 
                   <div class="row">
-                    
-                    {% if item.hr_remark %}
-                    <!-- show manager Remarks -->
-                      {% if item.manager_remark %}
-                        <div class="col s12 l6">
-                          <p class="bold">HR Remarks</p>
-                          <p class="message">{{ item.hr_remark }}</p>
-                        </div>
-                        <div class="col s12 l6">
-                          <p class="bold">Manager Remarks</p>
-                          <p class="message">{{ item.manager_remark }}</p>
-                        </div>
-                      {% else %}
-                        <div class="col s12 l6">
-                          <p class="bold">HR Remarks</p>
-                          <p class="message">{{ item.hr_remark }}</p>
-                        </div>
-                      {% endif %}
-                    {% else %}
-                      {% if item.manager_remark %}
-                        <div class="col s12 l6">
-                          <p class="bold">Manager Remarks</p>
-                          <p class="message">{{ item.manager_remark }}</p>
-                        </div>
-                      {% else %}
-                      {% endif %}
-                    <!-- show nothing -->
-                    {% endif %}
+                    <div class="col s12">
+                      <!-- <p class="bold">HR Remarks</p> -->
+                      <div class="input-field col s12">
+                        <textarea id="hr-text" class="materialize-textarea"></textarea>
+                        <label for="hr-text">HR Remarks</label>
+                      </div>
+                    </div>   
+                    <!--  -->
                     
                   </div>
-                </div>
-              </li>
-              {% endfor %}
-              
-              <li class="collection-item border-top">
-                <div class="collapsible-header">
-                  <a href="#" class="view-all">View All</a>
-                </div>
-              </li>
 
-            </ul>
-          </div>
-          <!-- < div history end> -->
+                  <div class="row">
+                    <div class="#">
+                      <p class="col s6 offset-s1  ">
+                        <input name="group1" type="radio" id="approval1" />
+                        <label for="approval1">Approve</label>
+                      </p>
+
+                      <p class="col s5">
+                        <input name="group1" type="radio" id="denial1" />
+                        <label for="denial1">Decline</label>
+                      </p>  
+                    </div>
+                  </div>
+
+                  <div class="center">
+                    <input type="submit" value="Submit" class="waves-effect waves-light btn center">
+                  </div>
+                  
+                </form>
+                {% elif data.manager %}
+
+                <form action="#">
+                  <div class="col s12 first-row">
+                    <p></p>
+                    <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+                    <p><span class="bold">Type</span>&emsp; {{item[1].leave_type}}</p>
+                    <br>
+                    <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                    <br>
+                  </div>
+
+                  <div class="row">
+                    <div class="col s12">
+                      <!-- <p class="bold">HR Remarks</p> -->
+                      <div class="input-field col s12">
+                        <textarea id="mg-text" class="materialize-textarea"></textarea>
+                        <label for="mg-text">Manager Remarks</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <p class="col s6 offset-s1">
+                      <input name="group2" type="radio" class="col s6" id="approval2" />
+                      <label for="approval2">Approve</label>
+                    </p>
+
+                    <p class="col s5">
+                      <input name="group2" type="radio" class="col s6" id="denial2" />
+                      <label for="denial2">Decline</label>
+                    </p>
+
+                    
+                  </div>
+                  <div class="center">
+                    <input type="submit" value="Submit" class="waves-effect waves-light btn">              
+                  </div>
+                  
+                </form>
+                {% else %}
+                
+                
+                {% endif %}
+
+              </div>
+            </li>
+            {% endfor %}
+            <li class="collection-item border-top">
+              <div class="collapsible-header">
+                <a href="#" class="view-all">View All</a>
+              </div>
+            </li>
+          </ul>
         </div>
+        <!-- < div history end> -->
       </div>
     </div>
+  </div> 
+</div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col s12 m12 l12">
+    <div class="card leaves">
+      <p class="card-title">Leaves History</p>
+      <div class="card-content">
+
+        <div class="request">
+          <ul class="collapsible" data-collapsible="accordion">
+            {% for item in data.history %}
+
+            <li class="collection-item border-top">
+              <div class="collapsible-header">
+
+                <div class="type {{ item.leave_type }}">
+                  {% if item.leave_type == "Medical" %}
+                  <p>M</p>
+                  {% else %}
+                  <p>G</p>
+                  {% endif %}
+                }
+              </div>
+
+              <div class="duration">
+                <p class="flow-text">{{item.from_date.strftime('%b %d, %Y')}}</p>-
+                <p class="flow-text"> {{item.to_date.strftime('%b %d, %Y')}}</p>
+              </div>
+              <div class="status approved">
+                <p>approved</p>
+              </div>
+            </div>
+            <div class="collapsible-body">
+              <div class="col s12 first-row">
+
+                <p><span class="bold">Dates</span>&emsp; {{item.from_date.strftime('%b %d, %Y')}} - {{item.to_date.strftime('%b %d, %Y')}}</p>
+                <p><span class="bold">Type</span>&emsp; {{item.leave_type}}</p>
+                <br>
+                <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
+                <br>
+              </div>
+
+              <div class="row">
+
+                {% if item.hr_remark %}
+                <!-- show manager Remarks -->
+                {% if item.manager_remark %}
+                <div class="col s12 l6">
+                  <p class="bold">HR Remarks</p>
+                  <p class="message">{{ item.hr_remark }}</p>
+                </div>
+                <div class="col s12 l6">
+                  <p class="bold">Manager Remarks</p>
+                  <p class="message">{{ item.manager_remark }}</p>
+                </div>
+                {% else %}
+                <div class="col s12 l6">
+                  <p class="bold">HR Remarks</p>
+                  <p class="message">{{ item.hr_remark }}</p>
+                </div>
+                {% endif %}
+                {% else %}
+                {% if item.manager_remark %}
+                <div class="col s12 l6">
+                  <p class="bold">Manager Remarks</p>
+                  <p class="message">{{ item.manager_remark }}</p>
+                </div>
+                {% else %}
+                {% endif %}
+                <!-- show nothing -->
+                {% endif %}
+                
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          
+          <li class="collection-item border-top">
+            <div class="collapsible-header">
+              <a href="#" class="view-all">View All</a>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+      <!-- < div history end> -->
+    </div>
   </div>
+</div>
+</div>
 
 {% endif %}
-  
+
 
 
 </main>
@@ -424,13 +431,13 @@
 </div>
 
 <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4 class="center">Release Notice</h4>
-      <p class="center">This is an early UI test release. Most features are partly functional and still under development.</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">CLOSE</a>
-    </div>
+  <div class="modal-content">
+    <h4 class="center">Release Notice</h4>
+    <p class="center">This is an early UI test release. Most features are partly functional and still under development.</p>
   </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">CLOSE</a>
+  </div>
+</div>
 
 {% endblock %}
