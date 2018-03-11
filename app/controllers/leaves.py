@@ -4,6 +4,7 @@ from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_
+import datetime
 
 @app.route('/leave_form', methods=['POST'])
 def leave_form():
@@ -13,6 +14,7 @@ def leave_form():
 		return error_response_handler("Incomplete Data", 400)
 	
 	leave_data['emp_id'] = current_user.employee.id
+	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
 	for item in key:
