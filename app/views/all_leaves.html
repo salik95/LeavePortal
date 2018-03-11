@@ -5,20 +5,10 @@
 {% block body %}
 
 <main>
-	<!-- <div class="row">
-		<div class="col s6 m8 l10 offset-s6 offset-m2 offset-l1 right-align">
-			<div class="management">
-				<p class="title right-align">Move to Excel</p>
-			    <a href="#addemployee" class="btn slim outline trigger">
-			      <i class="material-icons left">file_download</i>
-			      <span>Download</span>
-			    </a>
-			</div>
-		</div>
-	</div>	 -->
-
 	<div class="row">
+		{% with show_download=True %}
 		{% include 'templates/history_card.html' %}
+		{% endwith %}
 	</div>		
 </main>
 

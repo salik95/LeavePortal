@@ -1,16 +1,18 @@
 <div class="card leaves">
 
-  <div class="major card-title">
-    
-    <div class="middle">
-      <p id="nopad">Leaves History</p>
-    </div>
-    <a href="#download csv" class="btn slim outline trigger download">
+
+  <p class="card-title">
+    Leaves History
+
+    {% if show_download %}
+    <a href="#" class="btn slim outline trigger download">
       <i class="material-icons left">file_download</i>
       <span>Download</span>
-    </a>  
+    </a>
+    {% endif %}    
     
-  </div>
+  </p>
+
   
   <div class="card-content">
 

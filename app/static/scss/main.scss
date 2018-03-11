@@ -109,7 +109,11 @@ strong {font-weight: 600}
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Montserrat; /**box-shadow: 0 1px 5px rgba(0,0,0,0.1)**/}
+  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Montserrat;
+  
+    .btn {position: absolute; right: 20px}
+
+  }
 }
 
 .brand-logo img {height: 80%; width: auto}
