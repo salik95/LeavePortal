@@ -12,7 +12,7 @@
     <div class="request">
       <ul class="collapsible" data-collapsible="accordion">
         {% for item in list_items %}
-        <li>
+        <li class="collection-item">
           <div class="collapsible-header">                  
             <div class="type {{ item[1].leave_type }}">
               {% if item[1].leave_type == "Medical" %}
@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="collapsible-body">  
-            <form action="#">
+            <form data-resource="leave" method="PUT">
 
               <div class="col s12 first-row">
                 <p class="center light">{{item[0].designation + ', ' + item[0].department}}</p>
@@ -42,10 +42,12 @@
                 <br>
               </div>
 
+              <input type="hidden" name="id" value={{item[1].id}}>
+
               <div class="row">
                 <div class="col s12">
                   <div class="input-field col s12">
-                    <textarea id="hr-text" class="materialize-textarea"></textarea>
+                    <textarea id="hr-text" class="materialize-textarea" name="remarks"></textarea>
                     <label for="hr-text">Your Remarks</label>
                   </div>
                 </div>
@@ -53,12 +55,12 @@
 
               <div class="row">
                 <p class="col s6 offset-s1  ">
-                  <input name="approval" type="radio" id="approve" />
-                  <label for="approve">Approve</label>
+                  <input name="approval" type="radio" id="approve-{{item[1].id}}" />
+                  <label for="approve-{{item[1].id}}">Approve</label>
                 </p>
                 <p class="col s5">
-                  <input name="approval" type="radio" id="decline" />
-                  <label for="decline">Decline</label>
+                  <input name="approval" type="radio" id="decline-{{item[1].id}}" />
+                  <label for="decline-{{item[1].id}}">Decline</label>
                 </p>
               </div>
 
