@@ -136,6 +136,8 @@ def respond_request():
 def update_employee_leaves_after_approval(days, emp_id, leave_type):
 	employee = Employees.query.get(emp_id)
 	if leave_type == "Medical":
+		employee.medical_leaves_availed = employee.medical_leaves_availed+days
 		employee.medical_leaves_remaining = employee.medical_leaves_remaining-days
 	else:
+		employee.general_leaves_availed = employee.general_leaves_availed+days
 		employee.general_leaves_remaining = employee.general_leaves_remaining-days
