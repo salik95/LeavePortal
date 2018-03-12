@@ -71,8 +71,6 @@ def request_all():
 		
 		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key, 'Balance_sheet'),
 		'responded' : get_dict_of_sqlalchemy_object(responded, key, 'Balance_sheet')}
-
-	print(requests)
 	return render_template("all_requests.html", data = requests)
 
 @app.route('/respond_request', methods=['PUT'])
