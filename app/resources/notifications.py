@@ -5,11 +5,16 @@ from jinja2 import Template
 import codecs
 import json
 import time
+from flask import request, jsonify
+from app.models import *
+
+from flask_login import login_required, current_user
+from app import db , app
+
+import logging 
 
 
-
-
-def send_email(senders_email,recievers_email, senders_email_password, subject, html, email_text):
+def send_email(senders_email, senders_email_password, recievers_email, subject, html, email_text):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = senders_email
@@ -28,15 +33,32 @@ def send_email(senders_email,recievers_email, senders_email_password, subject, h
     server.sendmail( senders_email, recievers_email ,msg.as_string())
     server.quit()
 
-def notify(recievers_email):
+def notify(recievers_id = None, hr_email = None) :
 
-	try:
-		text = "Request Pending"
-		f = codecs.open("app/index.html", 'r')
-		template = Template(f.read())
-		html = template.render()
-		subject = 'Alert - New plant intern added'
-		send_email('arsalanjaved2010@outlook.com',recievers_email , 'arsalanA1', 'Check portal', html , text)
-		print('Success sending notifications')
-	except:
-		print('Faliure sending notifications')
+    try:
+        text = "request pending"
+        f = codecs.open("app/views/email_templates/leave_request.html", 'r')
+        template = Template(f.read())
+        html = template.render()
+        subject = 'request pending'
+
+        email = Configuration.query.filter_by(key='email_address').first().value
+        password = Configuration.query.filter_by(key='password').first().value
+        
+        if recievers_id!= None:
+            reporting_manager =  Employees.query.get(int(recievers_id)).reporting_manager_id
+            manager_user_id = Employees.query.get(int(reporting_manager)).user_id
+            reporting_manager_email = User.query.get(manager_user_id).email
+            send_email(email , password , reporting_manager_email, subject, html , text)
+            print('Success sending ' , reporting_manager_email )
+
+        elif hr_email!= None:
+            send_email(email , password , hr_email , subject, html , text)
+            print('Success sending ' , hr_email )
+
+
+        
+        
+    except:
+        logging.exception('Faliure sending notifications')
+

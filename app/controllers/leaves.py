@@ -4,7 +4,9 @@ from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_
+from app.resources.notifications import notify
 import datetime
+
 
 @app.route('/leave_form', methods=['POST'])
 def leave_form():
@@ -14,7 +16,11 @@ def leave_form():
 		return error_response_handler("Incomplete Data", 400)
 	
 	leave_data['emp_id'] = current_user.employee.id
+
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
+
+	if (leave_data['to_date']-leave_data['from_date']).days > current_user.employee.general_leaves_remaining:
+		return error_response_handler("Leave request exceeds available leaves request", 400)
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
 	for item in key:
@@ -27,7 +33,10 @@ def leave_form():
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
 	
+	notify(leave_data['emp_id'])
+
 	return jsonify(leave_dict)
+
 
 @app.route('/all_leaves/', methods=['GET'])
 def leave_all():
@@ -47,54 +56,30 @@ def leave_all():
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
 
-
-	return render_template("all_leaves.html", data = leave_list)
+	return render_template("all_leaves.html", data = {'history': leave_list})
 
 @app.route('/all_requests', methods=['GET'])
 def request_all():
-	
 	key = Balance_sheet.__mapper__.columns.keys()
-	pending_request_list = []
-	request_history_list = []
 	
 	if current_user.role == "HR Manager":
-		pending_requests = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
-		request_history = Balance_sheet.query.order_by(asc(Balance_sheet.from_date)).all()
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date))
 		
-		if pending_requests is not None:
-			for leave_item in pending_requests:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item, item)
-				pending_request_list.append(temp_dict)
-		if request_history is not None:
-			for leave_item in request_history:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item, item)
-				request_history_list.append(temp_dict)
+		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key),
+		'responded' : get_dict_of_sqlalchemy_object(responded, key)}
+
 	else:
-		pending_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
-		request_history = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
+		
+		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key, 'Balance_sheet'),
+		'responded' : get_dict_of_sqlalchemy_object(responded, key, 'Balance_sheet')}
 
-		if pending_requests is not None:
-			for leave_item in pending_requests:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
-				pending_request_list.append(temp_dict)
-
-		if request_history is not None:
-			for leave_item in request_history:
-				temp_dict = {}
-				for item in key:
-					temp_dict[item] = getattr(leave_item.Balance_sheet, item)
-				request_history_list.append(temp_dict)
-
-	request = [pending_request_list, request_history_list]
-	return render_template("all_requests.html", data = request)
+	print(requests)
+	return render_template("all_requests.html", data = requests)
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
@@ -135,6 +120,21 @@ def respond_request():
 def update_employee_leaves_after_approval(days, emp_id, leave_type):
 	employee = Employees.query.get(emp_id)
 	if leave_type == "Medical":
+		employee.medical_leaves_availed = employee.medical_leaves_availed+days
 		employee.medical_leaves_remaining = employee.medical_leaves_remaining-days
 	else:
+		employee.general_leaves_availed = employee.general_leaves_availed+days
 		employee.general_leaves_remaining = employee.general_leaves_remaining-days
+
+def get_dict_of_sqlalchemy_object(alchemy_object, key, value=None):
+	alchemy_list = []
+	if alchemy_object is not None:
+		for leave_item in alchemy_object:
+			temp_dict = {}
+			for item in key:
+				if value!=None:
+					temp_dict[item] = getattr(getattr(leave_item, value), item)
+				else:
+					temp_dict[item] = getattr(leave_item, item)
+			alchemy_list.append(temp_dict)
+	return alchemy_list

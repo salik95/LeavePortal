@@ -74,12 +74,13 @@
           </div>
         </li>
         {% endfor%}
-
-        <li class="collection-item border-top">
+        {% if not single_view %}
+        <li>
           <div class="collapsible-header">
             <a href="/all_requests" class="view-all">View All</a>
           </div>
         </li>
+        {% endif %}
       </ul>
     </div>  
   </div>
