@@ -2,17 +2,15 @@
 
 
   <p class="card-title">
-    Leaves History
+    Personal History
 
-    {% if show_download %}
+    {% if single_view %}
     <a href="#" class="btn slim outline trigger download">
       <i class="material-icons left">file_download</i>
       <span>Download</span>
     </a>
-    {% endif %}    
-    
+    {% endif %}
   </p>
-
   
   <div class="card-content">
 
@@ -106,11 +104,13 @@
       </li>
       {% endfor %}
 
-      <li class="collection-item border-top">
+      {% if not single_view %}
+      <li>
         <div class="collapsible-header">
           <a href="/all_leaves" class="view-all">View All</a>
         </div>
       </li>
+      {% endif %}
 
     </ul>
   </div>
