@@ -41,3 +41,13 @@ actions = {
   }
 
 }
+
+function getEmployees(keyword, callback) {
+  obj = {};
+  list = [
+    {id: 1, name: 'Kebab'},
+    {id: 3, name: 'Keema'}
+  ]
+
+  callback(list)
+}

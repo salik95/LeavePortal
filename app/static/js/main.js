@@ -27,6 +27,7 @@ $(document).ready(function() {
         xhr.setRequestHeader("X-CSRFToken", csrftoken)
       }
     }
+
   })  
 
   $('.modal').modal();
@@ -43,6 +44,23 @@ $(document).ready(function() {
       $('.account').removeClass('active')
   })
 
+  $list = $('#language')
+
+  $("input").on("keypress",function(e) {
+    console.log("chal be");
+    var keyword = $(this).attr('value');
+
+    getEmployees(keyword, function(list) {
+      $list.empty()
+      list.forEach(function(employee) {
+       $list.append('<option value="'+employee.id+'">'+employee.name+'</option>')
+      console.log($list);
+     })
+
+    })
+    
+  });
+  
 })
 
 $('.datepicker').pickadate({
@@ -110,6 +128,7 @@ $('form[data-resource]').submit(function(e) {
         $notice.text('Employee is successfully added and notified via email')
       else if (resource == 'leave')
         $notice.text('Application is sent successfully and pending for approval.')
+
       else if (resource == 'leave' && method == "PUT") {
 
       }
@@ -118,4 +137,5 @@ $('form[data-resource]').submit(function(e) {
       }
     }
   })
+
 })

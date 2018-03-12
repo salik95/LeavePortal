@@ -5,6 +5,10 @@
 {% block body %}
 
 <main>
+
+	<input type="text" name="language" list="language">
+	<datalist id="language"></datalist>
+
 	<div class="row">
 		{% with single_view=True %}
 		{% include 'templates/history_card.html' %}
