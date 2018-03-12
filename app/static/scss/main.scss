@@ -11,6 +11,8 @@ $light-gray: #f8f8f8;
 
 $green: #20bf6b;
 $red: #fc5c65;
+$yellow: #f1c40f;
+$orange: #f39c12;
 
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 
@@ -30,8 +32,8 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
 }
 
-.btn.light {opacity: 0.2;
-  &:hover {opacity: 0.3}
+.btn.light {opacity: 0.5;
+  &:hover {opacity: 0.6}
 }
 
 /** Custom Globals **/
@@ -40,9 +42,14 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 .center {text-align: center;}
 .right {text-align: right}
 .clr{ clear: both;}
+
 .upper {text-transform: uppercase;}
 .bold {font-weight: 600}
-.border-top{border-top:1px solid #DDDDDD;}
+.border-top {border-top:1px solid #DDDDDD;}
+.small {font-size: 12px}
+.light {color: #999!important}
+
+strong {font-weight: 600}
 
 .scrollable {
 
@@ -61,6 +68,30 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .content {margin: 0 auto; max-width: 1000px; width: 70%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
 }
 
+.collapsible { border: 0; box-shadow: none;
+
+  > li {box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
+
+  .view-all {margin: auto;}
+
+  .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
+
+    .type { padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
+      p {text-align: center; padding: 16px 0px;}
+    }
+
+    .Medical{ background-color: #5FAD56;} 
+    .General{ background-color: #1B264F;}
+
+    .duration { margin-left:70px;}
+    .status { margin: 0px 15px; font-weight: bold; font-size: 14px;
+      &.pending {color: $orange}
+    }
+  }
+
+  .collapsible-body {background-color: #fafafa}
+} 
+
 
 /** Material Overrides **/
 
@@ -71,15 +102,18 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
   .approved{color: #6DC6EB;}
   .denied{color: #D56468;}
   .pending{color: #22B573;}
-  .Medical{ background-color: #5FAD56;} 
-  .General{ background-color: #1B264F;}
+
 }
 
 .card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 15px 0; background-color: darken($light-gray, 3); box-sizing: content-box; margin: 0; font-size: 18px; text-align: center; color: $primary-color; font: 400 20px Montserrat; /**box-shadow: 0 1px 5px rgba(0,0,0,0.1)**/}
+  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Montserrat;
+  
+    .btn {position: absolute; right: 20px}
+
+  }
 }
 
 .brand-logo img {height: 80%; width: auto}
@@ -148,17 +182,17 @@ main#dashboard {background-color: #e8eaf6}
  .contract{font-size: 11px;}
 }
 
-.major{display: flex; flex-direcrion: row; flex-wrap: wrap; align-item: center; justify-content: space-between;
-  .middle{ align-self: flex-start; padding-left: 20px;
+.major{display: flex; flex-direcrion: row; flex-wrap: wrap; align-item: center; justify-content: flex-start; position: relative;
+  .middle{ flex: 0 1 auto; position: absolute; left: 50%; transform: translateX(-49%); 
 
   }
-  .download { padding: 0 10px; margin-right: 10px; flex-shrink: 2; flex-basis: auto; align-self: flex-end;}
+  .download { flex: 0 1 auto; margin-left: auto; margin-right: 20px;}
 }
 #nopad{ margin:0 0;}
 
-main#login { padding: 0; height: 100vh; background-image: url(../img/background.jpg); background-size: cover;
+main#login { padding: 0; height: 100vh; background-image: url(../img/background-1.jpg); background-size: cover;
 
-  .login { width: 40%; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box; 
+  .login { min-width: 100px; height: 100%; max-width: 500px; text-align: center; padding: 0; box-sizing: border-box;
 
     display: flex; align-items: center; justify-content: center; flex-flow: column;
     background-color: rgba(255,255,255,0.9);
@@ -167,7 +201,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
 
 .card.counter {
   h1 {font-family: Montserrat; font-weight: 300}
-  .row p {font-size: 18px}
+  .row p {font-size: 15px; text-transform: uppercase}
 }
 
 // Leaves Card
@@ -176,8 +210,6 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
   .card-content {padding: 0 0;}
 }
 
-.collapsible-body {background-color: #fafafa}
-
 //history
 .clear{ clear: both;}
 .request{
@@ -185,35 +217,12 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background.
     li{ height: auto;}
   }
   
-  .collapsible{
-    .view-all{ margin: auto;}
-    .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
-      .type{
-        padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
-
-        p{text-align: center; padding: 16px 0px;}
-      }
-
-      .duration{
-        margin-left:70px;
-      }
-
-      .status{
-        margin: 0px 15px; font-weight: bold;
-      }
-
-      .collapsible-body {
-
-      }
-    } 
-  } 
+  
 }
 
 // Notification
 
 .notification {
-
-
 
   .collapsible-body { background-color: $light-gray; overflow: hidden;
     .first-row { text-align: center;

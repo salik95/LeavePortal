@@ -27,6 +27,7 @@ $(document).ready(function() {
         xhr.setRequestHeader("X-CSRFToken", csrftoken)
       }
     }
+
   })  
 
   $('.modal').modal();
@@ -43,6 +44,23 @@ $(document).ready(function() {
       $('.account').removeClass('active')
   })
 
+  $list = $('#language')
+
+  $("input").on("keypress",function(e) {
+    console.log("chal be");
+    var keyword = $(this).attr('value');
+
+    getEmployees(keyword, function(list) {
+      $list.empty()
+      list.forEach(function(employee) {
+       $list.append('<option value="'+employee.id+'">'+employee.name+'</option>')
+      console.log($list);
+     })
+
+    })
+    
+  });
+  
 })
 
 $('.datepicker').pickadate({
@@ -81,6 +99,8 @@ $('form[data-resource]').submit(function(e) {
   $notice = $self.find('.notice')
 
   var resource = $self.attr('data-resource')
+  var method = $self.attr('method') || 'POST'
+
   var raw_data = $(this).serializeArray()
   var data = {}
 
@@ -98,7 +118,8 @@ $('form[data-resource]').submit(function(e) {
   
   console.log(data)
 
-  actions.post(resource, data, function(status, response) {
+  actions.send(resource, method, data, function(status, response) {
+
     if(status=='success') {
       console.log(response)
       $notice.removeClass('failure')
@@ -107,10 +128,14 @@ $('form[data-resource]').submit(function(e) {
         $notice.text('Employee is successfully added and notified via email')
       else if (resource == 'leave')
         $notice.text('Application is sent successfully and pending for approval.')
-    }
 
-    else {
-      console.log('no bueno')
+      else if (resource == 'leave' && method == "PUT") {
+
+      }
+      else {
+        console.log('no bueno')
+      }
     }
   })
+
 })

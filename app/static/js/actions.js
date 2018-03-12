@@ -5,7 +5,10 @@ dispatch = {
   },
 
   leave: {
-    endpoint: '/leave_form'
+    endpoint: '/leave_form',
+    PUT: {
+      endpoint: '/respond_request'
+    }
   },
 
   settings: {
@@ -14,12 +17,20 @@ dispatch = {
 
 }
 
+// @TODO refactor
+
 actions = {
 
-  post: function(resource, data, callback) {
+  send: function(resource, method, data, callback) {
+
+    if(method == 'POST')
+      dispatch[resource].endpoint
+    else
+      dispatch[resource].method.endpoint
+
     $.ajax({
       url: dispatch[resource].endpoint,
-      method: 'POST',
+      method: method,
       contentType: 'application/json',
       data: JSON.stringify(data),
       dataType: 'json',
@@ -29,4 +40,14 @@ actions = {
     })
   }
 
+}
+
+function getEmployees(keyword, callback) {
+  obj = {};
+  list = [
+    {id: 1, name: 'Kebab'},
+    {id: 3, name: 'Keema'}
+  ]
+
+  callback(list)
 }

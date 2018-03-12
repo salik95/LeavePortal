@@ -1,0 +1,86 @@
+
+{% if data.role == "HR Manager" %}
+{% set list_items = data.manager_requests + data.hr_requests %}
+
+{% else %}
+{% set list_items = data.pending_requests %}
+{% endif %}
+
+<div class="card leaves">
+  <p class="card-title">Leaves Requests</p>
+  <div class="card-content">
+    <div class="request">
+      <ul class="collapsible" data-collapsible="accordion">
+        {% for item in list_items %}
+        <li class="collection-item">
+          <div class="collapsible-header">                  
+            <div class="type {{ item[1].leave_type }}">
+              {% if item[1].leave_type == "Medical" %}
+              <p>M</p>
+              {% else %}
+              <p>G</p>
+              {% endif %}
+            </div>
+
+            <div class="duration">
+              {{ item[1].employee.first_name }} {{ item[1].employee.last_name }}
+            </div>
+
+            <div class="status pending">
+              <p>Pending</p>
+            </div>
+          </div>
+          <div class="collapsible-body">  
+            <form data-resource="leave" method="PUT">
+
+              <div class="col s12 first-row">
+                <p class="center light">{{item[0].designation + ', ' + item[0].department}}</p>
+                <br>
+                <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+                <br>
+                <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+                <br>
+              </div>
+
+              <input type="hidden" name="id" value={{item[1].id}}>
+
+              <div class="row">
+                <div class="col s12">
+                  <div class="input-field col s12">
+                    <textarea id="hr-text" class="materialize-textarea" name="remarks"></textarea>
+                    <label for="hr-text">Your Remarks</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <p class="col s6 offset-s1  ">
+                  <input name="approval" type="radio" id="approve-{{item[1].id}}" />
+                  <label for="approve-{{item[1].id}}">Approve</label>
+                </p>
+                <p class="col s5">
+                  <input name="approval" type="radio" id="decline-{{item[1].id}}" />
+                  <label for="decline-{{item[1].id}}">Decline</label>
+                </p>
+              </div>
+
+              <p class="small center"><strong>Note:</strong> This action is irreversible</p>
+              <br>
+
+              <div class="center">
+                <input type="submit" value="Confirm" class="waves-effect waves-light btn round center">
+              </div> 
+            </form>
+          </div>
+        </li>
+        {% endfor%}
+
+        <li class="collection-item border-top">
+          <div class="collapsible-header">
+            <a href="/all_requests" class="view-all">View All</a>
+          </div>
+        </li>
+      </ul>
+    </div>  
+  </div>
+</div> 

@@ -12,8 +12,11 @@ def dashboard():
 		employee = current_user.employee
 
 		if current_user.role == "HR Manager":
-			manager_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))
-			hr_requests = Balance_sheet.query.filter(Balance_sheet.hr_approval == None)
+
+			manager_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None)).all()
+
+			hr_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).all()
+
 			store.update({'manager_requests' : manager_requests, 'hr_requests' : hr_requests})
 
 		else:

@@ -4,8 +4,9 @@ from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_
-from datetime import datetime
 from app.resources.notifications import notify
+import datetime
+
 
 @app.route('/leave_form', methods=['POST'])
 def leave_form():
@@ -15,7 +16,8 @@ def leave_form():
 		return error_response_handler("Incomplete Data", 400)
 	
 	leave_data['emp_id'] = current_user.employee.id
-	leave_data['time_stamp'] = datetime.now().date()
+
+	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
 	for item in key:
@@ -50,6 +52,8 @@ def leave_all():
 		for item in key:
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
+
+
 	return render_template("all_leaves.html", data = leave_list)
 
 @app.route('/all_requests', methods=['GET'])
@@ -96,27 +100,47 @@ def request_all():
 				request_history_list.append(temp_dict)
 
 	request = [pending_request_list, request_history_list]
-	return jsonify(request)
+	return render_template("all_requests.html", data = request)
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
 	response = request.get_json(force=True)
+	if 'id' not in response or 'remark' not in response or 'approval' not in response:
+		return error_response_handler("Incomplete Data", 400)
 	if current_user.role == "HR Manager":
-		if 'id' not in response or 'hr_remark' not in response or 'hr_approval' not in response:
-			return error_response_handler("Incomplete Data", 400)
 		leave = Balance_sheet.query.get(response['id'])
+		if leave is None:
+			return error_response_handler("Not found")
+		response['hr_remark'] = response['remark']
+		response['hr_approval'] = response['approval']
+
+		leave_employee = Employees.query.get(leave.emp_id)
+		if leave_employee.reporting_manager_id == current_user.employee.id:
+			response['manager_remark'] = response['hr_remark']
+			response['manager_approval'] = response['hr_approval']
 	else:
-		if 'id' not in response or 'manager_remark' not in response or 'manager_approval' not in response:
-			return error_response_handler("Incomplete Data", 400)
 		leave = Balance_sheet.query.get(response['id'])
+		if leave is None:
+			return error_response_handler("Not found")
 		employee_manager = Employees.query.get(leave.emp_id)
 		if current_user.employee.id != employee_manager.reporting_manager_id:
 			return error_response_handler("Unauthorized request", 401)
+		response['manager_remark'] = response['remark']
+		response['manager_approval'] = response['approval']
 
 	key = list(response.keys())
 	for item in key:
 		setattr(leave, item, response[item])
+	if leave.manager_approval == "Approved" and leave.hr_approval == "Approved":
+		update_employee_leaves_after_approval((leave.to_date - leave.from_date).days, leave.emp_id, leave.leave_type)
+	del response['id']
 	db.session.commit()
 	db.session.flush()
-	del response['id']
 	return jsonify(response)
+
+def update_employee_leaves_after_approval(days, emp_id, leave_type):
+	employee = Employees.query.get(emp_id)
+	if leave_type == "Medical":
+		employee.medical_leaves_remaining = employee.medical_leaves_remaining-days
+	else:
+		employee.general_leaves_remaining = employee.general_leaves_remaining-days

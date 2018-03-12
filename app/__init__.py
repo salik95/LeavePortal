@@ -43,3 +43,5 @@ from app.bin.leaves_update_cronjob import *
 app.wsgi_app = SassMiddleware(app.wsgi_app, {
   'app': ('static/scss', 'static/css', '/static/css')
 })
+
+# app.jinja_env.globals.update(all_leaves = all_leaves)
