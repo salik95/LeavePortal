@@ -4,7 +4,9 @@ from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_
+from app.resources.notifications import notify
 import datetime
+
 
 @app.route('/leave_form', methods=['POST'])
 def leave_form():
@@ -14,6 +16,7 @@ def leave_form():
 		return error_response_handler("Incomplete Data", 400)
 	
 	leave_data['emp_id'] = current_user.employee.id
+
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
 
 	if (leave_data['to_date']-leave_data['from_date']).days > current_user.employee.general_leaves_remaining:
@@ -30,7 +33,10 @@ def leave_form():
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
 	
+	notify(leave_data['emp_id'])
+
 	return jsonify(leave_dict)
+
 
 @app.route('/all_leaves/', methods=['GET'])
 def leave_all():
