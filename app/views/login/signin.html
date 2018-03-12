@@ -37,6 +37,16 @@
           </div>
           {% endif %}
 
+          {% with messages = get_flashed_messages() %}
+             {% if messages %}
+                <div class="">
+                {% for message in messages %}
+                   {{ message }}<br>
+                {% endfor %}
+              </div>
+             {% endif %}
+          {% endwith %}
+
           <form method="POST" action="." accept-charset="UTF-8" role="form">
             {{ form.csrf_token }}
             <label for="">Email</label>
