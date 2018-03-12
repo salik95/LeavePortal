@@ -43,11 +43,18 @@ actions = {
 }
 
 function getEmployees(keyword, callback) {
-  obj = {};
-  list = [
-    {id: 1, name: 'Kebab'},
-    {id: 3, name: 'Keema'}
-  ]
-
-  callback(list)
+  // obj = {};
+  
+  $.ajax({
+    url : '/employee/search',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      keyword: keyword,
+      thin:''
+    }),
+    dataType: 'json',
+    success: function(data) {
+      callback(data)
+    }
+  })
 }
