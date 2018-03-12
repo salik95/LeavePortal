@@ -50,7 +50,6 @@ def leave_all():
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
 
-
 	return render_template("all_leaves.html", data = leave_list)
 
 @app.route('/all_requests', methods=['GET'])
@@ -58,8 +57,8 @@ def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
 	if current_user.role == "HR Manager":
-		pending = Balance_sheet.query.filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
-		responded = Balance_sheet.query.filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date))
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date))
 		
 		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key),
 		'responded' : get_dict_of_sqlalchemy_object(responded, key)}
@@ -73,6 +72,7 @@ def request_all():
 		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key, 'Balance_sheet'),
 		'responded' : get_dict_of_sqlalchemy_object(responded, key, 'Balance_sheet')}
 
+	print(requests)
 	return render_template("all_requests.html", data = requests)
 
 @app.route('/respond_request', methods=['PUT'])
