@@ -63,23 +63,18 @@ def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
 	if current_user.role == "HR Manager":
-		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
-		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date))
-		
-		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key),
-		'responded' : get_dict_of_sqlalchemy_object(responded, key)}
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date)).all()
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date)).all()
 
 	else:
 		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
+			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date)).all()
 		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
-		
-		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key, 'Balance_sheet'),
-		'responded' : get_dict_of_sqlalchemy_object(responded, key, 'Balance_sheet')}
+			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date)).all()
 
-	print(requests)
-	return render_template("all_requests.html", data = requests)
+	requests = {'pending' : pending, 'responded' : responded}
+
+	return render_template("all_requests.html", data = {'requests': requests})
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
