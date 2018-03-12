@@ -44,21 +44,21 @@ $(document).ready(function() {
       $('.account').removeClass('active')
   })
 
-  $list = $('#language')
+  $list = $('#names')
 
+  
   $("input").on("keypress",function(e) {
-    console.log("chal be");
+    
     var keyword = $(this).attr('value');
-
     getEmployees(keyword, function(list) {
       $list.empty()
-      list.forEach(function(employee) {
-       $list.append('<option value="'+employee.id+'">'+employee.name+'</option>')
-      console.log($list);
-     })
+      console.log(list)
+      list.forEach(function(item) {
+       $list.append('<option value="'+item.first_name+'">'+item.id+'</option>')
+      })
 
-    })
-    
+    })  
+  
   });
   
 })
