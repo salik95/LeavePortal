@@ -3,7 +3,7 @@ from app import db , app
 from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
-from sqlalchemy import asc, and_
+from sqlalchemy import asc, and_, or_
 from app.resources.notifications import notify
 import datetime
 
@@ -17,9 +17,12 @@ def leave_form():
 	
 	leave_data['emp_id'] = current_user.employee.id
 
+	if current_user.role == "HR Manager":
+		leave_data['hr_approval'] = "Approved"
+
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
 
-	if (leave_data['to_date']-leave_data['from_date']).days > current_user.employee.general_leaves_remaining:
+	if (datetime.datetime.strptime(leave_data['to_date'], "%Y-%m-%d") - datetime.datetime.strptime(leave_data['from_date'], "%Y-%m-%d")).days > current_user.employee.general_leaves_remaining:
 		return error_response_handler("Leave request exceeds available leaves request", 400)
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
@@ -40,31 +43,31 @@ def leave_form():
 
 @app.route('/all_leaves/', methods=['GET'])
 def leave_all():
+	store = {}
 	arg_id = request.args.get("id")
-	if arg_id is not None and arg_id != "":
-		if current_user.role != "HR Manager" or current_user.role != "General Manager":
-			return error_response_handler("Unauthorized request", 401)
-		emp_id = arg_id
+	if current_user.role == "HR Manager" or current_user.role == "General Manager":
+		if arg_id is not None and arg_id != "":
+			emp_id = arg_id
+			employee = Employees.query.get(emp_id).all()
+			if employee is None:
+				return render_template("all_leaves.html", data = {'error': "No Such Employee Exist"})
+			store.update({'employee' : employee})
+		else:
+			emp_id = current_user.employee.id
 	else:
 		emp_id = current_user.employee.id
-	leave = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date))
-	key = Balance_sheet.__mapper__.columns.keys()
-	leave_list = []
-	for leave_item in leave:
-		temp_dict = {}
-		for item in key:
-			temp_dict[item] = getattr(leave_item, item)
-		leave_list.append(temp_dict)
+	history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
+	store.update({'history' : history})
 
-	return render_template("all_leaves.html", data = {'history': leave_list})
+	return render_template("all_leaves.html", data = store)
 
 @app.route('/all_requests', methods=['GET'])
 def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
 	if current_user.role == "HR Manager":
-		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date)).all()
-		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date)).all()
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval != None), and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Balance_sheet.hr_approval != None, Balance_sheet.emp_id != current_user.employee.id)).order_by(asc(Balance_sheet.from_date)).all()
 
 	else:
 		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
