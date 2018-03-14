@@ -4,7 +4,9 @@ from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_
+from app.resources.notifications import notify
 import datetime
+
 
 @app.route('/leave_form', methods=['POST'])
 def leave_form():
@@ -14,6 +16,7 @@ def leave_form():
 		return error_response_handler("Incomplete Data", 400)
 	
 	leave_data['emp_id'] = current_user.employee.id
+
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
 
 	if (leave_data['to_date']-leave_data['from_date']).days > current_user.employee.general_leaves_remaining:
@@ -30,7 +33,10 @@ def leave_form():
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
 	
+	notify(leave_data['emp_id'])
+
 	return jsonify(leave_dict)
+
 
 @app.route('/all_leaves/', methods=['GET'])
 def leave_all():
@@ -50,28 +56,25 @@ def leave_all():
 			temp_dict[item] = getattr(leave_item, item)
 		leave_list.append(temp_dict)
 
-	return render_template("all_leaves.html", data = leave_list)
+	return render_template("all_leaves.html", data = {'history': leave_list})
 
 @app.route('/all_requests', methods=['GET'])
 def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
 	if current_user.role == "HR Manager":
-		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date))
-		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date))
-		
-		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key),
-		'responded' : get_dict_of_sqlalchemy_object(responded, key)}
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date)).all()
+		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date)).all()
 
 	else:
 		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date))
+			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date)).all()
 		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date))
-		
-		requests = {'pending' : get_dict_of_sqlalchemy_object(pending, key, 'Balance_sheet'),
-		'responded' : get_dict_of_sqlalchemy_object(responded, key, 'Balance_sheet')}
-	return render_template("all_requests.html", data = requests)
+			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date)).all()
+
+	requests = {'pending' : pending, 'responded' : responded}
+
+	return render_template("all_requests.html", data = {'requests': requests})
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():

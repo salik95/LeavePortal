@@ -5,8 +5,20 @@
 {% block body %}
 
 <main>
+
+	{% if current_user.role == 'General Manager' %}
 	<div class="row">
-		{% with show_download=True %}
+		<div class="col s12 m6 l6">
+			<input type="text" name="Reporting Manager" list="names">
+			<datalist id="names"></datalist>
+			<label for="names">Search</label>	
+		</div>
+		
+	</div>
+	{% endif %}
+
+	<div class="row">
+		{% with single_view=True %}
 		{% include 'templates/history_card.html' %}
 		{% endwith %}
 	</div>		

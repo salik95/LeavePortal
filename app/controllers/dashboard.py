@@ -15,6 +15,7 @@ def dashboard():
 
 			pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date)).all()
 			requests['pending'] = pending
+			requests['responded'] = []
 			if len(pending) < 5:
 				responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date)).limit(5-len(pending))
 				requests['responded'] = responded
