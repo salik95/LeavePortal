@@ -1,8 +1,11 @@
 <div class="card leaves">
 
-
   <p class="card-title">
+    {% if view_empsheet %}
+    <span>Leave History</span> <span class="name"><i class="material-icons">account_circle</i> {{employee.first_name}}</span>
+    {% else %}
     Personal History
+    {% endif %}
 
     {% if single_view %}
     <a href="#" class="btn slim outline trigger download">
@@ -16,7 +19,7 @@
 
     <div class="request">
       <ul class="collapsible" data-collapsible="accordion">
-        {% for item in data.history %}
+        {% for item in leave_list %}
         <li class="collection-item">
           <div class="collapsible-header">
 
