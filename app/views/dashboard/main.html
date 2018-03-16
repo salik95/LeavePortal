@@ -12,8 +12,8 @@
     <p class="title">Management</p>
     <div class="clr"></div>
 
-    <a href="#addemployee" class="btn slim underline light trigger">
-      <i class="material-icons left">change_history</i>
+    <a href="/all_leaves?id" class="btn slim underline light">
+      <i class="material-icons left">details</i>
       <span>Balance Sheet</span>
     </a>
 
@@ -73,11 +73,13 @@
   </div>
 
   {% if data.role == "HR Manager" or data.manager %}
-
+  
   <div class="row">
     <div class="col s12 m6 l6">
       <!-- History tab -->
-      {% include 'templates/history_card.html' %}  
+      {% with leave_list=data.history %}
+      {% include 'templates/history_card.html' %}
+      {% endwith %}
     </div>
 
     <div class="col s12 m6 l6">
@@ -89,10 +91,12 @@
   {% else %}
   <div class="row">
     <div class="col s12 m12 l12">
-      {% include 'templates/history_card.html' %}      
+      {% with leave_list=data.history %}  
+      {% include 'templates/history_card.html' %} 
+      {% endwith %}     
     </div>
   </div>
-
+  
   {% endif %}
 
 </main>
