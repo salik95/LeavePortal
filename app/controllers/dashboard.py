@@ -13,26 +13,27 @@ def dashboard():
 		if current_user.role == "HR Manager":
 			requests = {}
 
-			pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval == None).order_by(asc(Balance_sheet.from_date)).all()
+			pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval != None), and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
 			requests['pending'] = pending
 			requests['responded'] = []
 			if len(pending) < 5:
-				responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Balance_sheet.hr_approval != None).order_by(asc(Balance_sheet.from_date)).limit(5-len(pending))
+				responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Balance_sheet.hr_approval != None, Balance_sheet.emp_id != employee.id)).order_by(asc(Balance_sheet.from_date)).limit(5-len(pending)).all()
 				requests['responded'] = responded
 
 			store.update({'requests' : requests})
 
 		else:
-			all_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == employee.id).all()
-			if all_requests.first() is None:
+			all_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == employee.id)
+			if all_requests is None:
 				manager = False
 			else:
 				requests = {}
 				manager = True
-				pending = all_requests.filter(Balance_sheet.manager_approval == None)
+				pending = all_requests.filter(Balance_sheet.manager_approval == None).all()
 				requests['pending'] = pending
+				requests['responded'] = []
 				if len(pending) < 5:
-					responded = all_requests.filter(Balance_sheet.manager_approval != None).limit(5-len(pending))
+					responded = all_requests.filter(Balance_sheet.manager_approval != None).limit(5-len(pending)).all()
 					requests['responded'] = responded
 
 				store.update({'requests' : requests})	
