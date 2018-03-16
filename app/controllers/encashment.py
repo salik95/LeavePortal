@@ -5,12 +5,14 @@ from flask_login import login_required, current_user
 import datetime
 from sqlalchemy import asc, and_, or_
 
-@app.route('/encashment', methods = ['GET', 'POST'])
+@app.route('/encashment', methods = ['GET', 'POST', 'DELETE', 'PUT'])
 def encashment():
 	
 	if request.method == 'GET':
-
-		return jsonify({'leaves_available' : current_user.employee.general_leaves_remaining, 'salary' : current_user.employee.salary})
+		store = {}
+		requests_history = Encashment.query.filter(Encashment.emp_id == current_user.employee.id).order_by(asc(Encashment.time_stamp)).all()
+		store.update({'history' : requests_history, 'leaves_available' : current_user.employee.general_leaves_remaining, 'salary' : current_user.employee.salary})
+		return jsonify(store)
 
 	if request.method == 'POST':
 		encashment_data = request.get_json(force = True)
@@ -44,15 +46,56 @@ def encashment():
 
 		return jsonify(encashment_dict)
 
+#===========================================================
+#Refactor This
+	if request.method == 'DELETE':
+		arg_id = request.args.get("id")
+		if arg_id is None or arg_id == "":
+			return error_response_handler("Bad request", 400)
+		encashment_request = Encashment.query.get(arg_id)
+		if encashment_request is None:
+			return error_response_handler("Request ID not found", 404)
+		db.delete(encashment_request)
+		db.commit()
+		db.flush()
+		return jsonify(arg_id)
+
+#==========================================================
+#This is not tested
+	if request.method == 'PUT':
+		encashment_data = request.get_json(force = True)
+		if 'id' not in encashment_data or 'amount' not in encashment_data:
+			return error_response_handler("Incomplete Data", 400)
+		encashment_request = Encashment.query.get(encashment_data['id'])
+		if encashment_request is None:
+			return error_response_handler("Encashment request not found", 404)
+		setattr(encashment_request, 'amount', encashment_data['amount'])
+		setattr(encashment_request, 'hr_approval', None)
+		setattr(encashment_request, 'manager_approval', None)
+		setattr(encashment_request, 'gm_approval', None)
+		db.commit()
+		db.flush()
+		return jsonify(encashment_data['amount'])
+
+
 @app.route('/encashment/requests', methods = ['GET', 'PUT'])
 def encashment_request():
 	if request.method == 'GET':
+
+		requests = {}
+
 		if current_user.role == "HR Manager":
-			requests = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval != None, Encashment.gm_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval != None, Encashment.gm_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.hr_approval != None).order_by(asc(Encashment.time_stamp)).all()
+
 		elif current_user.role == "General Manager":
-			requests = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.gm_approval != None).order_by(asc(Encashment.time_stamp)).all()
 		else:
-			requests = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval != None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+		requests.update({'pending' : pending, 'responded' : responded})
+
 		return jsonify(requests)
 
 	if request.method == 'PUT':
