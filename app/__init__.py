@@ -37,6 +37,8 @@ from app.controllers.dashboard import *
 from app.controllers.settings import *
 from app.controllers.employee import *
 from app.controllers.leaves import *
+from app.controllers.bulk_upload import *
+
 from app.bin.email_cronjob import *
 from app.bin.leaves_update_cronjob import *
 
