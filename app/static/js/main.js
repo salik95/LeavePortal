@@ -77,7 +77,7 @@ $(document).ready(function() {
 
   $encash_input.on('keydown', function() {
     console.log('Amount Key Pressed!')
-  })  
+  })
 
 
 })

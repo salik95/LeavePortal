@@ -25,11 +25,11 @@ body {background-color: #e8eaf6;}
 .notice > * {margin: 0 20px; font-size: 11px}
 .notice > a.button > a.label {font-size: 14px}
 
-.btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
+.btn {letter-spacing: 0; font-size: 14px; font-weight: 600; font-family: 'Varela Round'}
 .btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
 .btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
-.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3);
-  i.left {margin-left: 5px}
+.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3); font-weight: 600;
+  i.left {margin-right: 5px}
 }
 .btn.underline {background-color: transparent!important; color: #000; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
   &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
@@ -111,14 +111,16 @@ strong {font-weight: 600}
 
 }
 
-.card { box-shadow: 0 2px 40px 0 rgba(0,0,0,0.15); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+.card { box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
+  .card-title { padding: 16px 0; position: relative; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
     vertical-align: middle;
+    > * {vertical-align: middle}
     span {vertical-align: middle;}
-    .btn {position: absolute; right: 20px}
+
+    .btn {position: absolute; right: 20px; top: 50%; transform: translateY(-50%)}
     .name {opacity: 0.3; font-size: 16px; font-weight: 600; margin-left: 10px; padding-left: 10px; box-shadow: -1px 0 0 0 $primary-color}
   }
 }
@@ -148,7 +150,7 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
   .account {
     &.active .widget {opacity: 1; z-index: 2; cursor: pointer;}
     
-    .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 180px; 
+    .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 200px; 
      opacity: 0; transition: all 0.5s ease; cursor: default;
 
      .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}

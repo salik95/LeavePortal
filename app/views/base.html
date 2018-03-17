@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta name = "viewport" content = "width = device-width, initial-scale = 1" charset="UTF-8">
-  <title>HMP Leaves - {% block title %}{% endblock %}</title>
+  <title>HOH Leaves - {% block title %}{% endblock %}</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.scss.css') }}" type="text/css">
@@ -36,6 +36,16 @@
 
   {% block body %}
   {% endblock %}
+  
+  <div id="addleave" class="lightbox">
+  <div class="content">
+    <h5 class="center upper">Apply for Leave</h5>
+    <br>
+    <div class="divider"></div>
+    <br>
+    {% include 'dashboard/form-leave.html' %}
+  </div>
+</div>
 
   <footer><span class="powered">Powered by <a href="http://www.quanrio.com">Quanrio</a></span></footer>
 
