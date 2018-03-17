@@ -8,8 +8,37 @@ from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
 import logging 
 
-@app.route('/bulk_upload_user', methods=['GET', 'POST', 'PUT', 'DELETE'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/bulk_upload_user', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return render_template("bulk_upload.html")
+
+
+
+#@app.route('/bulk_upload_user', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def bulk_upload_user():
+
 	try:
 		if request.method == 'GET':
 			return render_template("bulk_upload.html")
@@ -27,7 +56,6 @@ def bulk_upload_user():
 			
 		list_of_employee_object = []
 		list_of_user_object = []
-		#print (list_of_elemet[0])
 
 		for i in list_of_elemet:
 			one_user = User(i['email'], "hoh123", i['role'])
