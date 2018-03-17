@@ -38,12 +38,12 @@ class Employees(db.Model):
 	reporting_manager_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
 	department = db.Column(db.String(45), nullable = False)
-	general_leaves_remaining = db.Column(db.Integer, nullable = False)
+	general_leaves_remaining = db.Column(db.Float, nullable = False)
 	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
 	general_leaves_availed = db.Column(db.Integer, nullable = False)
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
-	probation = db.Column(db.Integer, nullable = False)
+	probation = db.Column(db.Boolean, nullable = False)
 	salary = db.Column(db.Float, nullable = False)
 
 	user = db.relationship('User', uselist=False, backref=db.backref('employee', uselist=False), 
