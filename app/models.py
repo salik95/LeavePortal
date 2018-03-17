@@ -44,6 +44,7 @@ class Employees(db.Model):
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
 	probation = db.Column(db.Integer, nullable = False)
+	salary = db.Column(db.Float, nullable = False)
 
 	user = db.relationship('User', uselist=False, backref=db.backref('employee', uselist=False), 
 		lazy='joined', foreign_keys=[user_id])
@@ -84,3 +85,14 @@ class Configuration(db.Model):
 	def __init__(self, key, value):
 		self.key = key
 		self.value = value
+
+class Encashment(db.Model):
+
+	id = db.Column(db.Integer, primary_key = True)
+	emp_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
+	amount = db.Column(db.Integer, nullable = False)
+	leaves_utilized = db.Column(db.Float, nullable=False)
+	manager_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
+	gm_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
+	hr_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True)
+	time_stamp = db.Column(db.Date(), nullable = False)

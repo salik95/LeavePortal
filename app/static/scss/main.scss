@@ -15,6 +15,7 @@ $yellow: #f1c40f;
 $orange: #f39c12;
 
 html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
+body {background-color: #e8eaf6;}
 
 .notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center;
   p {margin: 0}
@@ -27,7 +28,9 @@ html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
 .btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
 .btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
 .btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
-.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3)}
+.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3);
+  i.left {margin-left: 5px}
+}
 .btn.underline {background-color: transparent!important; color: #000; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
   &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
 }
@@ -60,6 +63,8 @@ strong {font-weight: 600}
   &::-webkit-scrollbar-track {box-shadow:inset 0 0 6px rgba(0,0,0,0.3); background-color:#F5F5F5;}
   &::-webkit-scrollbar-thumb {background-color:#000; border:2px solid #555;}
 }
+
+.col.center {float: none; margin: 0 auto}
 
 .material-icons {vertical-align: middle}
 
@@ -105,14 +110,15 @@ strong {font-weight: 600}
 
 }
 
-.card { box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+.card { box-shadow: 0 2px 40px 0 rgba(0,0,0,0.15); box-sizing: border-box; border-radius: 5px; overflow: hidden;
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
   .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Montserrat;
-  
+    vertical-align: middle;
+    span {vertical-align: middle;}
     .btn {position: absolute; right: 20px}
-
+    .name {opacity: 0.3; font-size: 16px; font-weight: 600; margin-left: 10px; padding-left: 10px; box-shadow: -1px 0 0 0 $primary-color}
   }
 }
 
@@ -160,9 +166,9 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
 }
 }
 
-main {padding: 80px 8%;}
+main {padding: 80px 8%;  min-height: calc(100vh - 50px)}
 
-main#dashboard {background-color: #e8eaf6}
+main#dashboard {}
 
 /** Managemenet Toolbox **/
 
@@ -250,4 +256,14 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
     &.active {background-color: #fff; border-radius: 30px; color: $primary-color!important;}
   }
   .indicator {display: none}
+}
+
+
+
+footer {font-size: 12px; padding: 10px 0; text-align: center; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);
+  .powered { opacity: 0.5; transition: all 1s ease;
+    &:hover {opacity: 0.7}
+    a {font-weight: 600}
+  }
+  
 }

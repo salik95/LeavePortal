@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Bulk User Import{% endblock %}
+
+{% block body %}
+
+<main>
+
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <form action="/" method="POST" enctype='multipart/form-data'>
+        <input type="file" name="file">
+        <input type="submit" class="" value="BULK ADD">
+      </form>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

@@ -45,18 +45,29 @@ def leave_form():
 def leave_all():
 	store = {}
 	arg_id = request.args.get("id")
+	emp_id = None
+
 	if current_user.role == "HR Manager" or current_user.role == "General Manager":
-		if arg_id is not None and arg_id != "":
+
+		if arg_id is None:
+			emp_id = current_user.employee.id
+		elif arg_id != "":
 			emp_id = arg_id
-			employee = Employees.query.get(emp_id).all()
+			employee = Employees.query.get(emp_id)
 			if employee is None:
 				return render_template("all_leaves.html", data = {'error': "No Such Employee Exist"})
 			store.update({'employee' : employee})
 		else:
-			emp_id = current_user.employee.id
+			store.update({'employee' : None})
+
 	else:
 		emp_id = current_user.employee.id
-	history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
+
+	if emp_id:
+		history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
+	else:
+		history = None
+
 	store.update({'history' : history})
 
 	return render_template("all_leaves.html", data = store)
