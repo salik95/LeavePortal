@@ -43,7 +43,7 @@ class Employees(db.Model):
 	general_leaves_availed = db.Column(db.Integer, nullable = False)
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
-	probation = db.Column(db.Integer, nullable = False)
+	probation = db.Column(db.Boolean, nullable = False)
 	salary = db.Column(db.Float, nullable = False)
 
 	user = db.relationship('User', uselist=False, backref=db.backref('employee', uselist=False), 
