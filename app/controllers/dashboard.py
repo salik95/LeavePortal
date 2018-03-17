@@ -46,4 +46,4 @@ def dashboard():
 		
 		store.update({'history' : employee.balance_sheet, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role})
 
-		return render_template("dashboard/main.html", data = store)
+		return render_template("dashboard.html", data = store)
