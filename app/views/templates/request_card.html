@@ -42,7 +42,7 @@
               <div class="row">
                 <div class="col s12">
                   <div class="input-field col s12">
-                    <textarea id="hr-text" class="materialize-textarea" name="remarks"></textarea>
+                    <textarea id="hr-text" class="materialize-textarea" name="remark"></textarea>
                     <label for="hr-text">Your Remarks</label>
                   </div>
                 </div>
@@ -50,11 +50,11 @@
 
               <div class="row">
                 <p class="col s6 offset-s1  ">
-                  <input name="approval" type="radio" id="approve-{{item[1].id}}" />
+                  <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" />
                   <label for="approve-{{item[1].id}}">Approve</label>
                 </p>
                 <p class="col s5">
-                  <input name="approval" type="radio" id="decline-{{item[1].id}}" />
+                  <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved"/>
                   <label for="decline-{{item[1].id}}">Decline</label>
                 </p>
               </div>
