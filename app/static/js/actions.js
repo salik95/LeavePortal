@@ -23,13 +23,17 @@ actions = {
 
   send: function(resource, method, data, callback) {
 
+    var endpoint = ''
+
     if(method == 'POST')
-      dispatch[resource].endpoint
-    else
-      dispatch[resource].method.endpoint
+      endpoint = dispatch[resource].endpoint
+    else {
+      console.log(dispatch[resource])
+      endpoint = dispatch[resource][method]['endpoint']
+    }
 
     $.ajax({
-      url: dispatch[resource].endpoint,
+      url: endpoint,
       method: method,
       contentType: 'application/json',
       data: JSON.stringify(data),
