@@ -278,9 +278,13 @@ main#encashment {
   }
 
   form { max-width: 320px; width: 100%; margin: 0 auto; padding: 40px 0; text-align: center;
+    
+    &[data-state=""] {
+      .remaining {opacity: 0}
+    }
 
     input[name="amount"] {border: 0; padding: 20px 10px; width: 100%; margin-top: 10px;
-      text-align: center; font-family: Nunito; font-weight: 400; font-size: 32px;  letter-spacing: 2px; color: #777; border-radius: 5px;
+      text-align: center; font-family: Nunito; font-weight: 400; font-size: 32px;  letter-spacing: 2px; color: #777; border-radius: 2px;
 
       &:focus {box-shadow: 0 0 10px rgba(0,0,0,0.05); border: 0; outline: none}
     }
@@ -292,6 +296,10 @@ main#encashment {
 
   .card {
     max-width: 700px; margin: 0 auto; width: 100%;
+  }
+
+  .remaining {padding: 20px 0; opacity: 0.5; transition: all 0.5s ease;
+    i {font-size: 20px}
   }
 
 }

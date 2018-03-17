@@ -60,12 +60,20 @@ $(document).ready(function() {
     }) 
   });
   
+  $encash_form = $('#encashment form')
+
   $encash_input = $('#encashment form input[name="amount"]')
 
   $encash_input.on('input', function() {
     console.log('Amount Updates')
-    
-  })
+    if($(this).val() == '') {
+      $encash_form.attr('data-state', '')
+    }
+
+    else {
+      $encash_form.attr('data-state', 'updated') 
+    }
+ })
 
   $encash_input.on('keydown', function() {
     console.log('Amount Key Pressed!')
