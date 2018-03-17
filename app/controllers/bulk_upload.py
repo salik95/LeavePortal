@@ -1,7 +1,7 @@
 import csv
 from app.models import *
 from app import db , app
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
