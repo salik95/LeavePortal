@@ -29,5 +29,5 @@ SECRET_KEY = "secret"
 
 
 
-UPLOAD_FOLDER = '/path/to/the/uploads'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+UPLOAD_FOLDER = 'app/bin/bulk/'
+ALLOWED_EXTENSIONS = set(['csv'])
