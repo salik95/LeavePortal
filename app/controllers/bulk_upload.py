@@ -11,6 +11,10 @@ import logging
 @app.route('/bulk_upload_user', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def bulk_upload_user():
 	try:
+		if request.method == 'GET':
+			return render_template("bulk_upload.html")
+
+
 		with open('app/controllers/temp.csv') as csvfile:
 		    reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 		    #csv_keys = reader[0] 
