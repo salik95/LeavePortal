@@ -42,11 +42,11 @@
           <div class="row">
             <div class="col s6">
               <p>Availed</p>
-              <h1>{{data.leaves_details.general_leaves_availed}}</h1>
+              <h1>{{data.leaves_details.general_leaves_availed|round(0,'floor')|int}}</h1>
             </div>
             <div class="col s6">
               <p>Remaining</p>
-              <h1>{{data.leaves_details.general_leaves_remaining}}</h1>
+              <h1>{{data.leaves_details.general_leaves_remaining|round(0,'floor')|int}}</h1>
             </div>
           </div>
         </div>
@@ -60,11 +60,11 @@
           <div class="row">
             <div class="col s6">
               <p>Availed</p>
-              <h1>{{data.leaves_details.medical_leaves_availed}}</h1>
+              <h1>{{data.leaves_details.medical_leaves_availed|round(0,'floor')|int}}</h1>
             </div>
             <div class="col s6">
               <p>Remaining</p>
-              <h1>{{data.leaves_details.medical_leaves_remaining}}</h1>
+              <h1>{{data.leaves_details.medical_leaves_remaining|round(0,'floor')|int}}</h1>
             </div>
           </div>
         </div>
