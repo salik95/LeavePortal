@@ -41,7 +41,7 @@ def leave_form():
 	return jsonify(leave_dict)
 
 
-@app.route('/all_leaves/', methods=['GET'])
+@app.route('/history', methods=['GET'])
 def leave_all():
 	store = {}
 	arg_id = request.args.get("id")
@@ -55,7 +55,7 @@ def leave_all():
 			emp_id = arg_id
 			employee = Employees.query.get(emp_id)
 			if employee is None:
-				return render_template("all_leaves.html", data = {'error': "No Such Employee Exist"})
+				return render_template("history.html", data = {'error': "No Such Employee Exist"})
 			store.update({'employee' : employee})
 		else:
 			store.update({'employee' : None})
@@ -70,9 +70,9 @@ def leave_all():
 
 	store.update({'history' : history})
 
-	return render_template("all_leaves.html", data = store)
+	return render_template("history.html", data = store)
 
-@app.route('/all_requests', methods=['GET'])
+@app.route('/requests', methods=['GET'])
 def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
@@ -88,7 +88,7 @@ def request_all():
 
 	requests = {'pending' : pending, 'responded' : responded}
 
-	return render_template("all_requests.html", data = {'requests': requests})
+	return render_template("requests.html", data = {'requests': requests})
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
