@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Montserrat:300,400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Nunito:300,400,500,600');
 
 // @import "components/color";
 // $primary-color: color("blue", "lighten-2") !default;
@@ -14,7 +14,7 @@ $red: #fc5c65;
 $yellow: #f1c40f;
 $orange: #f39c12;
 
-html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
+html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
 body {background-color: #e8eaf6;}
 
 .notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center;
@@ -34,6 +34,7 @@ body {background-color: #e8eaf6;}
 .btn.underline {background-color: transparent!important; color: #000; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
   &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
 }
+.btn.flat {box-shadow: none!important}
 
 .btn.light {opacity: 0.5;
   &:hover {opacity: 0.6}
@@ -114,7 +115,7 @@ strong {font-weight: 600}
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Montserrat;
+  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
     vertical-align: middle;
     span {vertical-align: middle;}
     .btn {position: absolute; right: 20px}
@@ -123,6 +124,8 @@ strong {font-weight: 600}
 }
 
 .brand-logo img {height: 80%; width: auto}
+
+.sep {margin: 20px 0; text-align: center; opacity: 0.2}
 
 /** Custom Views / Components **/
 
@@ -143,10 +146,10 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
   }
 
   .account {
-    &.active .widget {opacity: 1; z-index: 2;}
+    &.active .widget {opacity: 1; z-index: 2; cursor: pointer;}
     
     .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 180px; 
-     opacity: 0; transition: all 0.5s ease;
+     opacity: 0; transition: all 0.5s ease; cursor: default;
 
      .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
 
@@ -206,7 +209,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 }
 
 .card.counter {
-  h1 {font-family: Montserrat; font-weight: 300}
+  h1 {font-family: Nunito; font-weight: 300}
   .row p {font-size: 15px; text-transform: uppercase}
 }
 
@@ -222,8 +225,6 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
   ul{ margin: 0 0;
     li{ height: auto;}
   }
-  
-  
 }
 
 // Notification
@@ -259,6 +260,43 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 }
 
 
+main#encashment {
+
+  .figures { display: flex; align-items: center; justify-content: center}
+
+  .property { display: inline-block; padding: 20px 50px; margin: 0; text-align: center; vertical-align: middle; 
+    font-size: 16px; height: 30px;
+    
+    > * {vertical-align: middle} 
+    i {margin-right: 8px;}
+    
+    span.title {padding-right: 10px}
+    
+    .count { margin: 0; display: inline-block; padding: 0 0 0 10px; 
+      font-size: 22px; box-shadow: -1px 0 0 0 rgba(0,0,0,0.1);
+    }
+  }
+
+  form { max-width: 320px; width: 100%; margin: 0 auto; padding: 40px 0; text-align: center;
+
+    input[name="amount"] {border: 0; padding: 20px 10px; width: 100%; margin-top: 10px;
+      text-align: center; font-weight: 400; font-size: 32px;  letter-spacing: 2px; color: #777; border-radius: 5px;
+
+      &:focus {box-shadow: 0 0 10px rgba(0,0,0,0.05); border: 0; outline: none}
+    }
+
+    label {font-size: 16px}
+
+    button {margin-top: 30px}
+  }
+
+  .card {
+    max-width: 700px; margin: 0 auto; width: 100%;
+  }
+
+}
+
+.data {display: none}
 
 footer {font-size: 12px; padding: 10px 0; text-align: center; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);
   .powered { opacity: 0.5; transition: all 1s ease;

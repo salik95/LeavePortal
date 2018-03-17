@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from flask_login import login_required, current_user
 import datetime
 from sqlalchemy import asc, and_, or_
@@ -12,7 +12,7 @@ def encashment():
 		store = {}
 		requests_history = Encashment.query.filter(Encashment.emp_id == current_user.employee.id).order_by(asc(Encashment.time_stamp)).all()
 		store.update({'history' : requests_history, 'leaves_available' : current_user.employee.general_leaves_remaining, 'salary' : current_user.employee.salary})
-		return jsonify(store)
+		return render_template('encashment.html', data=store)
 
 	if request.method == 'POST':
 		encashment_data = request.get_json(force = True)

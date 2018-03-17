@@ -44,23 +44,34 @@ $(document).ready(function() {
       $('.account').removeClass('active')
   })
 
-  $list = $('#names')
+  // @TODO: Refactor; update names scopes etc
 
+  $list = $('#names')
   
-  $("input").on("keypress",function(e) {
-    
+  $("input[list=names]").on("keypress",function(e) {
+
     var keyword = $(this).attr('value');
     getEmployees(keyword, function(list) {
       $list.empty()
       console.log(list)
       list.forEach(function(item) {
        $list.append('<option value="'+item.first_name+'">'+item.id+'</option>')
-      })
-
-    })  
-  
+     })
+    }) 
   });
   
+  $encash_input = $('#encashment form input[name="amount"]')
+
+  $encash_input.on('input', function() {
+    console.log('Amount Updates')
+    
+  })
+
+  $encash_input.on('keydown', function() {
+    console.log('Amount Key Pressed!')
+  })  
+
+
 })
 
 $('.datepicker').pickadate({
