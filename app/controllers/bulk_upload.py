@@ -14,7 +14,6 @@ def bulk_upload_user():
 		if request.method == 'GET':
 			return render_template("bulk_upload.html")
 
-
 		with open('app/controllers/temp.csv') as csvfile:
 		    reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 		    #csv_keys = reader[0] 
