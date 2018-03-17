@@ -84,7 +84,9 @@
 
     <div class="col s12 m6 l6">
       <!-- Request tab -->
-      {% include 'templates/request_card.html' %}  
+      {% with list_items=data.requests.pending %}
+      {% include 'templates/request_card.html' %}
+      {% endwith %}
     </div>
   </div>
 

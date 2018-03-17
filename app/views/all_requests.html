@@ -8,7 +8,7 @@
 
 	<div class="row">
 		<div class="col s12 m12 l12">
-			{% with single_view=True %}
+			{% with single_view=True, list_items = data.requests.pending + data.requests.responded %}
 			{% include 'templates/request_card.html' %}
 			{% endwith %}
 		</div>
