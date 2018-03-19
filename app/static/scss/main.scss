@@ -285,6 +285,10 @@ main#encashment {
       .remaining {opacity: 0}
     }
 
+    &[data-state="errored"] {
+      input[name="amount"] {box-shadow: 0 0 0 2px $red!important}
+    }
+
     input[name="amount"] {border: 0; padding: 20px 10px; width: 100%; margin-top: 10px;
       text-align: center; font-family: Nunito; font-weight: 400; font-size: 32px;  letter-spacing: 2px; color: #777; border-radius: 2px;
 

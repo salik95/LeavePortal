@@ -61,19 +61,42 @@ $(document).ready(function() {
   });
   
   $encash_form = $('#encashment form')
-
   $encash_input = $('#encashment form input[name="amount"]')
+  $encash_button = $encash_form.find('button')
+
+  var leaves_available = parseFloat($('[data-id="leaves_available"]').attr('data-val')) 
+  var salary = parseFloat($('[data-id="salary"]').attr('data-val'))
+  var amount_available = leaves_available*salary
 
   $encash_input.on('input', function() {
     console.log('Amount Updates')
+
     if($(this).val() == '') {
+      $encash_button.addClass('disabled')
       $encash_form.attr('data-state', '')
+      return
+    }
+
+    var amount = parseInt($(this).val())
+    var amount_remaining = parseFloat((amount_available - amount).toFixed(2))
+    var leaves_remaining = parseFloat((amount_remaining / salary).toFixed(2))
+
+    console.log(amount_remaining)
+
+    $('[data-id="amount_remaining"]').text(amount_remaining < 0 ? 0 : amount_remaining)
+    $('[data-id="leaves_remaining"]').text(leaves_remaining < 0 ? 0 : leaves_remaining)
+
+    if(amount_remaining < 0) {
+      $encash_form.attr('data-state', 'errored')
+      $encash_button.addClass('disabled')
     }
 
     else {
-      $encash_form.attr('data-state', 'updated') 
+      $encash_button.removeClass('disabled')
+      $encash_form.attr('data-state', 'updated')
     }
- })
+    
+  })
 
   $encash_input.on('keydown', function() {
     console.log('Amount Key Pressed!')

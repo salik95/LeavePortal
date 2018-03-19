@@ -10,7 +10,7 @@
     <div class="property" data-id="leaves_available" data-val={{data.leaves_available}}>
       <i class="material-icons">assignment</i><span class="title">Leaves Balance</span><p class="count"><span data-val>{{data.leaves_available}}</span></p>
     </div>
-    <div class="property" data-val={{data.leaves_available}} data-salary={{data.salary}}>
+    <div class="property">
       <i class="material-icons">account_balance_wallet</i><span class="title">Balance Amount</span><p class="count"><span data-val>{{data.leaves_available*data.salary}}</span> PKR</p>
     </div>
   </div>
@@ -20,8 +20,8 @@
     <input class="browser-default" type="text" name="amount" pattern="[0-9]" autocomplete="off">
     <div class="remaining">
       <span>Remaining &emsp;</span>
-      <i class="material-icons">assignment</i> <span data-val>0</span>&emsp;
-      <i class="material-icons">account_balance_wallet</i> <span data-val>0</span>
+      <i class="material-icons">assignment</i> <span data-id="leaves_remaining">0</span>&emsp;
+      <i class="material-icons">account_balance_wallet</i> <span data-id="amount_remaining">0</span> PKR
     </div>
     <button type="submit" class="btn center slim round flat"><i class="material-icons">send</i> ENCASH</button>
   </form>
