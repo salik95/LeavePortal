@@ -37,12 +37,12 @@ def read_csv(link):
 				list_of_elemet.append(dict(zip(keys[0].split(','), row[0].split(','))))
 		return list_of_elemet
 
-@app.route('/bulk_upload_user', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def bulk_upload_user():
+@app.route('/import/employees', methods=['GET', 'POST'])
+def import_employees():
 
 	try:
 		if request.method == 'GET':
-			return render_template("bulk_upload.html")
+			return render_template("import.html")
 
 		if request.method == 'POST':
 			if 'file' not in request.files:
@@ -78,8 +78,6 @@ def bulk_upload_user():
 
 			list_of_employee_object = []
 
-
-
 			for i in list_of_elemet:
 				new_employee = Employees.query.filter_by(user_id=str(i['user_id'])).first()
 				manager_user = User.query.filter_by(email=i['reporting_manager_email']).first()
@@ -95,11 +93,11 @@ def bulk_upload_user():
 
 
 
-@app.route('/bulk_upload_balance_sheet', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def bulk_upload_balance_sheet():
+@app.route('/import/balances', methods=['GET', 'POST'])
+def import_balances():
 	try:
 		if request.method == 'GET':
-			return render_template("bulk_upload.html")
+			return render_template("import.html")
 
 		if request.method == 'POST':
 			if 'file' not in request.files:
