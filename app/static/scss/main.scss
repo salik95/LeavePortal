@@ -17,7 +17,7 @@ $orange: #f39c12;
 html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
 body {background-color: #e8eaf6;}
 
-.notice {margin: 20px 0; opacity: 1; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center; 
+.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center; 
 
   p {margin: 0}
 
@@ -123,6 +123,10 @@ strong {font-weight: 600}
   &.denied .status {background-color: $red}
   &.pending .status {background-color: $yellow}
   
+}
+
+form.disabled {
+  button {opacity: 0}
 }
 
 
@@ -238,10 +242,12 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 
 //history
 .clear{ clear: both;}
-.request{
-  ul{ margin: 0 0;
+.request {
+  ul { margin: 0 0;
     li{ height: auto;}
   }
+
+  .collection-item.responded:not(.active) {opacity: 0.6}
 }
 
 // Notification

@@ -157,8 +157,6 @@ $('form[data-resource]').submit(function(e) {
     case 'leave':
     break
   }
-  
-  console.log(data)
 
   actions.send(resource, method, data, function(status, response) {
 
@@ -169,11 +167,14 @@ $('form[data-resource]').submit(function(e) {
       if(resource == 'employee')
         $notice.text('Employee is successfully added and notified via email')
       
-      else if (resource == 'leave')
+      else if (resource == 'leave' && method == "POST")
         $notice.text('Application is sent successfully and pending for approval.')
 
       else if (resource == 'leave' && method == "PUT") {
-        
+        $notice.text('Application is successfully approved')
+        $self.addClass('disabled')
+        $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
+        $self.closest('.collection-item').addClass('responded')
       }
 
       else {
