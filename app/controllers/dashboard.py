@@ -39,6 +39,9 @@ def dashboard():
 				store.update({'requests' : requests})	
 			store.update({'manager' : manager})
 
+
+
+
 		leaves_details = {'general_leaves_availed' : employee.general_leaves_availed, 
 		'general_leaves_remaining' : employee.general_leaves_remaining,
 		'medical_leaves_availed' : employee.medical_leaves_availed, 
