@@ -5,7 +5,8 @@
       <ul class="collapsible" data-collapsible="accordion">
         {% for item in list_items %}
         <li class="collection-item">
-          <div class="collapsible-header">                  
+          <div class="collapsible-header">
+
             <div class="type {{ item[1].leave_type }}">
               {% if item[1].leave_type == "Medical" %}
               <p>M</p>

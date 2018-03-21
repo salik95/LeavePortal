@@ -17,16 +17,16 @@ $orange: #f39c12;
 html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
 body {background-color: #e8eaf6;}
 
-$notice-color: $primary-color;
-.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center; 
-  
+.notice {margin: 20px 0; opacity: 1; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center; 
+
   p {margin: 0}
-  &.success {$notice-color: $green !global}
-  &.failure {$notice-color: $red !global}
 
-  box-shadow: 0 0 0 2px $notice-color; color: $notice-color; opacity: 1;
-
-  &.solid {color: #fff; background-color: $notice-color;}
+  &.success, &.error {opacity: 1;}
+  &.success {box-shadow: 0 0 0 2px $green; color: $green; }
+  &.error {box-shadow: 0 0 0 2px $red; color: $red; }
+  
+  &.solid {background-color: currentColor;}
+  &.solid > * {color: #fff!important}
 }
 
 .notice > * {margin: 0 20px; font-size: 11px}

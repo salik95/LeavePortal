@@ -164,16 +164,18 @@ $('form[data-resource]').submit(function(e) {
 
     if(status=='success') {
       console.log(response)
-      $notice.removeClass('failure')
+      $notice.removeClass('error')
       $notice.addClass('success')
       if(resource == 'employee')
         $notice.text('Employee is successfully added and notified via email')
+      
       else if (resource == 'leave')
         $notice.text('Application is sent successfully and pending for approval.')
 
       else if (resource == 'leave' && method == "PUT") {
-
+        
       }
+
       else {
         console.log('no bueno')
       }
