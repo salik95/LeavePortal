@@ -17,11 +17,18 @@ $orange: #f39c12;
 html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
 body {background-color: #e8eaf6;}
 
-.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center;
+$notice-color: $primary-color;
+.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center; 
+  
   p {margin: 0}
-  &.success {box-shadow: 0 0 0 2px $green; color: $green; opacity: 1}
-  &.failure {box-shadow: 0 0 0 2px $red; color: $green; opacity: 1}
+  &.success {$notice-color: $green !global}
+  &.failure {$notice-color: $red !global}
+
+  box-shadow: 0 0 0 2px $notice-color; color: $notice-color; opacity: 1;
+
+  &.solid {color: #fff; background-color: $notice-color;}
 }
+
 .notice > * {margin: 0 20px; font-size: 11px}
 .notice > a.button > a.label {font-size: 14px}
 
@@ -101,15 +108,23 @@ strong {font-weight: 600}
 
 /** Material Overrides **/
 
+.collection {margin: 0}
+
 .collection-item {
   overflow: auto;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
-  .approved{color: #6DC6EB;}
-  .denied{color: #D56468;}
-  .pending{color: #22B573;}
-
+  .approved {color: #6DC6EB;}
+  .denied {color: #D56468;}
+  .pending {color: #22B573;}
+  
+  .status {background-color: transparent}
+  &.approved .status {background-color: $green}
+  &.denied .status {background-color: $red}
+  &.pending .status {background-color: $yellow}
+  
 }
+
 
 .card { box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
   &.tagged {border-top: solid 3px $primary-color;}
@@ -280,7 +295,7 @@ main#encashment {
   }
 
   form { max-width: 320px; width: 100%; margin: 0 auto; padding: 40px 0; text-align: center;
-    
+
     &[data-state=""] {
       .remaining {opacity: 0}
     }
@@ -297,11 +312,20 @@ main#encashment {
 
     label {font-size: 16px}
 
-    button {margin-top: 30px}
+    button {margin-top: 10px}
   }
 
   .card {
     max-width: 700px; margin: 0 auto; width: 100%;
+    .collection-item { position: relative;
+      p {margin: 0;}
+      span {padding: 0 10px}
+      .date {float: right;
+        i {opacity: 0.5}
+      }
+
+      .status {position: absolute; width: 3px; top: 0; right: 0; height: 100%;}
+    }
   }
 
   .remaining {padding: 20px 0; opacity: 0.5; transition: all 0.5s ease;
