@@ -46,7 +46,7 @@ class Employees(db.Model):
 	probation = db.Column(db.Boolean, nullable = False)
 	salary = db.Column(db.Float, nullable = False)
 	first_year = db.Column(db.Boolean, nullable = False)
-	
+	last_updated  = db.Column(db.Date(), nullable = False)
 	user = db.relationship('User', uselist=False, backref=db.backref('employee', uselist=False), 
 		lazy='joined', foreign_keys=[user_id])
 	
