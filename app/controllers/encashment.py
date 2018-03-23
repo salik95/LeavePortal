@@ -125,4 +125,7 @@ def encashment_request():
 		
 		del encashment_data['id']
 		
+		db.commit()
+		db.flush()
+		
 		return jsonify(encashment_data)
