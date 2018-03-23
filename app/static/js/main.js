@@ -161,6 +161,7 @@ $('form[data-resource]').submit(function(e) {
   actions.send(resource, method, data, function(status, response) {
 
     if(status=='success') {
+      
       console.log(response)
       $notice.removeClass('error')
       $notice.addClass('success')
@@ -172,6 +173,13 @@ $('form[data-resource]').submit(function(e) {
 
       else if (resource == 'leave' && method == "PUT") {
         $notice.text('Application is successfully approved')
+        $self.addClass('disabled')
+        $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
+        $self.closest('.collection-item').addClass('responded')
+      }
+
+      else if (resource == 'encashment' && method == "PUT") {
+        $notice.text('Request is successfully approved')
         $self.addClass('disabled')
         $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
         $self.closest('.collection-item').addClass('responded')

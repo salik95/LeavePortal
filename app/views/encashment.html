@@ -23,7 +23,7 @@
     </div>
   </div>
   
-  <form method="POST" action="#" data-state="">
+  <form method="POST" action="#" class="transact" data-state="">
     <label for="">Enter Encashment Amount</label>
     <input class="browser-default" type="text" name="amount" autocomplete="off">
     <div class="remaining">
@@ -37,29 +37,31 @@
   <div class="sep">
     <i class="material-icons">more_vert</i>
   </div>
+  <div class="row">
+    <div class="col s12 l7 center">
+      <div class="card encashment-personal">
+        <div class="card-title">My Encashments</div>
+        <ul class="collection">
 
-  <div class="card encashment-personal">
-    <div class="card-title">My Encashments</div>
-    <ul class="collection">
+          {% for item in data.history %}
+          {% if item.manager_approval == item.gm_approval == item.hr_approval == 'Approved' %}
+          {% set status = 'approved' %}
+          {% else %}
+          {% set status = 'pending' %}
+          {% endif %}
 
-      {% for item in data.history %}
-      {% if item.manager_approval == item.gm_approval == item.hr_approval == 'Approved' %}
-      {% set status = 'approved' %}
-      {% else %}
-      {% set status = 'pending' %}
-      {% endif %}
-      
-      <li class="collection-item {{status}}">
-        <span><strong>Amount</strong> {{item.amount}} PKR</span>
-        <span><strong>Leaves</strong> {{item.leaves_utilized}}</span>
-        <p class="date"><i class="material-icons">date_range</i> <span>{{item.time_stamp.strftime('%b %d, %Y')}}</span></p>
-        <div class="status"></div>
-      </li>
-      {% endfor %}
+          <li class="collection-item {{status}}">
+            <span class="amount"><strong>Amount</strong> {{item.amount}} PKR</span>
+            <span><strong>Leaves</strong> {{item.leaves_utilized}}</span>
+            <p class="date"><i class="material-icons">date_range</i> <span>{{item.time_stamp.strftime('%b %d, %Y')}}</span></p>
+            <div class="status"></div>
+          </li>
+          {% endfor %}
 
-    </ul>
+        </ul>
+      </div>
+    </div>
   </div>
-
 </div>
 </main>
 

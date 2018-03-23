@@ -50,7 +50,7 @@ body {background-color: #e8eaf6;}
 /** Custom Globals **/
 
 .wrap {padding: 0 5%;}
-.center {text-align: center;}
+.text-center {text-align: center;}
 .right {text-align: right}
 .clr{ clear: both;}
 
@@ -81,17 +81,19 @@ strong {font-weight: 600}
   .content {margin: 0 auto; max-width: 1000px; width: 70%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
 }
 
-.collapsible { border: 0; box-shadow: none;
+.collapsible { margin: 0; border: 0; box-shadow: none;
 
-  > li {box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
+  > li {height: auto; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
 
   .view-all {margin: auto; display: inline-block; width: 100%; text-align: center}
 
-  .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
+  .collapsible-header { padding: 0; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
 
     .type { padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
       p {text-align: center; padding: 16px 0px;}
     }
+
+    i {margin: 0;}
 
     .Medical{ background-color: #5FAD56;} 
     .General{ background-color: #1B264F;}
@@ -102,6 +104,8 @@ strong {font-weight: 600}
     }
   }
 
+  &.padded .collapsible-header {padding: 0 25px;}
+
   .collapsible-body {background-color: #fafafa}
 } 
 
@@ -111,7 +115,7 @@ strong {font-weight: 600}
 .collection {margin: 0}
 
 .collection-item {
-  overflow: auto;
+  overflow: hidden!important;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
   .approved {color: #6DC6EB;}
@@ -122,6 +126,8 @@ strong {font-weight: 600}
   &.approved .status {background-color: $green}
   &.denied .status {background-color: $red}
   &.pending .status {background-color: $yellow}
+
+  &.responded:not(.active) {opacity: 0.6}
   
 }
 
@@ -243,11 +249,6 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 //history
 .clear{ clear: both;}
 .request {
-  ul { margin: 0 0;
-    li{ height: auto;}
-  }
-
-  .collection-item.responded:not(.active) {opacity: 0.6}
 }
 
 // Notification
@@ -300,7 +301,7 @@ main#encashment {
     }
   }
 
-  form { max-width: 320px; width: 100%; margin: 0 auto; padding: 40px 0; text-align: center;
+  form.transact { max-width: 320px; width: 100%; margin: 0 auto; padding: 40px 0; text-align: center;
 
     &[data-state=""] {
       .remaining {opacity: 0}
@@ -322,15 +323,15 @@ main#encashment {
   }
 
   .card {
-    max-width: 700px; margin: 0 auto; width: 100%;
-    .collection-item { position: relative;
+    .collection-item { position: relative; text-align: left;
+
       p {margin: 0;}
       span {padding: 0 10px}
       .date {float: right;
         i {opacity: 0.5}
       }
 
-      .status {position: absolute; width: 3px; top: 0; right: 0; height: 100%;}
+      .status {position: absolute; width: 3px; top: 0; right: 0; height: 100%; margin: 0}
     }
   }
 

@@ -112,7 +112,7 @@ def encashment_request():
 			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval != None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
 		requests.update({'pending' : pending, 'responded' : responded})
 
-		return jsonify(requests)
+		return render_template('encashment-requests.html', data={'requests': requests})
 
 	if request.method == 'PUT':
 		encashment_data = request.get_json(force = True)
