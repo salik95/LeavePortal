@@ -43,7 +43,6 @@ class Employees(db.Model):
 	general_leaves_availed = db.Column(db.Integer, nullable = False)
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
-	probation = db.Column(db.Boolean, nullable = False)
 	salary = db.Column(db.Float, nullable = False)
 	first_year = db.Column(db.Boolean, nullable = False)
 	last_updated  = db.Column(db.Date(), nullable = False)
