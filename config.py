@@ -26,3 +26,8 @@ CSRF_SESSION_KEY = "secret"
 
 # Secret key for signing cookies
 SECRET_KEY = "secret"
+
+
+
+UPLOAD_FOLDER = 'app/bin/bulk/'
+ALLOWED_EXTENSIONS = set(['csv'])

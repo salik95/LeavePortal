@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify
+from flask import request, jsonify, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 import datetime
 from sqlalchemy import asc, and_, or_
@@ -8,29 +8,44 @@ from sqlalchemy import asc, and_, or_
 @app.route('/encashment', methods = ['GET', 'POST', 'DELETE', 'PUT'])
 def encashment():
 	
+	leaves_remaining = current_user.employee.general_leaves_remaining
+	salary = current_user.employee.salary
+
 	if request.method == 'GET':
+
 		store = {}
 		requests_history = Encashment.query.filter(Encashment.emp_id == current_user.employee.id).order_by(asc(Encashment.time_stamp)).all()
-		store.update({'history' : requests_history, 'leaves_available' : current_user.employee.general_leaves_remaining, 'salary' : current_user.employee.salary})
-		return jsonify(store)
+		leaves_onhold = 0
+
+		for item in requests_history:
+			if item.hr_approval != item.gm_approval != item.manager_approval != "":
+				leaves_onhold += item.leaves_utilized
+
+		store.update({'history' : requests_history, 'leaves_available' : leaves_remaining - leaves_onhold, 'salary' : salary})
+
+		return render_template('encashment.html', data=store)
 
 	if request.method == 'POST':
-		encashment_data = request.get_json(force = True)
+		encashment_data = request.form.copy()
+		manager_role = current_user.employee.manager.user.role
 
-		if 'amount' not in encashment_data or 'leaves_utilized' not in encashment_data:
+		if 'amount' not in encashment_data:
+			# @todo render with flash error
 			return error_response_handler("Incomplete Data", 400)
 		
 		encashment_data['emp_id'] = current_user.employee.id
 		encashment_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
+		encashment_data['leaves_utilized'] = float(encashment_data['amount']) / salary
 
 		if current_user.role == 'HR Manager':
 			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['manager_approval'] = 'Approved'
 
-		if current_user.role == "General Manager":
+		elif current_user.role == "General Manager":
 			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['gm_approval'] = 'Approved'
-		if User.query.get(Employees.query.get(current_user.employee.reporting_manager_id).user_id).role == "HR Manager":
+
+		if manager_role == "HR Manager":
 			encashment_data['hr_approval'] = 'Approved'
 
 		encashment_request = Encashment()
@@ -44,7 +59,8 @@ def encashment():
 		for col_name in Encashment.__mapper__.columns.keys():
 			encashment_dict[col_name] = getattr(encashment_request, col_name)
 
-		return jsonify(encashment_dict)
+		flash(u'Your encashment request is sent successfully.', 'success')
+		return redirect(url_for('encashment'))
 
 #===========================================================
 #Refactor This
@@ -96,7 +112,7 @@ def encashment_request():
 			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval != None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
 		requests.update({'pending' : pending, 'responded' : responded})
 
-		return jsonify(requests)
+		return render_template('encashment-requests.html', data={'requests': requests})
 
 	if request.method == 'PUT':
 		encashment_data = request.get_json(force = True)
@@ -124,5 +140,8 @@ def encashment_request():
 			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized
 		
 		del encashment_data['id']
+		
+		db.commit()
+		db.flush()
 		
 		return jsonify(encashment_data)

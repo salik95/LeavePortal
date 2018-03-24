@@ -44,23 +44,65 @@ $(document).ready(function() {
       $('.account').removeClass('active')
   })
 
-  $list = $('#names')
+  // @TODO: Refactor; update names scopes etc
 
+  $list = $('#names')
   
-  $("input").on("keypress",function(e) {
-    
+  $("input[list=names]").on("keypress",function(e) {
+
     var keyword = $(this).attr('value');
     getEmployees(keyword, function(list) {
       $list.empty()
       console.log(list)
       list.forEach(function(item) {
        $list.append('<option value="'+item.first_name+'">'+item.id+'</option>')
-      })
-
-    })  
-  
+     })
+    }) 
   });
   
+  $encash_form = $('#encashment form')
+  $encash_input = $('#encashment form input[name="amount"]')
+  $encash_button = $encash_form.find('button')
+
+  var leaves_available = parseFloat($('[data-id="leaves_available"]').attr('data-val')) 
+  var salary = parseFloat($('[data-id="salary"]').attr('data-val'))
+  var amount_available = leaves_available*salary
+
+  $encash_input.on('input', function() {
+    console.log('Amount Updates')
+
+    if($(this).val() == '') {
+      $encash_button.addClass('disabled')
+      $encash_form.attr('data-state', '')
+      return
+    }
+
+    var amount = parseInt($(this).val())
+    var amount_remaining = parseFloat((amount_available - amount).toFixed(2))
+    var leaves_remaining = parseFloat((amount_remaining / salary).toFixed(2))
+
+    console.log(amount_remaining)
+
+    $('[data-id="amount_remaining"]').text(amount_remaining < 0 ? 0 : amount_remaining)
+    $('[data-id="leaves_remaining"]').text(leaves_remaining < 0 ? 0 : leaves_remaining)
+
+    if(amount_remaining < 0) {
+      $encash_form.attr('data-state', 'errored')
+      $encash_button.addClass('disabled')
+    }
+
+    else {
+      $encash_button.removeClass('disabled')
+      $encash_form.attr('data-state', 'updated')
+    }
+    
+  })
+
+  $encash_input.on('keydown', function() {
+    console.log('Amount Key Pressed!')
+  })
+
+
 })
 
 $('.datepicker').pickadate({
@@ -115,23 +157,34 @@ $('form[data-resource]').submit(function(e) {
     case 'leave':
     break
   }
-  
-  console.log(data)
 
   actions.send(resource, method, data, function(status, response) {
 
     if(status=='success') {
+      
       console.log(response)
-      $notice.removeClass('failure')
+      $notice.removeClass('error')
       $notice.addClass('success')
       if(resource == 'employee')
         $notice.text('Employee is successfully added and notified via email')
-      else if (resource == 'leave')
+      
+      else if (resource == 'leave' && method == "POST")
         $notice.text('Application is sent successfully and pending for approval.')
 
       else if (resource == 'leave' && method == "PUT") {
-
+        $notice.text('Application is successfully approved')
+        $self.addClass('disabled')
+        $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
+        $self.closest('.collection-item').addClass('responded')
       }
+
+      else if (resource == 'encashment' && method == "PUT") {
+        $notice.text('Request is successfully approved')
+        $self.addClass('disabled')
+        $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
+        $self.closest('.collection-item').addClass('responded')
+      }
+
       else {
         console.log('no bueno')
       }

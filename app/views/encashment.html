@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Encashment of Leaves{% endblock %}
+
+{% block body %}
+
+<main id="encashment">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="notice solid {{category}}"><span>{{message}}</span></div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <div class="figures row">
+    <div class="data" data-id="salary" data-val={{data.salary}}></div>
+    <div class="property" data-id="leaves_available" data-val={{data.leaves_available}}>
+      <i class="material-icons">assignment</i><span class="title">Leaves Balance</span><p class="count"><span data-val>{{data.leaves_available|round(2, 'ceil')}}</span></p>
+    </div>
+    <div class="property">
+      <i class="material-icons">account_balance_wallet</i><span class="title">Balance Amount</span><p class="count"><span data-val>{{(data.leaves_available*data.salary)|round(2, 'ceil')}}</span> PKR</p>
+    </div>
+  </div>
+  
+  <form method="POST" action="#" class="transact" data-state="">
+    <label for="">Enter Encashment Amount</label>
+    <input class="browser-default" type="text" name="amount" autocomplete="off">
+    <div class="remaining">
+      <span>Remaining &emsp;</span>
+      <i class="material-icons">assignment</i> <span data-id="leaves_remaining">0</span>&emsp;
+      <i class="material-icons">account_balance_wallet</i> <span data-id="amount_remaining">0</span> PKR
+    </div>
+    <button type="submit" class="btn center slim round flat disabled"><i class="material-icons">send</i> ENCASH</button>
+  </form>
+
+  <div class="sep">
+    <i class="material-icons">more_vert</i>
+  </div>
+  <div class="row">
+    <div class="col s12 l7 center">
+      <div class="card encashment-personal">
+        <div class="card-title">My Encashments</div>
+        <ul class="collection">
+
+          {% for item in data.history %}
+          {% if item.manager_approval == item.gm_approval == item.hr_approval == 'Approved' %}
+          {% set status = 'approved' %}
+          {% else %}
+          {% set status = 'pending' %}
+          {% endif %}
+
+          <li class="collection-item {{status}}">
+            <span class="amount"><strong>Amount</strong> {{item.amount}} PKR</span>
+            <span><strong>Leaves</strong> {{item.leaves_utilized}}</span>
+            <p class="date"><i class="material-icons">date_range</i> <span>{{item.time_stamp.strftime('%b %d, %Y')}}</span></p>
+            <div class="status"></div>
+          </li>
+          {% endfor %}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+{% endblock %}

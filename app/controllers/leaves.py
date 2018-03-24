@@ -41,27 +41,38 @@ def leave_form():
 	return jsonify(leave_dict)
 
 
-@app.route('/all_leaves/', methods=['GET'])
+@app.route('/history', methods=['GET'])
 def leave_all():
 	store = {}
 	arg_id = request.args.get("id")
+	emp_id = None
+
 	if current_user.role == "HR Manager" or current_user.role == "General Manager":
-		if arg_id is not None and arg_id != "":
+
+		if arg_id is None:
+			emp_id = current_user.employee.id
+		elif arg_id != "":
 			emp_id = arg_id
-			employee = Employees.query.get(emp_id).all()
+			employee = Employees.query.get(emp_id)
 			if employee is None:
-				return render_template("all_leaves.html", data = {'error': "No Such Employee Exist"})
+				return render_template("history.html", data = {'error': "No Such Employee Exist"})
 			store.update({'employee' : employee})
 		else:
-			emp_id = current_user.employee.id
+			store.update({'employee' : None})
+
 	else:
 		emp_id = current_user.employee.id
-	history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
+
+	if emp_id:
+		history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
+	else:
+		history = None
+
 	store.update({'history' : history})
 
-	return render_template("all_leaves.html", data = store)
+	return render_template("history.html", data = store)
 
-@app.route('/all_requests', methods=['GET'])
+@app.route('/requests', methods=['GET'])
 def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
@@ -77,30 +88,30 @@ def request_all():
 
 	requests = {'pending' : pending, 'responded' : responded}
 
-	return render_template("all_requests.html", data = {'requests': requests})
+	return render_template("requests.html", data = {'requests': requests})
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
 	response = request.get_json(force=True)
 	if 'id' not in response or 'remark' not in response or 'approval' not in response:
 		return error_response_handler("Incomplete Data", 400)
+	
+	leave = Balance_sheet.query.get(response['id'])
+	if leave is None:
+		return error_response_handler("Not found")
+	employee = Employees.query.get(leave.emp_id)
+	if employee is None:
+		return error_response_handler("Employee for the leave not found")
+
 	if current_user.role == "HR Manager":
-		leave = Balance_sheet.query.get(response['id'])
-		if leave is None:
-			return error_response_handler("Not found")
 		response['hr_remark'] = response['remark']
 		response['hr_approval'] = response['approval']
 
-		leave_employee = Employees.query.get(leave.emp_id)
-		if leave_employee.reporting_manager_id == current_user.employee.id:
+		if employee.reporting_manager_id == current_user.employee.id:
 			response['manager_remark'] = response['hr_remark']
 			response['manager_approval'] = response['hr_approval']
 	else:
-		leave = Balance_sheet.query.get(response['id'])
-		if leave is None:
-			return error_response_handler("Not found")
-		employee_manager = Employees.query.get(leave.emp_id)
-		if current_user.employee.id != employee_manager.reporting_manager_id:
+		if current_user.employee.id != employee.reporting_manager_id:
 			return error_response_handler("Unauthorized request", 401)
 		response['manager_remark'] = response['remark']
 		response['manager_approval'] = response['approval']

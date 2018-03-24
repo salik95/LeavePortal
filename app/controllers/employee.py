@@ -20,6 +20,7 @@ def employee():
 		#Refactor this thing
 		#=============================
 		data_employee['role'] = "Employee"
+		data_employee['probation'] = 1
 
 		new_user = User(data_employee['email'], "hoh123", data_employee['role'])
 		db.session.add(new_user)

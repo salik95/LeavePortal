@@ -12,8 +12,8 @@
     <p class="title">Management</p>
     <div class="clr"></div>
 
-    <a href="#addemployee" class="btn slim underline light trigger">
-      <i class="material-icons left">change_history</i>
+    <a href="/history?id" class="btn slim underline light">
+      <i class="material-icons left">details</i>
       <span>Balance Sheet</span>
     </a>
 
@@ -23,7 +23,7 @@
       <span>New Employee</span>
     </a>
 
-    <a href="#addemployee" class="btn slim underline light trigger">
+    <a href="/bulk_upload_user" class="btn slim underline light">
       <i class="material-icons left">arrow_drop_up</i>
       <span>Bulk Import</span>
     </a>
@@ -42,11 +42,11 @@
           <div class="row">
             <div class="col s6">
               <p>Availed</p>
-              <h1>{{data.leaves_details.general_leaves_availed}}</h1>
+              <h1>{{data.leaves_details.general_leaves_availed|round(0,'floor')|int}}</h1>
             </div>
             <div class="col s6">
               <p>Remaining</p>
-              <h1>{{data.leaves_details.general_leaves_remaining}}</h1>
+              <h1>{{data.leaves_details.general_leaves_remaining|round(0,'floor')|int}}</h1>
             </div>
           </div>
         </div>
@@ -60,11 +60,11 @@
           <div class="row">
             <div class="col s6">
               <p>Availed</p>
-              <h1>{{data.leaves_details.medical_leaves_availed}}</h1>
+              <h1>{{data.leaves_details.medical_leaves_availed|round(0,'floor')|int}}</h1>
             </div>
             <div class="col s6">
               <p>Remaining</p>
-              <h1>{{data.leaves_details.medical_leaves_remaining}}</h1>
+              <h1>{{data.leaves_details.medical_leaves_remaining|round(0,'floor')|int}}</h1>
             </div>
           </div>
         </div>
@@ -73,39 +73,36 @@
   </div>
 
   {% if data.role == "HR Manager" or data.manager %}
-
+  
   <div class="row">
-    <div class="col s12 m6 l6">
-      <!-- History tab -->
-      {% include 'templates/history_card.html' %}  
+    
+    <div class="col s12 m12 l6">
+      <!-- Request tab -->
+      {% with list_items=data.requests.pending %}
+      {% include 'components/request-card.html' %}
+      {% endwith %}
     </div>
 
-    <div class="col s12 m6 l6">
-      <!-- Request tab -->
-      {% include 'templates/request_card.html' %}  
+    <div class="col s12 m12 l6">
+      <!-- History tab -->
+      {% with leave_list=data.history %}
+      {% include 'components/history-card.html' %}
+      {% endwith %}
     </div>
   </div>
 
   {% else %}
   <div class="row">
     <div class="col s12 m12 l12">
-      {% include 'templates/history_card.html' %}      
+      {% with leave_list=data.history %}  
+      {% include 'components/history-card.html' %} 
+      {% endwith %}     
     </div>
   </div>
-
+  
   {% endif %}
 
 </main>
-
-<div id="addleave" class="lightbox">
-  <div class="content">
-    <h5 class="center upper">Apply for Leave</h5>
-    <br>
-    <div class="divider"></div>
-    <br>
-    {% include 'dashboard/form-leave.html' %}
-  </div>
-</div>
 
 <div id="addemployee" class="lightbox">
   <div class="content">
@@ -113,7 +110,7 @@
     <br>
     <div class="divider"></div>
     <br>
-    {% include 'dashboard/form-employee.html' %}
+    {% include 'forms/employee.html' %}
   </div>
 </div>
 

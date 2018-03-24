@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Bulk User Import{% endblock %}
+
+{% block body %}
+
+<main>
+
+  <div class="row">
+
+    <form action="#" method="POST" enctype="multipart/form-data">
+      <div>
+        <div class="btn">
+          <span>CSV Employees</span>
+          <input type="file" name="file">
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+        <center>
+          <button type="submit" class="btn center">BULK ADD</button>
+        </center>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+</main>
+
+{% endblock %}
