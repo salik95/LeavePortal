@@ -3,6 +3,9 @@ from app import db , app
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import and_, or_, asc
+from app.bin.leaves_update import update_general_leaves
+from app.controllers.settings import settings_to_dict
+from datetime import datetime
 
 @app.route('/dashboard/', methods=['GET'])
 def dashboard():
@@ -42,11 +45,32 @@ def dashboard():
 
 
 
+		leaves_remaining = update_general_leaves(
+		    date_of_joining = employee.date_of_joining, 
+		    last_updated = employee.last_updated,
+		    leaves_remaining = int(employee.general_leaves_remaining),
+		    leaves_in_probation = int(settings_to_dict()['probation_leaves_limit']) ,
+		    first_year = employee.first_year, 
+		    fiscal_year = settings_to_dict()['fiscal_year_starting']  ,
+		    probation_period = int(settings_to_dict()['probation_period']),
+		    leaves_limit = int(settings_to_dict()['general_leaves_limit']),
+		    leaves_availed = int(employee.general_leaves_availed),
+		    probation_leaves_limit = int(settings_to_dict()['probation_leaves_limit'])
+		)
+
+
 		leaves_details = {'general_leaves_availed' : employee.general_leaves_availed, 
-		'general_leaves_remaining' : employee.general_leaves_remaining,
+		'general_leaves_remaining' : leaves_remaining,
 		'medical_leaves_availed' : employee.medical_leaves_availed, 
 		'medical_leaves_remaining' : employee.medical_leaves_remaining}
 		
+		employee.general_leaves_remaining = leaves_remaining
+		employee.last_updated = datetime.now().date()
+		db.session.commit()
+		db.session.flush()
 		store.update({'history' : employee.balance_sheet, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role})
 
+
 		return render_template("dashboard/main.html", data = store)
+
+
