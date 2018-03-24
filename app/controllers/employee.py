@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
+from app.resources.util_functions import *
 
 @app.route('/employee', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
@@ -39,7 +40,10 @@ def employee():
 		
 		data_employee['general_leaves_remaining'] = int(settings_to_dict()['probation_leaves_limit'])
 		data_employee['medical_leaves_remaining'] = int(settings_to_dict()['medical_leaves_limit'])
-		
+		data_employee['last_updated'] = data_employee['date_of_joining']
+		data_employee['first_year'] = True if is_first_year(fiscal_year= settings_to_dict()['fiscal_year_starting'],\
+						                  			doj=data_employee['date_of_joining'] ,\
+						                   			probation_period=int(settings_to_dict()['probation_period'])) == 1 else False
 		data_employee['user_id'] = new_user.id
 
 		new_employee = Employees()
