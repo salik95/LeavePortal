@@ -95,23 +95,23 @@ def respond_request():
 	response = request.get_json(force=True)
 	if 'id' not in response or 'remark' not in response or 'approval' not in response:
 		return error_response_handler("Incomplete Data", 400)
+	
+	leave = Balance_sheet.query.get(response['id'])
+	if leave is None:
+		return error_response_handler("Not found")
+	employee = Employees.query.get(leave.emp_id)
+	if employee is None:
+		return error_response_handler("Employee for the leave not found")
+
 	if current_user.role == "HR Manager":
-		leave = Balance_sheet.query.get(response['id'])
-		if leave is None:
-			return error_response_handler("Not found")
 		response['hr_remark'] = response['remark']
 		response['hr_approval'] = response['approval']
 
-		leave_employee = Employees.query.get(leave.emp_id)
-		if leave_employee.reporting_manager_id == current_user.employee.id:
+		if employee.reporting_manager_id == current_user.employee.id:
 			response['manager_remark'] = response['hr_remark']
 			response['manager_approval'] = response['hr_approval']
 	else:
-		leave = Balance_sheet.query.get(response['id'])
-		if leave is None:
-			return error_response_handler("Not found")
-		employee_manager = Employees.query.get(leave.emp_id)
-		if current_user.employee.id != employee_manager.reporting_manager_id:
+		if current_user.employee.id != employee.reporting_manager_id:
 			return error_response_handler("Unauthorized request", 401)
 		response['manager_remark'] = response['remark']
 		response['manager_approval'] = response['approval']
