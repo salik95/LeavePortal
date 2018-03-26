@@ -1,11 +1,13 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify, render_template
+from flask import request, jsonify, render_template, Response
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_, or_
 from app.resources.notifications import notify
 import datetime
+
+import csv
 
 
 @app.route('/leave_form', methods=['POST'])
@@ -45,6 +47,8 @@ def leave_form():
 def leave_all():
 	store = {}
 	arg_id = request.args.get("id")
+	download = request.args.get('download')
+
 	emp_id = None
 
 	if current_user.role == "HR Manager" or current_user.role == "General Manager":
@@ -67,10 +71,26 @@ def leave_all():
 		history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
 	else:
 		history = None
-
 	store.update({'history' : history})
 
+
+	if download !=None:
+
+		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'w')
+		outcsv = csv.writer(outfile)
+		[outcsv.writerow([getattr(curr, column.name) for column in Balance_sheet.__mapper__.columns]) for curr in history]
+		outfile.close()
+		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'r')
+		return Response(
+		outfile,
+		mimetype="text/csv",
+		headers={"Content-disposition":
+		         "attachment; filename=Balance_sheet.csv"})
+
+
 	return render_template("history.html", data = store)
+
+
 
 @app.route('/requests', methods=['GET'])
 def request_all():
@@ -147,3 +167,8 @@ def get_dict_of_sqlalchemy_object(alchemy_object, key, value=None):
 					temp_dict[item] = getattr(leave_item, item)
 			alchemy_list.append(temp_dict)
 	return alchemy_list
+
+
+
+
+

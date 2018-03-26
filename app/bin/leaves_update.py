@@ -62,6 +62,5 @@ def update_general_leaves(date_of_joining , last_updated ,leaves_remaining ,leav
     if current_time.day == last_day_of_fiscal_year.day  and  current_time.month == last_day_of_fiscal_year.month:
         leaves_remaining = leaves_remaining + leaves_per_day
         
-    if 
     return  leaves_remaining
 
