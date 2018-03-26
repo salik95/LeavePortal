@@ -47,16 +47,31 @@ $(document).ready(function() {
   // @TODO: Refactor; update names scopes etc
 
   $list = $('#names')
-  
-  $("input[list=names]").on("keypress",function(e) {
 
-    var keyword = $(this).attr('value');
+  var searching = false
+  
+  $("input[list=names]").on("input",function(e) {
+
+    var keyword = $(this).val()
+    if(keyword.length < 3) return
+    
+    if(searching == true) return
+    searching = true
+
     getEmployees(keyword, function(list) {
       $list.empty()
       console.log(list)
+
       list.forEach(function(item) {
-       $list.append('<option value="'+item.first_name+'">'+item.id+'</option>')
-     })
+        $option = $('<option value="'+item.name+'" data-id="'+item.id+'">'+item.designation+'</option>')
+        $option.on('click', function(e) {
+          console.log(e)
+        })
+
+        $list.append($option)
+      })
+
+      searching = false
     }) 
   });
   
@@ -161,7 +176,7 @@ $('form[data-resource]').submit(function(e) {
   actions.send(resource, method, data, function(status, response) {
 
     if(status=='success') {
-      
+
       console.log(response)
       $notice.removeClass('error')
       $notice.addClass('success')

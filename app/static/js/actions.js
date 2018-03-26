@@ -55,16 +55,21 @@ actions = {
 function getEmployees(keyword, callback) {
   // obj = {};
   
+  console.log(keyword)
+
   $.ajax({
     url : '/employee/search',
-    contentType: 'application/json',
-    data: JSON.stringify({
+    data: {
       keyword: keyword,
       thin:''
-    }),
+    },
     dataType: 'json',
     success: function(data) {
       callback(data)
     }
   })
+}
+
+function optionClick(e) {
+  console.log(e)
 }
