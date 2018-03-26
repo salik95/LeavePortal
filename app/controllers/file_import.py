@@ -37,6 +37,11 @@ def read_csv(link):
 				list_of_elemet.append(dict(zip(keys[0].split(','), row[0].split(','))))
 		return list_of_elemet
 
+@app.route('/import', methods=['GET', 'POST'])
+def bulk_import():
+	if request.method == 'GET':
+			return render_template("import.html")
+
 @app.route('/import/employees', methods=['GET', 'POST'])
 def import_employees():
 

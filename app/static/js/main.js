@@ -75,6 +75,8 @@ $(document).ready(function() {
     }) 
   });
   
+
+  
   $encash_form = $('#encashment form')
   $encash_input = $('#encashment form input[name="amount"]')
   $encash_button = $encash_form.find('button')
