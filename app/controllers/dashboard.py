@@ -8,6 +8,7 @@ from app.controllers.settings import settings_to_dict
 from datetime import datetime
 
 @app.route('/dashboard/', methods=['GET'])
+@login_required
 def dashboard():
 	if request.method == 'GET':
 		store = {}

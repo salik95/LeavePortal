@@ -6,11 +6,11 @@ from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_, or_
 from app.resources.notifications import notify
 import datetime
-
 import csv
 
 
 @app.route('/leave_form', methods=['POST'])
+@login_required
 def leave_form():
 	leave_data = request.get_json(force=True)
 
@@ -44,6 +44,7 @@ def leave_form():
 
 
 @app.route('/history', methods=['GET'])
+@login_required
 def leave_all():
 	store = {}
 	arg_id = request.args.get("id")
@@ -93,6 +94,7 @@ def leave_all():
 
 
 @app.route('/requests', methods=['GET'])
+@login_required
 def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
@@ -111,6 +113,7 @@ def request_all():
 	return render_template("requests.html", data = {'requests': requests})
 
 @app.route('/respond_request', methods=['PUT'])
+@login_required
 def respond_request():
 	response = request.get_json(force=True)
 	if 'id' not in response or 'remark' not in response or 'approval' not in response:

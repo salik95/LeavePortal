@@ -6,6 +6,7 @@ import datetime
 from sqlalchemy import asc, and_, or_
 
 @app.route('/encashment', methods = ['GET', 'POST', 'DELETE', 'PUT'])
+@login_required
 def encashment():
 	
 	leaves_remaining = current_user.employee.general_leaves_remaining
@@ -95,6 +96,7 @@ def encashment():
 
 
 @app.route('/encashment/requests', methods = ['GET', 'PUT'])
+@login_required
 def encashment_request():
 	if request.method == 'GET':
 

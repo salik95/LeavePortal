@@ -146,6 +146,7 @@ def employee_search():
 	return jsonify(filtered_employee)
 
 @app.route('/employee/<user_id>', methods=['GET'])
+@login_required
 def current_employee(user_id):
 	employee = Employees.query.get(user_id)
 	if int(current_user.employee.id) != int(user_id):

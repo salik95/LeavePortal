@@ -38,11 +38,13 @@ def read_csv(link):
 		return list_of_elemet
 
 @app.route('/import', methods=['GET', 'POST'])
+@login_required
 def bulk_import():
 	if request.method == 'GET':
 			return render_template("import.html")
 
 @app.route('/import/employees', methods=['GET', 'POST'])
+@login_required
 def import_employees():
 
 	try:
@@ -99,6 +101,7 @@ def import_employees():
 
 
 @app.route('/import/balances', methods=['GET', 'POST'])
+@login_required
 def import_balances():
 	try:
 		if request.method == 'GET':
