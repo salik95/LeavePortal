@@ -3,7 +3,7 @@
 <head>
   <meta name = "viewport" content = "width = device-width, initial-scale = 1" charset="UTF-8">
   <title>HOH Leaves - {% block title %}{% endblock %}</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" rel="stylesheet">
+  <link href="{{url_for('static', filename='css/materialize.min.css') }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.scss.css') }}" type="text/css">
 </head>
@@ -24,7 +24,7 @@
             <span class="name">{{current_user.employee.first_name + ' ' + current_user.employee.last_name}}</span>
             <ul>
               <li><a href="/encashment"><i class="material-icons">account_balance_wallet</i> Encashment</a></li>
-              <li><i class="material-icons">settings</i> Account Settings</li>
+              <li><a href="/account"><i class="material-icons">settings</i> Account Settings</a></li>
               <li><a href="/logout"><i class="material-icons">exit_to_app</i> Logout</a></li>
             </ul>
           </div>
@@ -49,8 +49,9 @@
 
   <footer><span class="powered">Powered by <a href="http://www.quanrio.com" target="_blank">Quanrio</a></span></footer>
 
+  <!-- <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script> -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+  <script src="{{url_for('static', filename='js/materialize.min.js') }}"></script>
   <script src="{{url_for('static', filename='js/actions.js') }}"></script>
   <script src="{{url_for('static', filename='js/main.js') }}"></script>
 </body>

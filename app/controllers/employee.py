@@ -166,7 +166,7 @@ def update_account():
 		return redirect(url_for('dashboard'))
 
 	if request.method == 'GET':
-		return jsonify('In progress')
+		return render_template('account.html')
 
 def employee_sqlalchemy_to_list(alchemyObject):
 	col_names = Employees.__mapper__.columns.keys()
