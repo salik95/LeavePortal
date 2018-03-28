@@ -8,6 +8,14 @@
 
   <div class="row">
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="notice solid {{category}}"><span>{{message}}</span></div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <form action="#" method="POST" enctype="multipart/form-data">
       <div class="row">
         <div class="col s12 m6 l6">
@@ -19,39 +27,16 @@
                 </div>
 
                 <div class="center-align">
-                  <h5>Employees</h5>
-                  <br><br>
+                  <h5>CSV Employees</h5>
+                  <br>
                 </div>
                 
                 <div class="btn">
                   <span>CSV Employees</span>
-                  <input type="file" name="file">
+                  <input type="file" name="employees">
                 </div>
                 <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col s12 m6 l6">
-          <div class="card">
-            <div class="card-content">
-              <div class="file-field input-field">
-                <div class="center-align">
-                  <i class="material-icons medium">details</i>
-                </div>
-                <div class="center-align">
-                  <h5>Leave Balances</h5>
-                  <br><br>
-                </div>
-                <div class="btn">
-                  <span>Leave Balance</span>
-                  <input type="file" name="file">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
+                  <input class="file-path validate" name="employees" type="text">
                 </div>
               </div>
             </div>
@@ -59,12 +44,39 @@
         </div>
       </div>
 
-      <br><br>
-      <div class="row center-align">
-        <button type="submit" name="submit" class="btn center">Bulk Import</button>
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
+            <div class="file-field input-field">
+              <div class="center-align">
+                <i class="material-icons large">details</i>
+                <br><br><br><br>
+              </div>
+              <div class="center-align">
+                <h5>Leave Balances</h5>
+                <br>
+              </div>
+              <div class="btn">
+                <span>Leave Balance</span>
+                <input type="file" name="balances">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" name="balances" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
+</div>
+
+<br><br>
+<div class="row center-align">
+  <button type="submit" name="submit" class="btn center">Bulk Import</button>
+</div>
+</form>
+</div>
 </main>
 
 {% endblock %}
