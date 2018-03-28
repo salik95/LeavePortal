@@ -144,18 +144,19 @@ def current_employee(user_id):
 	emp_data['email'] = current_user.email
 	return jsonify(emp_data)
 
-@app.route('/account', methods=['PUT', 'GET'])
+@app.route('/account', methods=['POST', 'GET'])
 @login_required
 def update_account():
-	if request.method == 'PUT':
+	if request.method == 'POST':
 		user_data = request.get_json(force=True)
-		if 'password' in user_data:
+		if 'new_password' in user_data:
 			if not check_password_hash(current_user.password, user_data['old_password']):
-				return error_response_handler("Wrong Password")
+				flash('Wrong Password', 'error-message')
+				return redirect(url_for('account'))		
 		key = list(user_data.keys())
 		for item in key:
-			if item == 'password':
-				setattr(current_user, item, generate_password_hash(user_data[item]))
+			if item == 'new_password':
+				setattr(current_user, 'password', generate_password_hash(user_data[item]))
 			else:
 				setattr(current_user, item, user_data[item])
 		db.session.commit()
