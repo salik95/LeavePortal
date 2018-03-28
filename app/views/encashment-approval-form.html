@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title><u>Memorandum</u></title>
+	<style type="text/css">		
+        @page {
+            
+            size: A4 portrait;
+            margin-left: 1in;
+            margin-right:1in;
+            width: 8.27in;
+            height: 11.69in;
+            margin-top:0.6in;
+        }
+
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12pt;
+        }
+
+        .table1{
+            margin-left:15px;
+
+        }
+
+        .table2{
+            margin: auto;
+        }
+
+        .pad-left {
+            padding-left: 10px;
+        }
+
+        .table2 th, .table2 td {
+            border: 1px solid black;
+           
+        }
+
+
+        table{
+            border-collapse: collapse;
+        }
+ 
+        .center-align{
+            text-align: center;
+        }
+
+        .table3{
+            margin:auto;
+        }
+
+        .table3 th, .table3 td {
+            border-bottom: 1px solid rgb(31, 30, 30);
+           
+        }
+
+        .container{
+            height: 90px;
+        }
+	 </style>
+</head>
+
+<body>
+    <div>
+        <img src="../static/img/hoh-logo.jpg" alt="Hoh_Logo">
+    </div>
+    <div class="pad-left">
+
+        <h1>Leave Encashment Certificate</h1>
+    </div>
+
+	<div>
+        <table class="table1">
+            <tr>
+                <td class="pad-left" height="20px" width="130px"><strong>Name:</strong></td>
+                <td>{% name %}</td>
+            </tr>
+
+            <tr>
+                <td class="pad-left" height="20px"><strong>Designation:</strong></td>
+                <td>{% designation %}</td>
+            </tr>
+
+            <tr>
+                <td class="pad-left" height="27px"><strong>Email:</strong></td>
+                <td>{% email %}</td>
+            </tr>
+        </table> 
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <div>
+        <table class="table2">
+            <tr>
+                <td class="pad-left" height="50px" width="215px"><strong>Available Leaves Balance</strong></td>
+                <td  class="center-align" width="50px">{% available_leave_balance %}</td>
+                <td class="pad-left" width="215px"><strong>Amount Encashable</strong></td>
+                <td  class="center-align"width="50px">{% amount_encashable %}</td>
+            </tr>
+
+            <tr>
+                <td class="pad-left" height="50px"><strong>Leaves Encashed</strong></td>
+                <td class="center-align">{% leaves_encashed %}</td>
+                <td class="pad-left" ><strong>Amount Encashed</strong></td>
+                <td class="center-align">{% amount_encashed %}}</td>
+            </tr>
+
+            <tr>
+                <td class="pad-left" height="50px"><strong>Remaining Leaves Balance</strong></td>
+                <td class="center-align">{% remaining_leaves_balance %}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+
+    </div>
+    <div>
+        <h4 class="pad-left">Approved By</h4>
+        <table class="table3" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col>
+                    <col span="2">
+            </colgroup>
+            
+            <tr class="table_row top-border">
+                <td class="top-border"></td>
+                <td width="150px" class="center-align top-border">{% line_manager %} <br> Line Manager</td>
+                <td width="150px" class="center-align top-border">{% general_manager %} <br> General Manager</td>
+                <td width="150px" class="center-align top-border">{% hr_manager %} <br> HR Manager</td>
+            </tr>
+
+            <tr>
+                <td width="105px" height="30" class="pad-left">Status</td>
+                <!-- <td class="center-align">&#10004;</td>
+                <td class="center-align">&#x2716;</td>
+                <td class="center-align">&#x2716;</td> -->
+                <td class="center-align">{% line_manager_status %}</td>
+                <td class="center-align">{% general_manager_status %}</td>
+                <td class="center-align">{% hr_manager_status %}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
