@@ -149,19 +149,20 @@ def current_employee(user_id):
 def update_account():
 	if request.method == 'POST':
 		user_data = request.get_json(force=True)
-		if 'new_password' in user_data:
-			if not check_password_hash(current_user.password, user_data['old_password']):
-				flash('Wrong Password', 'error-message')
-				return redirect(url_for('account'))		
-		key = list(user_data.keys())
-		for item in key:
-			if item == 'new_password':
-				setattr(current_user, 'password', generate_password_hash(user_data[item]))
-			else:
-				setattr(current_user, item, user_data[item])
-		db.session.commit()
-		db.session.flush()
-		flash(u'Password Updated', 'success')
+		print(user_data)
+		# if 'new_password' in user_data:
+		# 	if not check_password_hash(current_user.password, user_data['old_password']):
+		# 		flash('Wrong Password', 'error-message')
+		# 		return redirect(url_for('account'))		
+		# key = list(user_data.keys())
+		# for item in key:
+		# 	if item == 'new_password':
+		# 		setattr(current_user, 'password', generate_password_hash(user_data[item]))
+		# 	else:
+		# 		setattr(current_user, item, user_data[item])
+		# db.session.commit()
+		# db.session.flush()
+		# flash(u'Password Updated', 'success')
 		return redirect(url_for('dashboard'))
 
 	if request.method == 'GET':

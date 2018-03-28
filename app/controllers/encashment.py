@@ -137,9 +137,11 @@ def encashment_request():
 				return error_response_handler("Unauthorized request", 401)
 			setattr(encashment_request, 'manager_approval', encashment_data['approval'])
 
-		if encashment_request.hr_approval == 'Approved' and encashment_request.gm_approval == 'Approved' and encashment_request.manager_approval == 'Approved' :
+		if encashment_request.hr_approval == 'Approved' and encashment_request.gm_approval == 'Approved' and encashment_request.manager_approval == 'Approved':
+			store = {}
 			employee.general_leaves_remaining = employee.general_leaves_remaining - encashment_request.leaves_utilized
 			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized
+			#return render_template("encashment-approval-form.html", data = store)
 		
 		del encashment_data['id']
 		
