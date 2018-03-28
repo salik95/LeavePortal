@@ -12,7 +12,6 @@ from app.controllers.utilfunc import *
 @login_required
 def dashboard():
 	if request.method == 'GET':
-
 		store = {}
 		employee = current_user.employee
 
