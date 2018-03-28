@@ -8,24 +8,73 @@
 
   <div class="row">
 
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="notice solid {{category}}"><span>{{message}}</span></div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
     <form action="#" method="POST" enctype="multipart/form-data">
-      <div>
-        <div class="btn">
-          <span>CSV Employees</span>
-          <input type="file" name="file">
+      <div class="row">
+        <div class="col s12 m6 l6">
+          <div class="card hoverable">
+              <div class="card-content">
+                <div class="file-field input-field">
+                  <div class="center-align">
+                      <i class="material-icons large">contacts</i>
+                      <br><br><br><br>
+                    </div>
+
+                    <div class="center-align">
+                      <h5>Employees Bulk Import</h5>
+                      <br>
+                    </div>
+                    
+                    <div class="btn">
+                      <span>CSV Employees</span>
+                      <input type="file" name="employees">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" name="employees" type="text">
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text">
-        </div>
-        <center>
-          <button type="submit" class="btn center">BULK ADD</button>
-        </center>
+
+        <div class="col s12 m6 l6">
+            <div class="card hoverable">
+                <div class="card-content">
+                  <div class="file-field input-field">
+                      <div class="center-align">
+                        <i class="material-icons large">details</i>
+                        <br><br><br><br>
+                      </div>
+                      <div class="center-align">
+                        <h5>Leave Balance Bulk Import</h5>
+                        <br>
+                      </div>
+                        <div class="btn">
+                          <span>Leave Balance</span>
+                          <input type="file" name="balances">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" name="balances" type="text">
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+      </div>
+
+      <div class="row center-align">
+          <button type="submit" name="submit" class="btn center">Bulk Add</button>
       </div>
     </form>
   </div>
-
-</div>
-
 </main>
 
 {% endblock %}
