@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Montserrat:300,400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Varela+Round:400,500,600|Nunito:300,400,500,600');
 
 // @import "components/color";
 // $primary-color: color("blue", "lighten-2") !default;
@@ -14,26 +14,34 @@ $red: #fc5c65;
 $yellow: #f1c40f;
 $orange: #f39c12;
 
-html {font-family: 'Varela Round'; color: darken($primary-color, 25)}
+html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
 body {background-color: #e8eaf6;}
 
-.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $light-gray; color: #fff; text-align: center;
+.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center; 
+
   p {margin: 0}
-  &.success {box-shadow: 0 0 0 2px $green; color: $green; opacity: 1}
-  &.failure {box-shadow: 0 0 0 2px $red; color: $green; opacity: 1}
+
+  &.success, &.error {opacity: 1;}
+  &.success {box-shadow: 0 0 0 2px $green; color: $green; }
+  &.error {box-shadow: 0 0 0 2px $red; color: $red; }
+  
+  &.solid {background-color: currentColor;}
+  &.solid > * {color: #fff!important}
 }
+
 .notice > * {margin: 0 20px; font-size: 11px}
 .notice > a.button > a.label {font-size: 14px}
 
-.btn {letter-spacing: 0; font-size: 14px; font-weight: 600}
+.btn {letter-spacing: 0; font-size: 14px; font-weight: 600; font-family: 'Varela Round'}
 .btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
 .btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
-.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3);
-  i.left {margin-left: 5px}
+.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3); font-weight: 600;
+  i.left {margin-right: 5px}
 }
 .btn.underline {background-color: transparent!important; color: #000; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
   &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
 }
+.btn.flat {box-shadow: none!important}
 
 .btn.light {opacity: 0.5;
   &:hover {opacity: 0.6}
@@ -42,7 +50,7 @@ body {background-color: #e8eaf6;}
 /** Custom Globals **/
 
 .wrap {padding: 0 5%;}
-.center {text-align: center;}
+.text-center {text-align: center;}
 .right {text-align: right}
 .clr{ clear: both;}
 
@@ -73,17 +81,19 @@ strong {font-weight: 600}
   .content {margin: 0 auto; max-width: 1000px; width: 70%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
 }
 
-.collapsible { border: 0; box-shadow: none;
+.collapsible { margin: 0; border: 0; box-shadow: none;
 
-  > li {box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
+  > li {height: auto; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
 
   .view-all {margin: auto; display: inline-block; width: 100%; text-align: center}
 
-  .collapsible-header { padding: 0px 0px; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
+  .collapsible-header { padding: 0; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px;
 
     .type { padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
       p {text-align: center; padding: 16px 0px;}
     }
+
+    i {margin: 0;}
 
     .Medical{ background-color: #5FAD56;} 
     .General{ background-color: #1B264F;}
@@ -94,35 +104,55 @@ strong {font-weight: 600}
     }
   }
 
+  &.padded .collapsible-header {padding: 0 25px;}
+
   .collapsible-body {background-color: #fafafa}
 } 
 
 
 /** Material Overrides **/
 
+.collection {margin: 0}
+
 .collection-item {
-  overflow: auto;
+  overflow: hidden!important;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
-  .approved{color: #6DC6EB;}
-  .denied{color: #D56468;}
-  .pending{color: #22B573;}
+  .approved {color: #6DC6EB;}
+  .denied {color: #D56468;}
+  .pending {color: #22B573;}
+  
+  .status {background-color: transparent}
+  &.approved .status {background-color: $green}
+  &.denied .status {background-color: $red}
+  &.pending .status {background-color: $yellow}
 
+  &.responded:not(.active) {opacity: 0.6}
+  
 }
 
-.card { box-shadow: 0 2px 40px 0 rgba(0,0,0,0.15); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+form.disabled {
+  button {opacity: 0}
+}
+
+
+.card { box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 16px 0; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Montserrat;
+  .card-title { padding: 16px 0; position: relative; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
     vertical-align: middle;
+    > * {vertical-align: middle}
     span {vertical-align: middle;}
-    .btn {position: absolute; right: 20px}
+
+    .btn {position: absolute; right: 20px; top: 50%; transform: translateY(-50%)}
     .name {opacity: 0.3; font-size: 16px; font-weight: 600; margin-left: 10px; padding-left: 10px; box-shadow: -1px 0 0 0 $primary-color}
   }
 }
 
 .brand-logo img {height: 80%; width: auto}
+
+.sep {margin: 20px 0; text-align: center; opacity: 0.2}
 
 /** Custom Views / Components **/
 
@@ -143,10 +173,10 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
   }
 
   .account {
-    &.active .widget {opacity: 1; z-index: 2;}
+    &.active .widget {opacity: 1; z-index: 2; cursor: pointer;}
     
-    .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 180px; 
-     opacity: 0; transition: all 0.5s ease;
+    .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 200px; 
+     opacity: 0; transition: all 0.5s ease; cursor: default;
 
      .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
 
@@ -206,7 +236,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 }
 
 .card.counter {
-  h1 {font-family: Montserrat; font-weight: 300}
+  h1 {font-family: Nunito; font-weight: 300}
   .row p {font-size: 15px; text-transform: uppercase}
 }
 
@@ -218,12 +248,7 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 
 //history
 .clear{ clear: both;}
-.request{
-  ul{ margin: 0 0;
-    li{ height: auto;}
-  }
-  
-  
+.request {
 }
 
 // Notification
@@ -259,6 +284,64 @@ main#login { padding: 0; height: 100vh; background-image: url(../img/background-
 }
 
 
+main#encashment {
+
+  .figures { display: flex; align-items: center; justify-content: center}
+
+  .property { display: inline-block; padding: 20px 50px; margin: 0; text-align: center; vertical-align: middle; 
+    font-size: 16px; height: 30px;
+    
+    > * {vertical-align: middle} 
+    i {margin-right: 8px;}
+    
+    span.title {padding-right: 10px}
+    
+    .count { margin: 0; display: inline-block; padding: 0 0 0 10px; 
+      font-size: 22px; box-shadow: -1px 0 0 0 rgba(0,0,0,0.1);
+    }
+  }
+
+  form.transact { max-width: 320px; width: 100%; margin: 0 auto; padding: 40px 0; text-align: center;
+
+    &[data-state=""] {
+      .remaining {opacity: 0}
+    }
+
+    &[data-state="errored"] {
+      input[name="amount"] {box-shadow: 0 0 0 2px $red!important}
+    }
+
+    input[name="amount"] {border: 0; padding: 20px 10px; width: 100%; margin-top: 10px;
+      text-align: center; font-family: Nunito; font-weight: 400; font-size: 32px;  letter-spacing: 2px; color: #777; border-radius: 2px;
+
+      &:focus {box-shadow: 0 0 10px rgba(0,0,0,0.05); border: 0; outline: none}
+    }
+
+    label {font-size: 16px}
+
+    button {margin-top: 10px}
+  }
+
+  .card {
+    .collection-item { position: relative; text-align: left;
+
+      p {margin: 0;}
+      span {padding: 0 10px}
+      .date {float: right;
+        i {opacity: 0.5}
+      }
+
+      .status {position: absolute; width: 3px; top: 0; right: 0; height: 100%; margin: 0}
+    }
+  }
+
+  .remaining {padding: 20px 0; opacity: 0.5; transition: all 0.5s ease;
+    i {font-size: 20px}
+  }
+
+}
+
+.data {display: none}
 
 footer {font-size: 12px; padding: 10px 0; text-align: center; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);
   .powered { opacity: 0.5; transition: all 1s ease;

@@ -30,16 +30,13 @@ def index():
                 login_user(user, remember=True)
                 return redirect(url_for('dashboard'))
             flash('Wrong email or password', 'error-message')
-        return render_template("login/signin.html", form=form)
-
-
+        return render_template("login.html", form=form)
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
 
 @app.context_processor
 def inject_user():
@@ -54,7 +51,6 @@ def inject_user():
 def inject_date():
   print(datetime.datetime.utcnow())
   return {'now': datetime.datetime.utcnow()}
-
 
 
 '''@app.route('/signup/', methods=['GET', 'POST'])

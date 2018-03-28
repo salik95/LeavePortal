@@ -4,12 +4,12 @@
     {% if view_empsheet %}
     <span>Leave History</span> <span class="name"><i class="material-icons">account_circle</i> {{employee.first_name}}</span>
     {% else %}
-    Personal History
+    <i class="material-icons">assignment</i> <span>Personal History</span>
     {% endif %}
 
     {% if single_view %}
     <a href="#" class="btn slim outline trigger download">
-      <i class="material-icons left">file_download</i>
+      <i class="material-icons left">keyboard_arrow_down</i>
       <span>Download</span>
     </a>
     {% endif %}
@@ -110,7 +110,7 @@
       {% if not single_view %}
       <li>
         <div class="collapsible-header">
-          <a href="/all_leaves" class="view-all">View All</a>
+          <a href="/history" class="view-all">View All</a>
         </div>
       </li>
       {% endif %}

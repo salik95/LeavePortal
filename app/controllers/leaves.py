@@ -1,11 +1,13 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify, render_template
+from flask import request, jsonify, render_template, Response
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_, or_
 from app.resources.notifications import notify
 import datetime
+
+import csv
 
 
 @app.route('/leave_form', methods=['POST'])
@@ -41,10 +43,12 @@ def leave_form():
 	return jsonify(leave_dict)
 
 
-@app.route('/all_leaves/', methods=['GET'])
+@app.route('/history', methods=['GET'])
 def leave_all():
 	store = {}
 	arg_id = request.args.get("id")
+	download = request.args.get('download')
+
 	emp_id = None
 
 	if current_user.role == "HR Manager" or current_user.role == "General Manager":
@@ -55,7 +59,7 @@ def leave_all():
 			emp_id = arg_id
 			employee = Employees.query.get(emp_id)
 			if employee is None:
-				return render_template("all_leaves.html", data = {'error': "No Such Employee Exist"})
+				return render_template("history.html", data = {'error': "No Such Employee Exist"})
 			store.update({'employee' : employee})
 		else:
 			store.update({'employee' : None})
@@ -67,12 +71,28 @@ def leave_all():
 		history = Balance_sheet.query.filter(Balance_sheet.emp_id == emp_id).order_by(asc(Balance_sheet.from_date)).all()
 	else:
 		history = None
-
 	store.update({'history' : history})
 
-	return render_template("all_leaves.html", data = store)
 
-@app.route('/all_requests', methods=['GET'])
+	if download !=None:
+
+		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'w')
+		outcsv = csv.writer(outfile)
+		[outcsv.writerow([getattr(curr, column.name) for column in Balance_sheet.__mapper__.columns]) for curr in history]
+		outfile.close()
+		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'r')
+		return Response(
+		outfile,
+		mimetype="text/csv",
+		headers={"Content-disposition":
+		         "attachment; filename=Balance_sheet.csv"})
+
+
+	return render_template("history.html", data = store)
+
+
+
+@app.route('/requests', methods=['GET'])
 def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
@@ -88,7 +108,7 @@ def request_all():
 
 	requests = {'pending' : pending, 'responded' : responded}
 
-	return render_template("all_requests.html", data = {'requests': requests})
+	return render_template("requests.html", data = {'requests': requests})
 
 @app.route('/respond_request', methods=['PUT'])
 def respond_request():
@@ -147,3 +167,8 @@ def get_dict_of_sqlalchemy_object(alchemy_object, key, value=None):
 					temp_dict[item] = getattr(leave_item, item)
 			alchemy_list.append(temp_dict)
 	return alchemy_list
+
+
+
+
+

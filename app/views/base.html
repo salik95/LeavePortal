@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta name = "viewport" content = "width = device-width, initial-scale = 1" charset="UTF-8">
-  <title>HMP Leaves - {% block title %}{% endblock %}</title>
+  <title>HOH Leaves - {% block title %}{% endblock %}</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.scss.css') }}" type="text/css">
@@ -23,6 +23,7 @@
           <div class="content">
             <span class="name">{{current_user.employee.first_name + ' ' + current_user.employee.last_name}}</span>
             <ul>
+              <li><a href="/encashment"><i class="material-icons">account_balance_wallet</i> Encashment</a></li>
               <li><i class="material-icons">settings</i> Account Settings</li>
               <li><a href="/logout"><i class="material-icons">exit_to_app</i> Logout</a></li>
             </ul>
@@ -35,8 +36,18 @@
 
   {% block body %}
   {% endblock %}
+  
+  <div id="addleave" class="lightbox">
+  <div class="content">
+    <h5 class="center upper">Apply for Leave</h5>
+    <br>
+    <div class="divider"></div>
+    <br>
+    {% include 'forms/leave.html' %}
+  </div>
+</div>
 
-  <footer><span class="powered">Powered by <a href="http://www.quanrio.com">Quanrio</a></span></footer>
+  <footer><span class="powered">Powered by <a href="http://www.quanrio.com" target="_blank">Quanrio</a></span></footer>
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>

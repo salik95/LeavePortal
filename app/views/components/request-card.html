@@ -1,0 +1,87 @@
+<div class="card leaves">
+  <p class="card-title"><i class="material-icons">event</i> <span>Leave Requests</span></p>
+  <div class="card-content">
+    <div class="request">
+      <ul class="collapsible" data-collapsible="accordion">
+        {% for item in list_items %}
+        <li class="collection-item">
+          <div class="collapsible-header">
+
+            <div class="type {{ item[1].leave_type }}">
+              {% if item[1].leave_type == "Medical" %}
+              <p>M</p>
+              {% else %}
+              <p>G</p>
+              {% endif %}
+            </div>
+
+            <div class="duration">
+              {{ item[1].employee.first_name }} {{ item[1].employee.last_name }}
+            </div>
+
+            <div class="status pending">
+              <p></p>
+            </div>
+          </div>
+          <div class="collapsible-body">  
+
+            <div class="row">
+              <p class="center light">{{item[0].designation + ', ' + item[0].department}}</p>
+              <br>
+              <p><span class="bold">Dates</span>&emsp; {{item[1].from_date.strftime('%b %d, %Y')}}  -  {{item[1].to_date.strftime('%b %d, %Y')}}</p>
+              <br>
+              <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
+              <br>
+            </div>
+
+            <div class="row">
+              <form data-resource="leave" method="PUT">
+
+                <div class="notice"></div>
+
+                <input type="hidden" name="id" value={{item[1].id}}>
+
+                <div class="row">
+                  <div class="col s12">
+                    <div class="input-field col s12">
+                      <textarea id="hr-text" class="materialize-textarea" name="remark"></textarea>
+                      <label for="hr-text">Your Remarks</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <p class="col s6 offset-s1  ">
+                    <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" />
+                    <label for="approve-{{item[1].id}}">Approve</label>
+                  </p>
+                  <p class="col s5">
+                    <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved
+                    "/>
+                    <label for="decline-{{item[1].id}}">Decline</label>
+                  </p>
+                </div>
+
+                <p class="small center"><strong>Note:</strong> This action is irreversible</p>
+                <br>
+
+                <div class="center">
+                  <button type="submit" class="waves-effect waves-light btn round center">Confirm</button>
+                </div> 
+              </form> 
+            </div>
+
+          </div>
+        </li>
+        {% endfor%}
+        {% if not single_view %}
+        <li>
+          <div class="collapsible-header">
+            <a href="/requests" class="view-all">View All</a>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+    </div>  
+  </div>
+</div> 

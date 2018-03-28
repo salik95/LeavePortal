@@ -29,7 +29,7 @@
 	{% if data.history %}
 	<div class="row">
 		{% with single_view=True, leave_list=data.history, employee=data.employee %}
-		{% include 'templates/history_card.html' %}
+		{% include 'components/history-card.html' %}
 		{% endwith %}
 	</div>
 	{% endif %}

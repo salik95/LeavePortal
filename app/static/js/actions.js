@@ -11,6 +11,12 @@ dispatch = {
     }
   },
 
+  encashment: {
+    PUT: {
+      endpoint: '/encashment/requests'
+    }
+  },
+
   settings: {
     endpoint: '/settings'
   }
