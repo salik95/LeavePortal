@@ -144,7 +144,7 @@ def current_employee(user_id):
 	emp_data['email'] = current_user.email
 	return jsonify(emp_data)
 
-@app.route('/account', methods=['PUT'])
+@app.route('/account', methods=['PUT', 'GET'])
 @login_required
 def update_account():
 	user_data = request.get_json(force=True)
