@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify
+from flask import request, jsonify, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
@@ -160,7 +160,8 @@ def update_account():
 				setattr(current_user, item, user_data[item])
 		db.session.commit()
 		db.session.flush()
-		return jsonify("User updated")
+		flash(u'Password Updated', 'success')
+		return redirect(url_for('dashboard'))
 
 	if request.method == 'GET':
 		return jsonify('In progress')
