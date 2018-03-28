@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify
+from flask import request, jsonify, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
@@ -163,7 +163,7 @@ def update_account():
 		return jsonify("User updated")
 
 	if request.method == 'GET':
-		return jsonify('In progress')
+		return render_template('account.html')
 
 def employee_sqlalchemy_to_list(alchemyObject):
 	col_names = Employees.__mapper__.columns.keys()
