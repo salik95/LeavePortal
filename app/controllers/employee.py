@@ -162,7 +162,7 @@ def update_account():
 		db.session.flush()
 		return jsonify("User updated")
 
-	if request.method = 'GET':
+	if request.method == 'GET':
 		return jsonify('In progress')
 
 def employee_sqlalchemy_to_list(alchemyObject):
