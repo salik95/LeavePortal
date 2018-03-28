@@ -23,7 +23,7 @@ def employee():
 		data_employee['role'] = "Employee"
 		data_employee['probation'] = 1
 
-		new_user = User(data_employee['email'], "hoh123", data_employee['role'])
+		new_user = User(data_employee['email'], generate_password_hash("hoh123"), data_employee['role'])
 		db.session.add(new_user)
 		db.session.flush()
 		db.session.refresh(new_user)
@@ -148,11 +148,11 @@ def current_employee(user_id):
 @login_required
 def update_account():
 	if request.method == 'POST':
-		user_data = request.get_json(force=True)
+		user_data = request.form.copy()
 		if 'new_password' in user_data:
 			if not check_password_hash(current_user.password, user_data['current_password']):
-				flash('Wrong Password', 'error-message')
-				return redirect(url_for('account'))		
+				flash('Wrong Password', 'error')
+				return redirect(url_for('update_account'))
 		key = list(user_data.keys())
 		for item in key:
 			if item == 'new_password':
@@ -162,7 +162,7 @@ def update_account():
 		db.session.commit()
 		db.session.flush()
 		flash(u'Credentials Updated', 'success')
-		return redirect(url_for('dashboard'))
+		return redirect(url_for('update_account'))
 
 	if request.method == 'GET':
 		return render_template('account.html')
