@@ -147,20 +147,23 @@ def current_employee(user_id):
 @app.route('/account', methods=['PUT', 'GET'])
 @login_required
 def update_account():
-	user_data = request.get_json(force=True)
-	if 'password' in user_data:
-		if not check_password_hash(current_user.password, user_data['old_password']):
-			return error_response_handler("Wrong Password")
-	key = list(user_data.keys())
-	for item in key:
-		if item == 'password':
-			setattr(current_user, item, generate_password_hash(user_data[item]))
-		else:
-			setattr(current_user, item, user_data[item])
-	db.session.commit()
-	db.session.flush()
+	if request.method == 'PUT':
+		user_data = request.get_json(force=True)
+		if 'password' in user_data:
+			if not check_password_hash(current_user.password, user_data['old_password']):
+				return error_response_handler("Wrong Password")
+		key = list(user_data.keys())
+		for item in key:
+			if item == 'password':
+				setattr(current_user, item, generate_password_hash(user_data[item]))
+			else:
+				setattr(current_user, item, user_data[item])
+		db.session.commit()
+		db.session.flush()
+		return jsonify("User updated")
 
-	return jsonify("User updated")
+	if request.method == 'GET':
+		return jsonify('In progress')
 
 def employee_sqlalchemy_to_list(alchemyObject):
 	col_names = Employees.__mapper__.columns.keys()

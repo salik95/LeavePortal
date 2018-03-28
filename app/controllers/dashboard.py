@@ -7,7 +7,6 @@ from app.bin.leaves_update import update_general_leaves
 from app.controllers.settings import settings_to_dict
 from datetime import datetime
 from app.controllers.utilfunc import *
-from app.controllers.encrypt import *
 
 @app.route('/dashboard/', methods=['GET'])
 @login_required
