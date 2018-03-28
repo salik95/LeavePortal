@@ -65,18 +65,10 @@ def employee():
 		employee_data = Employees.query.get(update_employee['id'])
 
 		if 'password' in update_employee:
-			if current_user.employee.id == update_employee['id']:
-				user_data = User.query.get(employee_data.user_id)
-				setattr(user_data, 'password', update_employee['password'])
-			else:
-				return error_response_handler("Not Allowed: User Not allowed to change password", 404)
+			return error_response_handler("Bad Request", 400)
 
 		if 'email' in update_employee:
-			if current_user.employee.id == update_employee['id']:
-				user_data = User.query.get(employee_data.user_id)
-				setattr(user_data, 'email', update_employee['email'])
-			else:
-				return error_response_handler("Not Allowed: User Not allowed to change email", 404)
+			return error_response_handler("Bad Request", 400)
 
 		key = list(update_employee.keys())
 		for item in key:
@@ -156,6 +148,19 @@ def current_employee(user_id):
 		emp_data[item] = getattr(employee, item)
 	emp_data['email'] = current_user.email
 	return jsonify(emp_data)
+
+@app.route('/account', methods=['PUT'])
+@login_required
+def update_account():
+	user_data = request.get_json(force=True)
+
+	key = list(user_data.keys())
+	for item in key:
+		setattr(current_user, item, user_data[item])
+	db.session.commit()
+	db.session.flush()
+
+	return jsonify("User updated")
 
 def employee_sqlalchemy_to_list(alchemyObject):
 	col_names = Employees.__mapper__.columns.keys()
