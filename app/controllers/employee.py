@@ -6,6 +6,7 @@ from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
 from app.resources.util_functions import *
+from werkzeug import check_password_hash, generate_password_hash
 
 @app.route('/employee', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
@@ -64,12 +65,6 @@ def employee():
 
 		employee_data = Employees.query.get(update_employee['id'])
 
-		if 'password' in update_employee:
-			return error_response_handler("Bad Request", 400)
-
-		if 'email' in update_employee:
-			return error_response_handler("Bad Request", 400)
-
 		key = list(update_employee.keys())
 		for item in key:
 			setattr(employee_data, item, update_employee[item])
@@ -91,7 +86,7 @@ def employee():
 			if current_user.employee.user.role == "HR Manager":
 				emp_data = Employees.query.get(employee_credential['id'])
 				emp_user_data = User.query.get(emp_data.user_id)
-				if emp_user_data.email == employee_credential['email'] and emp_user_data.password == employee_credential['password']:
+				if emp_user_data.email == employee_credential['email'] and check_password_hash(emp_user_data.password, employee_credential['password']):
 					for leave in Balance_sheet.query.filter(Balance_sheet.emp_id == employee_credential['id']):
 						db.session.delete(leave)
 					db.session.commit()
@@ -153,10 +148,15 @@ def current_employee(user_id):
 @login_required
 def update_account():
 	user_data = request.get_json(force=True)
-
+	if 'password' in user_data:
+		if not check_password_hash(current_user.password, user_data['old_password']):
+			return error_response_handler("Wrong Password")
 	key = list(user_data.keys())
 	for item in key:
-		setattr(current_user, item, user_data[item])
+		if item == 'password':
+			setattr(current_user, item, generate_password_hash(user_data[item]))
+		else:
+			setattr(current_user, item, user_data[item])
 	db.session.commit()
 	db.session.flush()
 

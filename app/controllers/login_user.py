@@ -23,7 +23,7 @@ def index():
 		form = LoginForm(request.form)
 		if form.validate_on_submit():
 			user = User.query.filter_by(email=form.email.data).first()
-			if user and user.password == form.password.data:
+			if user and check_password_hash(user.password, form.password.data):
 				user.authenticated = True
 				db.session.add(user)
 				db.session.commit()
