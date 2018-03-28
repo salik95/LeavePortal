@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Encashment of Leaves{% endblock %}
+
+{% block body %}
+
+<main id="account">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="notice solid {{category}}"><span>{{message}}</span></div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  
+  <form method="POST" action="#" data-state="">
+    <button type="submit" class="btn center slim round flat disabled"><i class="material-icons">send</i> UPDATE</button>
+  </form>
+
+  <div class="sep">
+    <i class="material-icons">more_vert</i>
+  </div>
+  
+</div>
+</main>
+
+{% endblock %}
