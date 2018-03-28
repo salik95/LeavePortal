@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 
 @app.route('/settings', methods=['GET','PUT'])
+@login_required
 def settings():
 	if request.method == 'GET':
 		return jsonify(settings_to_dict())
