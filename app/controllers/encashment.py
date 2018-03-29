@@ -2,6 +2,7 @@ from app.models import *
 from app import db , app
 from flask import request, jsonify, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
+from flask_weasyprint import HTML, render_pdf
 import datetime
 from sqlalchemy import asc, and_, or_
 
@@ -141,7 +142,7 @@ def encashment_request():
 			encashment_user = User.query.get(employee.user_id)
 			
 			store = {}
-			store.append({'name': employee.first_name + " " + employee.last_name, 'designation' : employee.designation, 'email' : encashment_user.email, 'available_leave_balance' : employee.general_leaves_remaining, 'leaves_encashed' : encashment_request.leaves_utilized, 'amount_encashable' : employee.general_leaves_remaining * employee.salary, 'amount_encashed' : encashment_request.leaves_utilized * employee.salary})
+			store.update({'name': employee.first_name + " " + employee.last_name, 'designation' : employee.designation, 'email' : encashment_user.email, 'available_leave_balance' : employee.general_leaves_remaining, 'leaves_encashed' : encashment_request.leaves_utilized, 'amount_encashable' : employee.general_leaves_remaining * employee.salary, 'amount_encashed' : encashment_request.leaves_utilized * employee.salary})
 
 			employee.general_leaves_remaining = employee.general_leaves_remaining - encashment_request.leaves_utilized
 			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized
@@ -150,8 +151,10 @@ def encashment_request():
 			general_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='General Manager')).first()).id).first()
 			hr_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='HR Manager')).first()).id).first()
 
-			store.append({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager.first_name + " " + line_manager.last_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
-			return render_template("encashment-approval-form.html", data = store)
+			store.update({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager.first_name + " " + line_manager.last_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
+			html = render_template("encashment-approval-form.html", data = store)
+			return render_pdf(HTML(string=html))
+
 		
 		del encashment_data['id']
 		
