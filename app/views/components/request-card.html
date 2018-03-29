@@ -1,9 +1,16 @@
+{% if current_user.role == 'HR Manager' %}
+{% set approval_field = 'hr_approval' %}
+{% else %}
+{% set approval_field = 'manager_approval' %}
+{% endif %}
+
 <div class="card leaves">
   <p class="card-title"><i class="material-icons">event</i> <span>Leave Requests</span></p>
   <div class="card-content">
     <div class="request">
       <ul class="collapsible" data-collapsible="accordion">
         {% for item in list_items %}
+
         <li class="collection-item">
           <div class="collapsible-header">
 
@@ -19,10 +26,11 @@
               {{ item[1].employee.first_name }} {{ item[1].employee.last_name }}
             </div>
 
-            <div class="status pending">
-              <p></p>
+            <div class="status {{ item[1][approval_field]|lower }}">
+              <p>{{ item[1][approval_field] }}</p>
             </div>
           </div>
+
           <div class="collapsible-body">  
 
             <div class="row">
@@ -73,7 +81,7 @@
 
           </div>
         </li>
-        {% endfor%}
+        {% endfor %}
         {% if not single_view %}
         <li>
           <div class="collapsible-header">

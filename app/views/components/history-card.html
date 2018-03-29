@@ -41,15 +41,15 @@
             <p>approved</p>
           </div>
           {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
-          <div class="status denied">
+          <div class="status unapproved">
             <p>HR Unapproved</p>
           </div>  
           {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
-          <div class="status denied">
+          <div class="status unapproved">
             <p>Manager Unapproved</p>
           </div>
           {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
-          <div class="status denied">
+          <div class="status unapproved">
             <p>Unapproved</p>
           </div>
           {% elif item.hr_approval== None and item.manager_approval != None %}
