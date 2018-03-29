@@ -6,38 +6,33 @@
 
 <main>
 
-  <div class="row">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="notice solid {{category}}"><span>{{message}}</span></div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="notice solid {{category}}"><span>{{message}}</span></div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
+  <form action="#" method="POST" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
 
-    <form action="#" method="POST" enctype="multipart/form-data">
-      <div class="row">
-        <div class="col s12 m6 l6">
-          <div class="card">
-            <div class="card-content">
-              <div class="file-field input-field">
-                <div class="center-align">
-                  <i class="material-icons medium">contacts</i>
-                </div>
+            <p class="heading center-align">
+              <i class="material-icons medium">contacts</i>
+              <span>Employees</span>
+            </p>
 
-                <div class="center-align">
-                  <h5>CSV Employees</h5>
-                  <br>
-                </div>
-                
-                <div class="btn">
-                  <span>CSV Employees</span>
-                  <input type="file" name="employees">
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" name="employees" type="text">
-                </div>
+            <div class="file-field input-field">
+              <div class="btn flat round">
+                <span>Employees CSV</span>
+                <input type="file" name="employees">
+              </div>
+
+              <div class="file-path-wrapper">
+                <input class="file-path validate" name="employees" type="text">
               </div>
             </div>
           </div>
@@ -47,17 +42,14 @@
       <div class="col s12 m6 l6">
         <div class="card">
           <div class="card-content">
+            <p class="heading center-align">
+              <i class="material-icons">details</i>
+              <span>Leave Balances</span>
+            </p>
+
             <div class="file-field input-field">
-              <div class="center-align">
-                <i class="material-icons large">details</i>
-                <br><br><br><br>
-              </div>
-              <div class="center-align">
-                <h5>Leave Balances</h5>
-                <br>
-              </div>
-              <div class="btn">
-                <span>Leave Balance</span>
+              <div class="btn flat round">
+                <span>Balances CSV</span>
                 <input type="file" name="balances">
               </div>
               <div class="file-path-wrapper">
@@ -68,15 +60,14 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<br><br>
-<div class="row center-align">
-  <button type="submit" name="submit" class="btn center">Bulk Import</button>
-</div>
-</form>
-</div>
+    <br><br>
+
+    <div class="row center-align">
+      <button type="submit" name="submit" class="btn flat center"><i class="material-icons">arrow_drop_up</i> Import Now</button>
+    </div>
+
+  </form>
 </main>
 
 {% endblock %}

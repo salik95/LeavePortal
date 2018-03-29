@@ -1,16 +1,14 @@
-lightbox = {
-  show: function(lb) {
-    $('body').css('overflow','hidden')
-    lb.addClass('active')
-    lb.fadeIn(400)
-  },
+$(document).ready(function() {
 
-  hide: function(lb) {
-    $('body').css('overflow','inherit')
-    lb.removeClass('active')
-    lb.fadeOut(400)
-  }
-}
+  init()
+  accountDropdown()
+  searchEmployee()
+
+  handleAsyncForm()
+  handleEncashment()
+
+})
+
 
 var getDate = function(d) {
   date = new Date(d)
@@ -18,7 +16,12 @@ var getDate = function(d) {
   return fixed_date
 }
 
-$(document).ready(function() {
+
+/** Init
+*** Initialize the application components
+**/
+
+function init() {
   var csrftoken = $('meta[name=csrf-token]').attr('content')
 
   $.ajaxSetup({
@@ -27,56 +30,114 @@ $(document).ready(function() {
         xhr.setRequestHeader("X-CSRFToken", csrftoken)
       }
     }
-
-  })  
+  })
 
   $('.modal').modal();
   // $('#modal1').modal('open')
+  $('select').material_select()
+  $('.tabs').tabs()
 
-  $('.account > i').on('mouseover', function(event) {
-    console.log(event)
-    $('.account').addClass('active')
+  $('.datepicker').pickadate({
+    selectMonths: true,
+    selectYears: 15,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false,
+    format: 'yyyy-mm-dd'
   })
 
-  $('.account').on('mouseleave', function(event) {
-    console.log(event)
-    if($('.account').hasClass('active'))
-      $('.account').removeClass('active')
+  lightbox = {
+    show: function(lb) {
+      $('body').css('overflow','hidden')
+      lb.addClass('active')
+      lb.fadeIn(400)
+    },
+
+    hide: function(lb) {
+      $('body').css('overflow','inherit')
+      lb.removeClass('active')
+      lb.fadeOut(400)
+    }
+  }
+
+  $('.lightbox').click(function(e) {
+    if (e.target !== this) return;
+    lightbox.hide($(this))
   })
 
-  // @TODO: Refactor; update names scopes etc
+  $('a.trigger').click(function(e) {
+    e.preventDefault()
+    id = $(this).attr('href')
+    $lightbox = $('.lightbox'+id)
+    lightbox.show($lightbox)
+  })
+}
 
-  $list = $('#names')
 
-  var searching = false
-  
-  $("input[list=names]").on("input",function(e) {
+/** Generic Handler
+*** Use form method and resource spec to send async request and render response
+**/
 
-    var keyword = $(this).val()
-    if(keyword.length < 3) return
-    
-    if(searching == true) return
-    searching = true
+function handleAsyncForm() {
+  $('form[data-resource]').submit(function(e) {
+    e.preventDefault()
+    $self = $(this)
+    $notice = $self.find('.notice')
 
-    getEmployees(keyword, function(list) {
-      $list.empty()
-      console.log(list)
+    var resource = $self.attr('data-resource')
+    var method = $self.attr('method') || 'POST'
 
-      list.forEach(function(item) {
-        $option = $('<option value="'+item.name+'" data-id="'+item.id+'">'+item.designation+'</option>')
-        $option.on('click', function(e) {
-          console.log(e)
-        })
+    var raw_data = $(this).serializeArray()
+    var data = {}
 
-        $list.append($option)
-      })
+    $.each(raw_data, function() {
+      data[this.name] = this.value
+    })
 
-      searching = false
-    }) 
-  });
-  
+    actions.send(resource, method, data, function(status, response) {
 
-  
+      if(status=='success') {
+
+        console.log(response)
+        $notice.removeClass('error')
+        $notice.addClass('success')
+        if(resource == 'employee')
+          $notice.text('Employee is successfully added and notified via email')
+
+        else if (resource == 'leave' && method == "POST")
+          $notice.text('Application is sent successfully and pending for approval.')
+
+        else if (resource == 'leave' && method == "PUT") {
+          $notice.text('Application is successfully approved')
+          $self.addClass('disabled')
+          $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
+          $self.closest('.collection-item').addClass('responded')
+        }
+
+        else if (resource == 'encashment' && method == "PUT") {
+          $notice.text('Request is successfully approved')
+          $self.addClass('disabled')
+          $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
+          $self.closest('.collection-item').addClass('responded')
+        }
+
+        else {
+          console.log('no bueno')
+        }
+      }
+    })
+
+  })
+}
+
+
+/** Encashment Form Handler
+*** Validate encashment request amount, show realtime calculations
+**/
+
+function handleEncashment() {
+
   $encash_form = $('#encashment form')
   $encash_input = $('#encashment form input[name="amount"]')
   $encash_button = $encash_form.find('button')
@@ -118,94 +179,55 @@ $(document).ready(function() {
   $encash_input.on('keydown', function() {
     console.log('Amount Key Pressed!')
   })
+}
 
 
-})
+/** Employee Search Componenet
+*** Enter employee name keywords, query search api and list filtered employees
+**/
 
-$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year,
-    today: 'Today',
-    clear: 'Clear',
-    close: 'Ok',
-    closeOnSelect: false, // Close upon selecting a date,
-    format: 'yyyy-mm-dd'
+function searchEmployee() {
+  $list = $('#names')
+  var searching = false
+
+  $("input[list=names]").on("input",function(e) {
+
+    var keyword = $(this).val()
+    if(keyword.length < 3)
+      return
+
+    if(searching == true)
+      return
+
+    searching = true
+
+    getEmployees(keyword, function(list) {
+      $list.empty()
+
+      list.forEach(function(item) {
+        $option = $('<option value="'+item.name+'" data-id="'+item.id+'">'+item.designation+'</option>')
+        $list.append($option)
+      })
+
+      searching = false
+    }) 
+  })
+}
+
+
+/** Account Dropdown Componenet
+*** Drop personal account menu on hover
+**/
+
+function accountDropdown() {
+  $('.account > i').on('mouseover', function(event) {
+    console.log(event)
+    $('.account').addClass('active')
   })
 
-$('select').material_select()
-
-$('.tabs').tabs()
-
-$('a.trigger').click(function(e) {
-  e.preventDefault()
-  id = $(this).attr('href')
-
-  $lightbox = $('.lightbox'+id)
-
-  lightbox.show($lightbox)
-
-})
-
-$('.lightbox').click(function(e) {
-  if (e.target !== this)
-    return;
-  lightbox.hide($(this))
-})
-
-$('form[data-resource]').submit(function(e) {
-  e.preventDefault()
-  $self = $(this)
-  $notice = $self.find('.notice')
-
-  var resource = $self.attr('data-resource')
-  var method = $self.attr('method') || 'POST'
-
-  var raw_data = $(this).serializeArray()
-  var data = {}
-
-  $.each(raw_data, function() {
-    data[this.name] = this.value
+  $('.account').on('mouseleave', function(event) {
+    console.log(event)
+    if($('.account').hasClass('active'))
+      $('.account').removeClass('active')
   })
-
-  // Prepare request data
-  switch(resource) {
-    case 'employee':
-    break
-    case 'leave':
-    break
-  }
-
-  actions.send(resource, method, data, function(status, response) {
-
-    if(status=='success') {
-
-      console.log(response)
-      $notice.removeClass('error')
-      $notice.addClass('success')
-      if(resource == 'employee')
-        $notice.text('Employee is successfully added and notified via email')
-      
-      else if (resource == 'leave' && method == "POST")
-        $notice.text('Application is sent successfully and pending for approval.')
-
-      else if (resource == 'leave' && method == "PUT") {
-        $notice.text('Application is successfully approved')
-        $self.addClass('disabled')
-        $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
-        $self.closest('.collection-item').addClass('responded')
-      }
-
-      else if (resource == 'encashment' && method == "PUT") {
-        $notice.text('Request is successfully approved')
-        $self.addClass('disabled')
-        $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
-        $self.closest('.collection-item').addClass('responded')
-      }
-
-      else {
-        console.log('no bueno')
-      }
-    }
-  })
-
-})
+}

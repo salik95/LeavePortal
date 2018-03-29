@@ -69,7 +69,3 @@ function getEmployees(keyword, callback) {
     }
   })
 }
-
-function optionClick(e) {
-  console.log(e)
-}

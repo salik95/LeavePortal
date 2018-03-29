@@ -32,20 +32,31 @@ body {background-color: #e8eaf6;}
 .notice > * {margin: 0 20px; font-size: 11px}
 .notice > a.button > a.label {font-size: 14px}
 
-.btn {letter-spacing: 0; font-size: 14px; font-weight: 600; font-family: 'Varela Round'}
-.btn.slim {padding: 0 10px; height: 20px; line-height: 20px;}
-.btn.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
-.btn.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3); font-weight: 600;
-  i.left {margin-right: 5px}
-}
-.btn.underline {background-color: transparent!important; color: #000; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
-  &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
-}
-.btn.flat {box-shadow: none!important}
+.btn, .btn span.real { padding: 0 1rem; letter-spacing: 0; font-size: 14px; font-weight: 600; font-family: 'Varela Round'; background-color: $primary-color;
+  
+  &:hover {background-color: lighten($primary-color, 10)}
+  &:active, &:focus {background-color: darken($primary-color, 10)}
 
-.btn.light {opacity: 0.5;
-  &:hover {opacity: 0.6}
+  &.slim {padding: 0 10px; height: 20px; line-height: 20px;}
+  &.round {border-radius: 20px; height: 30px; line-height: 30px; padding: 0 20px}
+  
+  &.outline {box-shadow: 0 0 0 2px rgba(0,0,0,0.3); background-color: transparent!important; color: rgba(0,0,0,0.3); font-weight: 600;
+    i.left {margin-right: 5px}
+  }
+
+  &.underline {background-color: transparent!important; color: #000; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
+    &:hover {box-shadow: 0 2px 2px 0 rgba(0,0,0,0.3);}
+  }
+
+  &.light {opacity: 0.5;
+    &:hover {opacity: 0.6}
+  }
+
+  &.flat {box-shadow: none!important}
 }
+
+input:not(.browser-default):focus {border-bottom: 1px solid $primary-color!important; box-shadow: 0 1px 0 0 $primary-color!important}
+label:not(.browser-default).active {color: $primary-color; font-weight: 600}
 
 /** Custom Globals **/
 
@@ -60,9 +71,9 @@ body {background-color: #e8eaf6;}
 .small {font-size: 12px}
 .light {color: #999!important}
 
-p.title {margin-bottom: 50px; font-size: 18px;}
-p.title span {vertical-align: middle}
-p.title i {margin-right: 10px; font-size: 18px}
+p.heading {margin-bottom: 50px!important; font-size: 18px;}
+p.heading span {vertical-align: middle}
+p.heading i {margin-right: 10px; font-size: 18px}
 
 strong {font-weight: 600}
 
@@ -177,10 +188,10 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
   }
 
   .account {
-    &.active .widget {opacity: 1; z-index: 2; cursor: pointer;}
+    &.active .widget {opacity: 1; z-index: 2; cursor: pointer; top: 100%}
     
-    .widget { position: absolute; right: 0; top: 100%; padding-top: 15px; min-width: 200px; 
-     opacity: 0; transition: all 0.5s ease; cursor: default;
+    .widget { position: absolute; right: 0; top: -400px; padding-top: 15px; min-width: 200px; 
+     opacity: 0; transition: opacity 0.5s ease; cursor: default;
 
      .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
 
@@ -200,7 +211,7 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
 }
 }
 
-main {padding: 80px 8%;  min-height: calc(100vh - 50px)}
+main {padding: 80px 8%;  min-height: calc(100vh - 90px)}
 
 main#dashboard {}
 
