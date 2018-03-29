@@ -5,44 +5,70 @@
 {% block body %}
 
 <main id="account">
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-  {% for category, message in messages %}
-  <div class="notice solid {{category}}"><span>{{message}}</span></div>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
-  
+
   <div class="row">
     <div class="col l6 m6 s6 center">
-      <form method="POST" action="#" data-state="">
 
-        <p class="title text-center"><i class="material-icons">lock</i><span>Change Password</span></p>
+      <form class="card" id="form-email" method="POST" action="#" data-state="">
+        <div class="card-content">
+          
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+          <div class="notice solid {{category}}"><span>{{message}}</span></div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
 
-        <div class="input-field">
-          <label for="current_password">Current Password</label>
-          <input type="text" name="current_password" required>
-        </div>
-        <div class="input-field">
-          <label for="new_password">New Password</label>
-          <input type="text" name="new_password" required>
-        </div>
+          <p class="heading text-center">
+            <i class="material-icons">email</i><span>Change Email Address</span>
+          </p>
 
-      <button type="submit" name="submit_password" class="btn center slim round flat"><i class="material-icons">send</i> UPDATE</button>
-    
+          <div class="input-field">
+            <label for="email">Email Address</label>
+            <input type="text" name="email" value="{{current_user.email}}">
+          </div>
+          <br>
+          <button type="submit" name="submit_email" class="btn center flat"><i class="material-icons">check</i> UPDATE</button>
+        </div>        
       </form>
-      <br><br>
-      <form method="POST" action="#" data-state="">
 
-        <p class="title text-center"><i class="material-icons">email</i><span>Change Email Address</span></p>
-        <div class="input-field">
-          <label for="email"></label>
-          <input type="text" name="email" value="{{current_user.email}}">
+      <div class="sep">
+        <i class="material-icons">more_vert</i>
+      </div>
+
+      <form class="card" id="form-password" method="POST" action="#" data-state="">
+
+        <div class="card-content">
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+          <div class="notice solid {{category}}"><span>{{message}}</span></div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+
+          <p class="heading text-center">
+            <i class="material-icons">lock</i><span>Change Password</span>
+          </p>
+
+          <div class="input-field">
+            <label for="current_password">Current Password</label>
+            <input type="password" name="current_password" autocomplete="nay" required>
+          </div>
+          <div class="input-field">
+            <label for="new_password">New Password</label>
+            <input type="password" name="new_password" autocomplete="nay" required>
+          </div>
+          <br>
+          <button type="submit" name="submit_password" class="btn center flat"><i class="material-icons">check</i> Update</button>
+
         </div>
 
-        <button type="submit" name="submit_email" class="btn center slim round flat"><i class="material-icons">send</i> UPDATE</button>
-
       </form>
+
+
     </div>
   </div>
 

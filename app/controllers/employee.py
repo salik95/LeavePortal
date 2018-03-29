@@ -23,7 +23,7 @@ def employee():
 		data_employee['role'] = "Employee"
 		data_employee['probation'] = 1
 
-		new_user = User(data_employee['email'], "hoh123", data_employee['role'])
+		new_user = User(data_employee['email'], generate_password_hash("hoh123"), data_employee['role'])
 		db.session.add(new_user)
 		db.session.flush()
 		db.session.refresh(new_user)
@@ -144,23 +144,25 @@ def current_employee(user_id):
 	emp_data['email'] = current_user.email
 	return jsonify(emp_data)
 
-@app.route('/account', methods=['PUT', 'GET'])
+@app.route('/account', methods=['POST', 'GET'])
 @login_required
 def update_account():
-	if request.method == 'PUT':
-		user_data = request.get_json(force=True)
-		if 'password' in user_data:
-			if not check_password_hash(current_user.password, user_data['old_password']):
-				return error_response_handler("Wrong Password")
+	if request.method == 'POST':
+		user_data = request.form.copy()
+		if 'new_password' in user_data:
+			if not check_password_hash(current_user.password, user_data['current_password']):
+				flash('Wrong Password', 'error')
+				return redirect(url_for('update_account'))
 		key = list(user_data.keys())
 		for item in key:
-			if item == 'password':
-				setattr(current_user, item, generate_password_hash(user_data[item]))
+			if item == 'new_password':
+				setattr(current_user, 'password', generate_password_hash(user_data[item]))
 			else:
 				setattr(current_user, item, user_data[item])
 		db.session.commit()
 		db.session.flush()
-		return jsonify("User updated")
+		flash(u'Credentials Updated', 'success')
+		return redirect(url_for('update_account'))
 
 	if request.method == 'GET':
 		return render_template('account.html')
