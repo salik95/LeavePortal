@@ -192,7 +192,10 @@ function searchEmployee() {
 
   $("input[list=names]").on("input",function(e) {
 
-    var keyword = $(this).val()
+    $input = $(this)
+    var selected_id = null
+    var keyword = $input.val()
+    
     if(keyword.length < 3)
       return
 
@@ -210,7 +213,27 @@ function searchEmployee() {
       })
 
       searching = false
-    }) 
+    })
+
+    $('datalist#names > option').each(function(item) {
+      if( $(this).val() === keyword ) {
+        selected_id = $(this).attr('data-id')
+      }
+    })
+
+    if(selected_id) {
+
+      console.log(selected_id)
+
+      if($input.attr('data-proxy')) {
+        $('input[name='+$input.attr('data-proxy')+']').val(selected_id)
+      }
+
+      // For adding to query param
+      else {
+        window.location.href = window.location.href + '=' + selected_id
+      }
+    }
   })
 }
 

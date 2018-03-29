@@ -34,8 +34,9 @@
       <label for="">Date of Joining</label>
       <input type="text" class="datepicker" name="date_of_joining">
     </div>
+    <input type="hidden" name="reporting_manager_id" placeholder="" />
     <div class="input-field col m6 s12">
-      <input type="text" name="reporting_manager_id" list="names">
+      <input type="text" list="names" data-proxy="reporting_manager_id">
       <datalist  id="names"></datalist>
       <label for="">Reporting Manager</label>
     </div>
