@@ -133,13 +133,13 @@ strong {font-weight: 600}
   overflow: hidden!important;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
-  .approved {color: #6DC6EB;}
-  .denied {color: #D56468;}
-  .pending {color: #22B573;}
+  .approved {color: $green;}
+  .unapproved {color: $red;}
+  .pending {color: $yellow;}
   
   .status {background-color: transparent}
   &.approved .status {background-color: $green}
-  &.denied .status {background-color: $red}
+  &.unapproved .status {background-color: $red}
   &.pending .status {background-color: $yellow}
 
   &.responded:not(.active) {opacity: 0.6}
