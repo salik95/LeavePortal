@@ -47,6 +47,38 @@ function init() {
     format: 'yyyy-mm-dd'
   })
 
+  var yesterday = new Date((new Date()).valueOf()-1000*60*60*24)
+
+  var $from_date_field = $('input[name="from_date"]')
+
+  var from_date_picker = $from_date_field.pickadate('picker')
+  var to_date_picker = $('input[name="to_date"]').pickadate('picker')
+
+  from_date_picker.on({
+    'set': function(prop) {
+      if(prop.select !== "undefined") {
+        console.log('Correct fucker fired')
+
+        var date = from_date_picker.get('select')
+        console.log(date)
+        if(date) 
+          date = new Date(date.pick)
+        else
+          return
+
+        console.log(date)
+        to_date_picker.set('disable', [{
+          from: [0,0,0], to: date
+        }])
+      }
+    }
+  })
+
+
+  from_date_picker.set('disable', [{
+    from: [0,0,0], to: yesterday
+  }])
+
   lightbox = {
     show: function(lb) {
       $('body').css('overflow','hidden')
