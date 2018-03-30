@@ -52,17 +52,3 @@ def inject_date():
   print(datetime.datetime.utcnow())
   return {'now': datetime.datetime.utcnow()}
 
-
-'''@app.route('/signup/', methods=['GET', 'POST'])
-def signup():
-    form = LoginForm(request.form)
-    if form.validate_on_submit():
-        user = User(name = form.name.data  , email = form.email.data, 
-            password= generate_password_hash(form.password.data))
-        db.session.add(user)
-        db.session.commit()
-        db.session.flush()
-        return redirect(url_for('signin'))
-    return render_template("login/signin.html", form=form)
-
-'''

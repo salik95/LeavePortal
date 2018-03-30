@@ -54,11 +54,7 @@ def notify(recievers_id = None, hr_email = None) :
 
         elif hr_email!= None:
             send_email(email , password , hr_email , subject, html , text)
-            print('Success sending ' , hr_email )
-
-
-        
-        
+            print('Success sending ' , hr_email ) 
     except:
         logging.exception('Faliure sending notifications')
 

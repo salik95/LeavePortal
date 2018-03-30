@@ -12,6 +12,12 @@ from werkzeug.utils import secure_filename
 from flask import flash
 from app.resources.util_functions import *
 from datetime import datetime
+import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s')
+
+            
+
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -58,7 +64,6 @@ def bulk_import():
 
 		file = request.files['employees']
 		if file and allowed_file(file.filename)==False:
-			print('***************')
 			file = request.files['balances']
 			flash('CSV file is not uploaded')
 			return redirect(request.url)
@@ -101,6 +106,7 @@ def bulk_import():
 			flash('User file is successfully uploaded' , 'success')
 
 		except:
+			logging.exception('')
 			flash('Somethinh is wrong with User file' , 'error')
 			db.session.rollback()
 			pass
