@@ -1,4 +1,0 @@
-email,role,first_name,last_name,designation,department,date_of_joining,reporting_manager_email,general_leaves_remaining,medical_leaves_remaining,probation,general_leaves_availed,medical_leaves_availed,salary
-bulk@qunario.com,Employee,bulk,bulk,bulk,bulk,2001-05-05,hoh_emp@quanrio.com,50,5,0,5,20,50000
-bulk2@qunario.com,Employee,bulk,bulk,bulk,bulk,2001-05-05,arsalanjaved2010@gmail.com,50,5,0,5,20,20000
-bulk3@qunario.com,Employee,bulk,bulk,bulk,bulk,2001-05-05,bulk@qunario.com,50,5,0,5,20,50000

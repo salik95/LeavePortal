@@ -3,7 +3,7 @@ from app import db , app
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import and_, or_, asc
-from app.bin.leaves_update import update_general_leaves
+from app.resources.leaves_update import update_general_leaves
 from app.controllers.settings import settings_to_dict
 from datetime import datetime
 from app.controllers.utilfunc import *
