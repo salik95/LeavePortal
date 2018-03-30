@@ -150,8 +150,10 @@ def update_account():
 	if request.method == 'POST':
 		user_data = request.form.copy()
 		if 'new_password' in user_data:
+			flash_data = {'for': 'form-password'}
 			if not check_password_hash(current_user.password, user_data['current_password']):
-				flash('Wrong Password', 'error')
+				flash_data['text'] = 'The current password you entered is incorrect.'
+				flash(flash_data, 'error')
 				return redirect(url_for('update_account'))
 		key = list(user_data.keys())
 		for item in key:
@@ -161,7 +163,9 @@ def update_account():
 				setattr(current_user, item, user_data[item])
 		db.session.commit()
 		db.session.flush()
-		flash(u'Credentials Updated', 'success')
+
+		flash_data['text'] = 'Your password is successfully updated.'
+		flash(flash_data, 'success')
 		return redirect(url_for('update_account'))
 
 	if request.method == 'GET':

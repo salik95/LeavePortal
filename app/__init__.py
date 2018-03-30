@@ -40,8 +40,6 @@ from app.controllers.leaves import *
 from app.controllers.file_import import *
 from app.controllers.encashment import *
 
-from app.bin.email_cronjob import *
-from app.bin.leaves_update_cronjob import *
 
 app.wsgi_app = SassMiddleware(app.wsgi_app, {
   'app': ('static/scss', 'static/css', '/static/css')
