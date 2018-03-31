@@ -34,6 +34,15 @@
 
   <div class="clr"></div>
 
+  {% if data.encashment_requests %}
+  <div class="text-center">
+    <a href="/encashment/requests" class="notice visible compact">
+      <span><!-- <i class="material-icons">report</i>  -->You have ___ pending encashment requests.</span><i class="material-icons">chevron_right</i></a>
+    </a>
+    <br>
+  </div>
+  {% endif %}
+
   <div class="row">
     <div class="col s12 m6">
       <div class="card fixed center counter">
@@ -75,7 +84,7 @@
   {% if data.role == "HR Manager" or data.manager %}
   
   <div class="row">
-    
+
     <div class="col s12 m12 l6">
       <!-- Request tab -->
       {% with list_items=data.requests.pending %}

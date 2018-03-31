@@ -7,6 +7,22 @@ $(document).ready(function() {
   handleAsyncForm()
   handleEncashment()
 
+
+  $('form').on('submit', function(e) {
+
+    $form = $(this)
+
+    $form.addClass('loading')
+
+    if(!$form.attr('data-resource')) {
+      $form.find('[type="submit"]').addClass('disabled')
+      window.setTimeout(function() {
+        $form.unbind('submit').submit()
+      }, 1000)  
+    }
+    
+  })
+
 })
 
 
@@ -129,6 +145,8 @@ function handleAsyncForm() {
 
     actions.send(resource, method, data, function(status, response) {
 
+      $self.removeClass('loading')
+
       if(status=='success') {
 
         console.log(response)
@@ -157,7 +175,18 @@ function handleAsyncForm() {
         else {
           console.log('no bueno')
         }
+
+        $self[0].reset()
+
       }
+
+      else {
+        $notice.removeClass('success')
+        $notice.addClass('error')
+        $notice.text('Something went wrong. Please make sure there are no errors in the submission and retry')
+      }
+
+
     })
 
   })
