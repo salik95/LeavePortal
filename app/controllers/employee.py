@@ -148,24 +148,26 @@ def current_employee(user_id):
 @login_required
 def update_account():
 	if request.method == 'POST':
+		flash_data = {}
 		user_data = request.form.copy()
 		if 'new_password' in user_data:
-			flash_data = {'for': 'form-password'}
+			flash_data.update({'for': 'form-password'})
 			if not check_password_hash(current_user.password, user_data['current_password']):
-				flash_data['text'] = 'The current password you entered is incorrect.'
+				flash_data.update({'text': 'The current password you entered is incorrect.'})
 				flash(flash_data, 'error')
 				return redirect(url_for('update_account'))
-		key = list(user_data.keys())
-		for item in key:
-			if item == 'new_password':
-				setattr(current_user, 'password', generate_password_hash(user_data[item]))
-			else:
-				setattr(current_user, item, user_data[item])
+			setattr(current_user, 'password', generate_password_hash(user_data['new_password']))
+			flash_data.update({'text': 'Your password is successfully updated.'})
+			flash(flash_data, 'success')
+
+		if 'email' in user_data:
+			flash_data.update({'for': 'form-email'})
+			setattr(current_user, 'email', user_data['email'])
+			flash_data.update({'text': 'Your email is successfully updated.'})
+			flash(flash_data, 'success')
+
 		db.session.commit()
 		db.session.flush()
-
-		flash_data['text'] = 'Your password is successfully updated.'
-		flash(flash_data, 'success')
 		return redirect(url_for('update_account'))
 
 	if request.method == 'GET':
