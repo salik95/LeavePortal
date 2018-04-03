@@ -45,7 +45,6 @@ def update_general_leaves(date_of_joining , last_updated ,leaves_remaining ,leav
             leaves_remaining = (time_since_last_update * leaves_per_day) + leaves_remaining
 
     else:
-        print('a')
         fiscal_year = fiscal_year.replace(fiscal_year.year-1)
         if fiscal_year == last_updated:
             time_since_last_update = ((current_time - fiscal_year).days)
