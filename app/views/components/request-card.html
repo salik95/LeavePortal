@@ -11,6 +11,12 @@
       <ul class="collapsible" data-collapsible="accordion">
         {% for item in list_items %}
 
+        {% if item[1][approval_field] is none %}
+        {% set status = 'Pending' %}
+        {% else %}
+        {% set status = item[1][approval_field] %}
+        {% endif %}
+
         <li class="collection-item">
           <div class="collapsible-header">
 
@@ -26,8 +32,8 @@
               {{ item[1].employee.first_name }} {{ item[1].employee.last_name }}
             </div>
 
-            <div class="status {{ item[1][approval_field]|lower }}">
-              <p>{{ item[1][approval_field] }}</p>
+            <div class="status {{ status|lower }}">
+              <p>{{ status }}</p>
             </div>
           </div>
 
@@ -41,7 +47,8 @@
               <p><span class="bold">Purpose</span>&emsp; {{item[1].purpose}}</p>
               <br>
             </div>
-
+            
+            {% if item[1][approval_field] is none %}
             <div class="row">
               <form data-resource="leave" method="PUT">
 
@@ -59,11 +66,11 @@
                 </div>
 
                 <div class="row">
-                  <p class="col s6 offset-s1  ">
+                  <p class="col s6 text-center">
                     <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" />
                     <label for="approve-{{item[1].id}}">Approve</label>
                   </p>
-                  <p class="col s5">
+                  <p class="col s6 text-center">
                     <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved
                     "/>
                     <label for="decline-{{item[1].id}}">Decline</label>
@@ -78,6 +85,7 @@
                 </div> 
               </form> 
             </div>
+            {% endif %}
 
           </div>
         </li>

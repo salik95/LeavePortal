@@ -20,13 +20,13 @@
 
           <li class="collection-item {{status}}">
             <div class="collapsible-header">
-
               <div class="name">
                 {{ item[0].first_name }} {{ item[0].last_name }}
               </div>
               <p class="date"><i class="material-icons">date_range</i> <span>{{item[1].time_stamp.strftime('%b %d, %Y')}}</span></p>
               <div class="status"></div>
             </div>
+
             <div class="collapsible-body">  
 
               <div class="row">
@@ -35,7 +35,8 @@
 
               <div class="row">
                 <form data-resource="encashment" method="PUT">
-
+                  
+                  {% include 'components/loading.html' %}
                   <div class="notice"></div>
 
                   <input type="hidden" name="id" value={{item[1].id}}>
@@ -46,8 +47,7 @@
                       <label for="approve-{{item[1].id}}">Approve</label>
                     </p>
                     <p class="col s6 text-center">
-                      <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved
-                      "/>
+                      <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved"/>
                       <label for="decline-{{item[1].id}}">Decline</label>
                     </p>
                   </div>
