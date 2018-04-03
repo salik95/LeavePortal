@@ -257,13 +257,15 @@ main#dashboard {}
 main#login { padding: 0; height: 100vh; display: flex; align-items: center; justify-content: center; flex-flow: column; background: linear-gradient(to top, $primary-color ,#810cf5); background-size: cover;
   
   .logo-name {margin-top: 0; margin-bottom: 50px; font-weight: 600; font-size: 14px; color: #858384}
+    
+  .loading {margin: 0; padding: 0}
 
   .login { min-width: 100px; max-width: 330px; width: 100%; text-align: center; padding: 30px 0; box-sizing: border-box;
     margin:auto; background-color: rgb(255,255,255); align-content: center; border-radius: 2px;
 
     input {text-align: center}
     
-    img {max-width: 150px; width: 100%}
+    img.logo {max-width: 150px; width: 100%}
     
     .content{
       form { margin: 0 50px; height: 100%; align-self: flex-start;}

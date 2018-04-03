@@ -1,12 +1,13 @@
 $(document).ready(function() {
 
-  init()
-  accountDropdown()
-  searchEmployee()
+  if(logged_in) {
+    init()
+    accountDropdown()
+    searchEmployee()
 
-  handleAsyncForm()
-  handleEncashment()
-
+    handleAsyncForm()
+    handleEncashment()
+  }
 
   $('form').on('submit', function(e) {
 

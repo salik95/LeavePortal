@@ -1,61 +1,42 @@
-{% macro render_field(field, placeholder=None) %}
-{% if field.errors %}
-<div>
-  {% elif field.flags.error %}
-  <div>
-    {% else %}
-    <div>
-      {% endif %}
-      {% set css_class = 'form-control ' + kwargs.pop('class', '') %}
-      {{ field(class=css_class, placeholder=placeholder, **kwargs) }}
-    </div>
-    {% endmacro %}
+{% extends "base.html" %}
 
-    {% extends "base.html" %}
+{% block title %}Login{% endblock %}
 
-    {% block title %}Login{% endblock %}
+{% block body %}
 
-    {% block body %}
+<main id="login">
+  <div class="login">
+    <img class="logo" src="../static/img/HOH-Logo_change.jpg" alt="hoh-logo">
+    <p class="logo-name">HMPL LEAVES</p>
+    <div class="content">
+      <form method="POST" action="." accept-charset="UTF-8" role="form">
 
-    <main id="login">
-      <div class="login">
-        <img src="../static/img/HOH-Logo_change.jpg" alt="hoh-logo">
-        <p class="logo-name">HMPL LEAVES</p>
-        <div class="content">
-          <form method="POST" action="." accept-charset="UTF-8" role="form">
+        {% include 'components/loading.html' %}
 
-            {% include 'components/loading.html' %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="notice solid {{category}}"><span>{{message}}</span></div>
+        <br>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="notice solid {{category}}"><span>{{message}}</span></div>
-            <br>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-            {{ form.csrf_token }}
-            <!-- {{ render_field(form.email, placeholder="Your Email Address", autofocus="") }} -->
-            <div class="input-field">
-              <label for="" class="active">Email Address</label>
-              <input type="text" name="email" required>
-            </div>
-            <div class="input-field">
-              <label for="" class="active">Password</label>
-              <input type="password" name="password" required>
-            </div>
-            <!-- {{ render_field(form.password, placeholder="Password") }} -->
-<!--             <div>
-              <label><input type="checkbox" name="remember" value="1"> Remember Me</label>
-              <a role="button" href="">Forgot your password?</a>
-            </div> -->
-
-            <button class="btn" type="submit" name="submit">Sign In</button>
-          </form>
+        {{ form.csrf_token }}
+        <div class="input-field">
+          <label for="" class="active">Email Address</label>
+          <input type="text" name="email" autofocused required>
+        </div>
+        <div class="input-field">
+          <label for="" class="active">Password</label>
+          <input type="password" name="password" required>
         </div>
 
-      </div>
-    </main>
+        <button class="btn" type="submit" name="submit">Sign In</button>
+      </form>
+    </div>
 
-    {% endblock %}
+  </div>
+</main>
+
+{% endblock %}
