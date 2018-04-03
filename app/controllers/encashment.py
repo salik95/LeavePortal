@@ -158,7 +158,7 @@ def encashment_request():
 		
 		del encashment_data['id']
 		
-		db.commit()
-		db.flush()
+		db.session.commit()
+		db.session.flush()
 		
 		return jsonify(encashment_data)
