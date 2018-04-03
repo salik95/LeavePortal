@@ -7,7 +7,6 @@ import json
 import time
 from flask import request, jsonify
 from app.models import *
-
 from flask_login import login_required, current_user
 from app import db , app
 
