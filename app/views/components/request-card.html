@@ -51,7 +51,8 @@
             {% if item[1][approval_field] is none %}
             <div class="row">
               <form data-resource="leave" method="PUT">
-
+                
+                {% include 'components/loading.html' %}
                 <div class="notice"></div>
 
                 <input type="hidden" name="id" value={{item[1].id}}>
@@ -59,7 +60,7 @@
                 <div class="row">
                   <div class="col s12">
                     <div class="input-field col s12">
-                      <textarea id="hr-text" class="materialize-textarea" name="remark"></textarea>
+                      <textarea id="hr-text" class="materialize-textarea" name="remark" required></textarea>
                       <label for="hr-text">Your Remarks</label>
                     </div>
                   </div>
@@ -67,12 +68,11 @@
 
                 <div class="row">
                   <p class="col s6 text-center">
-                    <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" />
+                    <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" required />
                     <label for="approve-{{item[1].id}}">Approve</label>
                   </p>
                   <p class="col s6 text-center">
-                    <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved
-                    "/>
+                    <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved" required />
                     <label for="decline-{{item[1].id}}">Decline</label>
                   </p>
                 </div>

@@ -11,6 +11,7 @@
     <div class="card encashment-requests text-center">
         <p class="card-title"><i class="material-icons">event</i> <span>Encashment Requests</span></p>
         <ul class="collapsible padded" data-collapsible="accordion">
+          
           {% for item in data.requests.pending + data.requests.responded %}
           {% if item.manager_approval == item.gm_approval == item.hr_approval == 'Approved' %}
           {% set status = 'approved' %}
