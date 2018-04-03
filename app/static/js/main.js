@@ -165,13 +165,17 @@ function handleAsyncForm() {
           $self.addClass('disabled')
           $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
           $self.closest('.collection-item').addClass('responded')
+          $self.closest('.collection-item').removeClass('pending')
+          $self.closest('.collection-item').addClass(data.approval)
         }
 
         else if (resource == 'encashment' && method == "PUT") {
-          $notice.text('Request is successfully approved')
+          $notice.text('Request is successfully completed')
           $self.addClass('disabled')
           $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
           $self.closest('.collection-item').addClass('responded')
+          $self.closest('.collection-item').removeClass('pending')
+          $self.closest('.collection-item').addClass(data.approval)
         }
 
         else {
