@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from flask_weasyprint import HTML, render_pdf
 import datetime
 from sqlalchemy import asc, and_, or_
+from app.resources.notifications import notify
 
 @app.route('/encashment', methods = ['GET', 'POST', 'DELETE', 'PUT'])
 @login_required
@@ -29,7 +30,6 @@ def encashment():
 
 	if request.method == 'POST':
 		encashment_data = request.form.copy()
-		manager_role = current_user.employee.manager.user.role
 
 		if 'amount' not in encashment_data:
 			# @todo render with flash error
@@ -42,13 +42,14 @@ def encashment():
 		if current_user.role == 'HR Manager':
 			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['manager_approval'] = 'Approved'
+			notify(subject='new_encashment_request', send_gm=True)
 
 		elif current_user.role == "General Manager":
 			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['gm_approval'] = 'Approved'
-
-		if manager_role == "HR Manager":
-			encashment_data['hr_approval'] = 'Approved'
+			notify(subject='new_encashment_request', send_director=True)
+		else:
+			notify(subject='new_encashment_request', receiver_id=current_user.employee.manager.employee.id)
 
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
@@ -73,9 +74,9 @@ def encashment():
 		encashment_request = Encashment.query.get(arg_id)
 		if encashment_request is None:
 			return error_response_handler("Request ID not found", 404)
-		db.delete(encashment_request)
-		db.commit()
-		db.flush()
+		db.session.delete(encashment_request)
+		db.session.commit()
+		db.session.flush()
 		return jsonify(arg_id)
 
 #==========================================================
@@ -91,8 +92,8 @@ def encashment():
 		setattr(encashment_request, 'hr_approval', None)
 		setattr(encashment_request, 'manager_approval', None)
 		setattr(encashment_request, 'gm_approval', None)
-		db.commit()
-		db.flush()
+		db.session.commit()
+		db.session.flush()
 		return jsonify(encashment_data['amount'])
 
 
@@ -104,11 +105,11 @@ def encashment_request():
 		requests = {}
 
 		if current_user.role == "HR Manager":
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval != None, Encashment.gm_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval == "Approved", Encashment.gm_approval == "Approved")).order_by(asc(Encashment.time_stamp)).all()
 			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.hr_approval != None).order_by(asc(Encashment.time_stamp)).all()
 
 		elif current_user.role == "General Manager":
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval == "Approved")).order_by(asc(Encashment.time_stamp)).all()
 			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.gm_approval != None).order_by(asc(Encashment.time_stamp)).all()
 		else:
 			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
@@ -130,13 +131,27 @@ def encashment_request():
 
 		if current_user.role == 'HR Manager':
 			setattr(encashment_request, 'hr_approval', encashment_data['approval'])
+			if encashment_data['approval'] == 'Approved':
+				#flash("Encashment form sent")
+				notify(subject='encashment_approved', receiver_id=employee.id)
+				notify(subject='encashment_form', send_hr=True)
+			if encashment_data['approval'] == 'Unapproved':
+				notify(subject='encashment_unapproved', receiver_id=employee.id)
 
 		elif current_user.role == 'General Manager':
 			setattr(encashment_request, 'gm_approval', encashment_data['approval'])
+			if encashment_data['approval'] == 'Approved':
+				notify(subject='new_encashment_request', send_hr=True)
+			if encashment_data['approval'] == 'Unapproved':
+				notify(subject='encashment_unapproved', receiver_id=employee.id)
 		else:
 			if employee.reporting_manager_id != current_user.employee.id:
 				return error_response_handler("Unauthorized request", 401)
 			setattr(encashment_request, 'manager_approval', encashment_data['approval'])
+			if encashment_data['approval'] == 'Approved':
+				notify(subject='new_encashment_request', send_gm=True)
+			if encashment_data['approval'] == 'Unapproved':
+				notify(subject='encashment_unapproved', receiver_id=employee.id)
 
 		if encashment_request.hr_approval == 'Approved' and encashment_request.gm_approval == 'Approved' and encashment_request.manager_approval == 'Approved':
 			encashment_user = User.query.get(employee.user_id)

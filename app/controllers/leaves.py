@@ -38,7 +38,7 @@ def leave_form():
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
 	
-	notify(leave_data['emp_id'])
+	notify(subject='new_leave', receiver_id=current_user.employee.manager.employee.id)
 
 	return jsonify(leave_dict)
 
@@ -99,7 +99,7 @@ def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
 	if current_user.role == "HR Manager":
-		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval != None), and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval == 'Approved'), and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
 		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Balance_sheet.hr_approval != None, Balance_sheet.emp_id != current_user.employee.id)).order_by(asc(Balance_sheet.from_date)).all()
 
 	else:
@@ -130,6 +130,11 @@ def respond_request():
 		response['hr_remark'] = response['remark']
 		response['hr_approval'] = response['approval']
 
+		if response['approval'] == "Approved":
+			notify(subject='leave_approved', receiver_id=lemployee.id)
+		elif response['approval'] == "Unapproved":
+			notify(subject='leave_unapproved' , receiver_id=employee.id)
+
 		if employee.reporting_manager_id == current_user.employee.id:
 			response['manager_remark'] = response['hr_remark']
 			response['manager_approval'] = response['hr_approval']
@@ -138,6 +143,10 @@ def respond_request():
 			return error_response_handler("Unauthorized request", 401)
 		response['manager_remark'] = response['remark']
 		response['manager_approval'] = response['approval']
+		if response['approval'] == "Approved":
+			notify(subject='new_leave', send_hr=True)
+		elif response['approval'] == "Unapproved":
+			notify(subject='leave_unapproved' , receiver_id=employee.id)
 
 	key = list(response.keys())
 	for item in key:
