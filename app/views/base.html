@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta name = "viewport" content = "width = device-width, initial-scale = 1" charset="UTF-8">
-  <title>HOH Leaves - {% block title %}{% endblock %}</title>
+  <title>HMPL Leaves - {% block title %}{% endblock %}</title>
   <link href="{{url_for('static', filename='vendor-css/materialize.min.css') }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.scss.css') }}" type="text/css">
@@ -13,7 +13,7 @@
   <header>
     <a href="/dashboard" class="logo">
       <!-- <img src="{{url_for('static', filename='img/logo.png') }}" alt=""> -->
-      <p>HoH Leaves</p>
+      <p>HMPL Leaves</p>
     </a>
     <div class="tools right">
       <a href="#addleave" class="waves-effect waves-light btn round trigger">Apply for Leave</a>
@@ -37,17 +37,19 @@
   {% block body %}
   {% endblock %}
   
+  {% if current_user.is_authenticated %}
   <div id="addleave" class="lightbox">
-  <div class="content">
-    <h5 class="center upper">Apply for Leave</h5>
-    <br>
-    <div class="divider"></div>
-    <br>
-    {% include 'forms/leave.html' %}
+    <div class="content">
+      <h5 class="center upper">Apply for Leave</h5>
+      <br>
+      <div class="divider"></div>
+      <br>
+      {% include 'forms/leave.html' %}
+    </div>
   </div>
-</div>
 
   <footer><span class="powered">Powered by <a href="http://www.quanrio.com" target="_blank">Quanrio</a></span></footer>
+  {% endif %}
 
   <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
   <script src="{{url_for('static', filename='js/materialize.min.js') }}"></script>

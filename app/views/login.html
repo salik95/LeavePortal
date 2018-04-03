@@ -17,41 +17,39 @@
 
     {% block body %}
 
-
     <main id="login">
       <div class="login">
         <img src="../static/img/HOH-Logo_change.jpg" alt="hoh-logo">
+        <p class="logo-name">HMPL LEAVES</p>
         <div class="content">
-          {% if form.errors %}
-          <div class="col s5">
-            {% for field, error in form.errors.items() %}
-            {% for e in error %}
-            {{ e }}<br>
-            {% endfor %}
-            {% endfor %}
-          </div>
-          {% endif %}
-
-          {% with messages = get_flashed_messages() %}
-             {% if messages %}
-                <div class="">
-                {% for message in messages %}
-                   {{ message }}<br>
-                {% endfor %}
-              </div>
-             {% endif %}
-          {% endwith %}
-
           <form method="POST" action="." accept-charset="UTF-8" role="form">
+
+            {% include 'components/loading.html' %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="notice solid {{category}}"><span>{{message}}</span></div>
+            <br>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
             {{ form.csrf_token }}
-            <label for="">Email</label>
-            {{ render_field(form.email, placeholder="Your Email Address", autofocus="") }}
-            <label for="">Password</label>
-            {{ render_field(form.password, placeholder="Password") }}
-            <div>
-              <label><input type="checkbox" name="remember" value="1"> Remember Me</label>
-              <!-- <a role="button" href="">Forgot your password?</a> -->
+            <!-- {{ render_field(form.email, placeholder="Your Email Address", autofocus="") }} -->
+            <div class="input-field">
+              <label for="" class="active">Email Address</label>
+              <input type="text" name="email" required>
             </div>
+            <div class="input-field">
+              <label for="" class="active">Password</label>
+              <input type="password" name="password" required>
+            </div>
+            <!-- {{ render_field(form.password, placeholder="Password") }} -->
+<!--             <div>
+              <label><input type="checkbox" name="remember" value="1"> Remember Me</label>
+              <a role="button" href="">Forgot your password?</a>
+            </div> -->
 
             <button class="btn" type="submit" name="submit">Sign In</button>
           </form>

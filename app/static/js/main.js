@@ -11,8 +11,11 @@ $(document).ready(function() {
   $('form').on('submit', function(e) {
 
     $form = $(this)
-
     $form.addClass('loading')
+
+    $notice = $form.find('.notice')
+    $notice.removeClass('error')
+    $notice.removeClass('success')
 
     if(!$form.attr('data-resource')) {
       $form.find('[type="submit"]').addClass('disabled')
