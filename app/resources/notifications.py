@@ -25,7 +25,7 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
     msg.attach(part2)
     username = str(senders_email) 
     password = str( senders_email_password)  
-    server = smtplib.SMTP("smtp-mail.outlook.com",587)
+    server = smtplib.SMTP("smtp.office365.com",587)
     server.ehlo()
     server.starttls()
     server.ehlo()
