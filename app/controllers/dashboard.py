@@ -2,7 +2,7 @@ from app.models import *
 from app import db , app
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required, current_user
-from sqlalchemy import and_, or_, asc
+from sqlalchemy import and_, or_, desc, asc
 from app.resources.leaves_update import update_general_leaves
 from app.controllers.settings import settings_to_dict
 from datetime import datetime
@@ -16,18 +16,28 @@ def dashboard():
 		employee = current_user.employee
 
 		if current_user.role == "HR Manager":
+
+			encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval != None, Encashment.gm_approval != None)).all())
+
 			requests = {}
 
 			pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval != None), and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
 			requests['pending'] = pending
+
 			requests['responded'] = []
 			if len(pending) < 5:
-				responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Balance_sheet.hr_approval != None, Balance_sheet.emp_id != employee.id)).order_by(asc(Balance_sheet.from_date)).limit(5-len(pending)).all()
+				responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Balance_sheet.hr_approval != None, Balance_sheet.emp_id != employee.id)).order_by(desc(Balance_sheet.from_date)).limit(5-len(pending)).all()
 				requests['responded'] = responded
 
 			store.update({'requests' : requests})
 
 		else:
+			
+			encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).all())
+			
+			if current_user.role == "General Manager":
+				encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval != None)).all())
+
 			all_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == employee.id)
 			if all_requests is None:
 				manager = False
@@ -70,6 +80,9 @@ def dashboard():
 		employee.last_updated = datetime.now().date()
 		db.session.commit()
 		db.session.flush()
-		store.update({'history' : employee.balance_sheet, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role})
+
+		history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id).order_by(desc(Balance_sheet.from_date)).limit(5).all()
+
+		store.update({'history' : history, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role, 'encashment_requests' : encashment_requests})
 
 		return render_template("dashboard.html", data = store)
