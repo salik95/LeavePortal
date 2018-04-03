@@ -74,9 +74,9 @@ def encashment():
 		encashment_request = Encashment.query.get(arg_id)
 		if encashment_request is None:
 			return error_response_handler("Request ID not found", 404)
-		db.delete(encashment_request)
-		db.commit()
-		db.flush()
+		db.session.delete(encashment_request)
+		db.session.commit()
+		db.session.flush()
 		return jsonify(arg_id)
 
 #==========================================================
@@ -92,8 +92,8 @@ def encashment():
 		setattr(encashment_request, 'hr_approval', None)
 		setattr(encashment_request, 'manager_approval', None)
 		setattr(encashment_request, 'gm_approval', None)
-		db.commit()
-		db.flush()
+		db.session.commit()
+		db.session.flush()
 		return jsonify(encashment_data['amount'])
 
 
@@ -105,11 +105,11 @@ def encashment_request():
 		requests = {}
 
 		if current_user.role == "HR Manager":
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval != None, Encashment.gm_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval == "Approved", Encashment.gm_approval == "Approved")).order_by(asc(Encashment.time_stamp)).all()
 			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.hr_approval != None).order_by(asc(Encashment.time_stamp)).all()
 
 		elif current_user.role == "General Manager":
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval != None)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval == "Approved")).order_by(asc(Encashment.time_stamp)).all()
 			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.gm_approval != None).order_by(asc(Encashment.time_stamp)).all()
 		else:
 			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()

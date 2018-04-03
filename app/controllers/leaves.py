@@ -99,7 +99,7 @@ def request_all():
 	key = Balance_sheet.__mapper__.columns.keys()
 	
 	if current_user.role == "HR Manager":
-		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval != None), and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
+		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval == 'Approved'), and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
 		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(and_(Balance_sheet.hr_approval != None, Balance_sheet.emp_id != current_user.employee.id)).order_by(asc(Balance_sheet.from_date)).all()
 
 	else:
