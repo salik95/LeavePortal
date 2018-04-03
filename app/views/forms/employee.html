@@ -2,6 +2,7 @@
 
   <form data-resource="employee" method="POST">
 
+    {% include 'components/loading.html' %}
     <div class="notice">.</div>
 
     <div class="row">
@@ -32,7 +33,7 @@
   <div class="row">
     <div class="input-field col m6 s12">
       <label for="">Date of Joining</label>
-      <input type="text" class="datepicker" name="date_of_joining">
+      <input type="text" class="datepicker" name="date_of_joining" required>
     </div>
     <input type="hidden" name="reporting_manager_id" placeholder="" />
     <div class="input-field col m6 s12">
