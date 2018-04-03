@@ -11,7 +11,7 @@
     <div class="card encashment-requests text-center">
         <p class="card-title"><i class="material-icons">event</i> <span>Encashment Requests</span></p>
         <ul class="collapsible padded" data-collapsible="accordion">
-          
+
           {% for item in data.requests.pending + data.requests.responded %}
           {% if item.manager_approval == item.gm_approval == item.hr_approval == 'Approved' %}
           {% set status = 'approved' %}
@@ -44,11 +44,11 @@
 
                   <div class="row">
                     <p class="col s6 text-center">
-                      <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" />
+                      <input name="approval" type="radio" id="approve-{{item[1].id}}" value="Approved" required />
                       <label for="approve-{{item[1].id}}">Approve</label>
                     </p>
                     <p class="col s6 text-center">
-                      <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved"/>
+                      <input name="approval" type="radio" id="decline-{{item[1].id}}" value="Unapproved" required />
                       <label for="decline-{{item[1].id}}">Decline</label>
                     </p>
                   </div>
