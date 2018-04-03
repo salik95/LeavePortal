@@ -105,15 +105,15 @@ def encashment_request():
 		requests = {}
 
 		if current_user.role == "HR Manager":
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval == "Approved", Encashment.gm_approval == "Approved")).order_by(asc(Encashment.time_stamp)).all()
-			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.hr_approval != None).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval == "Approved", Encashment.gm_approval == "Approved", Encashment.emp_id != current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval != None, Encashment.emp_id != current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
 
 		elif current_user.role == "General Manager":
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval == "Approved")).order_by(asc(Encashment.time_stamp)).all()
-			responded = db.session.query(Employees, Encashment).join(Encashment).filter(Encashment.gm_approval != None).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval == "Approved", Encashment.emp_id != current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval != None, Encashment.emp_id != current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
 		else:
-			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
-			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval != None, Employees.reporting_manager_id == current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+			pending = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id, Encashment.emp_id != current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
+			responded = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval != None, Employees.reporting_manager_id == current_user.employee.id, Encashment.emp_id != current_user.employee.id)).order_by(asc(Encashment.time_stamp)).all()
 		requests.update({'pending' : pending, 'responded' : responded})
 
 		return render_template('encashment-requests.html', data={'requests': requests})
