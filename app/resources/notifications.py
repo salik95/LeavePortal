@@ -42,7 +42,7 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None) :
 
 
     messages = {
-        'Encashment request':'Encashment request',
+        'Encashment request':'Encashment request is pending',
         'Encashment Approved':'',
         'Encashment Form': '',
         'Encashment Unapproved': '',
@@ -54,7 +54,7 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None) :
         text = "request pending"
         f = codecs.open("app/views/email_templates/leave_request.html", 'r')
         template = Template(f.read())
-        html = template.render(main_body = messages[subject] , link_for_app='google.com')
+        html = template.render(main_body = messages[subject] , link_for_app='google.com' , subject=subject)
         subject = subject
         email = Configuration.query.filter_by(key='email_address').first().value
         password = Configuration.query.filter_by(key='password').first().value
