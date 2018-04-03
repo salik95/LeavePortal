@@ -131,7 +131,7 @@ def respond_request():
 		response['hr_approval'] = response['approval']
 
 		if response['approval'] == "Approved":
-			notify(subject='leave_approved', receiver_id=lemployee.id)
+			notify(subject='leave_approved', receiver_id=employee.id)
 		elif response['approval'] == "Unapproved":
 			notify(subject='leave_unapproved' , receiver_id=employee.id)
 
@@ -179,8 +179,3 @@ def get_dict_of_sqlalchemy_object(alchemy_object, key, value=None):
 					temp_dict[item] = getattr(leave_item, item)
 			alchemy_list.append(temp_dict)
 	return alchemy_list
-
-
-
-
-
