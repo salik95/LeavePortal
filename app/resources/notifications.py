@@ -67,12 +67,12 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None) :
             print('Success sending ' , reporting_manager_email )
 
         if send_hr!= None:
-            hr_email = Configuration.query.filter_by(role='HR Manager').first().value
+            hr_email = User.query.filter_by(role='HR Manager').first().email
             send_email(email , password , hr_email , subject, html , text)
             print('Success sending ' , hr_email ) 
 
         if send_gm!= None:
-            gm_email = Configuration.query.filter_by(role='General Manager').first().value
+            gm_email = User.query.filter_by(role='General Manager').first().email
             send_email(email , password , gm_email , subject, html , text)
             print('Success sending ' , gm_email ) 
 
