@@ -7,6 +7,22 @@ $(document).ready(function() {
   handleAsyncForm()
   handleEncashment()
 
+
+  $('form').on('submit', function(e) {
+
+    $form = $(this)
+
+    $form.addClass('loading')
+
+    if(!$form.attr('data-resource')) {
+      $form.find('[type="submit"]').addClass('disabled')
+      window.setTimeout(function() {
+        $form.unbind('submit').submit()
+      }, 1000)  
+    }
+    
+  })
+
 })
 
 
@@ -46,6 +62,38 @@ function init() {
     closeOnSelect: false,
     format: 'yyyy-mm-dd'
   })
+
+  var yesterday = new Date((new Date()).valueOf()-1000*60*60*24)
+
+  var $from_date_field = $('input[name="from_date"]')
+
+  var from_date_picker = $from_date_field.pickadate('picker')
+  var to_date_picker = $('input[name="to_date"]').pickadate('picker')
+
+  from_date_picker.on({
+    'set': function(prop) {
+      if(prop.select !== "undefined") {
+        console.log('Correct fucker fired')
+
+        var date = from_date_picker.get('select')
+        console.log(date)
+        if(date) 
+          date = new Date(date.pick)
+        else
+          return
+
+        console.log(date)
+        to_date_picker.set('disable', [{
+          from: [0,0,0], to: date
+        }])
+      }
+    }
+  })
+
+
+  from_date_picker.set('disable', [{
+    from: [0,0,0], to: yesterday
+  }])
 
   lightbox = {
     show: function(lb) {
@@ -97,6 +145,8 @@ function handleAsyncForm() {
 
     actions.send(resource, method, data, function(status, response) {
 
+      $self.removeClass('loading')
+
       if(status=='success') {
 
         console.log(response)
@@ -125,7 +175,18 @@ function handleAsyncForm() {
         else {
           console.log('no bueno')
         }
+
+        $self[0].reset()
+
       }
+
+      else {
+        $notice.removeClass('success')
+        $notice.addClass('error')
+        $notice.text('Something went wrong. Please make sure there are no errors in the submission and retry')
+      }
+
+
     })
 
   })

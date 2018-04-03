@@ -2,17 +2,18 @@
 
   <form data-resource="leave" method="POST">
 
+    {% include 'components/loading.html' %}
     <div class="notice">.</div>
 
     <div class="row">
       <div class="input-field col m6 s12">
         <label for="">Start Date</label>
-        <input type="text" class="datepicker" name="from_date">
+        <input type="text" class="datepicker" name="from_date" required>
       </div>
 
       <div class="input-field col m6 s12">
         <label for="">End Date</label>
-        <input type="text" class="datepicker" name="to_date">
+        <input type="text" class="datepicker" name="to_date" required>
       </div>
     </div>
 
@@ -20,7 +21,7 @@
 
       <div class="input-field col m6 s12">
 
-        <select name="leave_type">
+        <select name="leave_type" required>
           <option value="Medical">Medical</option>
           <option value="General">General</option>
         </select>
@@ -29,7 +30,7 @@
 
       <div class="input-field col m6 s12">
         <label for="">Purpose</label>
-        <input type="text" name="purpose">
+        <input type="text" name="purpose" required>
       </div>
     </div>
     

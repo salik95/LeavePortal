@@ -17,19 +17,22 @@ $orange: #f39c12;
 html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
 body {background-color: #e8eaf6;}
 
-.notice {margin: 20px 0; opacity: 0; padding: 5px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center; 
+.notice {margin: 20px 0; opacity: 0; padding: 2px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center; 
 
   p {margin: 0}
 
-  &.success, &.error {opacity: 1;}
+  &.success, &.error, &.visible {opacity: 1;}
   &.success {box-shadow: 0 0 0 2px $green; color: $green; }
   &.error {box-shadow: 0 0 0 2px $red; color: $red; }
   
   &.solid {background-color: currentColor;}
   &.solid > * {color: #fff!important}
+
+  &.compact {display: inline-block; padding: 2px 5px}
+
 }
 
-.notice > * {margin: 0 20px; font-size: 11px}
+.notice > * {margin: 0 20px;}
 .notice > a.button > a.label {font-size: 14px}
 
 .btn, .btn span.real { padding: 0 1rem; letter-spacing: 0; font-size: 14px; font-weight: 600; font-family: 'Varela Round'; background-color: $primary-color;
@@ -144,6 +147,14 @@ strong {font-weight: 600}
 
   &.responded:not(.active) {opacity: 0.6}
   
+}
+
+form .loading {display: none; padding: 20px 0; opacity: 0.5;
+  img {width: 32px; height: auto}
+}
+
+form.loading {
+  .loading {display:block;}
 }
 
 form.disabled {

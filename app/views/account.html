@@ -10,8 +10,11 @@
     <div class="col l6 m6 s6 center">
 
       <form class="card" id="form-email" method="POST" action="#" data-state="">
+
+        {% include 'components/loading.html' %}
+
         <div class="card-content">
-          
+
           {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages%}
           {% for category, message in messages %}
@@ -40,6 +43,8 @@
       </div>
 
       <form class="card" id="form-password" method="POST" action="#" data-state="">
+
+        {% include 'components/loading.html' %}
 
         <div class="card-content">
 
