@@ -49,7 +49,7 @@ def encashment():
 			encashment_data['gm_approval'] = 'Approved'
 			notify(subject='Encashment request', send_director=True)
 		else:
-			notify(subject='Encashment request', receiver_id=current_user.employee.manager.employee.id)
+			notify(subject='Encashment request', receiver_id=current_user.employee.manager.id)
 
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
