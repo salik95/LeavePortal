@@ -167,8 +167,8 @@ def encashment_request():
 			hr_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='HR Manager')).first()).id).first()
 
 			store.update({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager.first_name + " " + line_manager.last_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
-			html = render_template("encashment-approval-form.html", data = store)
-			return render_pdf(HTML(string=html))
+			#html = render_template("encashment-approval-form.html", data = store)
+			#return render_pdf(HTML(string=html))
 
 		
 		del encashment_data['id']
