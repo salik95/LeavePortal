@@ -55,7 +55,7 @@ function init() {
   $('.modal').modal();
   // $('#modal1').modal('open')
   $('select').material_select()
-  $('.tabs').tabs()
+  $('.menu').tabs()
 
   $('.datepicker').pickadate({
     selectMonths: true,

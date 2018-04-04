@@ -255,9 +255,9 @@ main#dashboard {}
 #nopad{ margin:0 0;}
 
 main#login { padding: 0; height: 100vh; display: flex; align-items: center; justify-content: center; flex-flow: column; background: linear-gradient(to top, $primary-color ,#810cf5); background-size: cover;
-  
+
   .logo-name {margin-top: 0; margin-bottom: 50px; font-weight: 600; font-size: 14px; color: #858384}
-    
+
   .loading {margin: 0; padding: 0}
 
   .login { min-width: 100px; max-width: 330px; width: 100%; text-align: center; padding: 30px 0; box-sizing: border-box;
@@ -381,6 +381,37 @@ main#encashment {
 }
 
 .data {display: none}
+
+#help {  
+
+  .container { display: flex; align-items: top; margin: 50px 0 200px 0;
+    > div {float: left}
+    .menu {flex: 0 0 300px; margin-right: 40px; font-size: 15px; box-shadow: 2px 0 0 0 #efefef; 
+      .tab { 
+        a {display: inline-block; color: #aaa; padding: 10px 0; width: 100%; cursor: pointer;}
+        .active { color: $primary-color;  box-shadow: 2px 0 0 0 $primary-color;  font-weight: 600;}
+      }
+      .indicator {display: none}
+    }
+    .details { line-height: 26px;
+      p.title {font-size: 24px; margin-bottom: 40px}
+    }
+  }
+
+  .label { display: inline-block; margin: 0 10px; padding: 5px 10px; vertical-align: middle; font-size: 14px;
+    &:before {content: ''; display: inline-block; vertical-align: middle; margin: 0 10px 0 0; width: 10px; height: 10px; border-radius: 50%; background-color: #777}
+    &.red {&:before {background-color: $red}}
+    &.yellow {&:before {background-color: $yellow}}
+    &.green {&:before {background-color: $primary-color}}
+  }
+
+  .selector {width: 250px; height: 250px; margin: 0 20px; display: flex; align-items: center; justify-content: center; flex-flow: column;
+    box-shadow: 0 0 0 2px #efefef; border-radius: 10px; cursor: pointer;
+
+    img {width: 60px; height: auto}
+  }
+
+}
 
 footer {font-size: 12px; padding: 10px 0; text-align: center; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);
   .powered { opacity: 0.5; transition: all 1s ease;

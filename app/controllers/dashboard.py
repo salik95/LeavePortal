@@ -86,3 +86,10 @@ def dashboard():
 		store.update({'history' : history, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role, 'encashment_requests' : encashment_requests})
 
 		return render_template("dashboard.html", data = store)
+
+
+@app.route('/help/', methods=['GET'])
+@login_required
+def help():
+	if request.method == 'GET':
+		return render_template("help.html", data = {})
