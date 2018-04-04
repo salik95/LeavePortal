@@ -37,6 +37,19 @@ var getDate = function(d) {
   return fixed_date
 }
 
+var updateQueryParam = function(param, value) {
+  var url = window.location.origin + window.location.pathname
+  var query_string = location.search.substring(1)
+  var query_obj = {}
+  if(query_string !== '') {
+    query_obj = JSON.parse('{"' + decodeURI(query_string).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+  }
+
+  query_obj[param] = value
+  query_string = '?' + $.param(query_obj)
+
+  window.location.href = url + query_string
+}
 
 /** Init
 *** Initialize the application components
@@ -301,7 +314,7 @@ function searchEmployee() {
 
       // For adding to query param
       else {
-        window.location.href = window.location.href + '=' + selected_id
+        updateQueryParam('id', selected_id)
       }
     }
   })

@@ -20,7 +20,7 @@
         <li class="collection-item">
           <div class="collapsible-header">
 
-            <div class="type {{ item[1].leave_type }}">
+            <div class="type {{ item[1].leave_type|lower }}">
               {% if item[1].leave_type == "Medical" %}
               <p>M</p>
               {% else %}
