@@ -17,9 +17,10 @@ $(document).ready(function() {
     $notice = $form.find('.notice')
     $notice.removeClass('error')
     $notice.removeClass('success')
+    $form.find('[type="submit"]').addClass('disabled')
 
     if(!$form.attr('data-resource')) {
-      $form.find('[type="submit"]').addClass('disabled')
+
       window.setTimeout(function() {
         $form.unbind('submit').submit()
       }, 1000)  
@@ -77,16 +78,13 @@ function init() {
   from_date_picker.on({
     'set': function(prop) {
       if(prop.select !== "undefined") {
-        console.log('Correct fucker fired')
 
         var date = from_date_picker.get('select')
-        console.log(date)
         if(date) 
           date = new Date(date.pick)
         else
           return
 
-        console.log(date)
         to_date_picker.set('disable', [{
           from: [0,0,0], to: date
         }])
@@ -150,6 +148,7 @@ function handleAsyncForm() {
     actions.send(resource, method, data, function(status, response) {
 
       $self.removeClass('loading')
+      $self.find('[type="submit"]').removeClass('disabled')
 
       if(status=='success') {
 
