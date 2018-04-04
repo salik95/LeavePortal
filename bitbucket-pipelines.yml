@@ -1,6 +1,6 @@
 image: python:3.5.1
 clone:
-  depth: 50
+  depth: 5
 pipelines:
   branches:
     master:
