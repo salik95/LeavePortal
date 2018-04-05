@@ -85,22 +85,26 @@ function init() {
 
   var $from_date_field = $('input[name="from_date"]')
 
-  var from_date_picker = $from_date_field.pickadate('picker')
-  var to_date_picker = $('input[name="to_date"]').pickadate('picker')
+  from_date_picker = $from_date_field.pickadate('picker')
+  to_date_picker = $('input[name="to_date"]').pickadate('picker')
+  to_date_picker.set('disable', true)
+
+  var leaves_remaining = $("[data-leaves_remaining]").data('leaves_remaining')
 
   from_date_picker.on({
     'set': function(prop) {
       if(prop.select !== "undefined") {
 
         var date = from_date_picker.get('select')
-        if(date) 
+        if(date) {
+          console.log(date.pick)
           date = new Date(date.pick)
+        }
         else
           return
-
-        to_date_picker.set('disable', [{
-          from: [0,0,0], to: date
-        }])
+        to_date_picker.set('disable', false)
+        to_date_picker.set('min', date)
+        to_date_picker.set('max', new Date(date.valueOf()+(1000*60*60*24*(leaves_remaining-1))) )
       }
     }
   })
