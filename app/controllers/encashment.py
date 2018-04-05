@@ -32,8 +32,8 @@ def encashment():
 		encashment_data = request.form.copy()
 
 		if 'amount' not in encashment_data:
-			# @todo render with flash error
-			return error_response_handler("Incomplete Data", 400)
+			flash(u'Please enter the amount to be encashed', 'error')
+			return redirect(url_for('encashment'))
 		
 		encashment_data['emp_id'] = current_user.employee.id
 		encashment_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -59,10 +59,6 @@ def encashment():
 		db.session.add(encashment_request)
 		db.session.commit()
 		db.session.flush()
-
-		encashment_dict = {}
-		for col_name in Encashment.__mapper__.columns.keys():
-			encashment_dict[col_name] = getattr(encashment_request, col_name)
 
 		flash(u'Your encashment request is sent successfully.', 'success')
 		return redirect(url_for('encashment'))
