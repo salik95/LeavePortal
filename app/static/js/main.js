@@ -158,6 +158,8 @@ function handleAsyncForm() {
         else if (resource == 'leave' && method == "POST")
           $notice.text('Application is sent successfully and pending for approval.')
 
+        // @todo: add update data.approval on view 
+
         else if (resource == 'leave' && method == "PUT") {
           $notice.text('Application is successfully approved')
           $self.addClass('disabled')

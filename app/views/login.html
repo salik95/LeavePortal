@@ -20,15 +20,10 @@
 
     <main id="login">
       <div class="login">
-
+        <img src="../static/img/HOH-Logo_change.jpg" alt="hoh-logo">
         <div class="content">
-
-          <!-- <img src="{{url_for('static', filename='img/logo-dark.png') }}" alt=""> -->
-
-          <br><br><br>
-
           {% if form.errors %}
-          <div class="">
+          <div class="col s5">
             {% for field, error in form.errors.items() %}
             {% for e in error %}
             {{ e }}<br>
