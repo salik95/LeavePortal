@@ -42,14 +42,14 @@ def encashment():
 		if current_user.role == 'HR Manager':
 			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['manager_approval'] = 'Approved'
-			notify(subject='Encashment request', send_gm=True)
+			notify(subject='new_encashment_request', send_gm=True)
 
 		elif current_user.role == "General Manager":
 			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['gm_approval'] = 'Approved'
-			notify(subject='Encashment request', send_director=True)
+			notify(subject='new_encashment_request', send_director=True)
 		else:
-			notify(subject='Encashment request', receiver_id=current_user.employee.manager.id)
+			notify(subject='new_encashment_request', receiver_id=current_user.employee.manager.id)
 
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
@@ -133,25 +133,25 @@ def encashment_request():
 			setattr(encashment_request, 'hr_approval', encashment_data['approval'])
 			if encashment_data['approval'] == 'Approved':
 				#flash("Encashment form sent")
-				notify(subject='Encashment Approved', receiver_id=employee.id)
-				notify(subject='Encashment Form', send_hr=True)
+				notify(subject='encashment_approved', receiver_id=employee.id)
+				notify(subject='encashment_form', send_hr=True)
 			if encashment_data['approval'] == 'Unapproved':
-				notify(subject='Encashment Unapproved', receiver_id=employee.id)
+				notify(subject='encashment_unapproved', receiver_id=employee.id)
 
 		elif current_user.role == 'General Manager':
 			setattr(encashment_request, 'gm_approval', encashment_data['approval'])
 			if encashment_data['approval'] == 'Approved':
-				notify(subject='Encashment request', send_hr=True)
+				notify(subject='new_encashment_request', send_hr=True)
 			if encashment_data['approval'] == 'Unapproved':
-				notify(subject='Encashment Unapproved', receiver_id=employee.id)
+				notify(subject='encashment_unapproved', receiver_id=employee.id)
 		else:
 			if employee.reporting_manager_id != current_user.employee.id:
 				return error_response_handler("Unauthorized request", 401)
 			setattr(encashment_request, 'manager_approval', encashment_data['approval'])
 			if encashment_data['approval'] == 'Approved':
-				notify(subject='Encashment request', send_gm=True)
+				notify(subject='new_encashment_request', send_gm=True)
 			if encashment_data['approval'] == 'Unapproved':
-				notify(subject='Encashment Unapproved', receiver_id=employee.id)
+				notify(subject='encashment_unapproved', receiver_id=employee.id)
 
 		if encashment_request.hr_approval == 'Approved' and encashment_request.gm_approval == 'Approved' and encashment_request.manager_approval == 'Approved':
 			encashment_user = User.query.get(employee.user_id)
@@ -167,13 +167,14 @@ def encashment_request():
 			hr_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='HR Manager')).first()).id).first()
 
 			store.update({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager.first_name + " " + line_manager.last_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
-			#html = render_template("encashment-approval-form.html", data = store)
-			#return render_pdf(HTML(string=html))
+
+			db.session.commit()
+			return render_template("encashment-approval-form.html", **store)
+			return render_pdf(HTML(string=html))
 
 		
 		del encashment_data['id']
 		
 		db.session.commit()
-		db.session.flush()
-		
+
 		return jsonify(encashment_data)

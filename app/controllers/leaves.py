@@ -106,7 +106,7 @@ def request_all():
 		pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
 			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval == None)).order_by(asc(Balance_sheet.from_date)).all()
 		responded = db.session.query(Employees, Balance_sheet).join(Balance_sheet)\
-			.filter(Employees.reporting_manager_id == current_user.employee.id).order_by(asc(Balance_sheet.from_date)).all()
+			.filter(and_(Employees.reporting_manager_id == current_user.employee.id, Balance_sheet.manager_approval != None)).order_by(asc(Balance_sheet.from_date)).all()
 
 	requests = {'pending' : pending, 'responded' : responded}
 
