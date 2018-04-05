@@ -17,11 +17,11 @@ def dashboard():
 
 		if current_user.role == "HR Manager":
 
-			encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval != None, Encashment.gm_approval != None)).all())
+			encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.hr_approval == None, Encashment.manager_approval == "Approved", Encashment.gm_approval == "Approved")).all())
 
 			requests = {}
 
-			pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval == "Accepted"), and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
+			pending = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.hr_approval == None, Balance_sheet.manager_approval == "Approved"), and_(Employees.reporting_manager_id == employee.id, Balance_sheet.manager_approval == None))).order_by(asc(Balance_sheet.from_date)).all()
 			requests['pending'] = pending
 
 			requests['responded'] = []
@@ -35,7 +35,7 @@ def dashboard():
 			encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).all())
 			
 			if current_user.role == "General Manager":
-				encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval != None)).all())
+				encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.gm_approval == None, Encashment.manager_approval == "Approved")).all())
 
 			all_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == employee.id)
 			if all_requests is None:
