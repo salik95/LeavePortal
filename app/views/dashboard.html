@@ -4,6 +4,28 @@
 
 {% block body %}
 
+{% if data.role == "Director" %}
+
+<main id="dashboard">
+  <div class="row">
+    <div class="col l8 center">
+      {% with list_items=data.leave_requests %}
+      {% include 'components/request-card.html' %}
+      {% endwith %}
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col l8 center">
+      {% with list_items=data.encashment_requests %}
+      {% include 'components/encashment-request-card.html' %}
+      {% endwith %}
+    </div>
+  </div>
+</main>
+
+{% else %}
+
 <main id="dashboard">
 
   {% if data.role != "Employee" %}
@@ -122,6 +144,8 @@
     {% include 'forms/employee.html' %}
   </div>
 </div>
+
+{% endif %}
 
 <div id="modal1" class="modal">
   <div class="modal-content">

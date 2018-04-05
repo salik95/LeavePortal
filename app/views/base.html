@@ -23,14 +23,18 @@
       <p>HMPL Leaves</p>
     </a>
     <div class="tools right">
+      {% if data.role != "Director" %}
       <a href="#addleave" class="waves-effect waves-light btn round trigger">Apply for Leave</a>
+      {% endif %}
       <span class="account">
         <i class="material-icons">account_circle</i>
         <div class="widget">
           <div class="content">
             <span class="name">{{current_user.employee.first_name + ' ' + current_user.employee.last_name}}</span>
             <ul>
+              {% if data.role != "Director" %}
               <li><a href="/encashment"><i class="material-icons">account_balance_wallet</i> Encashment</a></li>
+              {% endif %}
               <li><a href="/account"><i class="material-icons">settings</i> Account Settings</a></li>
               <li><a href="/logout"><i class="material-icons">exit_to_app</i> Logout</a></li>
             </ul>
