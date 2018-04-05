@@ -7,6 +7,8 @@ from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
 from app.resources.util_functions import *
 from werkzeug import check_password_hash, generate_password_hash
+import string, random
+from app.resources.notifications import notify
 
 @app.route('/employee', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
@@ -23,7 +25,9 @@ def employee():
 		data_employee['role'] = "Employee"
 		data_employee['probation'] = 1
 
-		new_user = User(data_employee['email'], generate_password_hash("hoh123"), data_employee['role'])
+		password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
+
+		new_user = User(data_employee['email'], generate_password_hash(password), data_employee['role'])
 		db.session.add(new_user)
 		db.session.flush()
 		db.session.refresh(new_user)
@@ -55,6 +59,8 @@ def employee():
 		db.session.add(new_employee)
 		db.session.commit()
 		db.session.flush()
+		db.session.refresh(new_employee)
+		notify(subject='Welcome To HOH Leave Portal', body=password, receiver_id=new_employee.id)
 		return jsonify(employee_created)
 
 	if request.method == 'PUT':
