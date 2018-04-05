@@ -125,6 +125,14 @@ function init() {
       $('body').css('overflow','inherit')
       lb.removeClass('active')
       lb.fadeOut(400)
+
+      var $form = lb.find('form[data-resource]')
+
+      if($form) {
+        $notice = $form.find('.notice')
+        $notice.removeClass('success')
+        $notice.removeClass('error')
+      }
     }
   }
 
