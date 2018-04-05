@@ -32,7 +32,6 @@ def dashboard():
 			store.update({'requests' : requests})
 
 		else:
-			
 			encashment_requests = len(db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Employees.reporting_manager_id == current_user.employee.id)).all())
 			
 			if current_user.role == "General Manager":
@@ -84,5 +83,6 @@ def dashboard():
 		history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id).order_by(desc(Balance_sheet.from_date)).limit(5).all()
 
 		store.update({'history' : history, 'user' : employee, 'leaves_details' : leaves_details, 'role':current_user.role, 'encashment_requests' : encashment_requests})
+		print("" + current_user.role + ": " + str(encashment_requests))
 
 		return render_template("dashboard.html", data = store)
