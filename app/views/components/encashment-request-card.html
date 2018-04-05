@@ -10,7 +10,7 @@
   <p class="card-title"><i class="material-icons">event</i> <span>Encashment Requests</span></p>
   <ul class="collapsible padded" data-collapsible="accordion">
 
-    {% for item in list_item %}
+    {% for item in list_items %}
     
     {% if item[1][approval_field] is none %}
     {% set status = 'pending' %}
