@@ -1,10 +1,9 @@
 import csv
 from app.models import *
 from app import db , app
-from flask import request, jsonify, render_template , redirect
-from flask_login import login_required, current_user
+from flask import request, render_template , redirect
+from flask_login import login_required
 from app.controllers.settings import settings_to_dict
-from sqlalchemy import and_, or_
 from app.controllers.utilfunc import *
 import logging 
 import os
@@ -13,6 +12,8 @@ from flask import flash
 from app.resources.util_functions import *
 from datetime import datetime
 import logging
+from werkzeug import  generate_password_hash
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s')
 
             
@@ -56,16 +57,16 @@ def bulk_import():
 	if request.method == 'POST':
 		
 		if 'employees' not in request.files and 'balances' not in request.files :
-			flash('CSV file is not uploaded')
+			flash('CSV file is not uploaded' , 'error')
 			return redirect(request.url)
 
 		file = request.files['employees']
 		if file and allowed_file(file.filename)==False:
 			file = request.files['balances']
-			flash('CSV file is not uploaded')
+			flash('CSV file is not uploaded' , 'error')
 			return redirect(request.url)
 		if request.files['balances'] and allowed_file(request.files['balances'].filename)==False:
-			flash('CSV file is not uploaded')
+			flash('CSV file is not uploaded' , 'error')
 			return redirect(request.url)
 
 		try:
@@ -74,7 +75,7 @@ def bulk_import():
 			list_of_elemet = read_csv(link_of_file)
 			list_of_employee_object = []
 			for i in list_of_elemet:
-				one_user = User(i['email'], "hoh123", i['role'])
+				one_user = User(i['email'],  generate_password_hash("hoh123"), i['role'])
 				db.session.add(one_user)
 				db.session.commit()
 				del i['email'] 

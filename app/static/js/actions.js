@@ -46,6 +46,9 @@ actions = {
       dataType: 'json',
       success: function(data) {
         callback('success', data)
+      },
+      error: function(data) {
+        callback('error', data)
       }
     })
   }

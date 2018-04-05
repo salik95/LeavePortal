@@ -29,7 +29,7 @@ def index():
 				db.session.commit()
 				login_user(user, remember=True)
 				return redirect(url_for('dashboard'))
-			flash('Wrong email or password', 'error-message')
+			flash('Email or password you entered is invalid', 'error')
 		return render_template("login.html", form=form)
 
 @app.route("/logout")

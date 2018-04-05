@@ -4,6 +4,28 @@
 
 {% block body %}
 
+{% if data.role == "Director" %}
+
+<main id="dashboard">
+  <div class="row">
+    <div class="col l8 center">
+      {% with list_items=data.leave_requests %}
+      {% include 'components/request-card.html' %}
+      {% endwith %}
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col l8 center">
+      {% with list_items=data.encashment_requests %}
+      {% include 'components/encashment-request-card.html' %}
+      {% endwith %}
+    </div>
+  </div>
+</main>
+
+{% else %}
+
 <main id="dashboard">
 
   {% if data.role != "Employee" %}
@@ -12,7 +34,7 @@
     <p class="title">Management</p>
     <div class="clr"></div>
 
-    <a href="/history?id" class="btn slim underline light">
+    <a href="/history?id=" class="btn slim underline light">
       <i class="material-icons left">details</i>
       <span>Balance Sheet</span>
     </a>
@@ -33,13 +55,13 @@
   {% endif %}
 
   <div class="clr"></div>
-
+  
   {% if data.encashment_requests %}
   <div class="text-center">
-    <a href="/encashment/requests" class="notice visible compact">
-      <span><!-- <i class="material-icons">report</i>  -->You have <strong>{{data.encashment_requests}}</strong> pending encashment request(s).</span><i class="material-icons">chevron_right</i></a>
+    <a href="/encashment/requests" class="notice visible solid">
+      <span>You have <strong>{{data.encashment_requests}}</strong> pending encashment request(s).</span><i class="material-icons">chevron_right</i></a>
     </a>
-    <br>
+    <br><br>
   </div>
   {% endif %}
 
@@ -55,7 +77,7 @@
             </div>
             <div class="col s6">
               <p>Remaining</p>
-              <h1>{{data.leaves_details.general_leaves_remaining|round(0,'floor')|int}}</h1>
+              <h1 data-leaves_remaining="{{data.leaves_details.general_leaves_remaining|round(0,'floor')|int}}">{{data.leaves_details.general_leaves_remaining|round(0,'floor')|int}}</h1>
             </div>
           </div>
         </div>
@@ -122,6 +144,8 @@
     {% include 'forms/employee.html' %}
   </div>
 </div>
+
+{% endif %}
 
 <div id="modal1" class="modal">
   <div class="modal-content">

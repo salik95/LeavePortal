@@ -1,21 +1,26 @@
 $(document).ready(function() {
 
-  init()
-  accountDropdown()
-  searchEmployee()
+  if(logged_in) {
+    init()
+    accountDropdown()
+    searchEmployee()
 
-  handleAsyncForm()
-  handleEncashment()
-
+    handleAsyncForm()
+    handleEncashment()
+  }
 
   $('form').on('submit', function(e) {
 
     $form = $(this)
-
     $form.addClass('loading')
 
+    $notice = $form.find('.notice')
+    $notice.removeClass('error')
+    $notice.removeClass('success')
+    $form.find('[type="submit"]').addClass('disabled')
+
     if(!$form.attr('data-resource')) {
-      $form.find('[type="submit"]').addClass('disabled')
+
       window.setTimeout(function() {
         $form.unbind('submit').submit()
       }, 1000)  
@@ -32,6 +37,19 @@ var getDate = function(d) {
   return fixed_date
 }
 
+var updateQueryParam = function(param, value) {
+  var url = window.location.origin + window.location.pathname
+  var query_string = location.search.substring(1)
+  var query_obj = {}
+  if(query_string !== '') {
+    query_obj = JSON.parse('{"' + decodeURI(query_string).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+  }
+
+  query_obj[param] = value
+  query_string = '?' + $.param(query_obj)
+
+  window.location.href = url + query_string
+}
 
 /** Init
 *** Initialize the application components
@@ -51,7 +69,7 @@ function init() {
   $('.modal').modal();
   // $('#modal1').modal('open')
   $('select').material_select()
-  $('.tabs').tabs()
+  $('.menu').tabs()
 
   $('.datepicker').pickadate({
     selectMonths: true,
@@ -67,25 +85,26 @@ function init() {
 
   var $from_date_field = $('input[name="from_date"]')
 
-  var from_date_picker = $from_date_field.pickadate('picker')
-  var to_date_picker = $('input[name="to_date"]').pickadate('picker')
+  from_date_picker = $from_date_field.pickadate('picker')
+  to_date_picker = $('input[name="to_date"]').pickadate('picker')
+  to_date_picker.set('disable', true)
+
+  var leaves_remaining = $("[data-leaves_remaining]").data('leaves_remaining')
 
   from_date_picker.on({
     'set': function(prop) {
       if(prop.select !== "undefined") {
-        console.log('Correct fucker fired')
 
         var date = from_date_picker.get('select')
-        console.log(date)
-        if(date) 
+        if(date) {
+          console.log(date.pick)
           date = new Date(date.pick)
+        }
         else
           return
-
-        console.log(date)
-        to_date_picker.set('disable', [{
-          from: [0,0,0], to: date
-        }])
+        to_date_picker.set('disable', false)
+        to_date_picker.set('min', date)
+        to_date_picker.set('max', new Date(date.valueOf()+(1000*60*60*24*(leaves_remaining-1))) )
       }
     }
   })
@@ -106,6 +125,14 @@ function init() {
       $('body').css('overflow','inherit')
       lb.removeClass('active')
       lb.fadeOut(400)
+
+      var $form = lb.find('form[data-resource]')
+
+      if($form) {
+        $notice = $form.find('.notice')
+        $notice.removeClass('success')
+        $notice.removeClass('error')
+      }
     }
   }
 
@@ -146,6 +173,7 @@ function handleAsyncForm() {
     actions.send(resource, method, data, function(status, response) {
 
       $self.removeClass('loading')
+      $self.find('[type="submit"]').removeClass('disabled')
 
       if(status=='success') {
 
@@ -165,13 +193,17 @@ function handleAsyncForm() {
           $self.addClass('disabled')
           $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
           $self.closest('.collection-item').addClass('responded')
+          $self.closest('.collection-item').removeClass('pending')
+          $self.closest('.collection-item').addClass(data.approval)
         }
 
         else if (resource == 'encashment' && method == "PUT") {
-          $notice.text('Request is successfully approved')
+          $notice.text('Request is successfully completed')
           $self.addClass('disabled')
           $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
           $self.closest('.collection-item').addClass('responded')
+          $self.closest('.collection-item').removeClass('pending')
+          $self.closest('.collection-item').addClass(data.approval)
         }
 
         else {
@@ -294,7 +326,7 @@ function searchEmployee() {
 
       // For adding to query param
       else {
-        window.location.href = window.location.href + '=' + selected_id
+        updateQueryParam('id', selected_id)
       }
     }
   })

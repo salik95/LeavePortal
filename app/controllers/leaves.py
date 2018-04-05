@@ -179,8 +179,3 @@ def get_dict_of_sqlalchemy_object(alchemy_object, key, value=None):
 					temp_dict[item] = getattr(leave_item, item)
 			alchemy_list.append(temp_dict)
 	return alchemy_list
-
-
-
-
-

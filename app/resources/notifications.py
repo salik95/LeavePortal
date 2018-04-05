@@ -36,8 +36,6 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
 
 
 
-#notify(subject='Leave Request', receiver_id=current_user.employee.manager.id)
-
 def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None) :
 
 

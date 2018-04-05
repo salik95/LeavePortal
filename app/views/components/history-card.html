@@ -7,8 +7,8 @@
     <i class="material-icons">assignment</i> <span>Personal History</span>
     {% endif %}
 
-    {% if single_view %}
-    <a href="&amp;download=1" class="btn slim outline trigger download">
+    {% if single_view and leave_list %}
+    <a onclick="updateQueryParam('download', 1)" class="btn slim outline trigger download">
       <i class="material-icons left">keyboard_arrow_down</i>
       <span>Download</span>
     </a>
@@ -19,105 +19,94 @@
 
     <div class="request">
       <ul class="collapsible" data-collapsible="accordion">
+        {% if leave_list is not none %}
         {% for item in leave_list %}
         <li class="collection-item">
           <div class="collapsible-header">
 
-            <div class="type {{ item.leave_type }}">
+            <div class="type {{ item.leave_type|lower }}">
               {% if item.leave_type == "Medical" %}
               <p>M</p>
               {% else %}
               <p>G</p>
               {% endif %}
-            }
-          </div>
-
-          <div class="duration">
-            <p class="contract">{{ item.from_date.strftime('%b %d, %Y')}} - {{ item.to_date.strftime('%b %d, %Y') }}</p>
-          </div>
-
-          {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
-          <div class="status approved">
-            <p>approved</p>
-          </div>
-          {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
-          <div class="status unapproved">
-            <p>HR Unapproved</p>
-          </div>  
-          {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
-          <div class="status unapproved">
-            <p>Manager Unapproved</p>
-          </div>
-          {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
-          <div class="status unapproved">
-            <p>Unapproved</p>
-          </div>
-          {% elif item.hr_approval== None and item.manager_approval != None %}
-          <div class="status pending">
-            <p>HR Pending</p>
-          </div>
-          {% elif item.hr_approval != None and item.manager_approval==None %}
-          <div class="status pending">
-            <p>Manager Pending</p>
-          </div>
-          {% elif item.hr_approval==None and item.manager_approval==None%}
-          <div class="status pending">
-            <p>Pending</p>
-          </div>
-          {% endif %}
-        </div>
-
-        <div class="collapsible-body">
-          <div class="col s12 first-row">
-            <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
-          </div>
-
-          <div class="row">
-
-            {% if item.hr_remark %}
-            <!-- show manager Remarks -->
-            {% if item.manager_remark %}
-            <div class="col s12 l6">
-              <p class="bold">HR Remarks</p>
-              <p class="message">{{ item.hr_remark }}</p>
             </div>
-            <div class="col s12 l6">
-              <p class="bold">Manager Remarks</p>
-              <p class="message">{{ item.manager_remark }}</p>
+
+            <div class="duration">
+              <p class="contract">{{ item.from_date.strftime('%b %d, %Y')}} - {{ item.to_date.strftime('%b %d, %Y') }}</p>
             </div>
-            {% else %}
-            <div class="col s12 l6">
-              <p class="bold">HR Remarks</p>
-              <p class="message">{{ item.hr_remark }}</p>
+
+            {% if item.hr_approval=="Approved" and item.manager_approval=="Approved" %}
+            <div class="status approved">
+              <p>Approved</p>
+            </div>
+            {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Approved" %}
+            <div class="status unapproved">
+              <p>HR Unapproved</p>
+            </div>  
+            {% elif item.hr_approval=="Approved" and item.manager_approval=="Unapproved" %}
+            <div class="status unapproved">
+              <p>Manager Unapproved</p>
+            </div>
+            {% elif item.hr_approval=="Unapproved" and item.manager_approval=="Unapproved" %}
+            <div class="status unapproved">
+              <p>Unapproved</p>
+            </div>
+            {% elif item.hr_approval== None and item.manager_approval != None %}
+            <div class="status pending">
+              <p>HR Pending</p>
+            </div>
+            {% elif item.hr_approval != None and item.manager_approval==None %}
+            <div class="status pending">
+              <p>Manager Pending</p>
+            </div>
+            {% elif item.hr_approval==None and item.manager_approval==None%}
+            <div class="status pending">
+              <p>Pending</p>
             </div>
             {% endif %}
-            {% else %}
-            {% if item.manager_remark %}
-            <div class="col s12 l6">
-              <p class="bold">Manager Remarks</p>
-              <p class="message">{{ item.manager_remark }}</p>
-            </div>
-            {% else %}
-            {% endif %}
-            <!-- show nothing -->
-            {% endif %}
-
           </div>
-        </div>
-      </li>
-      {% endfor %}
 
-      {% if not single_view %}
-      <li>
-        <div class="collapsible-header">
-          <a href="/history" class="view-all">View All</a>
-        </div>
-      </li>
-      {% endif %}
+          <div class="collapsible-body">
+            <div class="col s12 first-row">
+              <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
+            </div>
 
-    </ul>
+            <div class="row">
+
+              {% if item.manager_remark %}
+              <div class="col s12 l6">
+                <p class="bold">Manager Remarks</p>
+                <p class="message">{{ item.hr_remark }}</p>
+              </div>
+              {% endif %}
+
+              {% if item.hr_remark %}
+              <div class="col s12 l6">
+                <p class="bold">HR Remarks</p>
+                <p class="message">{{ item.hr_remark }}</p>
+              </div>
+              {% endif %}
+
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+        {% endif %}
+
+        {% if not single_view %}
+        <li>
+          <div class="collapsible-header">
+            <a href="/history" class="view-all">View All</a>
+          </div>
+        </li>
+        {% endif %}
+
+      </ul>
+    </div>
+
+    <!-- < div history end> -->
   </div>
-  <!-- < div history end> -->
-</div>
+
 </div>
 
