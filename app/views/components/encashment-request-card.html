@@ -29,9 +29,20 @@
 
       <div class="collapsible-body">  
 
-        <div class="row">
-          <p class="center light">{{item[0].designation + ', ' + item[0].department}}</p>
+        <div class="row center">
+          <p class="light">{{item[0].designation + ', ' + item[0].department}}</p>
+          <br>
+          <p>
+            <span><strong>Leaves Utilized</strong>&emsp;{{item[1].leaves_utilized}}</span>
+            <span><strong>Amount Encashed</strong>&emsp;{{item[1].amount}}</span>
+          </p>
+          <br>
+          <p>
+            <span><strong>Remaining Leaves</strong>&emsp;{{item[0].general_leaves_remaining}}</span>
+            <span><strong>Remaining Amount</strong>&emsp;{{item[0].general_leaves_remaining*item[0].salary}}</span>
+          </p>
         </div>
+
 
         {% if status == 'pending' %}
         <div class="row">
