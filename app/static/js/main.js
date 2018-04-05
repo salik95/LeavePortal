@@ -189,12 +189,12 @@ function handleAsyncForm() {
         // @todo: add update data.approval on view 
 
         else if (resource == 'leave' && method == "PUT") {
-          $notice.text('Application is successfully approved')
+          $notice.text('Application is successfully responded to')
           $self.addClass('disabled')
           $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
           $self.closest('.collection-item').addClass('responded')
           $self.closest('.collection-item').removeClass('pending')
-          $self.closest('.collection-item').addClass(data.approval)
+          $self.closest('.collection-item').addClass((data.approval.toLowerCase()))
         }
 
         else if (resource == 'encashment' && method == "PUT") {
@@ -203,7 +203,7 @@ function handleAsyncForm() {
           $self.find('input, textarea, button').attr('disabled', 'disabled').addClass('disabled')
           $self.closest('.collection-item').addClass('responded')
           $self.closest('.collection-item').removeClass('pending')
-          $self.closest('.collection-item').addClass(data.approval)
+          $self.closest('.collection-item').addClass((data.approval.toLowerCase()))
         }
 
         else {
