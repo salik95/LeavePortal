@@ -12,12 +12,12 @@
         {% for item in list_items %}
 
         {% if item[1][approval_field] is none %}
-        {% set status = 'Pending' %}
+        {% set status = 'pending' %}
         {% else %}
         {% set status = item[1][approval_field] %}
         {% endif %}
 
-        <li class="collection-item">
+        <li class="collection-item {{status|lower}}">
           <div class="collapsible-header">
 
             <div class="type {{ item[1].leave_type|lower }}">
@@ -32,9 +32,7 @@
               {{ item[1].employee.first_name }} {{ item[1].employee.last_name }}
             </div>
 
-            <div class="status {{ status|lower }}">
-              <p>{{ status }}</p>
-            </div>
+            <div class="status"></div>
           </div>
 
           <div class="collapsible-body">  
@@ -48,7 +46,7 @@
               <br>
             </div>
             
-            {% if item[1][approval_field] is none %}
+            {% if status == 'pending' %}
             <div class="row">
               <form data-resource="leave" method="PUT">
                 

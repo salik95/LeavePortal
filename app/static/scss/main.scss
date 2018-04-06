@@ -134,8 +134,7 @@ strong {font-weight: 600}
 
 .collection {margin: 0}
 
-.collection-item {
-  overflow: hidden!important;
+.collection-item { overflow: hidden!important; position: relative;
   .primary-content{float: left;}
   .secondary-content a{top: 20px;}
   .approved {color: $green;}
@@ -287,7 +286,11 @@ main#login { padding: 0; height: 100vh; display: flex; align-items: center; just
 
 //history
 .clear{ clear: both;}
+
 .request {
+  .collection-item {
+    .status {position: absolute; width: 3px; top: 0; right: 0; height: 100%; margin: 0}
+  }
 }
 
 // Notification
