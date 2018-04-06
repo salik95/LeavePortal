@@ -18,13 +18,6 @@ $(document).ready(function() {
     $notice.removeClass('error')
     $notice.removeClass('success')
     $form.find('[type="submit"]').addClass('disabled')
-
-    if(!$form.attr('data-resource')) {
-
-      window.setTimeout(function() {
-        $form.unbind('submit').submit()
-      }, 1000)  
-    }
     
   })
 
