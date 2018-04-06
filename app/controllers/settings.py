@@ -8,7 +8,7 @@ from app.controllers.utilfunc import *
 @login_required
 def settings():
 	if request.method == 'GET':
-		return jsonify(settings_to_dict())
+		return render_template('settings.html', data=settings_to_dict())
 
 	#Creating a seperate route to update settings through getting id in the URL, displays the id in URL that can be
 	#exploited. So, excepting the changes through PUT verb with the same URL. One drawback is that all the rows in the
