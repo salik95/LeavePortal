@@ -4,7 +4,7 @@ from flask import jsonify, request, make_response, render_template, flash, redir
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 
-@app.route('/settings', methods=['GET','PUT'])
+@app.route('/settings', methods=['GET','POST'])
 @login_required
 @is_hq_admin
 def settings():
