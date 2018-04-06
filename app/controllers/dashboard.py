@@ -8,12 +8,22 @@ from app.controllers.settings import settings_to_dict
 from datetime import datetime
 from app.controllers.utilfunc import *
 
-@app.route('/dashboard/', methods=['GET'])
+@app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
 	if request.method == 'GET':
-		store = {}
+		
 		employee = current_user.employee
+		store = {}
+
+		if current_user.role == "Director":
+			leave_requests = db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(or_(and_(Balance_sheet.manager_approval == None, Employees.reporting_manager_id == employee.id))).order_by(asc(Balance_sheet.from_date)).all()
+			
+			encashment_requests = db.session.query(Employees, Encashment).join(Encashment).filter(and_(Encashment.manager_approval == None, Encashment.gm_approval == "Approved", Employees.reporting_manager_id == employee.id)).all()
+
+			store.update({'leave_requests' : leave_requests, 'encashment_requests' : encashment_requests, 'role' : current_user.role})
+			
+			return render_template("dashboard.html", data = store)
 
 		if current_user.role == "HR Manager":
 

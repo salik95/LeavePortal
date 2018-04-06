@@ -6,6 +6,7 @@ from app.controllers.utilfunc import *
 
 @app.route('/settings', methods=['GET','PUT'])
 @login_required
+@is_hq_admin
 def settings():
 	if request.method == 'GET':
 		return render_template('settings.html', data=settings_to_dict())
@@ -14,14 +15,14 @@ def settings():
 	#exploited. So, excepting the changes through PUT verb with the same URL. One drawback is that all the rows in the
 	#table would have to be fetched.
 
-	if request.method == 'PUT':
-		update = request.get_json(force=True)
-		if 'director_email' in update:
-			setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
+	if request.method == 'POST':
+		update = request.form.copy()
+		setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
+		
 		#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
 		data = Settings.query.all()
 		if data is None:
-			return error_response_handler("No Settings Found")
+			return flash(u'Some internal error occurred, please refresh and try again.', 'error')
 		for item in data:
 			if item.key in update:
 				item.value = update[item.key]

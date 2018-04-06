@@ -45,7 +45,6 @@ def encashment():
 			notify(subject='new_encashment_request', send_gm=True)
 
 		elif current_user.role == "General Manager":
-			encashment_data['hr_approval'] = 'Approved'
 			encashment_data['gm_approval'] = 'Approved'
 			notify(subject='new_encashment_request', send_director=True)
 		else:
@@ -130,7 +129,7 @@ def encashment_request():
 		if current_user.role == 'HR Manager':
 			setattr(encashment_request, 'hr_approval', encashment_data['approval'])
 			if encashment_data['approval'] == 'Approved':
-				#flash("Encashment form sent")
+				flash(u"Encashment form sent on your email", 'success')
 				notify(subject='encashment_approved', receiver_id=employee.id)
 				notify(subject='encashment_form', send_hr=True)
 			elif encashment_data['approval'] == 'Unapproved':
@@ -165,7 +164,12 @@ def encashment_request():
 			general_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='General Manager')).first()).id).first()
 			hr_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='HR Manager')).first()).id).first()
 
-			store.update({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager.first_name + " " + line_manager.last_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
+			if line_manager.last_name is not None:
+				line_manager_name = line_manager.first_name + " " + line_manager.last_name
+			else:
+				line_manager_name = line_manager.first_name
+
+			store.update({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
 
 			db.session.commit()
 			return render_template("encashment-approval-form.html", **store)
