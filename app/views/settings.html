@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Application Settings{% endblock %}
+
+{% block body %}
+<main>
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="general_leaves_limit" id="general_leaves_limit">
+                    <label for="general_leaves_limit">General Leaves Limit</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="medical_leaves_limit" id="medical_leaves_limit">
+                    <label for="medical_leaves_limit">Medical Leaves Limit</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="probation_leaves_limit" id="probation_leaves_limit">
+                    <label for="probation_leaves_limit">Probation Leaves Limit</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="fiscal_year_starting" id="fiscal_year_starting">
+                    <label for="fiscal_year_starting">Fiscal Year Starting</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="probation_period" id="probation_period">
+                    <label for="probation_period">Probation Period</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="company_name" id="company_name">
+                    <label for="company_name">Company Name</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" placeholder="{{ data.value }}" name="director_email" id="director_email">
+                    <label for="director_email">Director's Email</label>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}
