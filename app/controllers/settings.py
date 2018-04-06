@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import jsonify, request, make_response
+from flask import jsonify, request, make_response, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 
@@ -16,14 +16,17 @@ def settings():
 
 	if request.method == 'PUT':
 		update = request.get_json(force=True)
+		if 'director_email' in update:
+			setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
 		#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
 		data = Settings.query.all()
 		if data is None:
 			return error_response_handler("No Settings Found")
 		for item in data:
-			if item.key == update['key']:
-				item.value = update['value']
+			if item.key in update:
+				item.value = update[item.key]
 		db.session.commit()
+		flash(u'Application settings updated successfully.', 'success')
 		return jsonify(update)
 
 

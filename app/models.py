@@ -6,7 +6,7 @@ class User(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	email = db.Column(db.String(128), nullable = False, unique = True)
 	password = db.Column(db.String(128), nullable = False)
-	role = db.Column(db.Enum('Employee','HR Manager', 'General Manager'), nullable = False)
+	role = db.Column(db.Enum('Employee','HR Manager', 'General Manager', 'Director'), nullable = False)
 
 	def is_active(self):
 		"""True, as all users are active."""
