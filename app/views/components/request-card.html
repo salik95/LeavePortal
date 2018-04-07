@@ -29,7 +29,11 @@
             </div>
 
             <div class="duration">
-              {{ item[1].employee.first_name }} {{ item[1].employee.last_name }}
+              {{ item[1].employee.first_name }} 
+              {% if item[1].last_name is not none %}
+                {{ item[1].employee.last_name }}
+              {% endif %}
+              
             </div>
 
             <div class="status"></div>
