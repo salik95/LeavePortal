@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify, render_template, Response
+from flask import request, jsonify, render_template, Response, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 from sqlalchemy import asc, and_, or_
@@ -30,10 +30,13 @@ def leave_form():
 	key = list(leave_data.keys())
 	for item in key:
 		setattr(new_leave, item, leave_data[item])
-	db.session.add(new_leave)
-	db.session.commit()
-	db.session.flush()
-
+	try:
+		db.session.add(new_leave)
+		db.session.commit()
+	except:
+		db.session.rollback()
+		flash(u"Something went wrong. Try again", "error")
+		return redirect(url_for("dashboard"))
 	leave_dict = {}
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
@@ -154,8 +157,12 @@ def respond_request():
 	if leave.manager_approval == "Approved" and leave.hr_approval == "Approved":
 		update_employee_leaves_after_approval((leave.to_date - leave.from_date).days, leave.emp_id, leave.leave_type)
 	del response['id']
-	db.session.commit()
-	db.session.flush()
+	try:
+		db.session.commit()
+	except:
+		db.session.rollback()
+		flash(u"Something went wrong, please try again.", "error")
+		return redirect(url_for("dashboard"))
 	return jsonify(response)
 
 def update_employee_leaves_after_approval(days, emp_id, leave_type):

@@ -55,9 +55,13 @@ def encashment():
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
 			setattr(encashment_request, item, encashment_data[item])
-		db.session.add(encashment_request)
-		db.session.commit()
-		db.session.flush()
+		try:
+			db.session.add(encashment_request)
+			db.session.commit()
+		except:
+			db.session.rollback()
+			flash(u'Some internal error occured, please refresh the page.', 'error')
+			return redirect(url_for('encashment'))
 
 		flash(u'Your encashment request is sent successfully.', 'success')
 		return redirect(url_for('encashment'))
@@ -71,9 +75,12 @@ def encashment():
 		encashment_request = Encashment.query.get(arg_id)
 		if encashment_request is None:
 			return error_response_handler("Request ID not found", 404)
-		db.session.delete(encashment_request)
-		db.session.commit()
-		db.session.flush()
+		try:
+			db.session.delete(encashment_request)
+			db.session.commit()
+		except:
+			db.session.rollback()
+			return redirect(url_for('encashment'))
 		return jsonify(arg_id)
 
 #==========================================================
@@ -89,8 +96,11 @@ def encashment():
 		setattr(encashment_request, 'hr_approval', None)
 		setattr(encashment_request, 'manager_approval', None)
 		setattr(encashment_request, 'gm_approval', None)
-		db.session.commit()
-		db.session.flush()
+		try:
+			db.session.commit()
+		except:
+			db.session.rollback()
+			return redirect(url_for('encashment'))
 		return jsonify(encashment_data['amount'])
 
 
@@ -171,13 +181,20 @@ def encashment_request():
 
 			store.update({'remaining_leave_balance': employee.general_leaves_remaining, 'line_manager' : line_manager_name, 'line_manager_status' : encashment_request.manager_approval, 'general_manager' : general_manager.first_name + " " + general_manager.last_name, 'general_manager_status' : encashment_request.gm_approval, 'hr_manager' : hr_manager.first_name + " " + hr_manager.last_name, 'hr_manager_status' : encashment_request.hr_approval})
 
-			db.session.commit()
+			try:
+				db.session.commit()
+			except:
+				db.session.rollback()
+			
 			return render_template("encashment-approval-form.html", **store)
 			return render_pdf(HTML(string=html))
 
 		
 		del encashment_data['id']
 		
-		db.session.commit()
+		try:
+			db.session.commit()
+		except:
+			db.session.rollback()
 
 		return jsonify(encashment_data)

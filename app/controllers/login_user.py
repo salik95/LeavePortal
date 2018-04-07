@@ -25,12 +25,16 @@ def index():
 			user = User.query.filter_by(email=form.email.data).first()
 			if user and check_password_hash(user.password, form.password.data):
 				user.authenticated = True
-				db.session.add(user)
-				db.session.commit()
+				try:
+					db.session.add(user)
+					db.session.commit()
+				except:
+					db.session.rollback()
+					return redirect(url_for('index'))
 				login_user(user, remember=True)
 				return redirect(url_for('dashboard'))
 			flash('Email or password you entered is invalid', 'error')
-		return render_template("login.html", form=form)
+		return redirect(url_for('index'))
 
 @app.route("/logout")
 @login_required

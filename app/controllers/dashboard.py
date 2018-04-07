@@ -87,8 +87,10 @@ def dashboard():
 		
 		employee.general_leaves_remaining = leaves_remaining
 		employee.last_updated = datetime.now().date()
-		db.session.commit()
-		db.session.flush()
+		try:
+			db.session.commit()
+		except:
+			db.session.rollback()
 
 		history = Balance_sheet.query.filter(Balance_sheet.emp_id == employee.id).order_by(desc(Balance_sheet.from_date)).limit(5).all()
 

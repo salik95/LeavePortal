@@ -28,9 +28,13 @@ def employee():
 		password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
 
 		new_user = User(data_employee['email'], generate_password_hash(password), data_employee['role'])
-		db.session.add(new_user)
-		db.session.flush()
-		db.session.refresh(new_user)
+		try:
+			db.session.add(new_user)
+			db.session.flush()
+			db.session.refresh(new_user)
+		except:
+			db.session.rollback()
+			return redirect(url_for('dashboard'))
 
 
 		employee_created = {"email":data_employee['email'],"role":data_employee['role'],
@@ -56,10 +60,14 @@ def employee():
 		for item in key:
 			setattr(new_employee, item, data_employee[item])
 
-		db.session.add(new_employee)
-		db.session.commit()
-		db.session.flush()
-		db.session.refresh(new_employee)
+		try:
+			db.session.add(new_employee)
+			db.session.commit()
+			db.session.refresh(new_employee)
+		except:
+			db.session.rollback()
+			return redirect(url_for('dashboard'))
+
 		notify(subject='Welcome To HOH Leave Portal', body=password, receiver_id=new_employee.id)
 		return jsonify(employee_created)
 
@@ -74,9 +82,12 @@ def employee():
 		key = list(update_employee.keys())
 		for item in key:
 			setattr(employee_data, item, update_employee[item])
-		db.session.commit()
-		db.session.flush()
-		db.session.refresh(employee_data)
+		try:
+			db.session.commit()
+			db.session.refresh(employee_data)
+		except:
+			db.session.rollback()
+			return redirect(url_for('dashboard'))
 
 		new_employee = {}
 		for item in Employees.__mapper__.columns.keys():
@@ -172,8 +183,11 @@ def update_account():
 			flash_data.update({'text': 'Your email is successfully updated.'})
 			flash(flash_data, 'success')
 
-		db.session.commit()
-		db.session.flush()
+		try:
+			db.session.commit()
+		except:
+			db.session.rollback()
+
 		return redirect(url_for('update_account'))
 
 	if request.method == 'GET':

@@ -26,7 +26,12 @@ def settings():
 		for item in data:
 			if item.key in update:
 				item.value = update[item.key]
-		db.session.commit()
+		try:
+			db.session.commit()
+		except:
+			db.session.rollback()
+			flash(u'Something went wrong, please try again.', 'error')
+		return redirect('/settings')
 		flash(u'Application settings updated successfully.', 'success')
 		return redirect('/settings')
 		#return jsonify(update)

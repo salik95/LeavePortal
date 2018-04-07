@@ -1,14 +1,13 @@
 import csv
 from app.models import *
 from app import db , app
-from flask import request, render_template , redirect
+from flask import request, render_template , redirect, flash, redirect, url_for
 from flask_login import login_required
 from app.controllers.settings import settings_to_dict
 from app.controllers.utilfunc import *
 import logging 
 import os
 from werkzeug.utils import secure_filename
-from flask import flash
 from app.resources.util_functions import *
 from datetime import datetime
 import logging
