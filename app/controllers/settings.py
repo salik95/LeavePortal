@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import jsonify, request, make_response, render_template, flash, redirect, url_for
+from flask import jsonify, request, make_response, render_template, flash, redirect
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
 
@@ -28,7 +28,8 @@ def settings():
 				item.value = update[item.key]
 		db.session.commit()
 		flash(u'Application settings updated successfully.', 'success')
-		return jsonify(update)
+		return redirect('/settings')
+		#return jsonify(update)
 
 
 def settings_to_dict():
