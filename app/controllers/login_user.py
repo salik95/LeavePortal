@@ -29,12 +29,11 @@ def index():
 					db.session.add(user)
 					db.session.commit()
 				except:
-					db.session.rollback()
 					return redirect(url_for('index'))
 				login_user(user, remember=True)
 				return redirect(url_for('dashboard'))
 			flash('Email or password you entered is invalid', 'error')
-		return redirect(url_for('index'))
+		return render_template("login.html", form=form)
 
 @app.route("/logout")
 @login_required

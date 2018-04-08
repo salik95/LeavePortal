@@ -29,7 +29,13 @@
         <i class="material-icons">account_circle</i>
         <div class="widget">
           <div class="content">
-            <span class="name">{{current_user.employee.first_name + ' ' + current_user.employee.last_name}}</span>
+            <span class="name">
+            {% if current_user.employee.last_name is not none %}
+              {{ current_user.employee.first_name + ' ' + current_user.employee.last_name }}
+            {% else %}
+              {{ current_user.employee.first_name }}
+            {% endif %}
+          </span>
             <ul>
               {% if current_user.role != "Director" %}
               <li><a href="/encashment"><i class="material-icons">account_balance_wallet</i> Encashment</a></li>

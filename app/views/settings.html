@@ -39,8 +39,8 @@
                         </div>
         
                         <div class="input-field col s12 m6">
-                            <input value="{{ data.fiscal_year_starting }}" class="datepicker" type="text" placeholder="{{ data.fiscal_year_starting }}" name="fiscal_year_starting" id="fiscal_year_starting">
-                            <label class="active" for="fiscal_year_starting">Fiscal Year Starting</label> <!--data.fiscal_year_starting.strftime('%b %d, %Y') -->
+                            <input value="{{ data.fiscal_year_starting|strftime }}" class="datepicker" type="text" placeholder="{{ data.fiscal_year_starting|strftime }}" name="fiscal_year_starting" id="fiscal_year_starting">
+                            <label class="active" for="fiscal_year_starting">Fiscal Year Starting</label>
                         </div>
         
                         <div class="input-field col s12 m6">

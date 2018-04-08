@@ -3,6 +3,7 @@ from app import db , app
 from flask import jsonify, request, make_response, render_template, flash, redirect
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
+import datetime, dateutil.parser
 
 @app.route('/settings', methods=['GET','POST'])
 @login_required
@@ -31,7 +32,7 @@ def settings():
 		except:
 			db.session.rollback()
 			flash(u'Something went wrong, please try again.', 'error')
-		return redirect('/settings')
+			return redirect('/settings')
 		flash(u'Application settings updated successfully.', 'success')
 		return redirect('/settings')
 		#return jsonify(update)
@@ -43,3 +44,10 @@ def settings_to_dict():
 		for item in setting:
 			data_setting[item.key] = item.value
 		return data_setting
+
+@app.template_filter('strftime')
+def _jinja2_filter_datetime(date, fmt=None):
+    date = dateutil.parser.parse(date)
+    native = date.replace(tzinfo=None)
+    format='%b %d, %Y'
+    return native.strftime(format) 
