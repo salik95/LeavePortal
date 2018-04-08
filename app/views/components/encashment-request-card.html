@@ -21,7 +21,11 @@
     <li class="collection-item {{status|lower}}">
       <div class="collapsible-header">
         <div class="name">
-          {{ item[0].first_name }} {{ item[0].last_name }}
+          {{ item[0].first_name }} 
+          {% if item[0][last_name] is not none %}
+            {{ item[0].last_name }}
+          {% endif %}
+          
         </div>
         <p class="date"><i class="material-icons">date_range</i> <span>{{item[1].time_stamp.strftime('%b %d, %Y')}}</span></p>
         <div class="status"></div>
@@ -31,16 +35,25 @@
 
         <div class="row center">
           <p class="light">{{item[0].designation + ', ' + item[0].department}}</p>
-          <br>
-          <p>
-            <span><strong>Leaves Utilized</strong>&emsp;{{item[1].leaves_utilized}}</span>
-            <span><strong>Amount Encashed</strong>&emsp;{{item[1].amount}}</span>
-          </p>
-          <br>
-          <p>
-            <span><strong>Remaining Leaves</strong>&emsp;{{item[0].general_leaves_remaining}}</span>
-            <span><strong>Remaining Amount</strong>&emsp;{{item[0].general_leaves_remaining*item[0].salary}}</span>
-          </p>
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="row left-align">
+                <p><strong>Leaves Utilized</strong>&emsp;{{item[1].leaves_utilized|round(0,'floor')|int }}</p>
+              </div>
+              <div class="row left-align">
+              <p><strong>Amount Encashed</strong>&emsp;{{ item[1].amount|round(0,'floor')|int }}</p>
+              </div>              
+            </div>
+
+            <div class="col s12 m6">
+              <div class="row left-align">
+                <p><strong>Remaining Leaves</strong>&emsp;{{item[0].general_leaves_remaining|round(0,'floor')|int}}</p>
+              </div>
+              <div class="row left-align">
+                <p><strong>Remaining Amount</strong>&emsp;{{ (item[0].general_leaves_remaining*item[0].salary)|round(0,'floor')|int }}</p>
+              </div>        
+            </div>
+          </div>
         </div>
 
 
