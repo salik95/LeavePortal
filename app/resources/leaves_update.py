@@ -18,7 +18,7 @@ def update_general_leaves(date_of_joining , last_updated ,leaves_remaining ,leav
         current_time = (datetime.today()).date()
 
     #current_time = (datetime(2018,6,1)).date()
-    fiscal_year = datetime.strptime(fiscal_year ,'%Y-%m-%d')
+    fiscal_year = datetime.strptime(fiscal_year ,'%b %d, %Y')
 
     probation_ending_period = (add_months(date_of_joining,int(probation_period))).date()
     days_in_probation = (probation_ending_period - date_of_joining).days
