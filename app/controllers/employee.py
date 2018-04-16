@@ -161,6 +161,49 @@ def current_employee(user_id):
 	emp_data['email'] = current_user.email
 	return jsonify(emp_data)
 
+@app.route('/employee/edit', methods=['GET', 'POST'])
+@login_required
+@is_hq_admin
+def employee_update():
+	
+	if request.method == 'GET':
+
+		arg_id = request.args.get("id")
+		if arg_id is not None and arg_id != "":
+			user_id = arg_id
+			employee = Employees.query.get(user_id)
+			emp_data = {}
+			for item in Employees.__mapper__.columns.keys():
+				emp_data[item] = getattr(employee, item)
+			return render_template("employee.html", data = emp_data)
+		else:
+			flash(u"Employee Not Found", "error")
+			return redirect(url_for('dashboard'))
+
+	if request.method == 'POST':
+		emp_data = request.get_json(force=True)
+		if 'id' not in emp_data:
+			flash(u"Something went wrong, please try again!", "error")
+			return redirect('/employee/edit?id='+emp_data['id'])
+
+		employee = Employees.query.get(emp_data['id'])
+		if employee is None:
+			flash(u"Something went wrong, please try again!", "error")
+			return redirect('/employee/edit?id='+emp_data['id'])
+
+		key = list(emp_data.keys())
+		for item in key:
+			setattr(employee, item, emp_data[item])
+		try:
+			db.session.commit()
+			db.session.refresh(employee)
+		except:
+			db.session.rollback()
+			return redirect(url_for('dashboard'))
+
+		flash(u"Employee Updated Successfully", "success")
+		return redirect('/employee/edit?id='+emp_data['id'])
+
 @app.route('/account', methods=['POST', 'GET'])
 @login_required
 def update_account():

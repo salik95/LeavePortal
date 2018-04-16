@@ -186,8 +186,9 @@ def encashment_request():
 			except:
 				db.session.rollback()
 			
-			return render_template("encashment-approval-form.html", **store)
-			return render_pdf(HTML(string=html))
+			return jsonify(store)
+			#return render_template("encashment-approval-form.html", data = store)
+			#return render_pdf(HTML(string=html))
 
 		
 		del encashment_data['id']

@@ -10,4 +10,5 @@ def is_hq_admin(f):
 			return f(*args, **kwargs)
 		else:
 			return error_response_handler("User Not Authroized", 403)
+	wrapper.__name__ = f.__name__
 	return wrapper

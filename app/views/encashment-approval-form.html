@@ -78,17 +78,17 @@
         <table class="table1">
             <tr>
                 <td class="pad-left" height="20px" width="130px"><strong>Name:</strong></td>
-                <td>{{ name }}</td>
+                <td>{{ data.name }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="20px"><strong>Designation:</strong></td>
-                <td>{{ designation }}</td>
+                <td>{{ data.designation }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="27px"><strong>Email:</strong></td>
-                <td>{{ email }}</td>
+                <td>{{ data.email }}</td>
             </tr>
         </table> 
     </div>
@@ -100,21 +100,21 @@
         <table class="table2">
             <tr>
                 <td class="pad-left" height="50px" width="215px"><strong>Available Leaves Balance</strong></td>
-                <td  class="center-align" width="50px">{{ available_leave_balance }}</td>
+                <td  class="center-align" width="50px">{{ data.available_leave_balance }}</td>
                 <td class="pad-left" width="215px"><strong>Amount Encashable</strong></td>
-                <td  class="center-align"width="50px">{{ amount_encashable }}</td>
+                <td  class="center-align"width="50px">{{ data.amount_encashable }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="50px"><strong>Leaves Encashed</strong></td>
-                <td class="center-align">{{ leaves_encashed }}</td>
+                <td class="center-align">{{ data.leaves_encashed }}</td>
                 <td class="pad-left" ><strong>Amount Encashed</strong></td>
-                <td class="center-align">{{ amount_encashed }}</td>
+                <td class="center-align">{{ data.amount_encashed }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="50px"><strong>Remaining Leaves Balance</strong></td>
-                <td class="center-align">{{ remaining_leave_balance }}</td>
+                <td class="center-align">{{ data.remaining_leave_balance }}</td>
             </tr>
         </table>
     </div>
@@ -131,9 +131,9 @@
             
             <tr class="table_row top-border">
                 <td class="top-border"></td>
-                <td width="150px" class="center-align top-border">{{ line_manager }} <br> Line Manager</td>
-                <td width="150px" class="center-align top-border">{{ general_manager }} <br> General Manager</td>
-                <td width="150px" class="center-align top-border">{{ hr_manager }} <br> HR Manager</td>
+                <td width="150px" class="center-align top-border">{{ data.line_manager }} <br> Line Manager</td>
+                <td width="150px" class="center-align top-border">{{ data.general_manager }} <br> General Manager</td>
+                <td width="150px" class="center-align top-border">{{ data.hr_manager }} <br> HR Manager</td>
             </tr>
 
             <tr>
@@ -141,9 +141,9 @@
                 <!-- <td class="center-align">&#10004;</td>
                 <td class="center-align">&#x2716;</td>
                 <td class="center-align">&#x2716;</td> -->
-                <td class="center-align">{{ line_manager_status }}</td>
-                <td class="center-align">{{ general_manager_status }}</td>
-                <td class="center-align">{{ hr_manager_status }}</td>
+                <td class="center-align">{{ data.line_manager_status }}</td>
+                <td class="center-align">{{ data.general_manager_status }}</td>
+                <td class="center-align">{{ data.hr_manager_status }}</td>
             </tr>
         </table>
     </div>
