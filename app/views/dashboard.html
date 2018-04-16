@@ -40,19 +40,25 @@
     </a>
 
     {% if data.role == "HR Manager" %}
-    <a href="/settings" class="btn slim underline light">
-      <i class="material-icons left">settings_applications</i>
-      <span>Application Settings</span>
-    </a>
     
     <a href="#addemployee" class="btn slim underline light trigger">
       <i class="material-icons left">add</i>
       <span>New Employee</span>
     </a>
 
+    <a href="/settings" class="btn slim underline light">
+      <i class="material-icons left">people</i>
+      <span>Edit Employees</span>
+    </a>
+
     <a href="/import" class="btn slim underline light">
       <i class="material-icons left">arrow_drop_up</i>
       <span>Bulk Import</span>
+    </a>
+
+    <a href="/settings" class="btn slim underline light">
+      <i class="material-icons left">settings_applications</i>
+      <span>System Settings</span>
     </a>
     {% endif %}
 

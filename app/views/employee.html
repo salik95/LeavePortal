@@ -4,12 +4,22 @@
 
 {% block body %}
 
-<main id="account">
+<main id="employee-edit">
+
+  <div class="row center-align">
+    <div class="col s12 m6 l3 center">
+      <label for="names">Search Employee</label>  
+      <input type="text" name="Reporting Manager" list="names">
+      <datalist id="names"></datalist>
+    </div>
+  </div>
+
+  {% if request.args.get('id') is not none %}
 
   <div class="row">
     <div class="col l6 m6 s6 center">
 
-      <form class="card" id="form-email" method="POST" action="#" data-state="">
+      <form class="card" method="POST" action="" data-state="">
 
         {% include 'components/loading.html' %}
 
@@ -18,9 +28,7 @@
           {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
           {% for category, message in messages %}
-          {% if message['for'] == 'form-email' %}
-          <div class="notice solid {{category}}"><span>{{message['text']}}</span></div>
-          {% endif %}
+          <div class="notice solid {{category}}"><span>{{message}}</span></div>
           {% endfor %}
           {% endif %}
           {% endwith %}
@@ -56,7 +64,7 @@
             <input type="hidden" name="reporting_manager_id" value="{{data.employee.reporting_manager_id}}" />
             <div class="input-field col m6 s12">
               <input type="text" list="names" data-proxy="reporting_manager_id" value="{{data.employee.manager.first_name}} {{data.employee.manager.last_name}}">
-              <datalist  id="names"></datalist>
+              <datalist id="names"></datalist>
               <label for="">Reporting Manager</label>
             </div>
             <div class="input-field col m6 s12">
@@ -66,14 +74,16 @@
           </div>
 
           <br>
-          <button type="submit" name="submit_email" class="btn center flat"><i class="material-icons">check</i> UPDATE</button>
+          <button type="submit" name="submit" class="btn center flat"><i class="material-icons">check</i> UPDATE</button>
+
         </div>        
       </form>
 
     </div>
   </div>
 
-</div>
+  {% endif %}
+
 </main>
 
 {% endblock %}
