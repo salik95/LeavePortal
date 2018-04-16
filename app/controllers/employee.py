@@ -178,7 +178,7 @@ def employee_update():
 			return redirect(url_for('dashboard'))
 
 	if request.method == 'POST':
-		emp_data = request.get_json(force=True)
+		emp_data = request.form.copy()
 		if 'id' not in emp_data:
 			flash(u"Something went wrong, please try again!", "error")
 			return redirect('/employee/edit?id='+emp_data['id'])
