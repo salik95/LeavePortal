@@ -172,10 +172,7 @@ def employee_update():
 		if arg_id is not None and arg_id != "":
 			user_id = arg_id
 			employee = Employees.query.get(user_id)
-			emp_data = {}
-			for item in Employees.__mapper__.columns.keys():
-				emp_data[item] = getattr(employee, item)
-			return render_template("employee.html", data = emp_data)
+			return render_template("employee.html", data = employee)
 		else:
 			flash(u"Employee Not Found", "error")
 			return redirect(url_for('dashboard'))
