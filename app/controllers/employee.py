@@ -175,13 +175,18 @@ def employee_update():
 			return render_template("employee.html", data = employee)
 		else:
 			flash(u"Employee Not Found", "error")
-			return redirect(url_for('dashboard'))
+			return render_template("employee.html")
 
 	if request.method == 'POST':
+
 		emp_data = request.form.copy()
-		if 'id' not in emp_data:
+		arg_id = request.args.get("id")
+		
+		if arg_id is None or arg_id == "":
 			flash(u"Something went wrong, please try again!", "error")
 			return redirect('/employee/edit?id='+emp_data['id'])
+
+		emp_data['id'] = arg_id
 
 		employee = Employees.query.get(emp_data['id'])
 		if employee is None:
