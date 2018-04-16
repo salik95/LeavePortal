@@ -8,7 +8,7 @@ from app.controllers.settings import settings_to_dict
 from datetime import datetime
 from app.controllers.utilfunc import *
 
-@app.route('/dashboard', methods=['GET'])
+@app.route('/dashboard/', methods=['GET'])
 @login_required
 def dashboard():
 	if request.method == 'GET':

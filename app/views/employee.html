@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Employee{% endblock %}
+
+{% block body %}
+
+<main id="account">
+
+  <div class="row">
+    <div class="col l6 m6 s6 center">
+
+      <form class="card" id="form-email" method="POST" action="#" data-state="">
+
+        {% include 'components/loading.html' %}
+
+        <div class="card-content">
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+          {% if message['for'] == 'form-email' %}
+          <div class="notice solid {{category}}"><span>{{message['text']}}</span></div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+
+          <p class="heading text-center">
+            <i class="material-icons">account_box</i>
+            <span>Update Employee Profile</span>
+          </p>
+
+          <div class="row">
+            <div class="input-field col m6 s12">
+              <label for="">First Name</label>
+              <input type="text" name="first_name" value="{{data.employee.first_name}}">
+            </div>
+            <div class="input-field col m6 s12">
+              <label for="">Last Name</label>
+              <input type="text" name="last_name" value="{{data.employee.last_name}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col m6 s12">
+              <label for="">Designation</label>
+              <input type="text" name="designation" value="{{data.employee.designation}}">
+            </div>
+            <div class="input-field col m6 s12">
+              <label for="">Department</label>
+              <input type="text" name="department" value="{{data.employee.department}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <input type="hidden" name="reporting_manager_id" value="{{data.employee.reporting_manager_id}}" />
+            <div class="input-field col m6 s12">
+              <input type="text" list="names" data-proxy="reporting_manager_id" value="{{data.employee.manager.first_name}} {{data.employee.manager.last_name}}">
+              <datalist  id="names"></datalist>
+              <label for="">Reporting Manager</label>
+            </div>
+            <div class="input-field col m6 s12">
+              <label for="">Leave Salary</label>
+              <input type="text" name="salary" value="{{data.employee.salary}}">
+            </div>
+          </div>
+
+          <br>
+          <button type="submit" name="submit_email" class="btn center flat"><i class="material-icons">check</i> UPDATE</button>
+        </div>        
+      </form>
+
+    </div>
+  </div>
+
+</div>
+</main>
+
+{% endblock %}

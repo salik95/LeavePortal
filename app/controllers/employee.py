@@ -172,7 +172,7 @@ def employee_update():
 		if arg_id is not None and arg_id != "":
 			user_id = arg_id
 			employee = Employees.query.get(user_id)
-			return render_template("employee.html", data = employee)
+			return render_template("employee.html", data = {'employee': employee})
 		else:
 			flash(u"Employee Not Found", "error")
 			return redirect(url_for('dashboard'))
