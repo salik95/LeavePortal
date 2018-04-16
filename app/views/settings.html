@@ -12,16 +12,21 @@
                     <div class="divider"></div>
                 </div>
             </div>    
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                {% for category, message in messages %}
-                <div class="notice solid {{category}}"><span>{{message}}</span></div>
-                {% endfor %}
-                {% endif %}
-            {% endwith %}
+            
         
             <div class="row">
                 <form method="POST" action="#" class="col s12 m8 offset-m2">
+                    {% include 'components/loading.html' %}
+                    <div class="notice">.</div>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="notice solid {{category}}"><span>{{message}}</span></div>
+                        {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
                     <div class="row">
                         <div class="input-field col s12 m6">
                             <input class="settings" type="text" value="{{ data.general_leaves_limit }}" placeholder="{{ data.general_leaves_limit }}" name="general_leaves_limit" id="general_leaves_limit">
