@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Internship-Experience</title>
+	<style type="text/css">
+		
+				@page {
+					
+					size: A4 portrait;
+					margin-left: 1in;
+					margin-right:1in;
+					width: 8.27in;
+					height: 11.69in;					
+				}
+
+
+.heading{
+	padding-top: 2cm;
+	font-size: 20px;
+	text-align: center;
+	margin-left: -30px;
+}
+
+.AA4{
+	height: 297mm;
+	width: 210mm;
+	
+}
+
+/*.AAA4{
+	height: 297mm;
+	width: 210mm;
+	
+}*/
+.main{
+	
+}
+
+body{
+	font-family: calibri;
+	font-weight: 400;
+	margin-top: 50px;
+	line-height: 1.5;
+	font-size: 12pt;
+	text-align: justify;
+}
+
+pre{
+	font-family: calibri;
+	font-weight: 400;
+	margin-top: 50px;
+	line-height: 1.5;
+	font-size: 12pt;
+	text-align: justify;
+}
+
+p{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.rmain{
+	width: 3cm;
+
+}
+
+.r-sec{
+	width: 10cm;
+}
+
+
+.heading{
+	text-align: center;
+}
+
+.signature, .memo-three,table{
+	width: 100%;
+}
+
+.signature th ,th{
+	text-align: left;
+	padding-left: 0px;
+	
+}
+
+table{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.approve{
+	padding-left: 20px;
+}
+
+
+
+#remarks, #amount {
+	margin-left: -50px;
+}
+
+#totals{
+	text-align: left;
+	margin-left: 100px;
+}
+
+pre{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#float{
+	float: right;
+	clear: right;
+}
+
+
+.main1{
+	margin-left: 2.5cm;
+	margin-right: 2.5cm;
+	margin-top: 4cm;
+}
+
+.info{
+	padding: 0px;
+	text-align: justify;
+	width: 45%;
+}
+.cand{
+	width: 12cm;
+}
+
+.top{
+	padding-top: 11px;
+}
+
+#name{
+	margin-bottom: -10px;
+}
+
+.memo-three td{
+	padding-top: 20px;
+	padding-bottom: 40px;
+}
+		 </style>
+</head>
+<body>
+	<div class="AAA4">
+	<div class="main">
+		<pre>		
+		</pre>
+		<span id="present-date">{{current_date}}</span>
+		<pre>		</pre>
+
+		<h2 class="heading"><u>INTERNSHIP</u></h2>
+		<pre>		</pre>
+		<p>This is to certify that <span id="name">{{name}}</span> joined {{company_name}} on <span id="start-date">{{start_date}}</span> as an Intern in <span id="dept">"{{dept}}"</span> Division.</p>
+		<pre>		</pre>
+		<p>The internship spanned <span id="week">{{weeks}}</span> weeks from <span id="start-date">{{start_date}}</span> to <span id="end-date">{{end_date}}</span></p>
+		<pre>		</pre>
+		<p>During {%if gender == 'male'%}his{%else%}her{%endif%} internship, <span id="name">{{name}}</span>  presented excellent work attitude and courteous behavior.  {%if gender == 'male'%}He{%else%}She{%endif%} has worked dedicatedly on the projects assigned to  {%if gender == 'male'%}him{%else%}her{%endif%}. We wish  {%if gender == 'male'%}him{%else%}her{%endif%} great success in  {%if gender == 'male'%}his{%else%}her{%endif%} future endeavors.</p>
+		<pre>		</pre>
+		<p>Regards,</p>
+
+	
+		<!a script is to be placed to make sure he/she is placed according to the gender>
+		<pre>		</pre>
+		<pre>		</pre>
+		<pre>		</pre>
+
+		<pre>___________________</pre>
+		<p><strong>{{talent_acquisition}}</strong></p>
+		<p><strong>Manager - Talent Acquisition</strong></p>
+
+	</div>
+	</div>
+
+</body>
+</html>

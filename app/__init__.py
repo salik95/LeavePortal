@@ -39,6 +39,7 @@ from app.controllers.employee import *
 from app.controllers.leaves import *
 from app.controllers.file_import import *
 from app.controllers.encashment import *
+from app.controllers.pdf_generation import *
 
 
 app.wsgi_app = SassMiddleware(app.wsgi_app, {

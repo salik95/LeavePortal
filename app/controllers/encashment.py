@@ -6,12 +6,9 @@ from flask_weasyprint import HTML, render_pdf
 import datetime
 from sqlalchemy import asc, and_, or_
 from app.resources.notifications import notify
-
-
 from flask import Flask, render_template, redirect, url_for
-from xhtml2pdf import pisa
-from io import StringIO ,BytesIO
-
+import os
+import json
 
 def create_pdf(pdf_data):
 	resultFile = open('hello.pdf', "w+b")
@@ -182,25 +179,20 @@ def encashment_request():
 
 			db.session.commit()
 
-			r = Response()
-			r.headers["Content-Type"] = "application/pdf"
-			create_pdf(render_template('encashment-approval-form.html' , **store))
-			return jsonify(encashment_data)
 
-			return render_pdf(HTML(string=html))
 
-		
+
+		dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
+		store_object = json.dumps(store)
+		f = open(dirname,"w")
+		f.write(store_object)
+		f.close()
+
+
 		del encashment_data['id']
-		db.session.commit()
+		encashment_data['redirect_url'] = url_for('encashment_pdf' , _external=True)
+		print('******************' , encashment_data['redirect_url'])
 		return jsonify(encashment_data)
-
-
-
-
-
-
-
-
 
 
 
