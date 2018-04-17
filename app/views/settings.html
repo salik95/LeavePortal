@@ -3,87 +3,81 @@
 
 {% block body %}
 <main id="application-settings">
-  <div class="col s12 m8 offset-m2">
-    <div>
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
-      <div class="notice solid {{category}}">
-        <span>{{message}}</span>
-      </div>
-      {% endfor %} {% endif %} {% endwith %}
+  <div class="row">
+    <div class="col s12 m8 center">
 
+      <div class="card">
 
-      <div class="row">
-        <div class="col s12 m8 offset-m2">
+        <div class="card-content">
+          <p class="heading text-center">
+            <i class="material-icons">settings_applications</i><span>System Settings</span>
+          </p>
 
-          <div class="card">
-            <div class="row heading">
-              <div class="col s12">
-                <p class="heading text-center">
-                  <i class="material-icons">settings_applications</i>
-                  <span>Application Settings</span>
-                </p>
+          <form method="POST" action="#">
 
-              </div>
+            {% include 'components/loading.html' %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="notice solid {{category}}">
+              <span>{{message}}</span>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <div class="row"></div>
+            <div class="input-field col s12 m6">
+              <label class="active" for="general_leaves_limit">General Leaves Limit</label>
+              <input class="settings" type="text" value="{{ data.general_leaves_limit }}" placeholder="{{ data.general_leaves_limit }}"
+              name="general_leaves_limit" id="general_leaves_limit">
             </div>
 
+            <div class="input-field col s12 m6">
+              <label class="active" for="medical_leaves_limit">Medical Leaves Limit</label>
+              <input value="{{ data.medical_leaves_limit }}" type="text" placeholder="{{ data.medical_leaves_limit }}" name="medical_leaves_limit"
+              id="medical_leaves_limit">
 
-            <form method="POST" action="#" class="col s12 m12 l10 offset-l1 pad-bot">
+            </div>
 
-              {% include 'components/loading.html' %}
+            <div class="input-field col s12 m6">
+              <label class="active" for="probation_leaves_limit">Probation Leaves Limit</label>
+              <input value="{{ data.probation_leaves_limit }}" type="text" placeholder="{{ data.probation_leaves_limit }}" name="probation_leaves_limit"
+              id="probation_leaves_limit">
+            </div>
 
+            <div class="input-field col s12 m6">
+              <label class="active" for="fiscal_year_starting">Fiscal Year Starting</label>
+              <input value="{{ data.fiscal_year_starting|strftime }}" class="datepicker" type="text" placeholder="{{ data.fiscal_year_starting|strftime }}"
+              name="fiscal_year_starting" id="fiscal_year_starting">
+            </div>
 
+            <div class="input-field col s12 m6">
+              <label class="active" for="probation_period">Probation Period</label>
+              <input value="{{ data.probation_period }}" type="text" placeholder="{{ data.probation_period }}" name="probation_period" id="probation_period">
+            </div>
 
-              <div class="row"></div>
-              <div class="input-field col s12 m6">
-                <input class="settings" type="text" value="{{ data.general_leaves_limit }}" placeholder="{{ data.general_leaves_limit }}"
-                name="general_leaves_limit" id="general_leaves_limit">
-                <label class="active" for="general_leaves_limit">General Leaves Limit</label>
-              </div>
+            <div class="input-field col s12 m6">
+              <label class="active" for="company_name">Company Name</label>
+              <input value="{{ data.company_name }}" type="text" placeholder="{{ data.company_name }}" name="company_name" id="company_name">
+            </div>
 
-              <div class="input-field col s12 m6">
-                <input value="{{ data.medical_leaves_limit }}" type="text" placeholder="{{ data.medical_leaves_limit }}" name="medical_leaves_limit"
-                id="medical_leaves_limit">
-                <label class="active" for="medical_leaves_limit">Medical Leaves Limit</label>
-              </div>
+            <div class="input-field col s12 m6">
+              <label class="active" for="director_email">Director's Email</label>
+              <input value="{{ data.director_email }}" type="text" placeholder="{{ data.director_email }}" name="director_email" id="director_email">
+            </div>
 
-              <div class="input-field col s12 m6">
-                <input value="{{ data.probation_leaves_limit }}" type="text" placeholder="{{ data.probation_leaves_limit }}" name="probation_leaves_limit"
-                id="probation_leaves_limit">
-                <label class="active" for="probation_leaves_limit">Probation Leaves Limit</label>
-              </div>
+            <div class="clr"></div>
+            
+            <div class="input-field text-center">
+              <button type="submit" name="submit_email" class="btn center flat">
+                <i class="material-icons">check</i> UPDATE
+              </button>
+            </div>
 
-              <div class="input-field col s12 m6">
-                <input value="{{ data.fiscal_year_starting|strftime }}" class="datepicker" type="text" placeholder="{{ data.fiscal_year_starting|strftime }}"
-                name="fiscal_year_starting" id="fiscal_year_starting">
-                <label class="active" for="fiscal_year_starting">Fiscal Year Starting</label>
-              </div>
-
-              <div class="input-field col s12 m6">
-                <input value="{{ data.probation_period }}" type="text" placeholder="{{ data.probation_period }}" name="probation_period"
-                id="probation_period">
-                <label class="active" for="probation_period">Probation Period</label>
-              </div>
-
-              <div class="input-field col s12 m6">
-                <input value="{{ data.company_name }}" type="text" placeholder="{{ data.company_name }}" name="company_name" id="company_name">
-                <label class="active" for="company_name">Company Name</label>
-              </div>
-
-              <div class="input-field col s12 m6">
-                <input value="{{ data.director_email }}" type="text" placeholder="{{ data.director_email }}" name="director_email" id="director_email">
-                <label class="active" for="director_email">Director's Email</label>
-              </div>
-
-              <div class="input-field col s12 center-align">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-                  <i class="material-icons">send</i>
-                </button>
-              </div>
-
-            </form>
-          </div>
+          </form>
         </div>
-
       </div>
     </div>
   </div>
