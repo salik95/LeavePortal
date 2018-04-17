@@ -30,4 +30,6 @@ SECRET_KEY = "secret"
 
 
 UPLOAD_FOLDER = 'app/resources/bulk/'
+PDF_URL = 'app/views/pdfs/'
+
 ALLOWED_EXTENSIONS = set(['csv'])

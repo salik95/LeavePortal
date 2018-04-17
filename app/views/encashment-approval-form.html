@@ -20,7 +20,7 @@
         }
 
         .table1{
-            margin-left:15px;
+            margin-left:0;
 
         }
 
@@ -62,6 +62,11 @@
         .image{
             width: 100px;
         }
+
+        .padding-top{
+            margin-top: 20px;
+        }
+
 	 </style>
 </head>
 
@@ -77,8 +82,13 @@
 	<div>
         <table class="table1">
             <tr>
+<<<<<<< HEAD
                 <td class="pad-left" height="20px" width="130px"><strong>Name:</strong></td>
                 <td>{{ data.name }}</td>
+=======
+                <td class="pad-left" height="20px" width="200px"><strong>Name:</strong></td>
+                <td>{{ name }}</td>
+>>>>>>> origin/pdf_email
             </tr>
 
             <tr>
@@ -131,19 +141,19 @@
             
             <tr class="table_row top-border">
                 <td class="top-border"></td>
-                <td width="150px" class="center-align top-border">{{ data.line_manager }} <br> Line Manager</td>
-                <td width="150px" class="center-align top-border">{{ data.general_manager }} <br> General Manager</td>
-                <td width="150px" class="center-align top-border">{{ data.hr_manager }} <br> HR Manager</td>
+                <td width="150px" height="30" class="center-align top-border">{{ line_manager }} <br> Line Manager</td>
+                <td width="150px" class="center-align top-border">{{ general_manager }} <br> General Manager</td>
+                <td width="150px" class="center-align top-border">{{ hr_manager }} <br> HR Manager</td>
             </tr>
 
             <tr>
-                <td width="105px" height="30" class="pad-left">Status</td>
+                <td valign="middle" width="105px" height="30" class="pad-left"><span class="padding-top">Status</span> </td>
                 <!-- <td class="center-align">&#10004;</td>
                 <td class="center-align">&#x2716;</td>
                 <td class="center-align">&#x2716;</td> -->
-                <td class="center-align">{{ data.line_manager_status }}</td>
-                <td class="center-align">{{ data.general_manager_status }}</td>
-                <td class="center-align">{{ data.hr_manager_status }}</td>
+                <td class="center-align"><span class="padding-top">{{ line_manager_status }}</span></td>
+                <td class="center-align"><span class="padding-top">{{ general_manager_status }}</span></td>
+                <td class="center-align"><span class="padding-top">{{ hr_manager_status }}</span></td>
             </tr>
         </table>
     </div>

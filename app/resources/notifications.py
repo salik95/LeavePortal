@@ -1,5 +1,8 @@
 import smtplib
-from email.mime.multipart import MIMEMultipart
+from email.mime.multipart import MIMEMultipart 
+from email.mime.application import MIMEApplication
+from email import encoders
+
 from email.mime.text import MIMEText
 from jinja2 import Template
 import codecs
