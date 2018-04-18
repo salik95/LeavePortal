@@ -95,37 +95,6 @@ def employee():
 		
 		return jsonify(new_employee)
 
-	#Refactor this delete request
-	#========================================
-	if request.method == 'DELETE':
-		employee_credential = request.get_json(force=True)
-		if 'id' in employee_credential and 'email' in employee_credential and 'password' in employee_credential:
-			if current_user.employee.user.role == "HR Manager":
-				emp_data = Employees.query.get(employee_credential['id'])
-				emp_user_data = User.query.get(emp_data.user_id)
-				if emp_user_data.email == employee_credential['email'] and check_password_hash(emp_user_data.password, employee_credential['password']):
-					for leave in Balance_sheet.query.filter(Balance_sheet.emp_id == employee_credential['id']):
-						db.session.delete(leave)
-					db.session.commit()
-					del_emp_data = {"Name":emp_data.first_name+" "+emp_data.last_name, "email":emp_user_data.email,
-						"Joining Date":emp_data.date_of_joining}
-					db.session.delete(emp_data)
-					db.session.delete(emp_user_data)
-
-				else:
-					return error_response_handler("Forbidden: Not allowed to delete", 403)
-			else:
-				return error_response_handler("Forbidden: Not allowed to delete", 403)
-
-			exists = db.session.query(db.exists().where(Employees.id == employee_credential['id'])).scalar()
-			db.session.commit()
-			if exists == False:
-				return jsonify(del_emp_data)
-			else:
-				return error_response_handler("User Not Deleted", 503)
-		else:
-			return error_response_handler("User Credentials not provided", 404)
-
 @app.route('/employee/search/', methods=['GET'])
 @login_required
 def employee_search():
@@ -172,7 +141,7 @@ def employee_update():
 		if arg_id is not None and arg_id != "":
 			user_id = arg_id
 			employee = Employees.query.get(user_id)
-			manger = 0
+			manager = 0
 			if db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == user_id).count() > 0:
 				manager = 1
 			return render_template("employee.html", data = {'employee': employee, 'manager': manager})
@@ -181,7 +150,6 @@ def employee_update():
 
 	if request.method == 'POST':
 
-		emp_data = request.form.copy()
 		arg_archive = request.args.get("archive")
 		arg_id = request.args.get("id")
 		
@@ -190,8 +158,45 @@ def employee_update():
 			return redirect('/employee/edit?id='+emp_data['id'])
 
 		if arg_archive == "true":
-			
+			#try:
+			employee = Employees.query.get(arg_id)
 
+			for leave in employee.balance_sheet:
+				db.session.delete(leave)
+			db.session.commit()
+			
+			for encashment in employee.encashment:
+				db.session.delete(encashment)
+			db.session.commit()
+
+			archived_employee = Archive_employees()
+			col_names = Archive_employees.__mapper__.columns.keys()
+			for item in col_names:
+				if item == 'email':
+					setattr(archived_employee, item, employee.user.email)
+				else:
+					setattr(archived_employee, item, getattr(employee, item))
+
+			db.session.add(archived_employee)
+			db.session.commit()
+			db.session.refresh(archived_employee)
+			
+			db.session.delete(employee)
+			db.session.delete(employee.user)
+			exists = db.session.query(db.exists().where(Employees.id == arg_id)).scalar()
+			db.session.commit()
+			if exists == False:
+				flash(u"User deleted successfully!", "success")
+				return jsonify("Success")
+			else:
+				flash(u"User not deleted!", "error")
+				return jsonify("Failure")
+			# except:
+			# 	db.session.rollback()
+			# 	flash(u"Something went wrong, please try again!", "error")
+			# 	return redirect('/employee/edit?id='+arg_id)
+
+		emp_data = request.form.copy()
 		emp_data['id'] = arg_id
 
 		employee = Employees.query.get(emp_data['id'])
