@@ -182,11 +182,15 @@ def employee_update():
 	if request.method == 'POST':
 
 		emp_data = request.form.copy()
+		arg_archive = request.args.get("archive")
 		arg_id = request.args.get("id")
 		
 		if arg_id is None or arg_id == "":
 			flash(u"Something went wrong, please try again!", "error")
 			return redirect('/employee/edit?id='+emp_data['id'])
+
+		if arg_archive == "true":
+			
 
 		emp_data['id'] = arg_id
 
