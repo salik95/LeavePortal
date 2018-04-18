@@ -172,7 +172,10 @@ def employee_update():
 		if arg_id is not None and arg_id != "":
 			user_id = arg_id
 			employee = Employees.query.get(user_id)
-			return render_template("employee.html", data = {'employee': employee})
+			manger = 0
+			if db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == user_id).count() > 0:
+				manager = 1
+			return render_template("employee.html", data = {'employee': employee, 'manager': manager})
 		else:
 			return render_template("employee.html")
 

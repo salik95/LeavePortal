@@ -200,5 +200,4 @@ def encashment_request():
 
 		del encashment_data['id']
 		encashment_data['redirect_url'] = url_for('encashment_pdf' , _external=True)
-		print('******************' , encashment_data['redirect_url'])
 		return jsonify(encashment_data)
