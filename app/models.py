@@ -96,3 +96,20 @@ class Encashment(db.Model):
 	gm_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True, default=None)
 	hr_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True, default=None)
 	time_stamp = db.Column(db.Date(), nullable = False)
+
+class Archive_employees(db.Model):
+
+	id = db.Column(db.Integer, primary_key = True)
+	first_name = db.Column(db.String(45), nullable = False)
+	last_name = db.Column(db.String(45), nullable = True)
+	email = db.Column(db.String(128), nullable = False)
+	designation = db.Column(db.String(45), nullable = False)
+	department = db.Column(db.String(45), nullable = False)
+	salary = db.Column(db.Float, nullable = False)
+	general_leaves_remaining = db.Column(db.Float, nullable = False)
+	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
+	general_leaves_availed = db.Column(db.Float, nullable = False)
+	medical_leaves_availed = db.Column(db.Integer, nullable = False)
+	reporting_manager_name = db.Column(db.String(45), nullable = False)
+	reporting_manager_email = db.Column(db.String(45), nullable = False)
+	reporting_manager_designation = db.Column(db.String(45), nullable = False)
