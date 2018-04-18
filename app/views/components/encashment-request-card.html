@@ -23,7 +23,7 @@
         <div class="name">
           {{ item[0].first_name }} 
           {% if item[0].last_name is not none %}
-            {{ item[0].last_name }}
+          {{ item[0].last_name }}
           {% endif %}
           
         </div>
@@ -33,33 +33,31 @@
 
       <div class="collapsible-body">  
 
-        <div class="row center">
-          <p class="light">{{item[0].designation + ', ' + item[0].department}}</p>
-          <div class="row">
-            <div class="col s12 m6">
-              <div class="row left-align">
-                <p><strong>Leaves Utilized</strong>&emsp;{{item[1].leaves_utilized|round(0,'floor')|int }}</p>
-              </div>
-              <div class="row left-align">
+        <p class="light text-center">{{item[0].designation + ', ' + item[0].department}}</p>
+        <br>
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="row left-align">
+              <p><strong>Leaves Utilized</strong>&emsp;{{item[1].leaves_utilized|round(0,'floor')|int }}</p>
+            </div>
+            <div class="row left-align">
               <p><strong>Amount Encashed</strong>&emsp;{{ item[1].amount|round(0,'floor')|int }}</p>
-              </div>              
-            </div>
+            </div>              
+          </div>
 
-            <div class="col s12 m6">
-              <div class="row left-align">
-                <p><strong>Remaining Leaves</strong>&emsp;{{item[0].general_leaves_remaining|round(0,'floor')|int}}</p>
-              </div>
-              <div class="row left-align">
-                <p><strong>Remaining Amount</strong>&emsp;{{ (item[0].general_leaves_remaining*item[0].salary)|round(0,'floor')|int }}</p>
-              </div>        
+          <div class="col s12 m6">
+            <div class="row left-align">
+              <p><strong>Remaining Leaves</strong>&emsp;{{item[0].general_leaves_remaining|round(0,'floor')|int}}</p>
             </div>
+            <div class="row left-align">
+              <p><strong>Remaining Amount</strong>&emsp;{{ (item[0].general_leaves_remaining*item[0].salary)|round(0,'floor')|int }}</p>
+            </div>        
           </div>
         </div>
 
 
         {% if status == 'pending' %}
-        <div class="row">
-          <form data-resource="encashment" method="PUT">
+          <form class="row" data-resource="encashment" method="PUT">
 
             {% include 'components/loading.html' %}
             <div class="notice"></div>
@@ -83,8 +81,7 @@
             <div class="center">
               <button type="submit" class="waves-effect waves-light btn round center">Confirm</button>
             </div> 
-          </form> 
-        </div>
+          </form>
         {% endif %}
 
       </div>
