@@ -14,7 +14,6 @@ def encashment_pdf():
 
 	dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
 	store = json.load(open(dirname,"r"))
-	print(store['line_manager_status'])
 	html = render_template('encashment-approval-form.html', **store )
 
 	pdf = HTML(string=html)
