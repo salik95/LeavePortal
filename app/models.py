@@ -40,7 +40,7 @@ class Employees(db.Model):
 	department = db.Column(db.String(45), nullable = False)
 	general_leaves_remaining = db.Column(db.Float, nullable = False)
 	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
-	general_leaves_availed = db.Column(db.Integer, nullable = False)
+	general_leaves_availed = db.Column(db.Float, nullable = False)
 	medical_leaves_availed = db.Column(db.Integer, nullable = False)
 	date_of_joining = db.Column(db.Date(), nullable = False)
 	salary = db.Column(db.Float, nullable = False)
