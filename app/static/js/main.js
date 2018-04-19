@@ -140,6 +140,13 @@ function init() {
     $lightbox = $('.lightbox'+id)
     lightbox.show($lightbox)
   })
+
+
+  $('[data-query]').click(function(){
+    pair = $(this).attr('data-query').split('=')
+    updateQueryParam(pair[0], pair[1])
+  })
+
 }
 
 
