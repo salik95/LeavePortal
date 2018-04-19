@@ -59,7 +59,7 @@ def encashment():
 		else:
 			if current_user.employee.reporting_manager_id == User.query.filter_by(role='General Manager').first().employee.id:
 				encashment_data['manager_approval'] = 'Approved'
-			notify(subject='new_encashment_request', receiver_id=current_user.employee.manager.user.id)
+			notify(subject='new_encashment_request', receiver_id=current_user.employee.manager.user_id)
 
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
@@ -149,17 +149,17 @@ def encashment_request():
 			setattr(encashment_request, 'hr_approval', encashment_data['approval'])
 			if encashment_data['approval'] == 'Approved':
 				#flash("Encashment form sent")
-				notify(subject='Encashment Approved', receiver_id=employee.user.id)
+				notify(subject='Encashment Approved', receiver_id=employee.user_id)
 				notify(subject='Encashment Form', send_hr=True)
 			if encashment_data['approval'] == 'Unapproved':
-				notify(subject='Encashment Unapproved', receiver_id=employee.user.id)
+				notify(subject='Encashment Unapproved', receiver_id=employee.user_id)
 
 		elif current_user.role == 'General Manager':
 			setattr(encashment_request, 'gm_approval', encashment_data['approval'])
 			if encashment_data['approval'] == 'Approved':
 				notify(subject='Encashment request', send_hr=True)
 			elif encashment_data['approval'] == 'Unapproved':
-				notify(subject='encashment_unapproved', receiver_id=employee.user.id)
+				notify(subject='encashment_unapproved', receiver_id=employee.user_id)
 		else:
 			if employee.reporting_manager_id != current_user.employee.id:
 				return error_response_handler("Unauthorized request", 401)
@@ -167,7 +167,7 @@ def encashment_request():
 			if encashment_data['approval'] == 'Approved':
 				notify(subject='Encashment request', send_gm=True)
 			elif encashment_data['approval'] == 'Unapproved':
-				notify(subject='encashment_unapproved', receiver_id=employee.user.id)
+				notify(subject='encashment_unapproved', receiver_id=employee.user_id)
 
 		if encashment_request.hr_approval == 'Approved' and encashment_request.gm_approval == 'Approved' and encashment_request.manager_approval == 'Approved':
 			encashment_user = User.query.get(employee.user_id)
