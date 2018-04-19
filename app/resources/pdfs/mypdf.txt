@@ -1,1 +1,1 @@
-{"email": "arsalanjaved2010@outlook.com", "name": "Employee + Manager -", "available_leave_balance": -82.85708, "amount_encashable": -994284.96, "amount_encashed": 21162.84, "designation": "Manager", "leaves_encashed": 1.76357}
+{"leaves_encashed": 1.42857, "available_leave_balance": -86.1787405479452, "amount_encashed": 17142.84, "email": "arsalanjaved2010@outlook.com", "amount_encashable": -1034144.8865753424, "name": "Employee + Manager -", "designation": "Manager"}

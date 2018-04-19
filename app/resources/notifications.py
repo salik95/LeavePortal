@@ -40,7 +40,7 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
 
 
 def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , body=None  
-    ,send_director=True ) :
+    ,send_director=None ) :
 
 
 
@@ -63,28 +63,34 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , bod
         email = Configuration.query.filter_by(key='email_address').first().value
         password = Configuration.query.filter_by(key='password').first().value
 
-        receiver_id = int(receiver_id)
 
         if receiver_id!= None:
-            recievers_email = User.query.get(receiver_id).first().email
+            receiver_id = int(receiver_id)
+            recievers_email = User.query.get(receiver_id).email
             if subject == 'Welcome To HOH Leave Portal':
                 messages['Welcome To HOH Leave Portal'] = 'Your email is'+ recievers_email + 'Your password is ' + body
-
+            html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
+            send_email(email , password , recievers_email , subject, html , text)
+            print('Success sending ' , recievers_email ) 
         
             
         if send_hr!= None:
             recievers_email = User.query.filter_by(role='HR Manager').first().email
-
+            html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
+            send_email(email , password , recievers_email , subject, html , text)
+            print('Success sending ' , recievers_email ) 
 
         if send_gm!= None:
             recievers_email = User.query.filter_by(role='General Manager').first().email
-
+            html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
+            send_email(email , password , recievers_email , subject, html , text)
+            print('Success sending ' , recievers_email ) 
         if send_director!= None:
             recievers_email = User.query.filter_by(role='Director').first().email            
+            html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
+            send_email(email , password , recievers_email , subject, html , text)
+            print('Success sending ' , recievers_email ) 
         
-        html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
-        send_email(email , password , recievers_email , subject, html , text)
-        print('Success sending ' , recievers_email ) 
 
 
     except:
