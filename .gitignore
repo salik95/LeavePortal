@@ -1,6 +1,7 @@
 venv
 __pycache__/
 app/__init__.pyc
+app/resources/pdfs/mypdf.txt
 app.db
 migrations
 app/static/css
