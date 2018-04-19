@@ -1,4 +1,6 @@
-175,19,2018-04-04,2018-04-05,Medical,Headache,,Approved,,,2018-04-04
-177,19,2018-04-19,2018-04-29,General,temp genera;,,Approved,,,2018-04-05
-184,19,2018-04-24,2018-04-28,General,eweqw,,,,,2018-04-06
-176,19,2018-04-26,2018-04-30,Medical,temp medical,,Approved,,,2018-04-05
+id,emp_id,from_date,to_date,leave_type,purpose,hr_remark,hr_approval,manager_remark,manager_approval,time_stamp
+180,18,2018-04-09,2018-04-20,Medical,temp med,,,,,2018-04-05
+186,18,2018-04-17,2018-04-28,Medical,ds,,Approved,,,2018-04-07
+187,18,2018-04-18,2018-01-23,General,lalalua,,,,,2018-04-18
+188,18,2018-04-18,2018-01-23,General,lalalaoa,,,,,2018-04-18
+181,18,2018-07-03,2018-07-12,General,temp gen,,,Chal nikal yahan se,Unapproved,2018-04-05

@@ -82,6 +82,7 @@ def leave_all():
 
 		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'w')
 		outcsv = csv.writer(outfile)
+		outcsv.writerow([column.name for column in Balance_sheet.__mapper__.columns])
 		[outcsv.writerow([getattr(curr, column.name) for column in Balance_sheet.__mapper__.columns]) for curr in history]
 		outfile.close()
 		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'r')
@@ -89,7 +90,7 @@ def leave_all():
 		outfile,
 		mimetype="text/csv",
 		headers={"Content-disposition":
-		         "attachment; filename=Balance_sheet.csv"})
+		         "attachment; filename=Balance_sheet-{} {}.csv".format(employee.first_name , employee.last_name)})
 
 
 	return render_template("history.html", data = store)
