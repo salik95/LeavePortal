@@ -175,7 +175,7 @@ def employee_update():
 			manger = 0
 			if db.session.query(Employees, Balance_sheet).join(Balance_sheet).filter(Employees.reporting_manager_id == user_id).count() > 0:
 				manager = 1
-			return render_template("employee.html", data = {'employee': employee, 'manager': manager})
+			return render_template("employee.html", data = {'employee': employee})
 		else:
 			return render_template("employee.html")
 
