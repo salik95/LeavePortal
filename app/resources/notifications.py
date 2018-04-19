@@ -68,7 +68,7 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , bod
             receiver_id = int(receiver_id)
             recievers_email = User.query.get(receiver_id).email
             if subject == 'Welcome To HOH Leave Portal':
-                messages['Welcome To HOH Leave Portal'] = 'Your email is'+ recievers_email + 'Your password is ' + body
+                messages['Welcome To HOH Leave Portal'] = 'Your email is '+ recievers_email + ' and your password is ' + body
             html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
             send_email(email , password , recievers_email , subject, html , text)
             print('Success sending ' , recievers_email ) 

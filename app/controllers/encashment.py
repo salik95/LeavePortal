@@ -59,7 +59,7 @@ def encashment():
 		else:
 			if current_user.employee.reporting_manager_id == User.query.filter_by(role='General Manager').first().employee.id:
 				encashment_data['manager_approval'] = 'Approved'
-			notify(subject='new_encashment_request', receiver_id=current_user.employee.manager.user_id)
+			notify(subject='Encashment request', receiver_id=current_user.employee.manager.user_id)
 
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
@@ -187,16 +187,16 @@ def encashment_request():
 			else:
 				line_manager_name = line_manager.first_name
 
-			db.session.commit()
 			
 
-		dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
-		store_object = json.dumps(store)
-		f = open(dirname,"w")
-		f.write(store_object)
-		f.close()
+			dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
+			store_object = json.dumps(store)
+			f = open(dirname,"w")
+			f.write(store_object)
+			f.close()
+			encashment_data['redirect_url'] = url_for('encashment_pdf' , _external=True)
 
 
+		db.session.commit()
 		del encashment_data['id']
-		encashment_data['redirect_url'] = url_for('encashment_pdf' , _external=True)
 		return jsonify(encashment_data)
