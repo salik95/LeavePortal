@@ -79,7 +79,7 @@ def leave_all():
 
 
 	if download !=None:
-
+		employee = Employees.query.get(emp_id)
 		outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'w')
 		outcsv = csv.writer(outfile)
 		outcsv.writerow([column.name for column in Balance_sheet.__mapper__.columns])
