@@ -179,9 +179,12 @@ def encashment_request():
 				 'leaves_encashed' : encashment_request.leaves_utilized, 
 				 'amount_encashable' : employee.general_leaves_remaining * employee.salary,
 				  'amount_encashed' : encashment_request.leaves_utilized * employee.salary,
-				  'line_manager':encashment_request.manager_approval,  
-				  'general_manager':encashment_request.gm_approval,
-				  'hr_manager': encashment_request.hr_approval, 
+				  'line_manager_status':encashment_request.manager_approval,  
+				  'general_manager_status':encashment_request.gm_approval,
+				  'hr_manager_status': encashment_request.hr_approval, 
+				  'line_manager':'***',  
+				  'general_manager':'***',
+				  'hr_manager': '***', 
 				  'remaining_leave_balance':'5'
 				  })
 
