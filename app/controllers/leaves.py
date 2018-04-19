@@ -41,7 +41,7 @@ def leave_form():
 	for col_name in Balance_sheet.__mapper__.columns.keys():
 		leave_dict[col_name] = getattr(new_leave, col_name)
 	
-	notify(subject='Leave Request', receiver_id=current_user.employee.manager.id)
+	notify(subject='Leave Request', receiver_id=current_user.employee.manager.user.id)
 
 	return jsonify(leave_dict)
 
@@ -134,9 +134,9 @@ def respond_request():
 		response['hr_approval'] = response['approval']
 
 		if response['approval'] == "Approved":
-			notify(subject='Leave Approved', receiver_id=employee.id)
+			notify(subject='Leave Approved', receiver_id=employee.user.id)
 		elif response['approval'] == "Unapproved":
-			notify(subject='Leave Unapproved' , receiver_id=employee.id)
+			notify(subject='Leave Unapproved' , receiver_id=employee.user.id)
 
 		if employee.reporting_manager_id == current_user.employee.id:
 			response['manager_remark'] = response['hr_remark']
@@ -149,7 +149,7 @@ def respond_request():
 		if response['approval'] == "Approved":
 			notify(subject='Leave Request', send_hr=True)
 		elif response['approval'] == "Unapproved":
-			notify(subject='Leave Unapproved' , receiver_id=employee.id)
+			notify(subject='Leave Unapproved' , receiver_id=employee.user.id)
 
 	key = list(response.keys())
 	for item in key:
