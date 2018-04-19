@@ -9,15 +9,16 @@
   <div class="row center-align">
     <div class="col s12 m6 l3 center">
       <label for="names">Search Employee</label>  
-      <input type="text" name="Reporting Manager" list="names">
+      <input type="text" name="Reporting Manager" list="names" value="">
       <datalist id="names"></datalist>
     </div>
   </div>
 
-  {% if request.args.get('id') is not none %}
 
   <div class="row">
     <div class="col l6 m6 s6 center">
+
+      {% if request.args.get('id') is not none and request.args.get('archive') is none %}
 
       <form class="card" method="POST" action="" data-state="">
 
@@ -76,13 +77,50 @@
           <br>
           <button type="submit" name="submit" class="btn center flat"><i class="material-icons">check</i> UPDATE</button>
 
-        </div>        
+        </div>    
       </form>
+
+      <br><br>
+      <button data-query="archive=true" class="btn center flat red">Deactivate Profile</button>
+
+      {% endif %}
+
+
+      {% if request.args.get('archive') == 'true' %}
+      
+      <form class="card" method="POST" action="" data-state="">
+        <div class="card-content">
+
+          <p class="heading text-center">
+            <i class="material-icons">account_box</i>
+            <span>Deactivate Profile</span>
+          </p>
+
+          {% if current_user.employee.subordinates %}
+          <p class="text-center">Employee is a line manager.</p>
+          <br>
+          {% endif %}
+
+          <div class="input-field center">
+
+            <input type="hidden" name="id" />
+            <input type="text" list="names" data-proxy="id" value="{{data.employee.manager.first_name}} {{data.employee.manager.last_name}}">
+            <datalist id="names"></datalist>
+            <label for="">Replacing Manager</label>
+
+          </div>
+
+          <br>
+          <button type="submit" name="submit" class="btn center flat red"><i class="material-icons">close</i> DEACTIVATE</button>
+
+
+        </div>
+      </form>
+      
+      {% endif %}
 
     </div>
   </div>
-
-  {% endif %}
 
 </main>
 
