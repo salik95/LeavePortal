@@ -173,7 +173,17 @@ def encashment_request():
 			encashment_user = User.query.get(employee.user_id)
 
 			store = {}
-			store.update({'name': employee.first_name + " " + employee.last_name, 'designation' : employee.designation, 'email' : encashment_user.email, 'available_leave_balance' : employee.general_leaves_remaining, 'leaves_encashed' : encashment_request.leaves_utilized, 'amount_encashable' : employee.general_leaves_remaining * employee.salary, 'amount_encashed' : encashment_request.leaves_utilized * employee.salary})
+			store.update({'name': employee.first_name + " " + employee.last_name, 
+				'designation' : employee.designation, 'email' : encashment_user.email,
+				 'available_leave_balance' : employee.general_leaves_remaining, 
+				 'leaves_encashed' : encashment_request.leaves_utilized, 
+				 'amount_encashable' : employee.general_leaves_remaining * employee.salary,
+				  'amount_encashed' : encashment_request.leaves_utilized * employee.salary,
+				  'line_manager':encashment_request.manager_approval,  
+				  'general_manager':encashment_request.gm_approval,
+				  'hr_manager': encashment_request.hr_approval, 
+				  'remaining_leave_balance':'5'
+				  })
 
 			employee.general_leaves_remaining = employee.general_leaves_remaining - encashment_request.leaves_utilized
 			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized

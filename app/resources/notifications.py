@@ -46,12 +46,12 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , bod
 
     messages = {
         'Encashment request':'Encashment request is pending',
-        'Encashment Approved': ' ',
+        'Encashment Approved': 'Your encashment request has been approved ',
         'Encashment Form':' ',
-        'Encashment Unapproved':' ',
-        'Leave Approved':' ',  
-        'Leave Unapproved':' ',
-        'Leave Request':' ',
+        'Encashment Unapproved':'Your encashment request has not been approved',
+        'Leave Approved':'Your leave request has been approved ',  
+        'Leave Unapproved':'Your leave request has not been approved',
+        'Leave Request':'There is a pending leave request',
         'Welcome To HOH Leave Portal': ' '
     }
     try:
