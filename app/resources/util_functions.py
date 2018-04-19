@@ -14,7 +14,7 @@ def is_first_year(fiscal_year , doj, probation_period ):
     
     today = datetime.now().date()
     doj  = datetime.strptime(doj , '%Y-%m-%d')
-    fiscal_year = datetime.strptime(fiscal_year , '%Y-%m-%d')
+    fiscal_year = datetime.strptime(fiscal_year , '%b %m, %Y')
     perminent_date = (add_months(doj , probation_period)).date()
     sofy = (fiscal_year - relativedelta(years=1)).date()
     dsofy = abs((today-sofy).days)
@@ -22,9 +22,3 @@ def is_first_year(fiscal_year , doj, probation_period ):
     return 1 if dsofy > dsope else 0
 
 
-
-'''
-is_first_year(today=datetime(2018,7,1) ,\
-                 fiscal_year=datetime(2018,7,1) ,\
-                  doj=datetime(2018,5,1) ,\
-                   probation_period=3 )'''

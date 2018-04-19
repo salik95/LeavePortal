@@ -74,22 +74,32 @@ def bulk_import():
 			list_of_elemet = read_csv(link_of_file)
 			list_of_employee_object = []
 			for i in list_of_elemet:
-				one_user = User(i['email'],  generate_password_hash("hoh123"), i['role'])
-				db.session.add(one_user)
-				db.session.commit()
-				del i['email'] 
-				del i['role']
-				i['user_id'] = one_user.id
-				i['first_year'] = True if is_first_year(fiscal_year= settings_to_dict()['fiscal_year_starting'],\
-						                  			doj=i['date_of_joining'] ,\
-						                   			probation_period=int(settings_to_dict()['probation_period'])) == 1 else False
-				i['last_updated'] = datetime.now().date()
+				try:
+					user = User.query.filter_by(email=i['email']).first()
+					if user:
+						db.session.delete(Employees.query.filter_by(user_id=user.id).first())
+						db.session.delete(user)
+						db.session.commit()
+						
+					one_user = User(i['email'],  generate_password_hash("hoh123"), i['role'])
+					db.session.add(one_user)
+					db.session.commit()
+					del i['email'] 
+					del i['role']
+					i['user_id'] = one_user.id
+					i['first_year'] = True if is_first_year(fiscal_year= settings_to_dict()['fiscal_year_starting'],\
+							                  			doj=i['date_of_joining'] ,\
+							                   			probation_period=int(settings_to_dict()['probation_period'])) == 1 else False
+					i['last_updated'] = datetime.now().date()
 
-				new_employee = Employees() 
-				for item in i.keys():
-					if item != 'reporting_manager_email':
-						setattr(new_employee, item, i[item])
-				list_of_employee_object.append(new_employee)
+					new_employee = Employees() 
+					for item in i.keys():
+						if item != 'reporting_manager_email':
+							setattr(new_employee, item, i[item])
+					list_of_employee_object.append(new_employee)
+				except:
+					logging.exception('Faliure uploading employee data')
+					db.session.rollback()
 
 			db.session.add_all(list_of_employee_object)
 			db.session.commit()
@@ -104,7 +114,7 @@ def bulk_import():
 
 		except:
 			logging.exception('')
-			flash('Somethinh is wrong with User file' , 'error')
+			flash('Something is wrong with User file' , 'error')
 			db.session.rollback()
 			pass
 

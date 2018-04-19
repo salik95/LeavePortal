@@ -8,12 +8,12 @@ from jinja2 import Template
 import codecs
 import json
 import time
-from flask import request, jsonify
+from flask import request, jsonify, url_for
 from app.models import *
 from flask_login import login_required, current_user
 from app import db , app
-
 import logging 
+from threading import Thread
 
 
 
@@ -39,45 +39,58 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
 
 
 
-def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None) :
+def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , body=None  
+    ,send_director=True ) :
+
 
 
     messages = {
         'Encashment request':'Encashment request is pending',
-        'Encashment Approved':'',
-        'Encashment Form': '',
-        'Encashment Unapproved': '',
-        'Leave Approved':'',  
-        'Leave Unapproved':'',
-        'Leave Request':''
+        'Encashment Approved': ' ',
+        'Encashment Form':' ',
+        'Encashment Unapproved':' ',
+        'Leave Approved':' ',  
+        'Leave Unapproved':' ',
+        'Leave Request':' ',
+        'Welcome To HOH Leave Portal': ' '
     }
     try:
-        text = "request pending"
+
+        text = subject
         f = codecs.open("app/views/email_templates/leave_request.html", 'r')
         template = Template(f.read())
-        html = template.render(main_body = messages[subject] , link_for_app='google.com' , subject=subject)
         subject = subject
         email = Configuration.query.filter_by(key='email_address').first().value
         password = Configuration.query.filter_by(key='password').first().value
-        
-        if receiver_id!= None:
-            receiver_id = int(receiver_id)
-            manager_user_id = Employees.query.get(int(receiver_id)).user_id
-            reporting_manager_email = User.query.get(manager_user_id).email
-            send_email(email , password , reporting_manager_email, subject, html , text)
-            print('Success sending ' , reporting_manager_email )
 
+        receiver_id = int(receiver_id)
+
+        if receiver_id!= None:
+            recievers_email = User.query.get(receiver_id).first().email
+            if subject == 'Welcome To HOH Leave Portal':
+                messages['Welcome To HOH Leave Portal'] = 'Your email is'+ recievers_email + 'Your password is ' + body
+
+        
+            
         if send_hr!= None:
-            hr_email = User.query.filter_by(role='HR Manager').first().email
-            send_email(email , password , hr_email , subject, html , text)
-            print('Success sending ' , hr_email ) 
+            recievers_email = User.query.filter_by(role='HR Manager').first().email
+
 
         if send_gm!= None:
-            gm_email = User.query.filter_by(role='General Manager').first().email
-            send_email(email , password , gm_email , subject, html , text)
-            print('Success sending ' , gm_email ) 
+            recievers_email = User.query.filter_by(role='General Manager').first().email
+
+        if send_director!= None:
+            recievers_email = User.query.filter_by(role='Director').first().email            
+        
+        html = template.render(main_body = messages[subject] , link_for_app=url_for('dashboard' , _external=True) , subject=subject)
+        send_email(email , password , recievers_email , subject, html , text)
+        print('Success sending ' , recievers_email ) 
 
 
     except:
         logging.exception('Faliure sending notifications')
+
+
+
+
 
