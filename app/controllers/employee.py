@@ -68,7 +68,7 @@ def employee():
 			db.session.rollback()
 			return redirect(url_for('dashboard'))
 
-		notify(subject='Welcome To HOH Leave Portal', body=password, receiver_id=new_employee.id , send_to_em=True)
+		notify(subject='Welcome To HOH Leave Portal', body=password, receiver_id=new_employee.id)
 		return jsonify(employee_created)
 
 	if request.method == 'PUT':

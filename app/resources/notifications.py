@@ -39,8 +39,8 @@ def send_email(senders_email, senders_email_password, recievers_email, subject, 
 
 
 
-def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , body=None ,  
-    send_to_manager=None , send_to_em=None ,send_director=True ) :
+def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , body=None  
+    ,send_director=True ) :
 
 
 
@@ -66,7 +66,7 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , bod
         receiver_id = int(receiver_id)
 
         if receiver_id!= None:
-            recievers_email = User.query.get(receiver_id).email
+            recievers_email = User.query.get(receiver_id).first().email
             if subject == 'Welcome To HOH Leave Portal':
                 messages['Welcome To HOH Leave Portal'] = 'Your email is'+ recievers_email + 'Your password is ' + body
 
