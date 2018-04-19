@@ -140,6 +140,13 @@ function init() {
     $lightbox = $('.lightbox'+id)
     lightbox.show($lightbox)
   })
+
+
+  $('[data-query]').click(function(){
+    pair = $(this).attr('data-query').split('=')
+    updateQueryParam(pair[0], pair[1])
+  })
+
 }
 
 
@@ -197,6 +204,8 @@ function handleAsyncForm() {
           $self.closest('.collection-item').addClass('responded')
           $self.closest('.collection-item').removeClass('pending')
           $self.closest('.collection-item').addClass((data.approval.toLowerCase()))
+          if(response.redirect_url !== undefined)
+            window.open(response.redirect_url, '_blank')
         }
 
         else {

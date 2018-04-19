@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><u>Memorandum</u></title>
-	<style type="text/css">		
+	<title><u>Leave Encashment Certificate</u></title>
+	<style type="text/css">
         @page {
             
             size: A4 portrait;
@@ -82,23 +82,18 @@
 	<div>
         <table class="table1">
             <tr>
-<<<<<<< HEAD
-                <td class="pad-left" height="20px" width="130px"><strong>Name:</strong></td>
-                <td>{{ data.name }}</td>
-=======
                 <td class="pad-left" height="20px" width="200px"><strong>Name:</strong></td>
                 <td>{{ name }}</td>
->>>>>>> origin/pdf_email
             </tr>
 
             <tr>
                 <td class="pad-left" height="20px"><strong>Designation:</strong></td>
-                <td>{{ data.designation }}</td>
+                <td>{{ designation }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="27px"><strong>Email:</strong></td>
-                <td>{{ data.email }}</td>
+                <td>{{ email }}</td>
             </tr>
         </table> 
     </div>
@@ -110,21 +105,21 @@
         <table class="table2">
             <tr>
                 <td class="pad-left" height="50px" width="215px"><strong>Available Leaves Balance</strong></td>
-                <td  class="center-align" width="50px">{{ data.available_leave_balance }}</td>
+                <td  class="center-align" width="50px">{{ available_leave_balance }}</td>
                 <td class="pad-left" width="215px"><strong>Amount Encashable</strong></td>
-                <td  class="center-align"width="50px">{{ data.amount_encashable }}</td>
+                <td  class="center-align"width="50px">{{ amount_encashable }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="50px"><strong>Leaves Encashed</strong></td>
-                <td class="center-align">{{ data.leaves_encashed }}</td>
+                <td class="center-align">{{ leaves_encashed }}</td>
                 <td class="pad-left" ><strong>Amount Encashed</strong></td>
-                <td class="center-align">{{ data.amount_encashed }}</td>
+                <td class="center-align">{{ amount_encashed }}</td>
             </tr>
 
             <tr>
                 <td class="pad-left" height="50px"><strong>Remaining Leaves Balance</strong></td>
-                <td class="center-align">{{ data.remaining_leave_balance }}</td>
+                <td class="center-align">{{ remaining_leave_balance }}</td>
             </tr>
         </table>
     </div>
