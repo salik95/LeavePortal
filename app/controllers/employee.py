@@ -158,43 +158,51 @@ def employee_update():
 			return redirect('/employee/edit?id='+emp_data['id'])
 
 		if arg_archive == "true":
-			#try:
-			employee = Employees.query.get(arg_id)
+			try:
+				employee = Employees.query.get(arg_id)
 
-			for leave in employee.balance_sheet:
-				db.session.delete(leave)
-			db.session.commit()
-			
-			for encashment in employee.encashment:
-				db.session.delete(encashment)
-			db.session.commit()
+				for leave in employee.balance_sheet:
+					db.session.delete(leave)
+				db.session.commit()
+				
+				for encashment in employee.encashment:
+					db.session.delete(encashment)
+				db.session.commit()
 
-			archived_employee = Archive_employees()
-			col_names = Archive_employees.__mapper__.columns.keys()
-			for item in col_names:
-				if item == 'email':
-					setattr(archived_employee, item, employee.user.email)
+				archived_employee = Archive_employees()
+				col_names = Archive_employees.__mapper__.columns.keys()
+				for item in col_names:
+					if item == 'email':
+						setattr(archived_employee, item, employee.user.email)
+					elif item == 'reporting_manager_name':
+						setattr(archived_employee, item, employee.manager.first_name+" "+employee.manager.last_name)
+					elif item == 'reporting_manager_email':
+						setattr(archived_employee, item, employee.manager.user.email)
+					elif item == 'reporting_manager_designation':
+						setattr(archived_employee, item, employee.manager.designation)
+					else:
+						setattr(archived_employee, item, getattr(employee, item))
+
+				db.session.add(archived_employee)
+				db.session.commit()
+
+				user = User.query.get(employee.user_id)
+				
+				db.session.delete(employee)
+				db.session.delete(user)
+				db.session.commit()
+				
+				exists = db.session.query(db.exists().where(Employees.id == arg_id)).scalar()
+				if exists == False:
+					flash(u"User deleted successfully!", "success")
+					return jsonify("Success")
 				else:
-					setattr(archived_employee, item, getattr(employee, item))
-
-			db.session.add(archived_employee)
-			db.session.commit()
-			db.session.refresh(archived_employee)
-			
-			db.session.delete(employee)
-			db.session.delete(employee.user)
-			exists = db.session.query(db.exists().where(Employees.id == arg_id)).scalar()
-			db.session.commit()
-			if exists == False:
-				flash(u"User deleted successfully!", "success")
-				return jsonify("Success")
-			else:
-				flash(u"User not deleted!", "error")
-				return jsonify("Failure")
-			# except:
-			# 	db.session.rollback()
-			# 	flash(u"Something went wrong, please try again!", "error")
-			# 	return redirect('/employee/edit?id='+arg_id)
+					flash(u"User not deleted!", "error")
+					return jsonify("Failure")
+			except:
+				db.session.rollback()
+				flash(u"Something went wrong, please try again!", "error")
+			 	return redirect('/employee/edit?id='+arg_id)
 
 		emp_data = request.form.copy()
 		emp_data['id'] = arg_id
