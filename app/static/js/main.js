@@ -71,7 +71,8 @@ function init() {
     clear: 'Clear',
     close: 'Ok',
     closeOnSelect: false,
-    format: 'yyyy-mm-dd'
+    format: 'mmm dd, yyyy',
+    formatSubmit: 'yyyy-mm-dd'
   })
 
   var yesterday = new Date((new Date()).valueOf()-1000*60*60*24)
