@@ -63,6 +63,9 @@ input, textarea {
   &:not(.browser-default):focus  {border-bottom: 1px solid $primary-color!important; box-shadow: 0 1px 0 0 $primary-color!important}
 }
 label:not(.browser-default).active {color: $primary-color; font-weight: 600}
+label.loading:after { position: absolute; margin-left: 15px;
+  content: ''; background-image: url('../img/loading.gif'); width: 24px; height: 24px; background-size: cover}
+
 
 /** Custom Globals **/
 

@@ -291,6 +291,7 @@ function searchEmployee() {
   $("input[list=names]").on("input",function(e) {
 
     $input = $(this)
+    $label = $input.siblings('label')
     var selected_id = null
     var keyword = $input.val()
     
@@ -302,6 +303,7 @@ function searchEmployee() {
 
     searching = true
 
+    $label.addClass('loading')
     getEmployees(keyword, function(list) {
       $list.empty()
 
@@ -311,6 +313,7 @@ function searchEmployee() {
       })
 
       searching = false
+      $label.removeClass('loading')
     })
 
     $('datalist#names > option').each(function(item) {
