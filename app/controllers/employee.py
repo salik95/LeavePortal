@@ -143,8 +143,10 @@ def employee_search():
 	if arg_thin is not None:
 		temp_list = []
 		for emp_dict in filtered_employee:
-			temp_list.append({"id" : emp_dict['id'], "name" : emp_dict['first_name']+" "+emp_dict['last_name'],
-				"designation" : emp_dict['designation']})
+			if emp_dict['last_name'] is None:
+				temp_list.append({"id" : emp_dict['id'], "name" : emp_dict['first_name'], "designation" : emp_dict['designation']})	
+			else:
+				temp_list.append({"id" : emp_dict['id'], "name" : emp_dict['first_name'] + " " + emp_dict['last_name'], "designation" : emp_dict['designation']})
 		filtered_employee = temp_list
 
 	return jsonify(filtered_employee)
