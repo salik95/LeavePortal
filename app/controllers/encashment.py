@@ -59,7 +59,7 @@ def encashment():
 		else:
 			if current_user.employee.reporting_manager_id == User.query.filter_by(role='General Manager').first().employee.id:
 				encashment_data['manager_approval'] = 'Approved'
-			notify(subject='new_encashment_request', receiver_id=current_user.employee.manager.user_id)
+			notify(subject='Encashment request', receiver_id=current_user.employee.manager.user_id)
 
 		encashment_request = Encashment()
 		for item in list(encashment_data.keys()):
@@ -173,7 +173,20 @@ def encashment_request():
 			encashment_user = User.query.get(employee.user_id)
 
 			store = {}
-			store.update({'name': employee.first_name + " " + employee.last_name, 'designation' : employee.designation, 'email' : encashment_user.email, 'available_leave_balance' : employee.general_leaves_remaining, 'leaves_encashed' : encashment_request.leaves_utilized, 'amount_encashable' : employee.general_leaves_remaining * employee.salary, 'amount_encashed' : encashment_request.leaves_utilized * employee.salary})
+			store.update({'name': employee.first_name + " " + employee.last_name, 
+				'designation' : employee.designation, 'email' : encashment_user.email,
+				 'available_leave_balance' : employee.general_leaves_remaining, 
+				 'leaves_encashed' : encashment_request.leaves_utilized, 
+				 'amount_encashable' : employee.general_leaves_remaining * employee.salary,
+				  'amount_encashed' : encashment_request.leaves_utilized * employee.salary,
+				  'line_manager_status':encashment_request.manager_approval,  
+				  'general_manager_status':encashment_request.gm_approval,
+				  'hr_manager_status': encashment_request.hr_approval, 
+				  'line_manager':'***',  
+				  'general_manager':'***',
+				  'hr_manager': '***', 
+				  'remaining_leave_balance':'5'
+				  })
 
 			employee.general_leaves_remaining = employee.general_leaves_remaining - encashment_request.leaves_utilized
 			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized
@@ -187,16 +200,16 @@ def encashment_request():
 			else:
 				line_manager_name = line_manager.first_name
 
-			db.session.commit()
 			
 
-		dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
-		store_object = json.dumps(store)
-		f = open(dirname,"w")
-		f.write(store_object)
-		f.close()
+			dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
+			store_object = json.dumps(store)
+			f = open(dirname,"w")
+			f.write(store_object)
+			f.close()
+			encashment_data['redirect_url'] = url_for('encashment_pdf' , _external=True)
 
 
+		db.session.commit()
 		del encashment_data['id']
-		encashment_data['redirect_url'] = url_for('encashment_pdf' , _external=True)
 		return jsonify(encashment_data)

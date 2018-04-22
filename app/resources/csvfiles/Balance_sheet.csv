@@ -1,4 +1,6 @@
-182,17,2018-04-05,2018-04-05,General,Dinner,,,,,2018-04-05
-183,17,2018-04-05,2018-04-05,Medical,Aches,,,,,2018-04-05
-178,17,2018-04-16,2018-04-27,Medical,TEMP CHEC,,,Ok,Unapproved,2018-04-05
-179,17,2018-05-02,2018-05-22,General,Temp General,,,,,2018-04-05
+id,emp_id,from_date,to_date,leave_type,purpose,hr_remark,hr_approval,manager_remark,manager_approval,time_stamp
+180,18,2018-04-09,2018-04-20,Medical,temp med,,,,,2018-04-05
+186,18,2018-04-17,2018-04-28,Medical,ds,,Approved,,,2018-04-07
+187,18,2018-04-18,2018-01-23,General,lalalua,,,,,2018-04-18
+188,18,2018-04-18,2018-01-23,General,lalalaoa,,,,,2018-04-18
+181,18,2018-07-03,2018-07-12,General,temp gen,,,Chal nikal yahan se,Unapproved,2018-04-05
