@@ -60,32 +60,33 @@
             <div class="status pending">
               <p>HR Pending</p>
             </div>
-            {% elif item.hr_approval != None and item.manager_approval==None %}
+            {% elif item.manager_approval==None %}
             <div class="status pending">
               <p>Manager Pending</p>
-            </div>
-            {% elif item.hr_approval==None and item.manager_approval==None%}
-            <div class="status pending">
-              <p>Pending</p>
             </div>
             {% endif %}
           </div>
 
           <div class="collapsible-body">
+
             <div class="col s12 first-row">
               <p><span class="bold">Purpose</span>&emsp; {{item.purpose}}</p>
             </div>
+
+            <br><br>
 
             <div class="row">
 
               {% if item.manager_remark %}
               <div class="col s12 l6">
                 <p class="bold">Manager Remarks</p>
-                <p class="message">{{ item.hr_remark }}</p>
+                <p class="message">{{ item.manager_remark }}</p>
               </div>
+              <br>
               {% endif %}
 
               {% if item.hr_remark %}
+              <br>
               <div class="col s12 l6">
                 <p class="bold">HR Remarks</p>
                 <p class="message">{{ item.hr_remark }}</p>
