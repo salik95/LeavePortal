@@ -170,37 +170,47 @@ def encashment_request():
 				notify(subject='encashment_unapproved', receiver_id=employee.user_id)
 
 		if encashment_request.hr_approval == 'Approved' and encashment_request.gm_approval == 'Approved' and encashment_request.manager_approval == 'Approved':
-			encashment_user = User.query.get(employee.user_id)
-
-			store = {}
-			store.update({'name': employee.first_name + " " + employee.last_name, 
-				'designation' : employee.designation, 'email' : encashment_user.email,
-				 'available_leave_balance' : employee.general_leaves_remaining, 
-				 'leaves_encashed' : encashment_request.leaves_utilized, 
-				 'amount_encashable' : employee.general_leaves_remaining * employee.salary,
-				  'amount_encashed' : encashment_request.leaves_utilized * employee.salary,
-				  'line_manager_status':encashment_request.manager_approval,  
-				  'general_manager_status':encashment_request.gm_approval,
-				  'hr_manager_status': encashment_request.hr_approval, 
-				  'line_manager':'***',  
-				  'general_manager':'***',
-				  'hr_manager': '***', 
-				  'remaining_leave_balance':'5'
-				  })
-
-			employee.general_leaves_remaining = employee.general_leaves_remaining - encashment_request.leaves_utilized
-			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized
 
 			line_manager = Employees.query.get(employee.reporting_manager_id)
 			general_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='General Manager')).first()).id).first()
 			hr_manager = Employees.query.filter_by(user_id=((User.query.filter_by(role='HR Manager')).first()).id).first()
+
+			if employee.last_name is not None:
+				employee_name = employee.first_name + " " + employee.last_name
+			else:
+				employee_name = employee.first_name
 
 			if line_manager.last_name is not None:
 				line_manager_name = line_manager.first_name + " " + line_manager.last_name
 			else:
 				line_manager_name = line_manager.first_name
 
-			
+			if general_manager.last_name is not None:
+				general_manager_name = general_manager.first_name + " " + general_manager.last_name
+			else:
+				general_manager_name = general_manager.first_name
+
+			if hr_manager.last_name is not None:
+				hr_manager_name = hr_manager.first_name + " " + hr_manager.last_name
+			else:
+				hr_manager_name = hr_manager.first_name
+
+			store = {}
+			store.update({'name' : employee_name, 'designation' : employee.designation, 'email' : employee.user.email,
+				'available_leave_balance' : employee.general_leaves_remaining, 
+				'leaves_encashed' : encashment_request.leaves_utilized, 
+				'remaining_leave_balance' : employee.general_leaves_remaining - encashment_request.leaves_utilized,
+				'amount_encashable' : employee.general_leaves_remaining * employee.salary,
+				'amount_encashed' : encashment_request.leaves_utilized * employee.salary,
+				'line_manager_status':encashment_request.manager_approval,  
+				'general_manager_status':encashment_request.gm_approval,
+				'hr_manager_status': encashment_request.hr_approval, 
+				'line_manager' : line_manager_name,  
+				'general_manager' : general_manager_name,
+				'hr_manager' : hr_manager_name})
+
+			employee.general_leaves_remaining = employee.general_leaves_remaining - encashment_request.leaves_utilized
+			employee.general_leaves_availed = employee.general_leaves_availed + encashment_request.leaves_utilized
 
 			dirname = os.path.join(app.config['PDF_URL'], 'mypdf.txt')
 			store_object = json.dumps(store)
