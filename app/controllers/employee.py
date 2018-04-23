@@ -207,7 +207,7 @@ def employee_update():
 			except:
 				db.session.rollback()
 				flash(u"Something went wrong, please try again!", "error")
-			 	return redirect('/employee/edit?id='+arg_id)
+				return redirect('/employee/edit?id='+arg_id)
 
 		emp_data = request.form.copy()
 		emp_data['id'] = arg_id
