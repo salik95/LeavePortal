@@ -50,6 +50,8 @@ class Employees(db.Model):
 		lazy='joined', foreign_keys=[user_id])
 	
 	balance_sheet = db.relationship('Balance_sheet', backref='employee', lazy='joined')
+
+	encashment = db.relationship('Encashment', backref='employee', lazy='joined')
 	
 	manager = db.relationship('Employees', backref=db.backref('subordinates', lazy='dynamic'), 
 		remote_side=[id], lazy='joined', foreign_keys=[reporting_manager_id])
