@@ -9,7 +9,7 @@
   <div class="row center-align">
     <div class="col s12 m6 l3 center">
       <label for="names">Search Employee</label>  
-      <input type="text" name="Reporting Manager" list="names" value="">
+      <input type="text" name="Reporting Manager" list="names">
       <datalist id="names"></datalist>
     </div>
   </div>
@@ -97,21 +97,24 @@
           </p>
 
           {% if current_user.employee.subordinates %}
-          <p class="text-center">Employee is a line manager.</p>
-          <br>
+          <!-- <p class="text-center">Employee is a line manager.</p>
+          <br> -->
           {% endif %}
+
+          <p class="text-center">This feature is currently under development.</p>
+          <br>
 
           <div class="input-field center">
 
             <input type="hidden" name="id" />
-            <input type="text" list="names" data-proxy="id" value="{{data.employee.manager.first_name}} {{data.employee.manager.last_name}}">
+            <input type="text" list="names" data-proxy="id" value="" disabled>
             <datalist id="names"></datalist>
             <label for="">Replacing Manager</label>
 
           </div>
 
           <br>
-          <button type="submit" name="submit" class="btn center flat red"><i class="material-icons">close</i> DEACTIVATE</button>
+          <button type="submit" name="submit" class="btn center flat red" disabled=""><i class="material-icons">close</i> DEACTIVATE</button>
 
 
         </div>
