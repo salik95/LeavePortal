@@ -4,6 +4,7 @@ from flask import request, jsonify, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
+from sqlalchemy import func
 from app.controllers.utilfunc import *
 from app.resources.util_functions import *
 from werkzeug import check_password_hash, generate_password_hash
@@ -133,9 +134,11 @@ def employee_search():
 	arg_thin = request.args.get("thin")
 
 	if arg_keyword is not None and arg_keyword != "":
-		arg_keyword = arg_keyword + "%"
+		arg_keyword = arg_keyword
 		employee_data = Employees.query.filter(or_(Employees.first_name.contains(arg_keyword),
-			Employees.last_name.contains(arg_keyword)))
+			Employees.last_name.contains(arg_keyword), (func.replace(Employees.first_name+Employees.last_name, ' ', '')) == arg_keyword.replace(" ", "")))
+		print(arg_keyword)
+
 		filtered_employee = employee_sqlalchemy_to_list(employee_data)
 	else:
 		filtered_employee = employee_sqlalchemy_to_list(Employees.query.all())
