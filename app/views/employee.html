@@ -6,10 +6,15 @@
 
 <main id="employee-edit">
 
+{% if data %}
+{% set employee_name = data.employee.first_name + ' ' + data.employee.last_name %}
+{% endif %}
+
+
   <div class="row center-align">
     <div class="col s12 m6 l3 center">
       <label for="names">Search Employee</label>  
-      <input type="text" name="Reporting Manager" list="names">
+      <input type="text" name="Reporting Manager" list="names" value="{{employee_name}}">
       <datalist id="names"></datalist>
     </div>
   </div>
