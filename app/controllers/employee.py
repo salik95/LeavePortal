@@ -1,6 +1,6 @@
 from app.models import *
 from app import db , app
-from flask import request, jsonify, render_template, flash, redirect, url_for
+from flask import request, jsonify, render_template, flash, redirect, url_for, Response
 from flask_login import login_required, current_user
 from app.controllers.settings import settings_to_dict
 from sqlalchemy import and_, or_
@@ -9,8 +9,12 @@ from app.resources.util_functions import *
 from werkzeug import check_password_hash, generate_password_hash
 import string, random
 from app.resources.notifications import notify
+import csv
+import zipfile
+import os
+from flask import send_file
 
-@app.route('/employee', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/employee', methods=['GET', 'POST', 'PUT'])
 @login_required
 def employee():
 	if request.method == 'GET':
@@ -150,16 +154,30 @@ def employee_update():
 
 	if request.method == 'POST':
 
-		arg_archive = request.args.get("archive")
+		arg_inactive = request.args.get("inactive")
 		arg_id = request.args.get("id")
 		
 		if arg_id is None or arg_id == "":
 			flash(u"Something went wrong, please try again!", "error")
 			return redirect('/employee/edit?id='+emp_data['id'])
 
-		if arg_archive == "true":
+		if arg_inactive == "true":
 			try:
 				employee = Employees.query.get(arg_id)
+
+				name = employee.first_name + " " + employee.last_name
+
+				outfile = open('app/resources/csvfiles/Balance_sheet.csv', 'w')
+				outcsv = csv.writer(outfile)
+				outcsv.writerow([column.name for column in Balance_sheet.__mapper__.columns])
+				[outcsv.writerow([getattr(curr, column.name) for column in Balance_sheet.__mapper__.columns]) for curr in employee.balance_sheet]
+				outfile.close()
+
+				outfile = open('app/resources/csvfiles/Encashment.csv', 'w')
+				outcsv = csv.writer(outfile)
+				outcsv.writerow([column.name for column in Encashment.__mapper__.columns])
+				[outcsv.writerow([getattr(curr, column.name) for column in Encashment.__mapper__.columns]) for curr in employee.encashment]
+				outfile.close()
 
 				for leave in employee.balance_sheet:
 					db.session.delete(leave)
@@ -169,23 +187,12 @@ def employee_update():
 					db.session.delete(encashment)
 				db.session.commit()
 
-				archived_employee = Archive_employees()
-				col_names = Archive_employees.__mapper__.columns.keys()
-				for item in col_names:
-					if item == 'email':
-						setattr(archived_employee, item, employee.user.email)
-					elif item == 'reporting_manager_name':
-						setattr(archived_employee, item, employee.manager.first_name+" "+employee.manager.last_name)
-					elif item == 'reporting_manager_email':
-						setattr(archived_employee, item, employee.manager.user.email)
-					elif item == 'reporting_manager_designation':
-						setattr(archived_employee, item, employee.manager.designation)
-					else:
-						setattr(archived_employee, item, getattr(employee, item))
-
-				db.session.add(archived_employee)
-				db.session.commit()
-
+				subordinates = Employees.query.filter(Employees.reporting_manager_id == employee.id).all()
+				if subordinates is not None:
+					for emp in subordinates:
+						emp.reporting_manager_id = employee.reporting_manager_id
+					db.session.commit()
+				
 				user = User.query.get(employee.user_id)
 				
 				db.session.delete(employee)
@@ -195,14 +202,19 @@ def employee_update():
 				exists = db.session.query(db.exists().where(Employees.id == arg_id)).scalar()
 				if exists == False:
 					flash(u"User deleted successfully!", "success")
-					return jsonify("Success")
+					zipf = zipfile.ZipFile('app/resources/zipfile/Name.zip','w', zipfile.ZIP_DEFLATED)
+					for root,dirs, files in os.walk('app/resources/csvfiles/'):
+						for file in files:
+							zipf.write('app/resources/csvfiles/'+file, os.path.basename(file))
+					zipf.close()
+					return send_file('resources/zipfile/Name.zip', mimetype = 'zip', attachment_filename = name + '.zip', as_attachment = True)
 				else:
 					flash(u"User not deleted!", "error")
 					return jsonify("Failure")
 			except:
 				db.session.rollback()
 				flash(u"Something went wrong, please try again!", "error")
-			 	return redirect('/employee/edit?id='+arg_id)
+				return redirect('/employee/edit?id='+arg_id)
 
 		emp_data = request.form.copy()
 		emp_data['id'] = arg_id

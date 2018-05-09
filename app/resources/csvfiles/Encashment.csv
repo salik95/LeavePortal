@@ -1,0 +1,4 @@
+id,emp_id,amount,leaves_utilized,manager_approval,gm_approval,hr_approval,time_stamp
+23,18,10000,1.42857,Approved,Approved,Approved,2018-04-04
+36,18,12345,1.76357,Approved,Approved,Approved,2018-04-05
+37,18,12345,1.76357,Approved,Approved,Approved,2018-04-05
