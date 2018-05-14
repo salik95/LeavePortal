@@ -45,6 +45,13 @@ def settings_to_dict():
 			data_setting[item.key] = item.value
 		return data_setting
 
+def gazetted_holidays_list():
+	holiday_string = Settings.query.filter_by(key='gazetted_holidays').first()
+	holidays = holiday_string.value.split(';')
+	for index, date in enumerate(holidays):
+		holidays[index] = datetime.datetime.strptime((str(datetime.datetime.now().year) + " " + date), "%Y %B %d")
+	return holidays
+
 @app.template_filter('strftime')
 def _jinja2_filter_datetime(date, fmt=None):
     date = dateutil.parser.parse(date)
