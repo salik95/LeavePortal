@@ -23,7 +23,9 @@
       </div>
       <div class="input-field col m6 s12">
         <select type="text" name="department" required>
-          <option value="HR">HR</option>
+          {% for department in departments %}
+          <option value="{{department}}">{{department}}</option>
+          {% endfor %}
         </select>
         <label for="">Department</label>
       </div>
