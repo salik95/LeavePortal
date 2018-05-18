@@ -3,10 +3,12 @@ from app import db , app
 from flask import request, jsonify, render_template, Response, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
+from app.controllers.settings import gazetted_holidays_list
 from sqlalchemy import asc, and_, or_
 from app.resources.notifications import notify
 import datetime
 import csv
+import workdays
 
 
 @app.route('/leave_form', methods=['POST'])
@@ -23,8 +25,13 @@ def leave_form():
 		leave_data['hr_approval'] = "Approved"
 
 	leave_data['time_stamp'] = datetime.datetime.now().strftime("%Y-%m-%d")
+	
+	leave_data['from_date'] = datetime.datetime.strptime(leave_data['from_date'], "%b %d, %Y")
+	leave_data['to_date'] = datetime.datetime.strptime(leave_data['to_date'], "%b %d, %Y")
 
-	if (datetime.datetime.strptime(leave_data['to_date'], "%Y-%m-%d") - datetime.datetime.strptime(leave_data['from_date'], "%Y-%m-%d")).days > current_user.employee.general_leaves_remaining:
+	days = workdays.networkdays(leave_data['from_date'], leave_data['to_date'], gazetted_holidays_list())
+
+	if days > current_user.employee.general_leaves_remaining:
 		return error_response_handler("Leave request exceeds available leaves request", 400)
 	new_leave = Balance_sheet()
 	key = list(leave_data.keys())
@@ -156,7 +163,7 @@ def respond_request():
 	for item in key:
 		setattr(leave, item, response[item])
 	if leave.manager_approval == "Approved" and leave.hr_approval == "Approved":
-		update_employee_leaves_after_approval((leave.to_date - leave.from_date).days, leave.emp_id, leave.leave_type)
+		update_employee_leaves_after_approval(datetime.datetime.combine(leave.from_date, datetime.datetime.min.time()), datetime.datetime.combine(leave.to_date, datetime.datetime.min.time()), leave.emp_id, leave.leave_type)
 	del response['id']
 	try:
 		db.session.commit()
@@ -166,8 +173,9 @@ def respond_request():
 		return redirect(url_for("dashboard"))
 	return jsonify(response)
 
-def update_employee_leaves_after_approval(days, emp_id, leave_type):
+def update_employee_leaves_after_approval(start_date, end_date, emp_id, leave_type):
 	employee = Employees.query.get(emp_id)
+	days = workdays.networkdays(start_date, end_date, gazetted_holidays_list())
 	if leave_type == "Medical":
 		employee.medical_leaves_availed = employee.medical_leaves_availed+days
 		employee.medical_leaves_remaining = employee.medical_leaves_remaining-days
