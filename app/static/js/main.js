@@ -7,6 +7,7 @@ $(document).ready(function() {
 
     handleAsyncForm()
     handleEncashment()
+    holidaysHandler()
   }
 
   $('form').on('submit', function(e) {
@@ -58,6 +59,8 @@ function init() {
       }
     }
   })
+
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
   $('.modal').modal();
   // $('#modal1').modal('open')
@@ -339,7 +342,50 @@ function searchEmployee() {
 }
 
 
-/** Account Dropdown Componenet
+/** Holidays Form handler
+*** Transform field 
+**/
+
+function holidaysHandler() {
+  $field = $('form#form-holidays [name="gazetted_holidays"]')
+  $proxy = $('form#form-holidays [name="holidays_proxy"]')
+
+  dates = $field.val()
+
+  if(dates) {
+    dates = dates.split(';')
+    list = ''
+    dates.forEach(function(date) {
+      date = date.split(' ')
+      console.log(date)
+      list += '\n' +  date[1] + '/' + (months.indexOf(date[0])+1)
+    })
+
+    $proxy.val(list)
+  }
+
+  $proxy.on('input', function() {
+    val = $(this).val()
+    csv = ''
+
+    val.split('\n').forEach(function(date) {
+      date = date.split('/')
+      if(date.length !== 2 || date[0] > 31 || date[0] < 1 || date[1] > 11 || date[1] < 0)
+        return
+
+      date = new Date(0, date[1]-1, date[0])
+      date = months[date.getMonth()] + ' ' + date.getDate()
+      csv += ( (csv.length > 0)?';':'' ) + date
+    })
+
+    $field.val(csv)
+    console.log($field.val())
+
+  })
+}
+
+
+/** Account Dropdown Component
 *** Drop personal account menu on hover
 **/
 

@@ -71,7 +71,52 @@
             <div class="clr"></div>
             
             <div class="input-field text-center">
-              <button type="submit" name="submit_email" class="btn center flat">
+              <button type="submit" name="submit" class="btn center flat">
+                <i class="material-icons">check</i> UPDATE
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 m8 center">
+
+      <div class="card">
+
+        <div class="card-content">
+          <p class="heading text-center">
+            <i class="material-icons">settings_applications</i><span>Gazetted Holidays</span>
+          </p>
+
+          <form id="form-holidays" method="POST" action="#">
+
+            {% include 'components/loading.html' %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="notice solid {{category}}">
+              <span>{{message}}</span>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <div class="row"></div>
+            <div class="input-field col s12 m12">
+              <label class="active" for="">One date on each line (dd/mm)</label>
+              <input type="hidden" name="gazetted_holidays">
+              <textarea class="materialize-textarea" type="text" name="holidays_proxy"></textarea> 
+            </div>
+
+            <div class="clr"></div>
+            
+            <div class="input-field text-center">
+              <button type="submit" name="submit" class="btn center flat">
                 <i class="material-icons">check</i> UPDATE
               </button>
             </div>
