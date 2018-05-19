@@ -14,7 +14,7 @@
   <div class="row center-align">
     <div class="col s12 m6 l3 center">
       <label for="names">Search Employee</label>  
-      <input type="text" name="Reporting Manager" list="names" value="{{employee_name}}">
+      <input class="center" type="text" name="Reporting Manager" list="names" value="{{employee_name}}">
       <datalist id="names"></datalist>
     </div>
   </div>
@@ -54,6 +54,17 @@
               <input type="text" name="last_name" value="{{data.employee.last_name}}">
             </div>
           </div>
+
+          <div class="row">
+            <div class="input-field col m6 s12">
+              <select type="text" name="religion" value="{{data.employee.religion}}">
+                {% for religion in religions %}
+                <option value="{{religion}}">{{religion}}</option>
+                {% endfor %}
+              </select>
+              <label for="">Religion</label>
+            </div>
+          </div> 
 
           <div class="row">
             <div class="input-field col m6 s12">

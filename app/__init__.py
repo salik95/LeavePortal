@@ -35,9 +35,11 @@ def not_found(error):
 
 departments = ["Human Resources", "Legal", "Business Startegy", "Projects and maintenance ", "Licensing and tenant management ", "Finance ", "Planning and Coordination - Stargate ", "Marketing ", "Institutional memory"]
 
+religions = ["Islam", "Christianity", "Hinduism", "Other"]
+
 @app.context_processor
 def inject_user():
-    return dict(departments=departments)
+    return dict(departments=departments, religions=religions)
 
 @app.template_filter('fullname')
 def fullname_filter(employee):
