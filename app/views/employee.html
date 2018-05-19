@@ -23,7 +23,7 @@
   <div class="row">
     <div class="col l6 m6 s6 center">
 
-      {% if request.args.get('id') is not none and request.args.get('archive') is none %}
+      {% if request.args.get('id') is not none and request.args.get('inactive') is none %}
 
       <form class="card" method="POST" action="" data-state="">
 
@@ -90,15 +90,25 @@
       </form>
 
       <br><br>
-      <button data-query="archive=true" class="btn center flat red">Deactivate Profile</button>
+      <button data-query="inactive=true" class="btn center flat red">Deactivate Profile</button>
 
       {% endif %}
 
 
-      {% if request.args.get('archive') == 'true' %}
+      {% if request.args.get('inactive') == 'true' %}
       
       <form class="card" method="POST" action="" data-state="">
+
+        {% include 'components/loading.html' %}
         <div class="card-content">
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          {% for category, message in messages %}
+          <div class="notice solid {{category}}"><span>{{message}}</span></div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
 
           <p class="heading text-center">
             <i class="material-icons">account_box</i>
@@ -106,24 +116,19 @@
           </p>
 
           {% if current_user.employee.subordinates %}
-          <!-- <p class="text-center">Employee is a line manager.</p>
-          <br> -->
-          {% endif %}
+            <p class="text-center">The subordinates will report to {{data.employee.manager|fullname}}</p>
 
-          <p class="text-center">This feature is currently under development.</p>
-          <br>
-
-          <div class="input-field center">
-
+<!--           <div class="input-field center">
             <input type="hidden" name="id" />
             <input type="text" list="names" data-proxy="id" value="" disabled>
             <datalist id="names"></datalist>
             <label for="">Replacing Manager</label>
+          </div> -->
 
-          </div>
+          {% endif %}
 
-          <br>
-          <button type="submit" name="submit" class="btn center flat red" disabled=""><i class="material-icons">close</i> DEACTIVATE</button>
+          <br><br>
+          <button type="submit" name="submit" class="btn center flat red"><i class="material-icons">close</i> DEACTIVATE</button>
 
 
         </div>

@@ -239,7 +239,7 @@ def employee_update():
 			db.session.rollback()
 			return redirect(url_for('dashboard'))
 
-		flash(u"Employee profile is successfully updates", "success")
+		flash(u"Employee profile is successfully updated.", "success")
 		return redirect('/employee/edit?id='+emp_data['id'])
 
 @app.route('/account', methods=['POST', 'GET'])

@@ -2,7 +2,7 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager 
+from flask_login import LoginManager
 
 # Import Sass
 from sassutils.wsgi import SassMiddleware
@@ -28,6 +28,7 @@ def user_loader(user_id):
     """
     return User.query.get(user_id)
 '''
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
@@ -37,6 +38,10 @@ departments = ["Human Resources", "Legal", "Business Startegy", "Projects and ma
 @app.context_processor
 def inject_user():
     return dict(departments=departments)
+
+@app.template_filter('fullname')
+def fullname_filter(employee):
+	return employee.first_name + (employee.last_name if employee.last_name is not None else '')
 
 from app.controllers.login_user import *
 from app.controllers.dashboard import *
