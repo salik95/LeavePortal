@@ -63,7 +63,6 @@ def employee():
 		new_employee = Employees()
 		key = list(data_employee.keys())
 		for item in key:
-			print(item)
 			setattr(new_employee, item, data_employee[item])
 
 		try:
