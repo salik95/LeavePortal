@@ -38,10 +38,11 @@ from app.models import *
 departments = Department.query.all()
 
 religions = ["Islam", "Christianity", "Hinduism", "Other"]
+months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 @app.context_processor
 def inject_user():
-    return dict(departments=departments, religions=religions)
+    return dict(departments=departments, religions=religions, months=months)
 
 @app.template_filter('fullname')
 def fullname_filter(employee):
