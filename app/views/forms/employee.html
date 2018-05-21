@@ -39,7 +39,7 @@
       <div class="input-field col m6 s12">
         <select type="text" name="department" required>
           {% for department in departments %}
-          <option value="{{department}}">{{department}}</option>
+          <option value="{{department.id}}">{{department.name}}</option>
           {% endfor %}
         </select>
         <label for="department">Department</label>
