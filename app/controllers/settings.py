@@ -3,7 +3,6 @@ from app import db , app
 from flask import jsonify, request, make_response, render_template, flash, redirect
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
-from app.controllers.gazetted_holidays import all_gazetted_holidays_list
 import datetime, dateutil.parser
 
 @app.route('/settings', methods=['GET','POST'])
@@ -45,6 +44,9 @@ def settings_to_dict():
 		for item in setting:
 			data_setting[item.key] = item.value
 		return data_setting
+
+def all_gazetted_holidays_list():
+	return Gazetted_holidays.query.all()
 
 def gazetted_holidays_list():
 	holiday_string = Settings.query.filter_by(key='gazetted_holidays').first()
