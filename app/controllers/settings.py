@@ -10,7 +10,7 @@ import datetime, dateutil.parser
 @is_hq_admin
 def settings():
 	if request.method == 'GET':
-		return render_template('settings.html', data={settings_to_dict(), all_gazetted_holidays_list()})
+		return render_template('settings.html', data=settings_to_dict())
 
 	#Creating a seperate route to update settings through getting id in the URL, displays the id in URL that can be
 	#exploited. So, excepting the changes through PUT verb with the same URL. One drawback is that all the rows in the
@@ -43,6 +43,7 @@ def settings_to_dict():
 		data_setting = {}
 		for item in setting:
 			data_setting[item.key] = item.value
+		data_setting['gazetted_holidays'] = all_gazetted_holidays_list()
 		return data_setting
 
 def all_gazetted_holidays_list():
