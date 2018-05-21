@@ -3,6 +3,7 @@ from app import db , app
 from flask import jsonify, request, make_response, render_template, flash, redirect
 from flask_login import login_required, current_user
 from app.controllers.utilfunc import *
+from app.controllers.gazetted_holidays import all_gazetted_holidays_list
 import datetime, dateutil.parser
 
 @app.route('/settings', methods=['GET','POST'])
@@ -10,7 +11,7 @@ import datetime, dateutil.parser
 @is_hq_admin
 def settings():
 	if request.method == 'GET':
-		return render_template('settings.html', data=settings_to_dict())
+		return render_template('settings.html', data={settings_to_dict(), all_gazetted_holidays_list()})
 
 	#Creating a seperate route to update settings through getting id in the URL, displays the id in URL that can be
 	#exploited. So, excepting the changes through PUT verb with the same URL. One drawback is that all the rows in the

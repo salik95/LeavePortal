@@ -55,7 +55,7 @@ from app.controllers.leaves import *
 from app.controllers.file_import import *
 from app.controllers.encashment import *
 from app.controllers.pdf_generation import *
-
+from app.controllers.gazetted_holidays import *
 
 app.wsgi_app = SassMiddleware(app.wsgi_app, {
   'app': ('static/scss', 'static/css', '/static/css')
