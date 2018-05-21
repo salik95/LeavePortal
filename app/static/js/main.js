@@ -347,40 +347,15 @@ function searchEmployee() {
 **/
 
 function holidaysHandler() {
-  $field = $('form#form-holidays [name="gazetted_holidays"]')
-  $proxy = $('form#form-holidays [name="holidays_proxy"]')
+  var $edit = $('#gazetted_edit_btn');
+  $('#form-holidays input').prop("disabled",true)
 
-  dates = $field.val()
-
-  if(dates) {
-    dates = dates.split(';')
-    list = ''
-    dates.forEach(function(date) {
-      date = date.split(' ')
-      console.log(date)
-      list += '\n' +  date[1] + '/' + (months.indexOf(date[0])+1)
+  $edit.click(function(){
+    var $child = $edit.closest(".row").find("input");
+    $child.each(function(){
+      $(this).prop('disabled',false);
     })
-
-    $proxy.val(list)
-  }
-
-  $proxy.on('input', function() {
-    val = $(this).val()
-    csv = ''
-
-    val.split('\n').forEach(function(date) {
-      date = date.split('/')
-      if(date.length !== 2 || date[0] > 31 || date[0] < 1 || date[1] > 11 || date[1] < 0)
-        return
-
-      date = new Date(0, date[1]-1, date[0])
-      date = months[date.getMonth()] + ' ' + date.getDate()
-      csv += ( (csv.length > 0)?';':'' ) + date
-    })
-
-    $field.val(csv)
-    console.log($field.val())
-
+    
   })
 }
 

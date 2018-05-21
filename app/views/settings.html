@@ -106,12 +106,51 @@
             {% endif %}
             {% endwith %}
 
-            <div class="row"></div>
-            <div class="input-field col s12 m12">
-              <label class="active" for="">One date on each line (dd/mm)</label>
-              <input type="hidden" name="gazetted_holidays">
-              <textarea class="materialize-textarea" type="text" name="holidays_proxy"></textarea> 
+            {% for item in data[gazetted_holidays]%}
+            <div class="row">
+              <div class="input-field col s12 m1">
+                <select name="gazetted_holidays[][day]" id="days">
+                  {% for i in range(1,31) %}
+                    {% if i == item.date %}
+                      <option value="{{ i }}" selected> {{ i }}</option>
+                    {% else %}
+                      <option value="{{ i }}"> {{ i }}</option>
+                    {% endif %}  
+                  
+                  {% endfor %}
+                </select>
+                <label class="active" for="">Day</label>
+              </div>
+
+              <div class="input-field col s12 m1">
+                <select name="gazetted_holidays[][month]" id="month">
+                  {% for i in months %}
+                    {% if i == item.month %}
+                      <option value="{{i}}" selected>{{i}}</option>
+                    {% else %}
+                      <option value="{{i}}">{{i}}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <label class="active" for="">Month</label>
+              </div>
+
+              <div class="input-field col s12 m4">
+                <label class="active" for="name">Name</label>
+                <input id="name" type="text" name="gazetted_holidays[][name]">
+              </div>
+
+              <div class="input-field col s12 m4">
+                <label class="active" for="religion">Religion</label>
+                <input id="religion" type="text" name="gazetted_holidays[][religion]">                
+              </div>
+
+              <div class="col s6 m2">
+                <a id="gazetted_edit_btn" class="waves-effect waves-light btn"><i class="material-icons">edit</i></a>
+              </div>
             </div>
+            {% endfor %}
+            
 
             <div class="clr"></div>
             
