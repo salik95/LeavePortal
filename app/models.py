@@ -37,7 +37,7 @@ class Employees(db.Model):
 	last_name = db.Column(db.String(45), nullable = True)
 	reporting_manager_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
-	department = db.Column(db.String(45), nullable = False)
+	department_id = db.Column(db.String(45), nullable = False)
 	religion = db.Column(db.Enum('Islam','Christianity', 'Hinduism', 'Other'), nullable = False)
 	general_leaves_remaining = db.Column(db.Float, nullable = False)
 	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
