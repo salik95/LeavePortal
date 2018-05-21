@@ -59,7 +59,7 @@
             <div class="input-field col m6 s12">
               <select type="text" name="religion" value="{{data.employee.religion}}">
                 {% for religion in religions %}
-                <option value="{{religion}}">{{religion}}</option>
+                <option value="{{religion}}"  {{'selected' if data.employee.religion == religion }}>{{religion}}</option>
                 {% endfor %}
               </select>
               <label for="">Religion</label>
@@ -72,9 +72,9 @@
               <input type="text" name="designation" value="{{data.employee.designation}}">
             </div>
             <div class="input-field col m6 s12">
-              <select type="text" name="department" value="{{data.employee.department}}" required>
+              <select type="text" name="department_id" required>
                 {% for department in departments %}
-                <option value="{{department}}">{{department}}</option>
+                <option value="{{department.id}}" {{'selected' if data.employee.department.id == department.id }}>{{department.name}}</option>
                 {% endfor %}
               </select>
               <label for="">Department</label>
