@@ -33,7 +33,9 @@ def user_loader(user_id):
 def not_found(error):
     return render_template('404.html'), 404
 
-departments = ["Human Resources", "Legal", "Business Startegy", "Projects and maintenance ", "Licensing and tenant management ", "Finance ", "Planning and Coordination - Stargate ", "Marketing ", "Institutional memory"]
+from app.models import *
+
+departments = Department.query.all()
 
 religions = ["Islam", "Christianity", "Hinduism", "Other"]
 
