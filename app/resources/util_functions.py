@@ -13,7 +13,7 @@ def add_months(sourcedate,months):
 def is_first_year(fiscal_year , doj, probation_period ):
     
     today = datetime.now().date()
-    doj  = datetime.strptime(doj , '%Y-%m-%d')
+    doj  = datetime.strptime(doj , '%b %d, %Y')
     fiscal_year = datetime.strptime(fiscal_year , '%b %m, %Y')
     perminent_date = (add_months(doj , probation_period)).date()
     sofy = (fiscal_year - relativedelta(years=1)).date()
