@@ -29,6 +29,13 @@ class User(db.Model):
 		self.password = password
 		self.role = role
 
+class Department(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(45), nullable = False)
+
+	def __init__(self, name):
+		self.name = name
+
 class Employees(db.Model):
 
 	id = db.Column(db.Integer, primary_key = True)
@@ -37,7 +44,7 @@ class Employees(db.Model):
 	last_name = db.Column(db.String(45), nullable = True)
 	reporting_manager_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = True)
 	designation = db.Column(db.String(45), nullable = False)
-	department = db.Column(db.String(45), nullable = False)
+	department_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable = False)
 	religion = db.Column(db.Enum('Islam','Christianity', 'Hinduism', 'Other'), nullable = False)
 	general_leaves_remaining = db.Column(db.Float, nullable = False)
 	medical_leaves_remaining = db.Column(db.Integer, nullable = False)
@@ -55,7 +62,8 @@ class Employees(db.Model):
 
 	encashment = db.relationship('Encashment', backref='employee', lazy='joined')
 
-	department = db.relationship('Department', backref='employee', lazy='joined')
+	department = db.relationship('Department', uselist=False, backref=db.backref('employee', uselist=False), 
+		lazy='joined', foreign_keys=[department_id])
 	
 	manager = db.relationship('Employees', backref=db.backref('subordinates', lazy='dynamic'), 
 		remote_side=[id], lazy='joined', foreign_keys=[reporting_manager_id])
@@ -103,11 +111,7 @@ class Encashment(db.Model):
 	hr_approval = db.Column(db.Enum('Approved','Unapproved'), nullable = True, default=None)
 	time_stamp = db.Column(db.Date(), nullable = False)
 
-class Department(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	name = db.Column(db.String(45), nullable = False)
-
-class Gazetted_Holidays(db.Model):
+class Gazetted_holidays(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(45), nullable = False)
 	religion = religion = db.Column(db.Enum('All', 'Islam','Christianity', 'Hinduism'), nullable = False)
