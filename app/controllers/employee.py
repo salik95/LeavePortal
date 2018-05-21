@@ -44,7 +44,7 @@ def employee():
 
 		employee_created = {"email":data_employee['email'],"role":data_employee['role'],
 			"id":new_user.id, "name":data_employee['first_name'] + " " + data_employee['last_name'],
-			"department_id":data_employee['department'], "designation":data_employee['designation']}
+			"department_id": data_employee['department_id'], "designation": data_employee['designation']}
 
 		del data_employee['email']
 
@@ -63,6 +63,7 @@ def employee():
 		new_employee = Employees()
 		key = list(data_employee.keys())
 		for item in key:
+			print(item)
 			setattr(new_employee, item, data_employee[item])
 
 		try:
