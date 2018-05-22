@@ -352,24 +352,31 @@ function holidaysHandler() {
   var $holidays = $('.holiday').last();
   var $row = $('.holiday').first();
 
-  $('#form-holidays input').prop("disabled",true)
+  $('#form-holidays input, #form-holidays select').prop("disabled",true)
+
 
   $edit.click(function(){
-    var $child = $(this).closest(".row").find("input");
-    $child.each(function(){
+    var $input = $(this).closest(".row").find("input");
+    var $select = $(this).closest(".row").find("select");
+
+    $input.each(function(){
       $(this).prop('disabled',false);
+      if($(this).hasClass('select-dropdown')) {
+        $(this).siblings('select').prop('disabled', false)
+      }
     })
   })
 
   $new.click(function(){
     var $newRow = $row.clone(true);
-    var child = $newRow.find('input');
-    console.log(child)
-    child.each(function(){
+    var $field = $newRow.find('input, select');
+
+    console.log($field)
+    $field.each(function(){
       $(this).prop("disabled",false);
-      
     })
-    child.find('input').val('');
+
+    $field.val('');
     $holidays.after($newRow);
     
 

@@ -18,24 +18,43 @@ def settings():
 
 	if request.method == 'POST':
 		update = request.form.copy()
-		setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
-		
-		#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
-		data = Settings.query.all()
-		if data is None:
-			return flash(u'Some internal error occurred, please refresh and try again.', 'error')
-		for item in data:
-			if item.key in update:
-				item.value = update[item.key]
+
+		# @todo: flash a dict {for: 'form-xxx', message: ''}
+
+		if 'form-holidays' in update:
+
+			count = len(update.getlist('gazetted_holidays[name]'))
+			fields = ['id', 'date', 'month', 'name', 'religion']
+
+			collection = []
+
+			for index in range(count):
+				item = {z[0]:update.getlist('gazetted_holidays['+z[0]+']')[index] for z in zip(fields)}
+				collection.append(item)
+
+			print(collection)
+
+		else:
+
+			setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
+			
+			#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
+			data = Settings.query.all()
+			if data is None:
+				return flash(u'Some internal error occurred, please refresh and try again.', 'error')
+			for item in data:
+				if item.key in update:
+					item.value = update[item.key]
+
 		try:
 			db.session.commit()
 		except:
 			db.session.rollback()
 			flash(u'Something went wrong, please try again.', 'error')
 			return redirect('/settings')
+		
 		flash(u'Application settings updated successfully.', 'success')
 		return redirect('/settings')
-		#return jsonify(update)
 
 
 def settings_to_dict():

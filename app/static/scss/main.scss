@@ -59,6 +59,8 @@ body {background-color: #e8eaf6;}
 &.flat {box-shadow: none!important}
 }
 
+.btn-floating {box-shadow: none!important}
+
 input, textarea {
   &:not(.browser-default):focus  {border-bottom: 1px solid $primary-color!important; box-shadow: 0 1px 0 0 $primary-color!important}
 }
@@ -434,7 +436,7 @@ footer {font-size: 12px; padding: 10px 0; text-align: center; box-shadow: 0 -1px
     padding-bottom: 20px;
   }
   #form-holidays {
-    #gazetted_edit_btn {margin-top: 20px; cursor: pointer}
+    .gazetted_edit_btn {margin-top: 20px; cursor: pointer}
   }
   
 }

@@ -13,7 +13,7 @@
             <i class="material-icons">settings_applications</i><span>System Settings</span>
           </p>
 
-          <form method="POST" action="#">
+          <form method="POST" action="">
 
             {% include 'components/loading.html' %}
 
@@ -71,7 +71,7 @@
             <div class="clr"></div>
             
             <div class="input-field text-center">
-              <button type="submit" name="submit" class="btn center flat">
+              <button type="submit" name="form-settings" class="btn center flat">
                 <i class="material-icons">check</i> UPDATE
               </button>
             </div>
@@ -92,7 +92,7 @@
             <i class="material-icons">settings_applications</i><span>Gazetted Holidays</span>
           </p>
 
-          <form id="form-holidays" method="POST" action="#">
+          <form id="form-holidays" method="POST" action="">
 
             {% include 'components/loading.html' %}
 
@@ -108,8 +108,11 @@
 
             {% for item in data.gazetted_holidays %}
             <div class="row holiday">
+              
+              <input type="hidden" name="gazetted_holidays[id]" value="{{item.id}}">
+
               <div class="input-field col s12 m1">
-                <select name="gazetted_holidays[][day]">
+                <select name="gazetted_holidays[date]">
                   {% for date in range(1,31) %}
                     <option value="{{ date|string }}" {{'selected' if date|string == item.date}}> {{ date }}</option> 
                   {% endfor %}
@@ -117,7 +120,7 @@
               </div>
 
               <div class="input-field col s12 m3">
-                <select name="gazetted_holidays[][month]" id="month">
+                <select name="gazetted_holidays[month]" id="month">
                   {% for month in months %}
                     <option value="{{month}}" {{'selected' if month == item.month}}>{{month}}</option>
                   {% endfor %}
@@ -125,11 +128,11 @@
               </div>
 
               <div class="input-field col s12 m4">
-                <input id="name" type="text" name="gazetted_holidays[][name]" value="{{item.name}}">
+                <input id="name" type="text" name="gazetted_holidays[name]" value="{{item.name}}">
               </div>
 
               <div class="input-field col s12 m3">
-                <input id="religion" type="text" name="gazetted_holidays[][religion]" value="{{item.religion}}">                
+                <input id="religion" type="text" name="gazetted_holidays[religion]" value="{{item.religion}}">
               </div>
 
               <div class="col s6 m1">
@@ -141,16 +144,13 @@
 
             <div class="clr"></div>
 
-            <div class="input-field text-center">
-              <div class="">
-                <a class="waves-effect waves-light btn deep-orange darken-4" id="holiday_add_btn"><i class="material-icons">add</i>New Holiday</a>
-              </div>
-            </div>
             
-            <div class="clr"></div>
+            <a class="waves-effect waves-light btn-floating grey" id="holiday_add_btn"><i class="material-icons">add</i>New Holiday</a>
+            
+            <br><br>
             
             <div class="input-field text-center">
-              <button type="submit" name="submit" class="btn center flat">
+              <button type="submit" name="form-holidays" class="btn center flat">
                 <i class="material-icons">check</i> UPDATE
               </button>
             </div>
