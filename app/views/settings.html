@@ -107,9 +107,9 @@
             {% endwith %}
 
             {% for item in data.gazetted_holidays %}
-            <div class="row">
+            <div class="row holiday">
               <div class="input-field col s12 m1">
-                <select name="gazetted_holidays[][day]" id="days">
+                <select name="gazetted_holidays[][day]">
                   {% for date in range(1,31) %}
                     <option value="{{ date|string }}" {{'selected' if date|string == item.date}}> {{ date }}</option> 
                   {% endfor %}
@@ -133,12 +133,20 @@
               </div>
 
               <div class="col s6 m1">
-                <i class="material-icons" id="gazetted_edit_btn">edit</i>
+                <i class="material-icons gazetted_edit_btn">edit</i>
               </div>
             </div>
             {% endfor %}
             
 
+            <div class="clr"></div>
+
+            <div class="input-field text-center">
+              <div class="">
+                <a class="waves-effect waves-light btn deep-orange darken-4" id="holiday_add_btn"><i class="material-icons">add</i>New Holiday</a>
+              </div>
+            </div>
+            
             <div class="clr"></div>
             
             <div class="input-field text-center">
