@@ -14,6 +14,7 @@ import csv
 import zipfile
 import os
 from flask import send_file
+from datetime import datetime , time , timedelta
 
 @app.route('/employee', methods=['GET', 'POST', 'PUT'])
 @login_required
@@ -51,7 +52,7 @@ def employee():
 
 		data_employee['general_leaves_availed'] = '0'
 		data_employee['medical_leaves_availed'] = '0'
-		
+		data_employee['date_of_joining'] = datetime.strptime(data_employee['date_of_joining'], '%b %d, %Y')
 		data_employee['general_leaves_remaining'] = int(settings_to_dict()['probation_leaves_limit'])
 		data_employee['medical_leaves_remaining'] = int(settings_to_dict()['medical_leaves_limit'])
 		data_employee['last_updated'] = data_employee['date_of_joining']
