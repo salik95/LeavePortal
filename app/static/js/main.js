@@ -362,7 +362,7 @@ function holidaysHandler() {
   })
 
   $new.click(function(){
-    var $newRow = $row.clone(true,true);
+    var $newRow = $row.clone(true);
     var child = $newRow.find('input');
     console.log(child)
     child.each(function(){
