@@ -19,6 +19,10 @@ $(document).ready(function() {
     $notice.removeClass('error')
     $notice.removeClass('success')
     $form.find('[type="submit"]').addClass('disabled')
+
+    $('html, body').animate({
+        scrollTop: $(this).offset().top
+    }, 500);
     
   })
 
@@ -365,6 +369,7 @@ function holidaysHandler() {
         $(this).siblings('select').prop('disabled', false)
       }
     })
+
   })
 
   $new.click(function(){
@@ -387,6 +392,13 @@ function holidaysHandler() {
     $('.holiday').last().after($newRow);
 
     $newRow.find('select').material_select()
+  })
+
+  $('.delete').click(function(){
+    var id = $(this).closest(".row").find('input').first().val();
+    $(this).closest(".row").find('input').first().val('delete;'+id);
+    id = $(this).closest(".row").find('input').first().val();
+    console.log(id)
   })
 }
 
