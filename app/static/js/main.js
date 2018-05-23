@@ -19,6 +19,10 @@ $(document).ready(function() {
     $notice.removeClass('error')
     $notice.removeClass('success')
     $form.find('[type="submit"]').addClass('disabled')
+
+    $('html, body').animate({
+        scrollTop: $(this).offset().top
+    }, 500);
     
   })
 
