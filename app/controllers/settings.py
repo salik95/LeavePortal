@@ -18,6 +18,8 @@ def settings():
 
 	if request.method == 'POST':
 		update = request.form.copy()
+		if 'gazetted_holidays' in update:
+			for holiday in update['gazetted_holidays']:
 		setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
 		
 		#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
@@ -35,8 +37,6 @@ def settings():
 			return redirect('/settings')
 		flash(u'Application settings updated successfully.', 'success')
 		return redirect('/settings')
-		#return jsonify(update)
-
 
 def settings_to_dict():
 		setting = Settings.query.all()
@@ -49,11 +49,12 @@ def settings_to_dict():
 def all_gazetted_holidays_list():
 	return Gazetted_holidays.query.all()
 
-def gazetted_holidays_list():
-	holiday_string = Settings.query.filter_by(key='gazetted_holidays').first()
-	holidays = holiday_string.value.split(';')
-	for index, date in enumerate(holidays):
-		holidays[index] = datetime.datetime.strptime((str(datetime.datetime.now().year) + " " + date), "%Y %B %d")
+def gazetted_holidays_list(religion='Other'):
+	holiday_string = Gazetted_holidays.query.filter(Gazetted_holidays.religion.in_(('All', religion))).all()
+	holidays = []
+	for item in holiday_string:
+		hs = datetime.datetime.strptime((str(datetime.datetime.now().year) + " " + item.month + " " + item.date), "%Y %B %d")
+		holidays.append(hs)
 	return holidays
 
 @app.template_filter('strftime')
