@@ -13,7 +13,7 @@
             <i class="material-icons">settings_applications</i><span>System Settings</span>
           </p>
 
-          <form method="POST" action="#">
+          <form method="POST" action="">
 
             {% include 'components/loading.html' %}
 
@@ -28,34 +28,36 @@
             {% endwith %}
 
             <div class="row"></div>
-            <div class="input-field col s12 m6">
+            <div class="input-field col s12 m4">
               <label class="active" for="general_leaves_limit">General Leaves Limit</label>
-              <input class="settings" type="text" value="{{ data.general_leaves_limit }}" placeholder="{{ data.general_leaves_limit }}"
+              <input class="settings" type="number" value="{{ data.general_leaves_limit }}" placeholder="{{ data.general_leaves_limit }}"
               name="general_leaves_limit" id="general_leaves_limit">
             </div>
 
-            <div class="input-field col s12 m6">
+            <div class="input-field col s12 m4">
               <label class="active" for="medical_leaves_limit">Medical Leaves Limit</label>
-              <input value="{{ data.medical_leaves_limit }}" type="text" placeholder="{{ data.medical_leaves_limit }}" name="medical_leaves_limit"
+              <input value="{{ data.medical_leaves_limit }}" type="number" placeholder="{{ data.medical_leaves_limit }}" name="medical_leaves_limit"
               id="medical_leaves_limit">
-
             </div>
 
-            <div class="input-field col s12 m6">
+            <div class="input-field col s12 m4">
               <label class="active" for="probation_leaves_limit">Probation Leaves Limit</label>
-              <input value="{{ data.probation_leaves_limit }}" type="text" placeholder="{{ data.probation_leaves_limit }}" name="probation_leaves_limit"
+              <input value="{{ data.probation_leaves_limit }}" type="number" placeholder="{{ data.probation_leaves_limit }}" name="probation_leaves_limit"
               id="probation_leaves_limit">
+            </div>
+            
+            <div class="clr"></div>
+            <br>
+            
+            <div class="input-field col s12 m6">
+              <label class="active" for="probation_period">Probation Period (months)</label>
+              <input value="{{ data.probation_period }}" type="text" placeholder="{{ data.probation_period }}" name="probation_period" id="probation_period">
             </div>
 
             <div class="input-field col s12 m6">
               <label class="active" for="fiscal_year_starting">Fiscal Year Starting</label>
               <input value="{{ data.fiscal_year_starting|strftime }}" class="datepicker" type="text" placeholder="{{ data.fiscal_year_starting|strftime }}"
               name="fiscal_year_starting" id="fiscal_year_starting">
-            </div>
-
-            <div class="input-field col s12 m6">
-              <label class="active" for="probation_period">Probation Period</label>
-              <input value="{{ data.probation_period }}" type="text" placeholder="{{ data.probation_period }}" name="probation_period" id="probation_period">
             </div>
 
             <div class="input-field col s12 m6">
@@ -71,7 +73,7 @@
             <div class="clr"></div>
             
             <div class="input-field text-center">
-              <button type="submit" name="submit" class="btn center flat">
+              <button type="submit" name="form-settings" class="btn center flat">
                 <i class="material-icons">check</i> UPDATE
               </button>
             </div>
@@ -83,16 +85,16 @@
   </div>
 
   <div class="row">
-    <div class="col s12 m8 center">
+    <div class="col m12 l8 center">
 
-      <div class="card">
+      <div class="card" style="overflow: visible">
 
         <div class="card-content">
           <p class="heading text-center">
             <i class="material-icons">settings_applications</i><span>Gazetted Holidays</span>
           </p>
 
-          <form id="form-holidays" method="POST" action="#">
+          <form id="form-holidays" method="POST" action="">
 
             {% include 'components/loading.html' %}
 
@@ -106,17 +108,55 @@
             {% endif %}
             {% endwith %}
 
-            <div class="row"></div>
-            <div class="input-field col s12 m12">
-              <label class="active" for="">One date on each line (dd/mm)</label>
-              <input type="hidden" name="gazetted_holidays">
-              <textarea class="materialize-textarea" type="text" name="holidays_proxy"></textarea> 
+            {% for item in data.gazetted_holidays %}
+            <div class="row holiday">
+              
+              <input type="hidden" name="gazetted_holidays[id]" value="{{item.id}}">
+
+
+              <div class="input-field col s12 m1">
+                <input type="number" name="gazetted_holidays[date]" value="{{item.date}}" min=1 max=31 placeholder=1 required>
+              </div>
+
+              <div class="input-field col s12 m3">
+                <select name="gazetted_holidays[month]" id="month" required>
+                  <option value="" disabled>Month</option>
+                  {% for month in months %}
+                    <option value="{{month}}" {{'selected' if month == item.month}}>{{month}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="input-field col s12 m4">
+                <input id="name" type="text" name="gazetted_holidays[name]" value="{{item.name}}" placeholder="Holiday Name" required >
+              </div>
+
+              <div class="input-field col s12 m3">
+
+                <select name="gazetted_holidays[religion]" id="religion" required>
+                  <option value="" disabled>Religion</option>
+                  {% for religion in religions %}
+                    <option value="{{religion}}" {{'selected' if religion == item.religion}}>{{religion}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="col s6 m1">
+                <i class="material-icons gazetted_edit_btn">edit</i>
+              </div>
             </div>
+            {% endfor %}
+            
 
             <div class="clr"></div>
+
+            
+            <a class="waves-effect waves-light btn-floating grey" id="holiday_add_btn"><i class="material-icons">add</i>New Holiday</a>
+            
+            <br><br>
             
             <div class="input-field text-center">
-              <button type="submit" name="submit" class="btn center flat">
+              <button type="submit" name="form-holidays" class="btn center flat">
                 <i class="material-icons">check</i> UPDATE
               </button>
             </div>

@@ -347,40 +347,46 @@ function searchEmployee() {
 **/
 
 function holidaysHandler() {
-  $field = $('form#form-holidays [name="gazetted_holidays"]')
-  $proxy = $('form#form-holidays [name="holidays_proxy"]')
+  var $edit = $('.gazetted_edit_btn');
+  var $new = $('#holiday_add_btn');
+  var $row = $('.holiday').first();
 
-  dates = $field.val()
+  var $selectMonth = $('[name="gazetted_holidays[month]"]').first().clone().removeClass('initialized').removeAttr('data-select-id')
 
-  if(dates) {
-    dates = dates.split(';')
-    list = ''
-    dates.forEach(function(date) {
-      date = date.split(' ')
-      console.log(date)
-      list += '\n' +  date[1] + '/' + (months.indexOf(date[0])+1)
+  $('#form-holidays input, #form-holidays select').prop("disabled",true)
+
+  $edit.click(function(){
+    var $input = $(this).closest(".row").find("input");
+    var $select = $(this).closest(".row").find("select");
+
+    $input.each(function(){
+      $(this).prop('disabled',false);
+      if($(this).hasClass('select-dropdown')) {
+        $(this).siblings('select').prop('disabled', false)
+      }
+    })
+  })
+
+  $new.click(function(){
+    var $newRow = $row.clone(true, true);
+    var $field = $newRow.find('input, select');
+
+    $field.each(function(){
+
+      $(this).prop("disabled", false)
+      if($(this).prop('tagName') == 'select') {
+        $(this).parents('.select-wrapper').replaceWith($(this))
+      }
     })
 
-    $proxy.val(list)
-  }
+    // will break if multiple selects present
+    // var $select = $selectMonth.clone()
+    // $newRow.find('.select-wrapper').replaceWith($select)
 
-  $proxy.on('input', function() {
-    val = $(this).val()
-    csv = ''
+    $field.val('');
+    $('.holiday').last().after($newRow);
 
-    val.split('\n').forEach(function(date) {
-      date = date.split('/')
-      if(date.length !== 2 || date[0] > 31 || date[0] < 1 || date[1] > 11 || date[1] < 0)
-        return
-
-      date = new Date(0, date[1]-1, date[0])
-      date = months[date.getMonth()] + ' ' + date.getDate()
-      csv += ( (csv.length > 0)?';':'' ) + date
-    })
-
-    $field.val(csv)
-    console.log($field.val())
-
+    $newRow.find('select').material_select()
   })
 }
 
