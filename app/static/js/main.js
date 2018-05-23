@@ -396,7 +396,13 @@ function holidaysHandler() {
 
   $('.delete').click(function(){
     var id = $(this).closest(".row").find('input').first().val();
-    $(this).closest(".row").find('input').first().val('delete;'+id);
+    if(id.search('delete')>=0){
+      //do nothing
+    }
+    else{
+      $(this).closest(".row").find('input').first().val('delete;'+id);
+    }
+    
     id = $(this).closest(".row").find('input').first().val();
     console.log(id)
   })
