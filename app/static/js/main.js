@@ -349,11 +349,11 @@ function searchEmployee() {
 function holidaysHandler() {
   var $edit = $('.gazetted_edit_btn');
   var $new = $('#holiday_add_btn');
-  var $holidays = $('.holiday').last();
   var $row = $('.holiday').first();
 
-  $('#form-holidays input, #form-holidays select').prop("disabled",true)
+  var $selectMonth = $('[name="gazetted_holidays[month]"]').first().clone().removeClass('initialized').removeAttr('data-select-id')
 
+  $('#form-holidays input, #form-holidays select').prop("disabled",true)
 
   $edit.click(function(){
     var $input = $(this).closest(".row").find("input");
@@ -368,18 +368,25 @@ function holidaysHandler() {
   })
 
   $new.click(function(){
-    var $newRow = $row.clone(true);
+    var $newRow = $row.clone(true, true);
     var $field = $newRow.find('input, select');
 
-    console.log($field)
     $field.each(function(){
-      $(this).prop("disabled",false);
+
+      $(this).prop("disabled", false)
+      if($(this).prop('tagName') == 'select') {
+        $(this).parents('.select-wrapper').replaceWith($(this))
+      }
     })
 
-    $field.val('');
-    $holidays.after($newRow);
-    
+    // will break if multiple selects present
+    // var $select = $selectMonth.clone()
+    // $newRow.find('.select-wrapper').replaceWith($select)
 
+    $field.val('');
+    $('.holiday').last().after($newRow);
+
+    $newRow.find('select').material_select()
   })
 }
 

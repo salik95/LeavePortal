@@ -83,9 +83,9 @@
   </div>
 
   <div class="row">
-    <div class="col s12 m8 center">
+    <div class="col m12 center">
 
-      <div class="card">
+      <div class="card" style="overflow: visible">
 
         <div class="card-content">
           <p class="heading text-center">
@@ -111,16 +111,14 @@
               
               <input type="hidden" name="gazetted_holidays[id]" value="{{item.id}}">
 
+
               <div class="input-field col s12 m1">
-                <select name="gazetted_holidays[date]">
-                  {% for date in range(1,31) %}
-                    <option value="{{ date|string }}" {{'selected' if date|string == item.date}}> {{ date }}</option> 
-                  {% endfor %}
-                </select>
+                <input type="number" name="gazetted_holidays[date]" value="{{item.date}}" min=1 max=31 placeholder=1 required>
               </div>
 
               <div class="input-field col s12 m3">
-                <select name="gazetted_holidays[month]" id="month">
+                <select name="gazetted_holidays[month]" id="month" required>
+                  <option value="" disabled>Month</option>
                   {% for month in months %}
                     <option value="{{month}}" {{'selected' if month == item.month}}>{{month}}</option>
                   {% endfor %}
@@ -128,11 +126,17 @@
               </div>
 
               <div class="input-field col s12 m4">
-                <input id="name" type="text" name="gazetted_holidays[name]" value="{{item.name}}">
+                <input id="name" type="text" name="gazetted_holidays[name]" value="{{item.name}}" placeholder="Holiday Name" required >
               </div>
 
               <div class="input-field col s12 m3">
-                <input id="religion" type="text" name="gazetted_holidays[religion]" value="{{item.religion}}">
+
+                <select name="gazetted_holidays[religion]" id="religion" required>
+                  <option value="" disabled>Religion</option>
+                  {% for religion in religions %}
+                    <option value="{{religion}}" {{'selected' if religion == item.religion}}>{{religion}}</option>
+                  {% endfor %}
+                </select>
               </div>
 
               <div class="col s6 m1">
