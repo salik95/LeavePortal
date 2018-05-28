@@ -19,8 +19,8 @@ def settings():
 	if request.method == 'POST':
 		update = request.form.copy()
 		flash_data = {}
-		flash_data.update({'for': 'form-holidays'})
 		if 'form-holidays' in update:
+			flash_data.update({'for': 'form-holidays'})
 			count = len(update.getlist('gazetted_holidays[name]'))
 			fields = ['id', 'date', 'month', 'name', 'religion']
 			collection = []
@@ -43,8 +43,10 @@ def settings():
 					for attr in list(holiday.keys()):
 						setattr(gazetted_holiday, attr, holiday[attr])
 					db.session.add(gazetted_holiday)
+			flash_data.update({'text': 'Gazetted Holidays updated successfully.'})
 
 		else:
+			flash_data.update({'for': 'form-settings'})
 			setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
 			
 			#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
@@ -54,6 +56,7 @@ def settings():
 			for item in data:
 				if item.key in update:
 					item.value = update[item.key]
+			flash_data.update({'text': 'Application settings updated successfully.'})
 
 		try:
 			db.session.commit()
@@ -62,7 +65,6 @@ def settings():
 			flash_data.update({'text': 'Something went wrong, please try again.'})		
 			flash(flash_data, 'error')
 			return redirect('/settings')
-		flash_data.update({'text': 'Application settings updated successfully.'})		
 		flash(flash_data, 'success')
 		return redirect('/settings')
 
