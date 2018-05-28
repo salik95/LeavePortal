@@ -20,9 +20,9 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
-            <div class="notice solid {{category}}">
-              <span>{{message}}</span>
-            </div>
+            {% if message['for'] == 'form-settings' %}
+            <div class="notice solid {{category}}"><span>{{message['text']}}</span></div>
+            {% endif %}
             {% endfor %}
             {% endif %}
             {% endwith %}
@@ -98,12 +98,13 @@
 
             {% include 'components/loading.html' %}
 
+
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
-            <div class="notice solid {{category}}">
-              <span>{{message}}</span>
-            </div>
+            {% if message['for'] == 'form-holidays' %}
+            <div class="notice solid {{category}}"><span>{{message['text']}}</span></div>
+            {% endif %}
             {% endfor %}
             {% endif %}
             {% endwith %}
