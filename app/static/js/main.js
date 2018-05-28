@@ -352,6 +352,7 @@ function searchEmployee() {
 
 function holidaysHandler() {
   var $edit = $('.gazetted_edit_btn');
+  var $delete = $('.gazetted_delete_btn');
   var $new = $('#holiday_add_btn');
   var $row = $('.holiday').first();
 
@@ -389,16 +390,19 @@ function holidaysHandler() {
     // $newRow.find('.select-wrapper').replaceWith($select)
 
     $field.val('');
-    $('.holiday').last().after($newRow);
+    $('.holiday').closest(".row").last().after($newRow);
 
     $newRow.find('select').material_select()
   })
 
-  $('.delete').click(function(){
-    var id = $(this).closest(".row").find('input').first().val();
-    $(this).closest(".row").find('input').first().val('delete;'+id);
-    id = $(this).closest(".row").find('input').first().val();
-    console.log(id)
+  $delete.click(function(){
+    $row = $(this).closest(".row")
+
+    if($row.hasClass('delete'))
+      return
+
+    $row.find('input[name="gazetted_holidays[id]"]').val((index, value) => {'delete;'+value})
+    $row.addClass('delete')
   })
 }
 

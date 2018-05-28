@@ -437,8 +437,10 @@ footer {font-size: 12px; padding: 10px 0; text-align: center; box-shadow: 0 -1px
   }
 
   #form-holidays {
-    .gazetted_edit_btn {margin-top: 20px; cursor: pointer}
     .row.holiday {margin: 0;
+      &.delete {background-color: lighten($red, 20)}
+      
+      i {margin-top: 20px; cursor: pointer}
       .input-field {margin: 0;}    
     }
   }
