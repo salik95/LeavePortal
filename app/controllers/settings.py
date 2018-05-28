@@ -18,24 +18,33 @@ def settings():
 
 	if request.method == 'POST':
 		update = request.form.copy()
-
-		# @todo: flash a dict {for: 'form-xxx', message: ''}
-
+		flash_data = {}
+		flash_data.update({'for': 'form-holidays'})
 		if 'form-holidays' in update:
-
 			count = len(update.getlist('gazetted_holidays[name]'))
 			fields = ['id', 'date', 'month', 'name', 'religion']
-
 			collection = []
-
 			for index in range(count):
 				item = {z[0]:update.getlist('gazetted_holidays['+z[0]+']')[index] for z in zip(fields)}
 				collection.append(item)
-
-			print(collection)
+			for holiday in collection:
+				if holiday['id'] is not "":
+					if holiday['id'].split(';')[0] == 'delete':
+						gazetted_holiday = Gazetted_holidays.query.get(holiday['id'].split(';')[1])
+						db.session.delete(gazetted_holiday)
+					else:
+						gazetted_holiday = Gazetted_holidays.query.get(holiday['id'])
+						del holiday['id']
+						for attr in list(holiday.keys()):
+							setattr(gazetted_holiday, attr, holiday[attr])
+				else:
+					gazetted_holiday = Gazetted_holidays()
+					del holiday['id']
+					for attr in list(holiday.keys()):
+						setattr(gazetted_holiday, attr, holiday[attr])
+					db.session.add(gazetted_holiday)
 
 		else:
-
 			setattr(User.query.filter_by(role='Director').first(), 'email', update['director_email'])
 			
 			#As getting all the rows can be an overhead, but there won't be a lot of settings, so it is negligible.
@@ -50,12 +59,12 @@ def settings():
 			db.session.commit()
 		except:
 			db.session.rollback()
-			flash(u'Something went wrong, please try again.', 'error')
+			flash_data.update({'text': 'Something went wrong, please try again.'})		
+			flash(flash_data, 'error')
 			return redirect('/settings')
-		
-		flash(u'Application settings updated successfully.', 'success')
+		flash_data.update({'text': 'Application settings updated successfully.'})		
+		flash(flash_data, 'success')
 		return redirect('/settings')
-
 
 def settings_to_dict():
 		setting = Settings.query.all()
@@ -68,11 +77,12 @@ def settings_to_dict():
 def all_gazetted_holidays_list():
 	return Gazetted_holidays.query.all()
 
-def gazetted_holidays_list():
-	holiday_string = Settings.query.filter_by(key='gazetted_holidays').first()
-	holidays = holiday_string.value.split(';')
-	for index, date in enumerate(holidays):
-		holidays[index] = datetime.datetime.strptime((str(datetime.datetime.now().year) + " " + date), "%Y %B %d")
+def gazetted_holidays_list(religion='Other'):
+	holiday_string = Gazetted_holidays.query.filter(Gazetted_holidays.religion.in_(('All', religion))).all()
+	holidays = []
+	for item in holiday_string:
+		hs = datetime.datetime.strptime((str(datetime.datetime.now().year) + " " + item.month + " " + item.date), "%Y %B %d")
+		holidays.append(hs)
 	return holidays
 
 @app.template_filter('strftime')

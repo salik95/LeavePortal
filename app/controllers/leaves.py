@@ -175,7 +175,7 @@ def respond_request():
 
 def update_employee_leaves_after_approval(start_date, end_date, emp_id, leave_type):
 	employee = Employees.query.get(emp_id)
-	days = workdays.networkdays(start_date, end_date, gazetted_holidays_list())
+	days = workdays.networkdays(start_date, end_date, gazetted_holidays_list(employee.religion))
 	if leave_type == "Medical":
 		employee.medical_leaves_availed = employee.medical_leaves_availed+days
 		employee.medical_leaves_remaining = employee.medical_leaves_remaining-days
