@@ -360,19 +360,6 @@ function holidaysHandler() {
 
   $('#form-holidays input, #form-holidays select').prop("disabled",true)
 
-  $edit.click(function(){
-    var $input = $(this).closest(".row").find("input");
-    var $select = $(this).closest(".row").find("select");
-
-    $input.each(function(){
-      $(this).prop('disabled',false);
-      if($(this).hasClass('select-dropdown')) {
-        $(this).siblings('select').prop('disabled', false)
-      }
-    })
-
-  })
-
   $new.click(function(){
     var $newRow = $row.clone(true, true);
     var $field = $newRow.find('input, select');
@@ -395,14 +382,32 @@ function holidaysHandler() {
     $newRow.find('select').material_select()
   })
 
+  let enableRow = ($row) => {
+    var $input = $row.find("input")
+    var $select = $row.find("select")
+
+    $input.each(function(){
+      $(this).prop('disabled',false)
+      if($(this).hasClass('select-dropdown')) {
+        $(this).siblings('select').prop('disabled', false)
+      }
+    })
+  }
+
+  $edit.click(() => {
+    enableRow($(this).closest(".row"))
+  })
+
   $delete.click(function(){
-    $row = $(this).closest(".row")
+    let $row = $(this).closest(".row")
+    let $id = $row.find('input[name="gazetted_holidays[id]"]')
 
     if($row.hasClass('delete'))
       return
 
-    $row.find('input[name="gazetted_holidays[id]"]').val((index, value) => {'delete;'+value})
+    $id.val('delete;' + $id.val())
     $row.addClass('delete')
+    enableRow($row)
   })
 }
 
