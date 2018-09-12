@@ -29,7 +29,7 @@ def leave_form():
 	leave_data['from_date'] = datetime.datetime.strptime(leave_data['from_date'], "%b %d, %Y")
 	leave_data['to_date'] = datetime.datetime.strptime(leave_data['to_date'], "%b %d, %Y")
 
-	days = workdays.networkdays(leave_data['from_date'], leave_data['to_date'], gazetted_holidays_list(employee.religion))
+	days = workdays.networkdays(leave_data['from_date'], leave_data['to_date'], gazetted_holidays_list(current_user.employee.religion))
 
 	if days > current_user.employee.general_leaves_remaining:
 		return error_response_handler("Leave request exceeds available leaves request", 400)
