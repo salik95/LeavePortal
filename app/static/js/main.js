@@ -363,9 +363,11 @@ function holidaysHandler() {
   $new.click(function(){
     var $newRow = $row.clone(true, true);
     var $field = $newRow.find('input, select');
-
+    enableRow($newRow)
+    $newRow.addClass('toRemove')
+    $field.removeAttr('required')
+    
     $field.each(function(){
-
       $(this).prop("disabled", false)
       if($(this).prop('tagName') == 'select') {
         $(this).parents('.select-wrapper').replaceWith($(this))
@@ -385,7 +387,7 @@ function holidaysHandler() {
   let enableRow = ($row) => {
     var $input = $row.find("input")
     var $select = $row.find("select")
-
+    
     $input.each(function(){
       $(this).prop('disabled',false)
       if($(this).hasClass('select-dropdown')) {
@@ -393,20 +395,32 @@ function holidaysHandler() {
       }
     })
   }
-
-  $edit.click(() => {
+  
+  $edit.click(function(){
     enableRow($(this).closest(".row"))
   })
 
-  $delete.click(function(){
+
+
+  $delete.click(function (){
     let $row = $(this).closest(".row")
     let $id = $row.find('input[name="gazetted_holidays[id]"]')
 
-    if($row.hasClass('delete'))
-      return
+    if($row.hasClass('toRemove')){
+      $row.remove()
+    }
 
-    $id.val('delete;' + $id.val())
-    $row.addClass('delete')
+    if($row.hasClass('delete')){
+      console.log($row.removeClass('delete'))
+      let valueString = $id.val().split(';')
+      let idNum = $id.val().substring($id.val().indexOf(";")+1)
+      $id.val(idNum)
+    }
+    else{
+      $id.val('delete;' + $id.val())
+      $row.addClass('delete')
+    }
+
     enableRow($row)
   })
 }
