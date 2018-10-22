@@ -6,9 +6,9 @@ import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 if os.environ.get('ENV') == 'staging':
-	DATABASE_NAME = 'hoh'
+	DATABASE_NAME = 'hoh_staging'
 else:
-	DATABASE_NAME = 'hoh_stable'
+	DATABASE_NAME = 'hoh_dev'
 
 
 # Define the database - we are working with
