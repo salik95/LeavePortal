@@ -3,9 +3,7 @@ DEBUG = True
 
 # Define the application directory
 import os
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
-
-import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 if os.environ.get('ENV') == 'staging':
 	DATABASE_NAME = 'hoh'
