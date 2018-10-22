@@ -9,7 +9,9 @@ if os.environ.get('ENV') == 'staging':
 	DATABASE_NAME = 'hoh_staging'
 else:
 	DATABASE_NAME = 'hoh_dev'
+	os.environ['ENV'] = 'development'
 
+FLASK_ENV = os.environ.get('ENV')
 
 # Define the database - we are working with
 # SQLite for this example
