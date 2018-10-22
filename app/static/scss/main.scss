@@ -138,6 +138,13 @@ strong {font-weight: 600}
 
 /** Material Overrides **/
 
+.picker__header > select{
+  opacity: 1;
+  height:100%;
+  position: inherit;
+  pointer-events: initial;
+}
+
 .collection {margin: 0}
 
 .collection-item { overflow: hidden!important; position: relative;
