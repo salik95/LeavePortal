@@ -5,9 +5,18 @@ DEBUG = True
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
 
+import os
+
+if os.environ.get('ENV') == 'staging':
+	DATABASE_NAME = 'hoh'
+else:
+	DATABASE_NAME = 'hoh_stable'
+
+
 # Define the database - we are working with
 # SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://quanrio:quanrio$$@adils.me/hoh'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://quanrio:quanrio$$@adils.me/%s' % DATABASE_NAME
+
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 
