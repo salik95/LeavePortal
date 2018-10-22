@@ -88,6 +88,8 @@ p.heading i {margin-right: 10px; font-size: 18px}
 
 strong {font-weight: 600}
 
+section {margin-top: 50px; margin-bottom: 50px}
+
 .scrollable {
 
   overflow-y: auto;
@@ -193,6 +195,7 @@ form.disabled {
 .brand-logo img {height: 80%; width: auto}
 
 .sep {margin: 20px 0; text-align: center; opacity: 0.2}
+hr {margin: 20px 0; opacity: 0.1}
 
 /** Custom Views / Components **/
 
@@ -323,6 +326,16 @@ main#login { padding: 0; height: 100vh; display: flex; align-items: center; just
   .remarks{ 
     width: 47%; text-align: left; margin-right:3%;
     a{margin-bottom: 20px; width: 35%; margin-right: 7%; margin-left: 7%; display: inline-block; min-width: 100px;}
+  }
+}
+
+.import-help { margin: 100px 0;
+
+  .key {border-radius: 3px; display: inline-block; clear: both; padding: 2px 8px; margin: 0 10px 0 0; background-color: rgba(0,0,0,0.06); box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  }
+
+  .list > div {margin: 20px 0;
+    p {margin: 5px 0}
   }
 }
 
