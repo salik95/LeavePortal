@@ -70,9 +70,10 @@ def employee():
 			db.session.add(new_employee)
 			db.session.commit()
 			db.session.refresh(new_employee)
-		except:
+		except Exception as e:
+			print(e)
 			db.session.rollback()
-			return redirect(url_for('dashboard'))
+			return error_response_handler(str(e), 400)
 
 		notify(subject='Welcome To HOH Leave Portal', body=password, receiver_id=new_user.id)
 		return jsonify(employee_created)

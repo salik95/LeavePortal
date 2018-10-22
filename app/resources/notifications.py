@@ -57,7 +57,7 @@ def notify(receiver_id = None, send_hr = None, send_gm=None , subject=None , bod
     try:
 
         text = subject
-        f = codecs.open("app/views/email_templates/leave_request.html", 'r')
+        f = codecs.open("app/views/email_templates/general.html", 'r')
         template = Template(f.read())
         subject = subject
         email = Configuration.query.filter_by(key='email_address').first().value
