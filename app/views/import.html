@@ -52,8 +52,6 @@
               <i class="material-icons">details</i>
               <span>Leave Balances</span>
             </p>
-            
-
             <div class="file-field input-field">
               <div class="btn flat round">
                 <span>Balances CSV</span>
@@ -92,24 +90,55 @@
             <div class="list">
               <div>
                 <p class="key">email</p>
-                <p>Employee email address. Should match with `email` of a record in Leave Balance CSV.</p>
+                <p>Employee email address. Should match with <u>email</u> of a record in Leave Balance CSV.</p>
               </div>
               <div>
-                <p class="key">from_date, to_date, time_stamp</p>
+                <p class="key">first_name, last_name, designation</p>
+                <p>Text with maximum length of 45 Characters</p>
+              </div>
+              <div>
+                <p class="key">religion</p>
+                <p>
+                  Accepted Values
+                  <ul class="browser-default">
+                    {% for religion in religions %}
+                    <li>{{religion}}</li>
+                    {% endfor %}
+                  </ul>
+                </p>
+              </div>
+              <div>
+                <p class="key">department</p>
+                <p>
+                  Accepted Values
+                  <ul class="browser-default">
+                    {% for department in departments %}
+                    <li>{{department.name}}</li>
+                    {% endfor %}
+                  </ul>
+                </p>
+              </div>
+              <div>
+                <p class="key">date_of_joining</p>
                 <p>Format: YYYY-MM-DD <br>
                 Example: 2018-10-22</p>
               </div>
               <div>
-                <p class="key">leave_type</p>
-                <p>Accepted values: 'General' or 'Medical'</p>
+                <p class="key">reporting_manager_email</p>
+                <p>Email address of reporting manger. This must be already registered or belong to another record in the same CSV</p>
               </div>
               <div>
-                <p class="key">purpose, hr_remark, manager_remark</p>
-                <p>Text under 100 characters. Longer text will be truncated</p>
+                <p class="key">general_leaves_available, medical_leaves_available</p>
+                <p class="key">general_leaves_remaining, medical_leaves_remaining</p>
+                <p>Numeral count of leaves according to &lt;type of leave&gt;_leaves_&lt;available or remaining&gt;</p>
               </div>
               <div>
-                <p class="key">manager_approval, hr_approval</p>
-                <p>Accepted Values: 'Unapproved' or 'Approved'</p>
+                <p class="key">probation</p>
+                <p>Accepted values (Numeral): '1' for on probation. '0' for not on probation.</p>
+              </div>
+              <div>
+                <p class="key">salary</p>
+                <p>...</p>
               </div>
             </div>
           </div>
@@ -123,7 +152,7 @@
             <div class="list">
               <div>
                 <p class="key">email</p>
-                <p>Employee email address. Should match with `email` of a record in Leave Balance CSV.</p>
+                <p>Employee email address. Should match with <u>email</u> of a record in Leave Balance CSV.</p>
               </div>
               <div>
                 <p class="key">from_date, to_date, time_stamp</p>
@@ -135,8 +164,12 @@
                 <p>Accepted values: 'General' or 'Medical'</p>
               </div>
               <div>
-                <p class="key">purpose, hr_remark, manager_remark</p>
-                <p>Text under 100 characters. Longer text will be truncated</p>
+                <p class="key">purpose</p>
+                <p>Text with maximum length of 200 characters. Longer text will be truncated</p>
+              </div>
+              <div>
+                <p class="key">hr_remark, manager_remark</p>
+                <p>Text with maximum length of 128 characters. Longer text will be truncated</p>
               </div>
               <div>
                 <p class="key">manager_approval, hr_approval</p>
