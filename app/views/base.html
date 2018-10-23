@@ -19,9 +19,7 @@
 
   {% if current_user.is_authenticated %}
   <header>
-    <a href="/dashboard" class="logo">
-      <p>HMPL Leaves</p>
-    </a>
+    <a href="/dashboard" class="logo">HMPL Leaves</a>
     <div class="tools right">
       {% if current_user.role != "Director" %}
       <a href="#addleave" class="waves-effect waves-light btn round trigger">Apply for Leave</a>
@@ -48,6 +46,7 @@
         </div>
       </span>
     </div>
+    <div class="clr"></div>
   </header>
   {% endif %}
 

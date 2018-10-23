@@ -71,176 +71,184 @@ label.loading:after { position: absolute; margin-left: 15px;
   content: ''; background-image: url('../img/loading.gif'); width: 24px; height: 24px; background-size: cover}
 
 
-/** Custom Globals **/
+  /** Custom Globals **/
 
-.wrap {padding: 0 5%;}
-.text-center {text-align: center;}
-.right, .text-right {text-align: right}
-.text-left {text-align: left}
-.clr{ clear: both;}
+  .wrap {padding: 0 5%;}
+  .text-center {text-align: center;}
+  .right, .text-right {text-align: right}
+  .text-left {text-align: left}
+  .clr{ clear: both;}
 
-.upper {text-transform: uppercase;}
-.bold {font-weight: 600}
-.border-top {border-top:1px solid #DDDDDD;}
-.small {font-size: 12px}
-.light {color: #999!important}
+  .upper {text-transform: uppercase;}
+  .bold {font-weight: 600}
+  .border-top {border-top:1px solid #DDDDDD;}
+  .small {font-size: 12px}
+  .light {color: #999!important}
 
-p.heading {margin-bottom: 50px!important; font-size: 18px;}
-p.heading span {vertical-align: middle}
-p.heading i {margin-right: 10px; font-size: 18px}
+  p.heading {margin-bottom: 50px!important; font-size: 18px;}
+  p.heading span {vertical-align: middle}
+  p.heading i {margin-right: 10px; font-size: 18px}
 
-strong {font-weight: 600}
+  strong {font-weight: 600}
 
-section {margin-top: 50px; margin-bottom: 50px}
+  section {margin-top: 50px; margin-bottom: 50px}
 
-.scrollable {
+  .scrollable {
 
-  overflow-y: auto;
-  overflow-x: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-  &::-webkit-scrollbar {width:3px; background-color:#F5F5F5;}
-  &::-webkit-scrollbar-track {box-shadow:inset 0 0 6px rgba(0,0,0,0.3); background-color:#F5F5F5;}
-  &::-webkit-scrollbar-thumb {background-color:#000; border:2px solid #555;}
-}
+    &::-webkit-scrollbar {width:3px; background-color:#F5F5F5;}
+    &::-webkit-scrollbar-track {box-shadow:inset 0 0 6px rgba(0,0,0,0.3); background-color:#F5F5F5;}
+    &::-webkit-scrollbar-thumb {background-color:#000; border:2px solid #555;}
+  }
 
-.col.center {float: none; margin: 0 auto}
+  .col.center {float: none; margin: 0 auto}
 
-.material-icons {vertical-align: middle}
+  .material-icons {vertical-align: middle}
 
-.lightbox { display: none; 
-  position: fixed; top: 0; overflow-y: scroll; height: 100%; width: 100%; z-index: 2000; background-color: rgba(255,255,255,0.9);
-  .content {margin: 0 auto; max-width: 1000px; width: 90%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
-}
+  .lightbox { display: none; 
+    position: fixed; top: 0; overflow-y: scroll; height: 100%; width: 100%; z-index: 2000; background-color: rgba(255,255,255,0.9);
+    .content {margin: 0 auto; max-width: 1000px; width: 90%; padding: 50px 5%; background-color: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1)}
+  }
 
-.collapsible { margin: 0; border: 0; box-shadow: none;
+  .collapsible { margin: 0; border: 0; box-shadow: none;
 
-  > li {height: auto; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
+    > li {height: auto; box-shadow: 0 -1px 0 0 rgba(0,0,0,0.05);}
 
-  .view-all {margin: auto; display: inline-block; width: 100%; text-align: center}
+    .view-all {margin: auto; display: inline-block; width: 100%; text-align: center}
 
-  .collapsible-header { padding: 0; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px; position: relative;
+    .collapsible-header { padding: 0; display:flex; overflow: hidden; flex-direction: row; justify-content:space-between; align-items: center; height: 50px; border: 0px; position: relative;
 
-    .type { padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
-      p {text-align: center; padding: 16px 0px;}
+      .type { padding: 0px 1px; margin-right: 20px; width:50px; color: #fff; height:inherit; position:absolute;
+        p {text-align: center; padding: 16px 0px;}
+      }
+
+      i {margin: 0;}
+
+      .medical { background-color: #5FAD56;} 
+      .general { background-color: #1B264F;}
+
+      .duration { margin-left:70px;}
+      .status { margin: 0px 15px; font-weight: bold; font-size: 14px;
+        &.pending {color: $orange}
+      }
     }
 
-    i {margin: 0;}
+    &.padded .collapsible-header {padding: 0 25px;}
 
-    .medical { background-color: #5FAD56;} 
-    .general { background-color: #1B264F;}
+    .collapsible-body {background-color: #fafafa}
+  } 
 
-    .duration { margin-left:70px;}
-    .status { margin: 0px 15px; font-weight: bold; font-size: 14px;
-      &.pending {color: $orange}
-    }
+
+  /** Material Overrides **/
+
+  .picker__header > select{
+    opacity: 1;
+    height:100%;
+    position: inherit;
+    pointer-events: initial;
   }
 
-  &.padded .collapsible-header {padding: 0 25px;}
+  .collection {margin: 0}
 
-  .collapsible-body {background-color: #fafafa}
-} 
+  .collection-item { overflow: hidden!important; position: relative;
+    .primary-content{float: left;}
+    .secondary-content a{top: 20px;}
+    .approved {color: $green;}
+    .unapproved {color: $red;}
+    .pending {color: $yellow;}
 
+    .status {background-color: transparent}
+    &.approved .status {background-color: $green}
+    &.unapproved .status {background-color: $red}
+    &.pending .status {background-color: $yellow}
 
-/** Material Overrides **/
+    &.responded:not(.active) {opacity: 0.6}
 
-.picker__header > select{
-  opacity: 1;
-  height:100%;
-  position: inherit;
-  pointer-events: initial;
-}
-
-.collection {margin: 0}
-
-.collection-item { overflow: hidden!important; position: relative;
-  .primary-content{float: left;}
-  .secondary-content a{top: 20px;}
-  .approved {color: $green;}
-  .unapproved {color: $red;}
-  .pending {color: $yellow;}
-  
-  .status {background-color: transparent}
-  &.approved .status {background-color: $green}
-  &.unapproved .status {background-color: $red}
-  &.pending .status {background-color: $yellow}
-
-  &.responded:not(.active) {opacity: 0.6}
-  
-}
-
-form .loading {display: none; padding: 20px 0; opacity: 0.5;
-  img {width: 32px; height: auto}
-}
-
-form.loading {
-  .loading {display:block;}
-}
-
-form.disabled {
-  button {opacity: 0}
-}
-
-
-.card { box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
-  &.tagged {border-top: solid 3px $primary-color;}
-  &.fixed { height: 250px;}
-
-  .card-title { padding: 16px 20px; position: relative; background-color: lighten($background-color, 3); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
-    vertical-align: middle; font-weight: 600; box-shadow: 0 1px rgba(0,0,0,0.06);
-
-    > * {vertical-align: middle}
-    span {vertical-align: middle;}
-
-    .btn {position: absolute; right: 20px; top: 50%; transform: translateY(-50%)}
-    .name {opacity: 0.3; font-size: 16px; font-weight: 600; margin-left: 10px; padding-left: 10px; box-shadow: -1px 0 0 0 $primary-color}
   }
-}
 
-.brand-logo img {height: 80%; width: auto}
-
-.sep {margin: 20px 0; text-align: center; opacity: 0.2}
-hr {margin: 20px 0; opacity: 0.1}
-
-/** Custom Views / Components **/
-
-header {position: relative;  padding: 0 100px; height: 50px; color: #fff; background-color: darken($primary-color, 10);
-
-  a {color: #fff}
-
-  .logo {float: left; height: 100%; display: flex; align-items: center; font-weight: 600; font-size: 28px; text-transform: uppercase;
-    img {max-height: 70%; height: 100%;}
+  form .loading {display: none; padding: 20px 0; opacity: 0.5;
+    img {width: 32px; height: auto}
   }
-  .tools { float: right; height: 100%; position: relative; display: flex; align-items: center; 
-    > * {cursor: pointer; margin: 0 10px; position: relative}
-    i {vertical-align: middle; font-size: 30px;}
 
-    a.logout {opacity: 0.3; transition: all 0.5s ease;
-      &:hover {opacity: 0.8}
+  form.loading {
+    .loading {display:block;}
+  }
+
+  form.disabled {
+    button {opacity: 0}
+  }
+
+
+  .card { box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+    &.tagged {border-top: solid 3px $primary-color;}
+    &.fixed { height: 250px;}
+
+    .card-title { padding: 16px 20px; position: relative; background-color: lighten($background-color, 3); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
+      vertical-align: middle; font-weight: 600; box-shadow: 0 1px rgba(0,0,0,0.06);
+
+      > * {vertical-align: middle}
+      span {vertical-align: middle;}
+
+      .btn {position: absolute; right: 20px; top: 50%; transform: translateY(-50%)}
+      .name {opacity: 0.3; font-size: 16px; font-weight: 600; margin-left: 10px; padding-left: 10px; box-shadow: -1px 0 0 0 $primary-color}
     }
   }
 
-  .account {
-    &.active .widget {opacity: 1; z-index: 2; cursor: pointer; top: 100%}
-    
-    .widget { position: absolute; right: 0; top: -400px; padding-top: 15px; min-width: 200px; 
-     opacity: 0; transition: opacity 0.5s ease; cursor: default;
+  .brand-logo img {height: 80%; width: auto}
 
-     .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
+  .sep {margin: 20px 0; text-align: center; opacity: 0.2}
+  hr {margin: 20px 0; opacity: 0.1}
 
-     .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
+  /** Custom Views / Components **/
 
-     ul {margin: 0;
-      li {padding: 5px 0}
-      li:hover {opacity: 0.9}
+  header {position: relative;  padding: 0 100px; height: 50px; color: #fff; background-color: darken($primary-color, 10);
+
+    @media screen and (max-width: 768px) {
+      padding: 0 2%;
     }
-    i {font-size: 18px!important;}
-    a {color: $primary-color}
-  }
-}
 
-.btn { background-color: lighten(#6DC6EB, 0); /** color for button**/
-  &:hover {background-color: lighten(#26718e, 15)} /** color for hover**/
-}
+    @media screen and (max-width: 425px) {
+      padding: 10px 0; height: auto; display: flex; align-items: center; justify-content: center; flex-flow: column;
+    }
+
+    a {color: #fff}
+
+    .logo {float: left; height: 100%; display: flex; align-items: center; font-weight: 600; font-size: 28px; text-transform: uppercase;
+      img {max-height: 70%; height: 100%;}
+    }
+    .tools { float: right; height: 100%; position: relative; display: flex; align-items: center; 
+      > * {cursor: pointer; margin: 0 10px; position: relative}
+      i {vertical-align: middle; font-size: 30px;}
+
+      a.logout {opacity: 0.3; transition: all 0.5s ease;
+        &:hover {opacity: 0.8}
+      }
+    }
+
+    .account {
+      &.active .widget {opacity: 1; z-index: 2; cursor: pointer; top: 100%}
+
+      .widget { position: absolute; right: 0; top: -400px; padding-top: 15px; min-width: 200px; 
+       opacity: 0; transition: opacity 0.5s ease; cursor: default;
+
+       .content {padding: 15px; background-color: #fff; box-shadow: 0 2px 50px 0 rgba(0,0,0,0.2); border-radius: 10px; color: $primary-color; text-align: left;}
+
+       .name {color: #666; text-align: center; margin-bottom: 10px; display: block}
+
+       ul {margin: 0;
+        li {padding: 5px 0}
+        li:hover {opacity: 0.9}
+      }
+      i {font-size: 18px!important;}
+      a {color: $primary-color}
+    }
+  }
+
+  .btn { background-color: #7072A0; color: #fff; /** color for button**/
+    &:hover {background-color: lighten(#7072A0, 5)} /** color for hover**/
+  }
 }
 
 main { padding: 80px 8%;  min-height: calc(100vh - 90px);
