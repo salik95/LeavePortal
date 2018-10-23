@@ -15,8 +15,10 @@ $red: #fc5c65;
 $yellow: #f1c40f;
 $orange: #f39c12;
 
-html {font-family: 'Varela Round'; color: darken($primary-color, 15)}
-body {background-color: #e8eaf6;}
+$background-color: #e8eaf6;
+
+html {font-family: 'Varela Round'; color: darken($primary-color, 15); font-size: 16px;}
+body {background-color: $background-color;}
 
 .notice {margin: 20px 0; opacity: 0; padding: 2px 20px; border-radius: 20px; box-shadow: 0 0 0 2px $primary-color; color: $primary-color; text-align: center;  font-size: 14px;
 
@@ -73,7 +75,8 @@ label.loading:after { position: absolute; margin-left: 15px;
 
 .wrap {padding: 0 5%;}
 .text-center {text-align: center;}
-.right {text-align: right}
+.right, .text-right {text-align: right}
+.text-left {text-align: left}
 .clr{ clear: both;}
 
 .upper {text-transform: uppercase;}
@@ -178,12 +181,13 @@ form.disabled {
 }
 
 
-.card { box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
+.card { box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1); box-sizing: border-box; border-radius: 5px; overflow: hidden;
   &.tagged {border-top: solid 3px $primary-color;}
   &.fixed { height: 250px;}
 
-  .card-title { padding: 16px 0; position: relative; background-color: darken($light-gray, 1); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
-    vertical-align: middle;
+  .card-title { padding: 16px 20px; position: relative; background-color: lighten($background-color, 3); box-sizing: content-box; margin: 0; font-size: 18px!important; text-align: center; color: $primary-color; font: 400 20px Nunito;
+    vertical-align: middle; font-weight: 600; box-shadow: 0 1px rgba(0,0,0,0.06);
+
     > * {vertical-align: middle}
     span {vertical-align: middle;}
 
@@ -239,7 +243,11 @@ header {position: relative;  padding: 0 100px; height: 50px; color: #fff; backgr
 }
 }
 
-main {padding: 80px 8%;  min-height: calc(100vh - 90px)}
+main { padding: 80px 8%;  min-height: calc(100vh - 90px);
+  @media screen and (max-width: 768px) {
+    padding: 80px 1%;
+  }
+}
 
 main#dashboard {}
 
@@ -251,7 +259,7 @@ main#dashboard {}
     color: rgba(0,0,0,0.4); background-color: #fff; font-weight: 600; text-transform: uppercase; text-align: right; font-size: 13px;
   }
 
-  .btn {padding: 0 5px; margin-right: 20px}
+  .btn {padding: 0 5px; margin: 5px 10px; float: right;}
   .btn i.left {margin-right: 5px; font-weight: 600;}
 }
 
@@ -296,8 +304,11 @@ main#login { padding: 0; height: 100vh; display: flex; align-items: center; just
 
 // Leaves Card
 .card.leaves {
-
   .card-content {padding: 0 0;}
+}
+
+.card.leaves.history {
+  .card-title {text-align: left}
 }
 
 //history

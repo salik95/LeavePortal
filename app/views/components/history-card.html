@@ -1,12 +1,17 @@
-<div class="card leaves">
+{% set is_history = false %}
+{% if single_view and leave_list %}
+{% set is_history = true %}
+{% endif %}
+
+<div class="card leaves {{'history' if is_history}}">
 
   <p class="card-title">
     {% if view_empsheet %}
-    <span>Leave History</span> <span class="name"><i class="material-icons">account_circle</i> {{employee.first_name}} 
-      {% if employee.last_name is not none %}
-       {{ employee.last_name }}
-      {% endif %}
-    </span>
+      <span>Leave History</span> <span class="name"><i class="material-icons">account_circle</i> {{employee.first_name}} 
+        {% if employee.last_name is not none %}
+        {{ employee.last_name }}
+        {% endif %}
+      </span>
     {% else %}
     <i class="material-icons">assignment</i> <span>Personal History</span>
     {% endif %}
