@@ -35,13 +35,13 @@ def upload_file(file):
 
 def read_csv(link):
 	with open(link) as csvfile:
-		reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+		reader = csv.reader(csvfile, delimiter=',', quotechar='|')
 		list_of_elemet = []
 		for index, row in enumerate(reader):
 			if index == 0:
 				keys = row
 			else:
-				list_of_elemet.append(dict(zip(keys[0].split(','), row[0].split(','))))
+				list_of_elemet.append(dict(zip(keys, row)))
 		return list_of_elemet
 
 
@@ -91,7 +91,8 @@ def bulk_import():
 							                  			doj=i['date_of_joining'] ,\
 							                   			probation_period=int(settings_to_dict()['probation_period'])) == 1 else False
 					i['last_updated'] = datetime.now().date()
-
+					i['department_id'] = (Department.query.filter_by(name=i['department']).first()).id
+					del i['department']
 					new_employee = Employees() 
 					for item in i.keys():
 						if item != 'reporting_manager_email':
@@ -106,6 +107,7 @@ def bulk_import():
 			list_of_employee_object = []
 			for i in list_of_elemet:
 				new_employee = Employees.query.filter_by(user_id=str(i['user_id'])).first()
+				print(i['reporting_manager_email'])
 				manager_user = User.query.filter_by(email=i['reporting_manager_email']).first()
 				manager_employee = Employees.query.filter_by(user_id=str(manager_user.id)).first()
 				setattr(new_employee, 'reporting_manager_id', manager_employee.id)
