@@ -3,6 +3,7 @@ from datetime import datetime , time , timedelta
 import calendar
 
 def add_months(sourcedate,months):
+     sourcedate = datetime.strptime(sourcedate, '%Y-%m-%d')
      month = sourcedate.month - 1 + months
      year = sourcedate.year + month // 12
      month = month % 12 + 1

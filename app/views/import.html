@@ -31,12 +31,15 @@
             <div class="file-field input-field">
               <div class="btn flat round">
                 <span>Employees CSV</span>
-                <input type="file" name="employees" required>
+                <input type="file" name="employees" required {% if not config["FLASK_ENV"] == 'development' %}disabled{%endif%}>
               </div>
 
               <div class="file-path-wrapper">
-                <input class="file-path validate" name="employees" type="text" required>
+                <input class="file-path validate" name="employees" type="text" required {% if not config["FLASK_ENV"] == 'development' %}disabled{%endif%}>
               </div>
+            </div>
+            <div class="center-align">
+              <a class="center-align small uppercase" href="{{url_for('static', filename='template_employees.csv') }}" target="_blank"><i class="material-icons">file_download</i>Employees Template CSV</a>  
             </div>
           </div>
         </div>
@@ -49,15 +52,19 @@
               <i class="material-icons">details</i>
               <span>Leave Balances</span>
             </p>
+            
 
             <div class="file-field input-field">
               <div class="btn flat round">
                 <span>Balances CSV</span>
-                <input type="file" name="balances" required>
+                <input type="file" name="balances" required {% if not config["FLASK_ENV"] == 'development' %}disabled{%endif%}>
               </div>
               <div class="file-path-wrapper">
-                <input class="file-path validate" name="balances" type="text" required>
+                <input class="file-path validate" name="balances" type="text" required {% if not config["FLASK_ENV"] == 'development' %}disabled{%endif%}>
               </div>
+            </div>
+            <div class="center-align">
+              <a class="center-align small uppercase" href="{{url_for('static', filename='template_leaves.csv') }} target="_blank""><i class="material-icons">file_download</i>Leaves Template CSV</a>  
             </div>
           </div>
         </div>
@@ -67,10 +74,81 @@
     <br><br>
 
     <div class="row center-align">
-      <button type="submit" name="submit" class="btn flat center"><i class="material-icons">arrow_drop_up</i> Import Now</button>
+      <button type="submit" name="submit" class="btn flat center" {% if not config["FLASK_ENV"] == 'development' %}disabled{%endif%}><i class="material-icons">arrow_drop_up</i> Import Now</button>
     </div>
 
   </form>
+
+  <section class="import-help">
+
+    <h4 class="center-align">Template Guide</h4>
+    <br>
+    <div class="row">
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
+            <h5>Employees</h5>
+            <hr>
+            <div class="list">
+              <div>
+                <p class="key">email</p>
+                <p>Employee email address. Should match with `email` of a record in Leave Balance CSV.</p>
+              </div>
+              <div>
+                <p class="key">from_date, to_date, time_stamp</p>
+                <p>Format: YYYY-MM-DD <br>
+                Example: 2018-10-22</p>
+              </div>
+              <div>
+                <p class="key">leave_type</p>
+                <p>Accepted values: 'General' or 'Medical'</p>
+              </div>
+              <div>
+                <p class="key">purpose, hr_remark, manager_remark</p>
+                <p>Text under 100 characters. Longer text will be truncated</p>
+              </div>
+              <div>
+                <p class="key">manager_approval, hr_approval</p>
+                <p>Accepted Values: 'Unapproved' or 'Approved'</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
+            <h5>Leave Balances</h5>
+            <hr>
+            <div class="list">
+              <div>
+                <p class="key">email</p>
+                <p>Employee email address. Should match with `email` of a record in Leave Balance CSV.</p>
+              </div>
+              <div>
+                <p class="key">from_date, to_date, time_stamp</p>
+                <p>Format: YYYY-MM-DD <br>
+                Example: 2018-10-22</p>
+              </div>
+              <div>
+                <p class="key">leave_type</p>
+                <p>Accepted values: 'General' or 'Medical'</p>
+              </div>
+              <div>
+                <p class="key">purpose, hr_remark, manager_remark</p>
+                <p>Text under 100 characters. Longer text will be truncated</p>
+              </div>
+              <div>
+                <p class="key">manager_approval, hr_approval</p>
+                <p>Accepted Values: 'Unapproved' or 'Approved'</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>
 </main>
 
 {% endblock %}

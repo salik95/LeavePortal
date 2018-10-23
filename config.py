@@ -3,11 +3,20 @@ DEBUG = True
 
 # Define the application directory
 import os
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+if os.environ.get('ENV') == 'staging':
+	DATABASE_NAME = 'hoh_staging'
+else:
+	DATABASE_NAME = 'hoh_dev'
+	os.environ['ENV'] = 'development'
+
+FLASK_ENV = os.environ.get('ENV')
 
 # Define the database - we are working with
 # SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://quanrio:quanrio$$@adils.me/hoh'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://quanrio:quanrio$$@adils.me/%s' % DATABASE_NAME
+
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 

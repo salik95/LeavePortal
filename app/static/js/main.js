@@ -82,6 +82,7 @@ function init() {
     formatSubmit: 'yyyy-mm-dd'
   })
 
+
   var yesterday = new Date((new Date()).valueOf()-1000*60*60*24)
 
   var $from_date_field = $('input[name="from_date"]')
