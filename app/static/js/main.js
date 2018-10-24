@@ -1,6 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-  if(logged_in) {
+  if (logged_in) {
     init()
     accountDropdown()
     searchEmployee()
@@ -10,7 +10,7 @@ $(document).ready(function() {
     holidaysHandler()
   }
 
-  $('form').on('submit', function(e) {
+  $('form').on('submit', function (e) {
 
     $form = $(this)
     $form.addClass('loading')
@@ -21,26 +21,26 @@ $(document).ready(function() {
     $form.find('[type="submit"]').addClass('disabled')
 
     $('html, body').animate({
-        scrollTop: $(this).offset().top
+      scrollTop: $(this).offset().top
     }, 500);
-    
+
   })
 
 })
 
 
-var getDate = function(d) {
+var getDate = function (d) {
   date = new Date(d)
   fixed_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
   return fixed_date
 }
 
-var updateQueryParam = function(param, value) {
+var updateQueryParam = function (param, value) {
   var url = window.location.origin + window.location.pathname
   var query_string = location.search.substring(1)
   var query_obj = {}
-  if(query_string !== '') {
-    query_obj = JSON.parse('{"' + decodeURI(query_string).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+  if (query_string !== '') {
+    query_obj = JSON.parse('{"' + decodeURI(query_string).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
   }
 
   query_obj[param] = value
@@ -57,7 +57,7 @@ function init() {
   var csrftoken = $('meta[name=csrf-token]').attr('content')
 
   $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
+    beforeSend: function (xhr, settings) {
       if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
         xhr.setRequestHeader("X-CSRFToken", csrftoken)
       }
@@ -83,7 +83,7 @@ function init() {
   })
 
 
-  var yesterday = new Date((new Date()).valueOf()-1000*60*60*24)
+  var yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24)
 
   var $from_date_field = $('input[name="from_date"]')
 
@@ -91,46 +91,62 @@ function init() {
   to_date_picker = $('input[name="to_date"]').pickadate('picker')
   to_date_picker.set('disable', true)
 
-  var leaves_remaining = $("[data-leaves_remaining]").data('leaves_remaining')
+  var general_leaves_remaining = $("[data-leaves_remaining]").data('leaves_remaining')
+  var medical_leaves_remaining = $('[data-medical_leaves_remaining]').data('medical_leaves_remaining')
 
-  from_date_picker.on({
-    'set': function(prop) {
-      if(prop.select !== "undefined") {
-
-        var date = from_date_picker.get('select')
-        if(date) {
-          console.log(date.pick)
-          date = new Date(date.pick)
-        }
-        else
-          return
-        to_date_picker.set('disable', false)
-        to_date_picker.set('min', date)
-        to_date_picker.set('max', new Date(date.valueOf()+(1000*60*60*24*(leaves_remaining-1))) )
-      }
+  dateSet(general_leaves_remaining)
+  $('#leavetype').change(()=>{
+    from_date_picker.clear()
+    to_date_picker.clear()
+    
+    if($('#leavetype').find(":selected").text()=="Medical"){
+      dateSet(medical_leaves_remaining)
     }
+    else{
+      dateSet(general_leaves_remaining)
+    }
+    
   })
+  
+  function dateSet(remainingLeaves) {
+    from_date_picker.on({
+      'set': function setDate(prop) {
+        if (prop.select !== "undefined") {
+
+          var date = from_date_picker.get('select')
+          if (date) {
+            date = new Date(date.pick)
+          }
+          else
+            return
+          to_date_picker.set('disable', false)
+          to_date_picker.set('min', date)
+          to_date_picker.set('max', new Date(date.valueOf() + (1000 * 60 * 60 * 24 * (remainingLeaves - 1))))
+        }
+      }
+    })
+  }
 
 
   from_date_picker.set('disable', [{
-    from: [0,0,0], to: yesterday
+    from: [0, 0, 0], to: yesterday
   }])
 
   lightbox = {
-    show: function(lb) {
-      $('body').css('overflow','hidden')
+    show: function (lb) {
+      $('body').css('overflow', 'hidden')
       lb.addClass('active')
       lb.fadeIn(400)
     },
 
-    hide: function(lb) {
-      $('body').css('overflow','inherit')
+    hide: function (lb) {
+      $('body').css('overflow', 'inherit')
       lb.removeClass('active')
       lb.fadeOut(400)
 
       var $form = lb.find('form[data-resource]')
 
-      if($form) {
+      if ($form) {
         $notice = $form.find('.notice')
         $notice.removeClass('success')
         $notice.removeClass('error')
@@ -138,20 +154,20 @@ function init() {
     }
   }
 
-  $('.lightbox').click(function(e) {
+  $('.lightbox').click(function (e) {
     if (e.target !== this) return;
     lightbox.hide($(this))
   })
 
-  $('a.trigger').click(function(e) {
+  $('a.trigger').click(function (e) {
     e.preventDefault()
     id = $(this).attr('href')
-    $lightbox = $('.lightbox'+id)
+    $lightbox = $('.lightbox' + id)
     lightbox.show($lightbox)
   })
 
 
-  $('[data-query]').click(function(){
+  $('[data-query]').click(function () {
     pair = $(this).attr('data-query').split('=')
     updateQueryParam(pair[0], pair[1])
   })
@@ -164,7 +180,7 @@ function init() {
 **/
 
 function handleAsyncForm() {
-  $('form[data-resource]').submit(function(e) {
+  $('form[data-resource]').submit(function (e) {
     e.preventDefault()
     $self = $(this)
     $notice = $self.find('.notice')
@@ -175,21 +191,21 @@ function handleAsyncForm() {
     var raw_data = $(this).serializeArray()
     var data = {}
 
-    $.each(raw_data, function() {
+    $.each(raw_data, function () {
       data[this.name] = this.value
     })
 
-    actions.send(resource, method, data, function(status, response) {
+    actions.send(resource, method, data, function (status, response) {
 
       $self.removeClass('loading')
       $self.find('[type="submit"]').removeClass('disabled')
 
-      if(status=='success') {
+      if (status == 'success') {
 
         console.log(response)
         $notice.removeClass('error')
         $notice.addClass('success')
-        if(resource == 'employee')
+        if (resource == 'employee')
           $notice.text('Employee is successfully added and notified via email')
 
         else if (resource == 'leave' && method == "POST")
@@ -213,7 +229,7 @@ function handleAsyncForm() {
           $self.closest('.collection-item').addClass('responded')
           $self.closest('.collection-item').removeClass('pending')
           $self.closest('.collection-item').addClass((data.approval.toLowerCase()))
-          if(response.redirect_url !== undefined)
+          if (response.redirect_url !== undefined)
             window.open(response.redirect_url, '_blank')
         }
 
@@ -248,14 +264,14 @@ function handleEncashment() {
   $encash_input = $('#encashment form input[name="amount"]')
   $encash_button = $encash_form.find('button')
 
-  var leaves_available = parseFloat($('[data-id="leaves_available"]').attr('data-val')) 
+  var leaves_available = parseFloat($('[data-id="leaves_available"]').attr('data-val'))
   var salary = parseFloat($('[data-id="salary"]').attr('data-val'))
-  var amount_available = leaves_available*salary
+  var amount_available = leaves_available * salary
 
-  $encash_input.on('input', function() {
+  $encash_input.on('input', function () {
     console.log('Amount Updates')
 
-    if($(this).val() == '') {
+    if ($(this).val() == '') {
       $encash_button.addClass('disabled')
       $encash_form.attr('data-state', '')
       return
@@ -270,7 +286,7 @@ function handleEncashment() {
     $('[data-id="amount_remaining"]').text(amount_remaining < 0 ? 0 : amount_remaining)
     $('[data-id="leaves_remaining"]').text(leaves_remaining < 0 ? 0 : leaves_remaining)
 
-    if(amount_remaining < 0) {
+    if (amount_remaining < 0) {
       $encash_form.attr('data-state', 'errored')
       $encash_button.addClass('disabled')
     }
@@ -279,10 +295,10 @@ function handleEncashment() {
       $encash_button.removeClass('disabled')
       $encash_form.attr('data-state', 'updated')
     }
-    
+
   })
 
-  $encash_input.on('keydown', function() {
+  $encash_input.on('keydown', function () {
     console.log('Amount Key Pressed!')
   })
 }
@@ -296,27 +312,27 @@ function searchEmployee() {
   $list = $('#names')
   var searching = false
 
-  $("input[list=names]").on("input",function(e) {
+  $("input[list=names]").on("input", function (e) {
 
     $input = $(this)
     $label = $input.siblings('label')
     var selected_id = null
     var keyword = $input.val()
-    
-    if(keyword.length < 3)
+
+    if (keyword.length < 3)
       return
 
-    if(searching == true)
+    if (searching == true)
       return
 
     searching = true
 
     $label.addClass('loading')
-    getEmployees(keyword, function(list) {
+    getEmployees(keyword, function (list) {
       $list.empty()
 
-      list.forEach(function(item) {
-        $option = $('<option value="'+item.name+'" data-id="'+item.id+'">'+item.designation+'</option>')
+      list.forEach(function (item) {
+        $option = $('<option value="' + item.name + '" data-id="' + item.id + '">' + item.designation + '</option>')
         $list.append($option)
       })
 
@@ -324,18 +340,18 @@ function searchEmployee() {
       $label.removeClass('loading')
     })
 
-    $('datalist#names > option').each(function(item) {
-      if( $(this).val() === keyword ) {
+    $('datalist#names > option').each(function (item) {
+      if ($(this).val() === keyword) {
         selected_id = $(this).attr('data-id')
       }
     })
 
-    if(selected_id) {
+    if (selected_id) {
 
       console.log(selected_id)
 
-      if($input.attr('data-proxy')) {
-        $('input[name='+$input.attr('data-proxy')+']').val(selected_id)
+      if ($input.attr('data-proxy')) {
+        $('input[name=' + $input.attr('data-proxy') + ']').val(selected_id)
       }
 
       // For adding to query param
@@ -359,18 +375,18 @@ function holidaysHandler() {
 
   var $selectMonth = $('[name="gazetted_holidays[month]"]').first().clone().removeClass('initialized').removeAttr('data-select-id')
 
-  $('#form-holidays input, #form-holidays select').prop("disabled",true)
+  $('#form-holidays input, #form-holidays select').prop("disabled", true)
 
-  $new.click(function(){
+  $new.click(function () {
     var $newRow = $row.clone(true, true);
     var $field = $newRow.find('input, select');
     enableRow($newRow)
     $newRow.addClass('toRemove')
     $field.removeAttr('required')
-    
-    $field.each(function(){
+
+    $field.each(function () {
       $(this).prop("disabled", false)
-      if($(this).prop('tagName') == 'select') {
+      if ($(this).prop('tagName') == 'select') {
         $(this).parents('.select-wrapper').replaceWith($(this))
       }
     })
@@ -388,36 +404,36 @@ function holidaysHandler() {
   let enableRow = ($row) => {
     var $input = $row.find("input")
     var $select = $row.find("select")
-    
-    $input.each(function(){
-      $(this).prop('disabled',false)
-      if($(this).hasClass('select-dropdown')) {
+
+    $input.each(function () {
+      $(this).prop('disabled', false)
+      if ($(this).hasClass('select-dropdown')) {
         $(this).siblings('select').prop('disabled', false)
       }
     })
   }
-  
-  $edit.click(function(){
+
+  $edit.click(function () {
     enableRow($(this).closest(".row"))
   })
 
 
 
-  $delete.click(function (){
+  $delete.click(function () {
     let $row = $(this).closest(".row")
     let $id = $row.find('input[name="gazetted_holidays[id]"]')
 
-    if($row.hasClass('toRemove')){
+    if ($row.hasClass('toRemove')) {
       $row.remove()
     }
 
-    if($row.hasClass('delete')){
+    if ($row.hasClass('delete')) {
       console.log($row.removeClass('delete'))
       let valueString = $id.val().split(';')
-      let idNum = $id.val().substring($id.val().indexOf(";")+1)
+      let idNum = $id.val().substring($id.val().indexOf(";") + 1)
       $id.val(idNum)
     }
-    else{
+    else {
       $id.val('delete;' + $id.val())
       $row.addClass('delete')
     }
@@ -432,14 +448,14 @@ function holidaysHandler() {
 **/
 
 function accountDropdown() {
-  $('.account > i').on('mouseover', function(event) {
+  $('.account > i').on('mouseover', function (event) {
     console.log(event)
     $('.account').addClass('active')
   })
 
-  $('.account').on('mouseleave', function(event) {
+  $('.account').on('mouseleave', function (event) {
     console.log(event)
-    if($('.account').hasClass('active'))
+    if ($('.account').hasClass('active'))
       $('.account').removeClass('active')
   })
 }

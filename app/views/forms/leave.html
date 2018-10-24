@@ -4,6 +4,21 @@
 
     {% include 'components/loading.html' %}
     <div class="notice">.</div>
+    <div class="row">
+
+      <div id="leavetype" class="input-field col m6 s12">
+        <select name="leave_type" required>
+          <option value="General">General</option>
+          <option value="Medical">Medical</option>
+        </select>
+        <label for="">Leave Type</label>
+      </div>
+
+      <div class="input-field col m6 s12">
+        <label for="">Purpose</label>
+        <input type="text" name="purpose" required>
+      </div>
+    </div>
 
     <div class="row">
       <div class="input-field col m6 s12">
@@ -17,25 +32,10 @@
       </div>
     </div>
 
-    <div class="row">
 
-      <div class="input-field col m6 s12">
-
-        <select name="leave_type" required>
-          <option value="Medical">Medical</option>
-          <option value="General">Annual</option>
-        </select>
-        <label for="">Leave Type</label>
-      </div>
-
-      <div class="input-field col m6 s12">
-        <label for="">Purpose</label>
-        <input type="text" name="purpose" required>
-      </div>
-    </div>
-    
     <center>
-      <button type="submit" class="btn center"><i class="material-icons">send</i> Apply</button>
+      <button type="submit" class="btn center">
+        <i class="material-icons">send</i> Apply</button>
     </center>
   </form>
 </div>
