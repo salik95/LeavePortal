@@ -21,7 +21,7 @@ def create_pdf(pdf_data):
 def encashment():
 	
 	leaves_remaining = current_user.employee.general_leaves_remaining
-	salary = current_user.employee.salary
+	salary = (current_user.employee.salary*12)/365
 
 	if request.method == 'GET':
 
@@ -200,8 +200,8 @@ def encashment_request():
 				'available_leave_balance' : employee.general_leaves_remaining, 
 				'leaves_encashed' : encashment_request.leaves_utilized, 
 				'remaining_leave_balance' : employee.general_leaves_remaining - encashment_request.leaves_utilized,
-				'amount_encashable' : employee.general_leaves_remaining * employee.salary,
-				'amount_encashed' : encashment_request.leaves_utilized * employee.salary,
+				'amount_encashable' : employee.general_leaves_remaining * (employee.salary*12)/365,
+				'amount_encashed' : encashment_request.leaves_utilized * (employee.salary*12)/365,
 				'line_manager_status':encashment_request.manager_approval,  
 				'general_manager_status':encashment_request.gm_approval,
 				'hr_manager_status': encashment_request.hr_approval, 
