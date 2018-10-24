@@ -78,29 +78,29 @@ def employee():
 		notify(subject='Welcome To HOH Leave Portal', body=password, receiver_id=new_user.id)
 		return jsonify(employee_created)
 
-	if request.method == 'PUT':
+	# if request.method == 'PUT':
 
-		update_employee = request.get_json(force=True)
-		if 'id' not in update_employee:
-			return error_response_handler("Bad Request: No User ID found", 400)
+	# 	update_employee = request.get_json(force=True)
+	# 	if 'id' not in update_employee:
+	# 		return error_response_handler("Bad Request: No User ID found", 400)
 
-		employee_data = Employees.query.get(update_employee['id'])
+	# 	employee_data = Employees.query.get(update_employee['id'])
 
-		key = list(update_employee.keys())
-		for item in key:
-			setattr(employee_data, item, update_employee[item])
-		try:
-			db.session.commit()
-			db.session.refresh(employee_data)
-		except:
-			db.session.rollback()
-			return redirect(url_for('dashboard'))
+	# 	key = list(update_employee.keys())
+	# 	for item in key:
+	# 		setattr(employee_data, item, update_employee[item])
+	# 	try:
+	# 		db.session.commit()
+	# 		db.session.refresh(employee_data)
+	# 	except:
+	# 		db.session.rollback()
+	# 		return redirect(url_for('dashboard'))
 
-		new_employee = {}
-		for item in Employees.__mapper__.columns.keys():
-			new_employee[item] = getattr(employee_data, item)
+	# 	new_employee = {}
+	# 	for item in Employees.__mapper__.columns.keys():
+	# 		new_employee[item] = getattr(employee_data, item)
 		
-		return jsonify(new_employee)
+	# 	return jsonify(new_employee)
 
 @app.route('/employee/search/', methods=['GET'])
 @login_required
